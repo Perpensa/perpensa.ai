@@ -1,0 +1,418 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OneStream Deliberation — Phase-Banded Timeline (schema sanity-check)</title>
+<style>
+  :root{
+    --ink:#0f1318; --panel:#161b22; --raise:#1c232c; --line:#2a333f;
+    --text:#e7ebf1; --muted:#93a0b1; --faint:#5b6675;
+    --prv:#20242c; --pub:#16242f; --ann:#2a2519; --acq:#2a181c;
+    --pos:#56b487; --neg:#db5a40; --neu:#7e8a9a; --mixed:#d2a13e;
+    --brass:#c79a4a; --steel:#5e8bb0;
+    --mono: ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);
+       line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 56px}
+
+  /* header */
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+           color:var(--brass);margin:0 0 6px}
+  h1{font-size:23px;font-weight:650;letter-spacing:-.01em;margin:0 0 6px}
+  .sub{color:var(--muted);font-size:13.5px;max-width:74ch;margin:0}
+  .sub code{font-family:var(--mono);color:var(--text);background:var(--raise);
+            padding:1px 5px;border-radius:4px;font-size:12px}
+
+  /* synthetic-data banner */
+  .banner{margin:18px 0 0;border:1px solid var(--line);border-left:3px solid var(--brass);
+          background:linear-gradient(90deg,rgba(199,154,74,.07),transparent 60%);
+          padding:11px 14px;border-radius:6px;font-size:12.5px;color:var(--muted)}
+  .banner b{color:var(--text);font-weight:600}
+  .banner .tally{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:4px}
+
+  /* instrument frame */
+  .instrument{margin-top:22px;border:1px solid var(--line);border-radius:10px;
+              background:var(--panel);overflow:hidden}
+  .instrument .scroll{overflow-x:auto}
+  svg{display:block;min-width:760px;width:100%;height:auto;font-family:var(--mono)}
+
+  /* phase legend + encoding key */
+  .keys{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+  @media (max-width:720px){.keys{grid-template-columns:1fr}}
+  .keycol{padding:14px 16px}
+  .keycol+.keycol{border-left:1px solid var(--line)}
+  @media (max-width:720px){.keycol+.keycol{border-left:0;border-top:1px solid var(--line)}}
+  .keytitle{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+            color:var(--faint);margin:0 0 10px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px 14px}
+  .chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+  .chip .swatch{width:13px;height:13px;border-radius:3px;flex:0 0 auto}
+  .chip .dot{width:13px;height:13px;border-radius:50%;flex:0 0 auto}
+  .maprow{display:flex;gap:8px;align-items:baseline;font-size:12px;margin:0 0 5px;color:var(--muted)}
+  .maprow .f{font-family:var(--mono);color:var(--text);font-size:11.5px;min-width:118px}
+  .maprow .arrow{color:var(--faint)}
+
+  /* detail card */
+  .detail{margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--panel);
+          min-height:120px;padding:0}
+  .detail .empty{padding:26px 18px;color:var(--faint);font-size:13px;text-align:center}
+  .rec{display:grid;grid-template-columns:160px 1fr;gap:0}
+  @media (max-width:560px){.rec{grid-template-columns:1fr}}
+  .rec .side{padding:16px 18px;border-right:1px solid var(--line);background:var(--raise)}
+  @media (max-width:560px){.rec .side{border-right:0;border-bottom:1px solid var(--line)}}
+  .rec .side .id{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.08em}
+  .rec .side .ttl{font-size:14.5px;font-weight:600;margin:6px 0 12px;line-height:1.35}
+  .rec .side .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:999px;
+       border:1px solid var(--line);color:var(--muted)}
+  .tag.sample{border-color:var(--brass);color:var(--brass)}
+  .tag.verified{border-color:var(--pos);color:var(--pos)}
+  .rec .body{padding:16px 18px;font-family:var(--mono);font-size:12px}
+  .rec .body dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:3px 16px}
+  .rec .body dt{color:var(--faint)}
+  .rec .body dd{margin:0;color:var(--text);word-break:break-word}
+  .rec .body dd.pos{color:var(--pos)} .rec .body dd.neg{color:var(--neg)}
+  .rec .body dd.mixed{color:var(--mixed)} .rec .body dd.neu{color:var(--neu)}
+
+  .foot{margin-top:22px;color:var(--faint);font-size:11.5px;font-family:var(--mono);line-height:1.7}
+  .foot b{color:var(--muted);font-weight:600}
+
+  /* dot interactions */
+  .ev{cursor:pointer;outline:none}
+  .ev:focus-visible .hit{stroke:#fff;stroke-width:2}
+  .ev .glyph{transition:transform .12s ease;transform-box:fill-box;transform-origin:center}
+  .ev:hover .glyph{transform:scale(1.18)}
+  .ev.selected .ring{stroke-width:2.5}
+  @media (prefers-reduced-motion:reduce){
+    .ev .glyph{transition:none} .anim{animation:none!important}
+  }
+  .anim{animation:rise .5s cubic-bezier(.2,.7,.3,1) backwards}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">Prepensa · Deliberation instrument · schema v0.5</p>
+  <h1>OneStream — Phase-Banded Event Timeline</h1>
+  <p class="sub">A sanity check, not a finding. Every visual property below is driven by one field of the
+    <code>§0.5</code> event record — x-position by <code>event_date</code>, lane by <code>topic</code>,
+    fill by <code>signal_polarity</code>, size by <code>signal_strength</code>, ring style by
+    <code>lifecycle_state</code>, and the background bands by <code>phase</code>. Swap the
+    <code>EVENTS</code> array in source for real research output and the picture redraws.</p>
+
+  <div class="banner">
+    <b>Synthetic schema-check data.</b> Five events are verified public facts (IPO, follow-on offering,
+    strategic-review report, deal announcement, deal close). Everything tagged <b>[SAMPLE]</b> is a
+    placeholder invented only to exercise the encodings — <b>not</b> a research finding about OneStream.
+    <div class="tally" id="tally"></div>
+  </div>
+
+  <div class="instrument">
+    <div class="scroll"><svg id="chart" role="img"
+      aria-label="Phase-banded timeline of OneStream events across PRV, PUB, ANN and ACQ phases"></svg></div>
+
+    <div class="keys">
+      <div class="keycol">
+        <p class="keytitle">Phase bands &amp; deal markers — <code style="font-family:var(--mono);color:var(--muted)">phase</code></p>
+        <div class="chips">
+          <span class="chip"><span class="swatch" style="background:var(--prv);border:1px solid var(--line)"></span>PRV · private (since 2012)</span>
+          <span class="chip"><span class="swatch" style="background:var(--pub);border:1px solid var(--line)"></span>PUB · public (NASDAQ: OS)</span>
+          <span class="chip"><span class="swatch" style="background:var(--ann);border:1px solid var(--line)"></span>ANN · deal announced</span>
+          <span class="chip"><span class="swatch" style="background:var(--acq);border:1px solid var(--line)"></span>ACQ · Hg-owned</span>
+        </div>
+        <div class="chips" style="margin-top:10px">
+          <span class="chip"><span class="swatch" style="width:3px;height:14px;border-radius:0;background:var(--brass)"></span>Announcement · Jan 6 2026 (<code style="color:var(--muted)">post_announcement</code>)</span>
+          <span class="chip"><span class="swatch" style="width:3px;height:14px;border-radius:0;background:var(--neg)"></span>Close · Apr 1 2026 (<code style="color:var(--muted)">post_close</code>)</span>
+        </div>
+      </div>
+      <div class="keycol">
+        <p class="keytitle">Encoding key — field → glyph</p>
+        <div class="maprow"><span class="f">signal_polarity</span><span class="arrow">→ fill</span></div>
+        <div class="chips" style="margin:-2px 0 9px">
+          <span class="chip"><span class="dot" style="background:var(--pos)"></span>positive</span>
+          <span class="chip"><span class="dot" style="background:var(--neg)"></span>negative</span>
+          <span class="chip"><span class="dot" style="background:var(--mixed)"></span>mixed</span>
+          <span class="chip"><span class="dot" style="background:var(--neu)"></span>neutral</span>
+        </div>
+        <div class="maprow"><span class="f">signal_strength</span><span class="arrow">→ radius</span>
+          <span style="color:var(--muted)">low · med · high</span></div>
+        <div class="maprow"><span class="f">lifecycle_state</span><span class="arrow">→ ring</span>
+          <span style="color:var(--muted)">solid = GA/shipped · dotted = announced · dashed = stalled</span></div>
+        <div class="maprow"><span class="f">event_type</span><span class="arrow">→ shape</span>
+          <span style="color:var(--muted)">hollow = silence_gap · faint link = lifecycle chain</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail" id="detail">
+    <div class="empty">Hover or select an event to inspect its full record. ↹ Tab to move between events, Enter to pin.</div>
+  </div>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+/* =====================================================================
+   SWAP POINT — replace EVENTS with real research output (§0.5 schema).
+   `verified:true` = confirmed public fact; otherwise synthetic [SAMPLE].
+   Phase boundaries are the confirmed PRV/PUB/ANN/ACQ dates.
+   ===================================================================== */
+
+const PHASES = [
+  { key:"PRV", label:"PRV",  fill:"var(--prv)", start:"2012-01-01", end:"2024-07-24", note:"private · since 2012" },
+  { key:"PUB", label:"PUB",  fill:"var(--pub)", start:"2024-07-24", end:"2026-01-06", note:"NASDAQ: OS" },
+  { key:"ANN", label:"ANN",  fill:"var(--ann)", start:"2026-01-06", end:"2026-04-01", note:"Hg deal announced" },
+  { key:"ACQ", label:"ACQ",  fill:"var(--acq)", start:"2026-04-01", end:"2026-07-01", note:"Hg-owned" },
+];
+const AXIS_START = "2024-01-01", AXIS_END = "2026-07-01";   // visible window (PRV shown as pre-IPO sliver)
+const ANN_DATE = "2026-01-06", CLOSE_DATE = "2026-04-01", TODAY = "2026-06-13";
+
+// Lane order (only lanes with events render); label is human-facing.
+const TOPICS = [
+  { key:"business_financial",  label:"Business / financial" },
+  { key:"deal_mechanics",      label:"Deal mechanics" },
+  { key:"product_offerings",   label:"Product offerings" },
+  { key:"ai_products",         label:"AI products" },
+  { key:"marketing_messaging", label:"Marketing messaging" },
+  { key:"brand_digital",       label:"Brand / digital reach" },
+  { key:"customers",           label:"Customers" },
+  { key:"employees",           label:"Employees" },
+  { key:"leadership_governance", label:"Leadership / governance" },
+];
+
+const EVENTS = [
+  // ---- VERIFIED public facts ----
+  { id:"OS-FIN-0001", topic:"business_financial", phase:"PUB", event_date:"2024-07-24",
+    event_type:"announcement", lifecycle_state:"unknown", signal_polarity:"positive", signal_strength:"high",
+    verified:true, title:"IPO on NASDAQ (OS) — opened ~$26", claim:"Public debut under KKR ownership; ~$490M raised",
+    follow_through:"Begins the PUB phase", source_type:"news" },
+
+  { id:"OS-FIN-0002", topic:"business_financial", phase:"PUB", event_date:"2024-11-15",
+    event_type:"filing", lifecycle_state:"unknown", signal_polarity:"neutral", signal_strength:"medium",
+    verified:true, title:"Follow-on equity offering (~$465M)", claim:"Second public offering ~4 months post-IPO",
+    follow_through:"Adds to float / liquidity", source_type:"sec" },
+
+  { id:"OS-FIN-0003", topic:"business_financial", phase:"PUB", event_date:"2025-11-15",
+    event_type:"sentiment", lifecycle_state:"unknown", signal_polarity:"negative", signal_strength:"high",
+    verified:true, title:"Reported exploring strategic options (incl. possible sale)", claim:"Press reporting of a strategic review (date approx.)",
+    follow_through:"Precedes the Hg agreement ~7 weeks later", source_type:"news" },
+
+  { id:"OS-DEAL-0001", topic:"deal_mechanics", phase:"ANN", event_date:"2026-01-06",
+    event_type:"deal_doc", lifecycle_state:"unknown", signal_polarity:"mixed", signal_strength:"high",
+    verified:true, title:"Definitive agreement — Hg, $24.00/sh, ~$6.4B (31% premium)", claim:"All-cash take-private; KKR majority-voting consent",
+    follow_through:"Begins ANN phase; tests 'didn't shop around' (Round 2)", source_type:"sec" },
+
+  { id:"OS-DEAL-0002", topic:"deal_mechanics", phase:"ACQ", event_date:"2026-04-01",
+    event_type:"deal_doc", lifecycle_state:"unknown", signal_polarity:"neutral", signal_strength:"high",
+    verified:true, title:"Acquisition completed — delisted from NASDAQ", claim:"OneStream becomes privately held; Shea stays CEO",
+    follow_through:"Disclosure goes dark; ACQ signal shifts to non-filing sources", source_type:"company" },
+
+  // ---- SAMPLE placeholders (synthetic — exercise the encodings) ----
+  { id:"OS-AI-0007", topic:"ai_products", phase:"PUB", event_date:"2024-09-10",
+    event_type:"announcement", lifecycle_state:"announced", signal_polarity:"neutral", signal_strength:"medium",
+    verified:false, chain:"ai-x", title:"[SAMPLE] AI capability announced", claim:"New SensibleAI-class feature unveiled",
+    follow_through:"No GA evidence located (see chain)", source_type:"company" },
+
+  { id:"OS-AI-0014", topic:"ai_products", phase:"PUB", event_date:"2025-08-01",
+    event_type:"silence_gap", lifecycle_state:"stalled", signal_polarity:"negative", signal_strength:"medium",
+    verified:false, chain:"ai-x", title:"[SAMPLE] Topic goes quiet — no GA", claim:"≥6mo silence after announcement burst",
+    follow_through:"Decay-flag candidate (needs ≥2-topic corroboration)", source_type:"company" },
+
+  { id:"OS-PRD-0003", topic:"product_offerings", phase:"PUB", event_date:"2024-10-15",
+    event_type:"GA", lifecycle_state:"GA", signal_polarity:"positive", signal_strength:"high",
+    verified:false, title:"[SAMPLE] Platform generation reaches GA", claim:"Major platform milestone ships",
+    follow_through:"Shipped (delivery-intensity input for §3.5)", source_type:"company" },
+
+  { id:"OS-MKT-0021", topic:"marketing_messaging", phase:"PUB", event_date:"2025-03-04",
+    event_type:"announcement", lifecycle_state:"unknown", signal_polarity:"neutral", signal_strength:"high",
+    verified:false, title:"[SAMPLE] Large category campaign push", claim:"'Office of the CFO' messaging intensifies",
+    follow_through:"Marketing-intensity input for §3.5 divergence", source_type:"company" },
+
+  { id:"OS-BRD-0005", topic:"brand_digital", phase:"PUB", event_date:"2025-09-01",
+    event_type:"metric", lifecycle_state:"unknown", signal_polarity:"negative", signal_strength:"low",
+    verified:false, title:"[SAMPLE] Web-visit trend turns down (3rd-party est.)", claim:"Externally-measured reach softens",
+    follow_through:"Pairs w/ campaign push → possible hype-divergence", source_type:"analyst" },
+
+  { id:"OS-CUS-0011", topic:"customers", phase:"PUB", event_date:"2025-02-15",
+    event_type:"announcement", lifecycle_state:"shipped", signal_polarity:"positive", signal_strength:"high",
+    verified:false, title:"[SAMPLE] Marquee customer go-live", claim:"Named enterprise reference goes live",
+    follow_through:"Positive customer-signal datapoint", source_type:"company" },
+
+  { id:"OS-CUS-0019", topic:"customers", phase:"PUB", event_date:"2025-10-20",
+    event_type:"sentiment", lifecycle_state:"unknown", signal_polarity:"negative", signal_strength:"medium",
+    verified:false, title:"[SAMPLE] Review-score dip (implementation cost)", claim:"Recurring complaint theme on cost/time",
+    follow_through:"Corroborates softening if it clusters", source_type:"review" },
+
+  { id:"OS-EMP-0008", topic:"employees", phase:"PUB", event_date:"2025-12-05",
+    event_type:"sentiment", lifecycle_state:"unknown", signal_polarity:"negative", signal_strength:"medium",
+    verified:false, title:"[SAMPLE] Glassdoor sentiment + senior attrition uptick", claim:"People-signal deterioration",
+    follow_through:"Leading-indicator basket input (§7.3)", source_type:"social" },
+
+  { id:"OS-GOV-0002", topic:"leadership_governance", phase:"ANN", event_date:"2026-02-10",
+    event_type:"personnel", lifecycle_state:"unknown", signal_polarity:"negative", signal_strength:"medium",
+    verified:false, title:"[SAMPLE] Exec departure during deal pendency", claim:"Senior exit between signing and close",
+    follow_through:"Governance signal; ANN-phase", source_type:"news" },
+];
+
+/* ---------------- rendering ---------------- */
+const SVGNS="http://www.w3.org/2000/svg";
+const day = d => new Date(d+"T00:00:00Z").getTime();
+const POL = {positive:"var(--pos)",negative:"var(--neg)",mixed:"var(--mixed)",neutral:"var(--neu)"};
+const POLCLASS = {positive:"pos",negative:"neg",mixed:"mixed",neutral:"neu"};
+const R = {low:5, medium:7.5, high:10};
+
+const GUTTER=176, RPAD=26, TOPAX=70, LANE=44, BOT=18;
+const VW=1140;
+const x0=GUTTER, x1=VW-RPAD, plotW=x1-x0;
+const aS=day(AXIS_START), aE=day(AXIS_END);
+const sx = d => x0 + (day(d)-aS)/(aE-aS)*plotW;
+
+// only lanes that have events, in TOPICS order
+const used = TOPICS.filter(t => EVENTS.some(e=>e.topic===t.key));
+const laneY = k => TOPAX + used.findIndex(t=>t.key===k)*LANE + LANE/2;
+const VH = TOPAX + used.length*LANE + BOT;
+
+const svg=document.getElementById("chart");
+svg.setAttribute("viewBox",`0 0 ${VW} ${VH}`);
+
+function el(tag,attrs={},parent=svg){const n=document.createElementNS(SVGNS,tag);
+  for(const k in attrs)n.setAttribute(k,attrs[k]);parent.appendChild(n);return n;}
+
+// phase bands (clipped to visible window)
+PHASES.forEach(p=>{
+  const bx0=Math.max(x0, sx(p.start<AXIS_START?AXIS_START:p.start));
+  const bx1=Math.min(x1, sx(p.end>AXIS_END?AXIS_END:p.end));
+  if(bx1<=bx0)return;
+  el("rect",{x:bx0,y:TOPAX,width:bx1-bx0,height:VH-TOPAX-BOT,fill:p.fill});
+  // phase label in the band header
+  const t=el("text",{x:bx0+8,y:TOPAX-44,fill:"var(--text)","font-size":12,"font-weight":600,"letter-spacing":".12em"});
+  t.textContent=p.label;
+  const n=el("text",{x:bx0+8,y:TOPAX-29,fill:"var(--faint)","font-size":10});
+  n.textContent=p.note;
+});
+// PRV "off-axis" hint at far left
+const prvHint=el("text",{x:x0+8,y:TOPAX-13,fill:"var(--faint)","font-size":9.5,"font-style":"italic"});
+prvHint.textContent="← founded 2012 (off-axis)";
+
+// quarter gridlines + date axis
+const ticks=["2024-01-01","2024-07-01","2025-01-01","2025-07-01","2026-01-01","2026-07-01"];
+ticks.forEach(d=>{
+  const X=sx(d); if(X<x0-1||X>x1+1)return;
+  el("line",{x1:X,y1:TOPAX,x2:X,y2:VH-BOT,stroke:"var(--line)","stroke-width":1,"stroke-dasharray":"2 4",opacity:.6});
+  const lab=el("text",{x:X,y:VH-4,fill:"var(--faint)","font-size":10,"text-anchor":"middle"});
+  lab.textContent=new Date(d).toLocaleDateString("en-US",{month:"short",year:"2-digit"});
+});
+
+// boundary markers: announcement (brass) + close (vermilion) + today (muted)
+function marker(d,color,label,dash){
+  const X=sx(d);
+  el("line",{x1:X,y1:TOPAX-6,x2:X,y2:VH-BOT,stroke:color,"stroke-width":1.5,"stroke-dasharray":dash||""});
+  const tg=el("text",{x:X+5,y:TOPAX-6,fill:color,"font-size":10,"font-weight":600});
+  tg.textContent=label;
+}
+marker(ANN_DATE,"var(--brass)","ANN");
+marker(CLOSE_DATE,"var(--neg)","CLOSE");
+marker(TODAY,"var(--faint)","today","3 3");
+
+// lanes + labels
+used.forEach((t,i)=>{
+  const y=TOPAX+i*LANE;
+  if(i>0)el("line",{x1:x0,y1:y,x2:x1,y2:y,stroke:"var(--line)","stroke-width":1,opacity:.5});
+  const lab=el("text",{x:16,y:y+LANE/2+4,fill:"var(--muted)","font-size":11.5});
+  lab.textContent=t.label;
+  el("text",{x:16,y:y+LANE/2+17,fill:"var(--faint)","font-size":9}).textContent=t.key;
+});
+// gutter divider
+el("line",{x1:x0,y1:TOPAX-6,x2:x0,y2:VH-BOT,stroke:"var(--line)","stroke-width":1});
+
+// lifecycle chains: faint links between events sharing a chain id
+const chains={};
+EVENTS.forEach(e=>{if(e.chain){(chains[e.chain]=chains[e.chain]||[]).push(e);}});
+Object.values(chains).forEach(list=>{
+  list.sort((a,b)=>day(a.event_date)-day(b.event_date));
+  for(let i=0;i<list.length-1;i++){
+    const a=list[i],b=list[i+1];
+    el("line",{x1:sx(a.event_date),y1:laneY(a.topic),x2:sx(b.event_date),y2:laneY(b.topic),
+      stroke:"var(--faint)","stroke-width":1.25,"stroke-dasharray":"1 5",opacity:.7});
+  }
+});
+
+// events
+const detail=document.getElementById("detail");
+let pinned=null;
+EVENTS.slice().sort((a,b)=>day(a.event_date)-day(b.event_date)).forEach((e,idx)=>{
+  const cx=sx(e.event_date), cy=laneY(e.topic), r=R[e.signal_strength]||6;
+  const fill=POL[e.signal_polarity]||"var(--neu)";
+  const g=el("g",{class:"ev anim",tabindex:0,role:"button",
+    "aria-label":`${e.title}, ${e.phase} phase, ${e.event_date}, ${e.signal_polarity}`});
+  g.style.animationDelay=(idx*45)+"ms";
+  // invisible larger hit target
+  el("circle",{class:"hit",cx,cy,r:r+7,fill:"transparent",stroke:"transparent"},g);
+  const gpos=el("g",{transform:`translate(${cx} ${cy})`},g);
+  const glyph=el("g",{class:"glyph"},gpos);
+  const hollow = e.event_type==="silence_gap";
+  el("circle",{class:"glyph-core",cx:0,cy:0,r,
+    fill:hollow?"none":fill,"fill-opacity":hollow?0:(e.lifecycle_state==="stalled"||e.lifecycle_state==="abandoned"?.45:.95)},glyph);
+  // ring encodes lifecycle_state
+  const ringDash = e.lifecycle_state==="announced"||e.lifecycle_state==="preview" ? "2 2.5"
+                 : e.lifecycle_state==="stalled"||e.lifecycle_state==="abandoned" ? "4 3" : "";
+  el("circle",{class:"ring",cx:0,cy:0,r:r+2.5,fill:"none",stroke:fill,"stroke-width":1.4,
+    "stroke-dasharray":ringDash},glyph);
+
+  const show=ev=>renderDetail(ev);
+  g.addEventListener("mouseenter",()=>{ if(!pinned) show(e); highlight(g);});
+  g.addEventListener("mouseleave",()=>{ if(!pinned){ clearHi(); detailEmpty(); }});
+  g.addEventListener("click",()=>{ pinned=(pinned===e?null:e); clearHi(); if(pinned){highlight(g);show(e);} else detailEmpty(); });
+  g.addEventListener("focus",()=>show(e));
+  g.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();
+    pinned=(pinned===e?null:e); clearHi(); if(pinned){highlight(g);} show(e);} });
+});
+function highlight(g){g.classList.add("selected");}
+function clearHi(){document.querySelectorAll(".ev.selected").forEach(n=>n.classList.remove("selected"));}
+
+function detailEmpty(){
+  detail.innerHTML='<div class="empty">Hover or select an event to inspect its full record. '+
+    '↹ Tab to move between events, Enter to pin.</div>';
+}
+function renderDetail(e){
+  const pc=POLCLASS[e.signal_polarity]||"neu";
+  const srcTag = e.verified ? '<span class="tag verified">verified</span>'
+                            : '<span class="tag sample">SAMPLE · synthetic</span>';
+  detail.innerHTML =
+   `<div class="rec">
+      <div class="side">
+        <div class="id">${e.id}</div>
+        <div class="ttl">${e.title}</div>
+        <div class="tags">
+          <span class="tag">${e.phase}</span>
+          <span class="tag">${e.topic}</span>
+          ${srcTag}
+        </div>
+      </div>
+      <div class="body">
+        <dl>
+          <dt>event_date</dt><dd>${e.event_date}</dd>
+          <dt>event_type</dt><dd>${e.event_type}</dd>
+          <dt>lifecycle_state</dt><dd>${e.lifecycle_state}</dd>
+          <dt>signal_polarity</dt><dd class="${pc}">${e.signal_polarity}</dd>
+          <dt>signal_strength</dt><dd>${e.signal_strength}</dd>
+          <dt>post_announcement</dt><dd>${day(e.event_date)>=day(ANN_DATE)}</dd>
+          <dt>post_close</dt><dd>${day(e.event_date)>=day(CLOSE_DATE)}</dd>
+          <dt>claim</dt><dd>${e.claim}</dd>
+          <dt>follow_through</dt><dd>${e.follow_through}</dd>
+          <dt>source_type</dt><dd>${e.source_type}</dd>
+          ${e.chain?`<dt>chain</dt><dd>${e.chain}</dd>`:""}
+        </dl>
+      </div>
+    </div>`;
+}
+
+// tally + footnotes
+const v=EVENTS.filter(e=>e.verified).length, s=EVENTS.length-v;
+document.getElementById("tally").textContent =
+  `${EVENTS.length} events · ${v} verified · ${s} synthetic · ${used.length} topic lanes · window ${AXIS_START}…${AXIS_END}`;
+document.getElementById("foot").innerHTML =
+  `<b>What this verifies:</b> that the §0.5 record alone determines position, lane, colour, size and ring — so real research output renders without further mapping.<br>`+
+  `<b>What it does NOT do:</b> compute decay flags or §3.5 divergence (those run over the full corpus). The faint dotted link between the two AI dots only illustrates a lifecycle chain.<br>`+
+  `<b>Note on the time axis:</b> PRV (2012→Jul 2024) is shown only as its post-2024 sliver so the 3-month ANN and ~2.5-month ACQ windows stay legible; proportional-to-real-time would render them as hairlines.`;
+</script>
