@@ -1,5 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noai, noimageai, nosnippet">
 <title>OneStream Deliberation — Phase-Banded Timeline (schema sanity-check)</title>
 <style>
   :root{
@@ -78,6 +79,18 @@
   .foot{margin-top:22px;color:var(--faint);font-size:11.5px;font-family:var(--mono);line-height:1.7}
   .foot b{color:var(--muted);font-weight:600}
 
+  /* hover popover (mirrors the detail panel, over the node) */
+  .tip{position:fixed;z-index:60;width:340px;max-width:calc(100vw - 16px);pointer-events:none;
+       opacity:0;transform:translateY(3px);transition:opacity .1s ease,transform .1s ease;
+       border:1px solid var(--line);border-radius:10px;background:var(--panel);
+       box-shadow:0 14px 36px rgba(0,0,0,.5);overflow:hidden}
+  .tip.show{opacity:1;transform:none}
+  .tip .rec{grid-template-columns:1fr}            /* force single column in the popup */
+  .tip .rec .side{border-right:0;border-bottom:1px solid var(--line)}
+  .tip .arr{position:absolute;width:10px;height:10px;background:var(--panel);
+            border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+            transform:rotate(45deg)}
+
   /* dot interactions */
   .ev{cursor:pointer;outline:none}
   .ev:focus-visible .hit{stroke:#fff;stroke-width:2}
@@ -85,14 +98,14 @@
   .ev:hover .glyph{transform:scale(1.18)}
   .ev.selected .ring{stroke-width:2.5}
   @media (prefers-reduced-motion:reduce){
-    .ev .glyph{transition:none} .anim{animation:none!important}
+    .ev .glyph{transition:none} .anim{animation:none!important} .tip{transition:opacity .1s ease}
   }
   .anim{animation:rise .5s cubic-bezier(.2,.7,.3,1) backwards}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 
 <div class="wrap">
-  <p class="eyebrow">Prepensa · Deliberation instrument · schema v0.5</p>
+  <p class="eyebrow">Perpensa · Deliberation instrument · schema v0.5</p>
   <h1>OneStream — Phase-Banded Event Timeline</h1>
   <p class="sub">A sanity check, not a finding. Every visual property below is driven by one field of the
     <code>§0.5</code> event record — x-position by <code>event_date</code>, lane by <code>topic</code>,
@@ -150,6 +163,8 @@
 
   <div class="foot" id="foot"></div>
 </div>
+
+<div class="tip" id="tip" role="tooltip" aria-hidden="true"></div>
 
 <script>
 /* =====================================================================
@@ -360,12 +375,14 @@ EVENTS.slice().sort((a,b)=>day(a.event_date)-day(b.event_date)).forEach((e,idx)=
     "stroke-dasharray":ringDash},glyph);
 
   const show=ev=>renderDetail(ev);
-  g.addEventListener("mouseenter",()=>{ if(!pinned) show(e); highlight(g);});
-  g.addEventListener("mouseleave",()=>{ if(!pinned){ clearHi(); detailEmpty(); }});
+  g.addEventListener("mouseenter",()=>{ if(!pinned) show(e); highlight(g); showTip(e,g); });
+  g.addEventListener("mouseleave",()=>{ hideTip(); if(!pinned){ clearHi(); detailEmpty(); } });
   g.addEventListener("click",()=>{ pinned=(pinned===e?null:e); clearHi(); if(pinned){highlight(g);show(e);} else detailEmpty(); });
-  g.addEventListener("focus",()=>show(e));
+  g.addEventListener("focus",()=>{ show(e); showTip(e,g); });
+  g.addEventListener("blur",()=>hideTip());
   g.addEventListener("keydown",ev=>{ if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();
-    pinned=(pinned===e?null:e); clearHi(); if(pinned){highlight(g);} show(e);} });
+    pinned=(pinned===e?null:e); clearHi(); if(pinned){highlight(g);} show(e);}
+    if(ev.key==="Escape"){ hideTip(); } });
 });
 function highlight(g){g.classList.add("selected");}
 function clearHi(){document.querySelectorAll(".ev.selected").forEach(n=>n.classList.remove("selected"));}
@@ -374,12 +391,11 @@ function detailEmpty(){
   detail.innerHTML='<div class="empty">Hover or select an event to inspect its full record. '+
     '↹ Tab to move between events, Enter to pin.</div>';
 }
-function renderDetail(e){
+function recordHTML(e){
   const pc=POLCLASS[e.signal_polarity]||"neu";
   const srcTag = e.verified ? '<span class="tag verified">verified</span>'
                             : '<span class="tag sample">SAMPLE · synthetic</span>';
-  detail.innerHTML =
-   `<div class="rec">
+  return `<div class="rec">
       <div class="side">
         <div class="id">${e.id}</div>
         <div class="ttl">${e.title}</div>
@@ -406,6 +422,28 @@ function renderDetail(e){
       </div>
     </div>`;
 }
+function renderDetail(e){ detail.innerHTML = recordHTML(e); }
+
+// hover/focus popover over the node — same content as the panel
+const tip=document.getElementById("tip");
+function showTip(e, gEl){
+  tip.innerHTML = recordHTML(e) + '<span class="arr"></span>';
+  tip.classList.add("show"); tip.setAttribute("aria-hidden","false");
+  const rect = gEl.getBoundingClientRect();              // node box in viewport coords
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  const cx = rect.left + rect.width/2;
+  let left = cx - tw/2;
+  left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
+  let below = false, top = rect.top - th - 12;            // prefer above the node
+  if(top < 8){ top = rect.bottom + 12; below = true; }    // flip below if no room
+  tip.style.left = left + "px";
+  tip.style.top  = top + "px";
+  const arr = tip.querySelector(".arr");                  // point the arrow at the node
+  arr.style.left = (Math.max(12, Math.min(cx - left, tw - 22))) + "px";
+  if(below){ arr.style.top = "-6px"; arr.style.transform = "rotate(225deg)"; }
+  else     { arr.style.bottom = "-6px"; arr.style.transform = "rotate(45deg)"; }
+}
+function hideTip(){ tip.classList.remove("show"); tip.setAttribute("aria-hidden","true"); }
 
 // tally + footnotes
 const v=EVENTS.filter(e=>e.verified).length, s=EVENTS.length-v;
