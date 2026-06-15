@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpensa — live demo: a deliberation, traced to its sources</title>
+<meta name="description" content="Watch a sample decision move through research, discussion, challenge, and revision — then click any moment to trace its reasoning back to a sealed source.">
+<meta name="robots" content="noindex, nofollow, noai, noimageai, nosnippet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%230E1822'/%3E%3Cg transform='translate(7.5 7.5) scale(0.6875)'%3E%3Cline x1='24' y1='7' x2='24' y2='16' stroke='%237E9FBA' stroke-width='3'/%3E%3Cline x1='9.3' y1='15.5' x2='17.1' y2='20' stroke='%23E8B86B' stroke-width='3'/%3E%3Cline x1='9.3' y1='32.5' x2='17.1' y2='28' stroke='%237E9FBA' stroke-width='3'/%3E%3Cline x1='24' y1='41' x2='24' y2='32' stroke='%23E8B86B' stroke-width='3'/%3E%3Cline x1='38.7' y1='32.5' x2='30.9' y2='28' stroke='%237E9FBA' stroke-width='3'/%3E%3Cline x1='38.7' y1='15.5' x2='30.9' y2='20' stroke='%23D85A30' stroke-width='3'/%3E%3Ccircle cx='24' cy='24' r='4' fill='%23F6F1E7'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500&family=Instrument+Sans:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="lockup" href="index.html" aria-label="Perpensa home"><svg width="30" height="30" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12 C18 12 22 22 29 23.4" fill="none" stroke="#46708F" stroke-width="3" stroke-linecap="round"/><path d="M6 24 C14 24 21 23.8 29 23.8" fill="none" stroke="#CE9140" stroke-width="3" stroke-linecap="round"/><path d="M6 36 C18 36 22 26 29 24.4" fill="none" stroke="#D85A30" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="24" x2="42" y2="24" stroke="#14202C" stroke-width="3.5" stroke-linecap="round"/></svg><span>Perpensa</span></a>
+    <div class="nav-links"><a href="how-it-works.html">How it works</a><a href="demo.html" class="active">Live demo</a><a class="cta" href="index.html#contact">Get in touch</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap reveal">
+    <span class="eyebrow">live demo · illustrative</span>
+    <h1>A deliberation you can replay — and trace to its sources</h1>
+    <p>This is a sample decision run end to end. Press play to watch it move through the four phases, or click any moment to drill its reasoning back to the sealed evidence underneath. Nothing here is rented from a memo.</p>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="demo-frame reveal">
+      <div class="demo-bar">
+        <div class="q">Acquire Northwind's asset-management module — or build it?<small>sample decision · capital-systems vertical</small></div>
+        <div class="demo-controls">
+          <button class="btn btn-ghost" id="playBtn" type="button">▶ Play deliberation</button>
+          <button class="btn btn-primary" id="traceBtn" type="button">Trace the final call</button>
+        </div>
+      </div>
+
+      <div class="demo-svg-holder">
+        <svg class="timeline" id="tl" viewBox="0 0 720 400" role="img" aria-label="Interactive deliberation timeline. Click a node to see its reasoning lineage.">
+          <g id="bands"></g><g id="lanes"></g><g id="edges"></g><g id="sources"></g><g id="nodes"></g>
+        </svg>
+      </div>
+
+      <div class="legend" aria-hidden="true">
+        <span><i style="background:#3E8475"></i>Analyst</span>
+        <span><i style="background:#46708F"></i>Advocate</span>
+        <span><i style="background:#CE9140"></i>Skeptic</span>
+        <span><i style="background:#D85A30"></i>Red team</span>
+        <span><i style="background:#7D5072"></i>Synthesist</span>
+        <span><i style="background:#7E9FBA"></i>Sealed source</span>
+      </div>
+
+      <div class="detail" id="detail" aria-live="polite">
+        <p class="empty">Click any node in the deliberation to open it — its argument, and the chain of reasoning and sealed evidence it rests on.</p>
+      </div>
+    </div>
+
+    <p class="reveal" style="font-size:13px;color:var(--text-muted);margin-top:16px;max-width:64ch">Every leaf of every chain terminates in a <strong style="color:var(--steel-600);font-weight:500">sealed source</strong> — frozen in the vault the moment it was captured. That's what "defensible" means here: not that the answer sounds right, but that you can follow it all the way down and show your work.</p>
+  </div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="wrap">
+    <div class="callout reveal">
+      <h2>This is the part competitors can't hand you</h2>
+      <p>A confident answer is cheap now. A weighed judgment, with its dissent visible and its evidence sealed, is the thing worth owning. Want to put your decision through it?</p>
+      <div class="cta-row" style="margin-top:20px"><a class="btn btn-primary" href="index.html#contact">Get in touch</a><a class="btn btn-ghost" href="how-it-works.html">How it works</a></div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="lockup"><svg width="22" height="22" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12 C18 12 22 22 29 23.4" fill="none" stroke="#46708F" stroke-width="3" stroke-linecap="round"/><path d="M6 24 C14 24 21 23.8 29 23.8" fill="none" stroke="#CE9140" stroke-width="3" stroke-linecap="round"/><path d="M6 36 C18 36 22 26 29 24.4" fill="none" stroke="#D85A30" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="24" x2="42" y2="24" stroke="#14202C" stroke-width="3.5" stroke-linecap="round"/></svg><span style="font-size:14px">Perpensa</span></div>
+    <div class="foot-links"><a href="index.html">Home</a><a href="how-it-works.html">How it works</a><a href="mailto:info@perpensa.ai">Contact</a></div>
+    <p>© 2026 Perpensa · <span class="maxim">re melius perpensa</span></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SVGNS="http://www.w3.org/2000/svg";
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var VC={analyst:'#3E8475',advocate:'#46708F',skeptic:'#CE9140',redteam:'#D85A30',synthesist:'#7D5072'};
+  var VL={analyst:'Analyst',advocate:'Advocate',skeptic:'Skeptic',redteam:'Red team',synthesist:'Synthesist'};
+  var lanes=[{v:'analyst',y:74},{v:'advocate',y:122},{v:'skeptic',y:170},{v:'redteam',y:218},{v:'synthesist',y:266}];
+  var phases=[{n:'Research',x0:40,x1:210},{n:'Discuss',x0:210,x1:380},{n:'Challenge',x0:380,x1:550},{n:'Evolve',x0:550,x1:700}];
+  var VAULTY=352;
+
+  var nodes=[
+    {id:'E1',voice:'analyst',x:110,title:'Build vs buy, costed',body:'In-house build estimated at ~14 months and 2.5x the licence cost over three years. Buying clears the near-term capability gap faster.',parents:['SRC2'],seq:0,lp:'above'},
+    {id:'E2',voice:'analyst',x:178,title:'Northwind captured',body:'Northwind list pricing and the FY25 10-K pulled and sealed, plus their published data model. Establishes the factual baseline the debate argues over.',parents:['SRC1','SRC3'],seq:1,lp:'right'},
+    {id:'A1',voice:'advocate',x:250,title:'Buy: 9 months faster',body:'Acquiring lands the module roughly nine months sooner than building, capturing two budget cycles of committee demand we are currently turning away.',parents:['E1','E2'],seq:2,lp:'above'},
+    {id:'S1',voice:'skeptic',x:250,title:'Integration debt underpriced',body:'The buy case ignores integration debt: their data model fits ours on paper, but every prior acquisition overran its integration estimate by 40 to 70 percent.',parents:['E1'],seq:3,lp:'right'},
+    {id:'A2',voice:'advocate',x:330,title:'Data models align',body:'Architecture review finds the entity models genuinely compatible, lowering the integration risk the skeptic raised — though not to zero.',parents:['E2','SRC4'],seq:4,lp:'right'},
+    {id:'RT1',voice:'redteam',x:445,title:'Procurement fears lock-in',body:'Premortem: the people who actually sign are procurement, not the product team. Their dominant fear is single-vendor lock-in. Both the buy and build cases assumed a rational technical evaluator and skipped who holds the pen.',parents:['A1','S1'],seq:5,lp:'above'},
+    {id:'RT2',voice:'redteam',x:512,title:'Vendor goes private',body:'Second premortem: Northwind is a plausible take-private target. Mid-integration, support and roadmap could freeze behind a private wall. The acquisition needs to survive that, or it is fragile.',parents:['A2'],seq:6,lp:'above'},
+    {id:'EV1',voice:'synthesist',x:600,title:'Buy, but pilot-gated',body:'The position that survives challenge: acquire, but gate it on a paid pilot with a contractual exit and source-code escrow — directly answering the lock-in and take-private risks rather than waving them off.',parents:['RT1','RT2','S1'],seq:7,lp:'above'},
+    {id:'EV2',voice:'synthesist',x:668,title:'Recommendation recorded',body:'Final judgment, sealed with its full lineage: proceed to acquire on a pilot-gated, escrow-backed basis. Every claim below traces to frozen evidence.',parents:['EV1'],seq:8,lp:'above',final:true}
+  ];
+  var sources=[
+    {id:'SRC1',type:'source',x:160,label:'Northwind 10-K FY25',hash:'a3f9…c204'},
+    {id:'SRC2',type:'source',x:110,label:'Build estimate',hash:'4d52…8b10'},
+    {id:'SRC3',type:'source',x:206,label:'Pricing · 2026-06-09',hash:'7b1e…99af'},
+    {id:'SRC4',type:'source',x:300,label:'Arch-fit memo',hash:'c8a0…2f3d'}
+  ];
+
+  var byId={}; nodes.forEach(function(n){n.y=laneY(n.voice);byId[n.id]=n;}); sources.forEach(function(s){s.y=VAULTY;byId[s.id]=s;});
+  function laneY(v){for(var i=0;i<lanes.length;i++)if(lanes[i].v===v)return lanes[i].y;return 170;}
+  function el(tag,attrs){var e=document.createElementNS(SVGNS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+  var gBands=document.getElementById('bands'),gLanes=document.getElementById('lanes'),gEdges=document.getElementById('edges'),gSrc=document.getElementById('sources'),gNodes=document.getElementById('nodes');
+
+  // phase bands + labels
+  phases.forEach(function(p,i){
+    gBands.appendChild(el('rect',{x:p.x0,y:24,width:(p.x1-p.x0),height:376,fill:(i%2?'#EFE7D7':'#F1EAD9'),opacity:.5}));
+    var t=el('text',{x:(p.x0+p.x1)/2,y:42,'text-anchor':'middle','font-family':'Geist Mono, monospace','font-size':'11','letter-spacing':'.08em',fill:'#5F6B76'});
+    t.textContent=(i+1<10?'0'+(i+1):(i+1))+' · '+p.n.toLowerCase(); gBands.appendChild(t);
+  });
+  // vault strip
+  gBands.appendChild(el('line',{x1:40,y1:VAULTY-22,x2:700,y2:VAULTY-22,stroke:'#E5DCC9','stroke-width':1}));
+  var vlab=el('text',{x:46,y:VAULTY-30,'font-family':'Geist Mono, monospace','font-size':'10','letter-spacing':'.06em',fill:'#375A74'}); vlab.textContent='vault · sealed evidence'; gBands.appendChild(vlab);
+
+  // lane guide labels (left)
+  lanes.forEach(function(l){
+    var t=el('text',{x:44,y:l.y+3,'font-family':'Geist Mono, monospace','font-size':'9',fill:'#A0AAB3'}); t.textContent=VL[l.v]; t.setAttribute('opacity','.0'); gLanes.appendChild(t);
+  });
+
+  function edgePath(a,b){
+    var mx=(a.x+b.x)/2;
+    return 'M'+a.x+' '+a.y+' C'+mx+' '+a.y+' '+mx+' '+b.y+' '+b.x+' '+b.y;
+  }
+  var edgeEls=[];
+  function addEdge(childId,parentId,toVault){
+    var c=byId[childId],p=byId[parentId]; if(!c||!p)return;
+    var path=el('path',{d:edgePath(p,c),fill:'none',stroke:(toVault?'#7E9FBA':'#C9BCA2'),'stroke-width':(toVault?1.3:1.6),'stroke-linecap':'round',opacity:0});
+    if(toVault)path.setAttribute('stroke-dasharray','2 4');
+    path.dataset.child=childId; gEdges.appendChild(path); edgeEls.push(path);
+  }
+  nodes.forEach(function(n){(n.parents||[]).forEach(function(pid){addEdge(n.id,pid,byId[pid]&&byId[pid].type==='source');});});
+
+  // sealed source squares
+  sources.forEach(function(s){
+    var g=el('g',{class:'tl-node',tabindex:'0',role:'button','aria-label':'Sealed source: '+s.label}); g.dataset.id=s.id; g.style.opacity=reduce?1:0; g.dataset.rev='1';
+    g.appendChild(el('rect',{class:'ring',x:s.x-9,y:s.y-9,width:18,height:18,rx:3,fill:'none',stroke:'#46708F','stroke-width':2,opacity:0}));
+    g.appendChild(el('rect',{class:'hit',x:s.x-6,y:s.y-6,width:12,height:12,rx:2.5,fill:'#7E9FBA',stroke:'#375A74','stroke-width':1}));
+    gSrc.appendChild(g); s._g=g;
+  });
+
+  // nodes
+  nodes.forEach(function(n){
+    var g=el('g',{class:'tl-node',tabindex:'0',role:'button','aria-label':VL[n.voice]+': '+n.title}); g.dataset.id=n.id; g.style.opacity=reduce?1:0; g.dataset.rev='1';
+    g.appendChild(el('circle',{class:'ring',cx:n.x,cy:n.y,r:n.final?15:13,fill:'none',stroke:VC[n.voice],'stroke-width':2,opacity:0}));
+    g.appendChild(el('circle',{class:'hit',cx:n.x,cy:n.y,r:n.final?9:7.5,fill:VC[n.voice]}));
+    if(n.final){g.appendChild(el('circle',{cx:n.x,cy:n.y,r:3.4,fill:'#F6F1E7'}));}
+    // short label
+    var short=n.title.length>13?n.title.slice(0,12)+'…':n.title;
+    var lx=n.x+ (n.lp==='right'?13:(n.lp==='left'?-13:0));
+    var ly=n.y+ (n.lp==='above'?-15:4);
+    var anchor=n.lp==='right'?'start':(n.lp==='left'?'end':'middle');
+    var t=el('text',{x:lx,y:ly,'text-anchor':anchor,'font-family':'Instrument Sans, sans-serif','font-size':'9.5',fill:'#5F6B76'}); t.textContent=short;
+    g.appendChild(t);
+    gNodes.appendChild(g); n._g=g;
+  });
+
+  // interaction
+  var selected=null;
+  function selectNode(id){
+    if(selected&&byId[selected]&&byId[selected]._g)byId[selected]._g.classList.remove('selected');
+    selected=id; var n=byId[id]; if(!n)return; if(n._g)n._g.classList.add('selected');
+    renderDetail(n);
+  }
+  function chain(id){
+    var rows=[],seen={};
+    (function walk(nid,depth){
+      var n=byId[nid]; if(!n)return; if(seen[nid])return; seen[nid]=1;
+      rows.push({n:n,depth:depth});
+      (n.parents||[]).forEach(function(p){walk(p,depth+1);});
+    })(id,0);
+    return rows;
+  }
+  function renderDetail(n){
+    var d=document.getElementById('detail');
+    if(n.type==='source'){
+      d.innerHTML='<div class="d-voice" style="color:#375A74">sealed source</div><div class="d-title">'+esc(n.label)+'</div>'+
+        '<div class="d-body">Frozen in the vault when it was captured — tamper-evident and version-locked. Any conclusion that cites it can be followed all the way down to this.</div>'+
+        '<div class="d-chain"><div class="crow"><span class="seal-pill">●&nbsp;sealed</span><span style="color:#5F6B76">'+esc(n.hash)+'</span></div></div>';
+      return;
+    }
+    var rows=chain(n.id), html='';
+    rows.forEach(function(r){
+      var ind=''; for(var i=0;i<r.depth;i++)ind+='&nbsp;&nbsp;';
+      var arrow=r.depth?'<span class="ar">'+ind+'└→ </span>':'';
+      if(r.n.type==='source'){
+        html+='<div class="crow">'+arrow+'<span class="seal-pill">●&nbsp;sealed</span>&nbsp;<span style="color:#3A4148">'+esc(r.n.label)+'</span>&nbsp;<span style="color:#5F6B76">'+esc(r.n.hash)+'</span></div>';
+      }else{
+        html+='<div class="crow">'+arrow+'<span style="color:'+VC[r.n.voice]+'">'+r.n.id+'</span>&nbsp;<span style="color:#3A4148">'+esc(r.n.title)+'</span>&nbsp;<span style="color:#94908a">· '+VL[r.n.voice].toLowerCase()+'</span></div>';
+      }
+    });
+    var nSealed=rows.filter(function(r){return r.n.type==='source';}).length;
+    d.innerHTML='<div class="d-voice" style="color:'+VC[n.voice]+'">'+VL[n.voice]+(n.final?' · final judgment':'')+'</div>'+
+      '<div class="d-title">'+esc(n.title)+'</div>'+
+      '<div class="d-body">'+esc(n.body)+'</div>'+
+      '<div class="lineage-line" style="margin-bottom:8px">reasoning lineage · terminates in <span class="seal">'+nSealed+' sealed source'+(nSealed===1?'':'s')+'</span></div>'+
+      '<div class="d-chain">'+html+'</div>';
+  }
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+
+  [].concat(nodes,sources).forEach(function(n){
+    n._g.addEventListener('click',function(){selectNode(n.id);});
+    n._g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();selectNode(n.id);}});
+  });
+
+  // reveal / play
+  function edgeShownOpacity(e){return e.getAttribute('stroke-dasharray') ? 0.55 : 0.85;}
+  function showAll(){
+    [].concat(sources,nodes).forEach(function(n){n._g.style.opacity=1;});
+    edgeEls.forEach(function(e){e.style.opacity=edgeShownOpacity(e);});
+  }
+  function resetReveal(){
+    if(reduce){showAll();return;}
+    [].concat(nodes).forEach(function(n){n._g.style.transition='opacity .4s ease-out';n._g.style.opacity=0;});
+    sources.forEach(function(s){s._g.style.transition='opacity .4s ease-out';s._g.style.opacity=.32;});
+    edgeEls.forEach(function(e){e.style.transition='opacity .5s ease-out';e.style.opacity=0;});
+  }
+  var playing=false;
+  function play(){
+    if(reduce){showAll();return;}
+    if(playing)return; playing=true;
+    resetReveal();
+    var ordered=nodes.slice().sort(function(a,b){return a.seq-b.seq;});
+    var i=0;
+    (function step(){
+      if(i>=ordered.length){playing=false;return;}
+      var n=ordered[i++];
+      // reveal any sealed sources this node consumes
+      (n.parents||[]).forEach(function(p){if(byId[p]&&byId[p].type==='source')byId[p]._g.style.opacity=1;});
+      n._g.style.opacity=1;
+      edgeEls.forEach(function(e){if(e.dataset.child===n.id)e.style.opacity=edgeShownOpacity(e);});
+      setTimeout(step,560);
+    })();
+  }
+
+  // init
+  if(reduce){showAll();}else{
+    // start hidden, then play once on first view
+    sources.forEach(function(s){s._g.style.opacity=.32;});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){play();io.disconnect();}});},{threshold:.3});
+    io.observe(document.getElementById('tl'));
+  }
+
+  document.getElementById('playBtn').addEventListener('click',play);
+  document.getElementById('traceBtn').addEventListener('click',function(){
+    showAll(); playing=false; selectNode('EV2');
+    document.getElementById('detail').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});
+  });
+
+  // generic reveal for non-svg blocks
+  var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io2.unobserve(e.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(function(el){io2.observe(el);});
+})();
+</script>
+</body>
+</html>

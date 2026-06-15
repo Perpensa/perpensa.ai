@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Perpensa works — deliberation, the vault, and owned instruments</title>
+<meta name="description" content="The deliberation motion, the sealed evidence vault, the three planes of trust, configurable owned templates, and why the customer keeps the IP.">
+<meta name="robots" content="noindex, nofollow, noai, noimageai, nosnippet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%230E1822'/%3E%3Cg transform='translate(7.5 7.5) scale(0.6875)'%3E%3Cline x1='24' y1='7' x2='24' y2='16' stroke='%237E9FBA' stroke-width='3'/%3E%3Cline x1='9.3' y1='15.5' x2='17.1' y2='20' stroke='%23E8B86B' stroke-width='3'/%3E%3Cline x1='9.3' y1='32.5' x2='17.1' y2='28' stroke='%237E9FBA' stroke-width='3'/%3E%3Cline x1='24' y1='41' x2='24' y2='32' stroke='%23E8B86B' stroke-width='3'/%3E%3Cline x1='38.7' y1='32.5' x2='30.9' y2='28' stroke='%237E9FBA' stroke-width='3'/%3E%3Cline x1='38.7' y1='15.5' x2='30.9' y2='20' stroke='%23D85A30' stroke-width='3'/%3E%3Ccircle cx='24' cy='24' r='4' fill='%23F6F1E7'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500&family=Instrument+Sans:wght@400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="lockup" href="index.html" aria-label="Perpensa home"><svg width="30" height="30" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12 C18 12 22 22 29 23.4" fill="none" stroke="#46708F" stroke-width="3" stroke-linecap="round"/><path d="M6 24 C14 24 21 23.8 29 23.8" fill="none" stroke="#CE9140" stroke-width="3" stroke-linecap="round"/><path d="M6 36 C18 36 22 26 29 24.4" fill="none" stroke="#D85A30" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="24" x2="42" y2="24" stroke="#14202C" stroke-width="3.5" stroke-linecap="round"/></svg><span>Perpensa</span></a>
+    <div class="nav-links"><a href="how-it-works.html" class="active">How it works</a><a href="demo.html">Live demo</a><a class="cta" href="index.html#contact">Get in touch</a></div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap reveal">
+    <span class="eyebrow">how it works</span>
+    <h1>Evidence goes in sealed. A judgment comes out defensible.</h1>
+    <p>Perpensa runs a structured deliberation over your decision and keeps a complete, drillable record of how it got there. Here's the motion, the trust model underneath it, and why what you walk away with is yours.</p>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">the motion</span><h2>Research, discuss, challenge, evolve</h2><p>A deliberation moves through four phases. You're in the room the whole time — interject, redirect, summon evidence, or overrule. The phases give the argument structure; you keep control of it.</p></div>
+    <div class="steps">
+      <div class="step reveal" style="--accent:#46708F"><span class="eyebrow">01 · research</span><h3>Branch on what matters</h3><p>Inquiry that reacts to its own findings, forking toward the live questions rather than a fixed outline. Each source is captured and sealed as it arrives.</p></div>
+      <div class="step reveal" style="--accent:#CE9140"><span class="eyebrow">02 · discuss</span><h3>Argue the options</h3><p>Distinct expert voices make the strongest case for and against. Tensions are surfaced and held, not smoothed into a bland average.</p></div>
+      <div class="step reveal" style="--accent:#D85A30"><span class="eyebrow">03 · challenge</span><h3>Attack the conclusion</h3><p>A dedicated red team runs premortems and stress tests on the emerging position — assumptions, incentives, failure modes — before reality does.</p></div>
+      <div class="step reveal" style="--accent:#3E8475"><span class="eyebrow">04 · evolve</span><h3>Revise and record</h3><p>The position updates in response to what survived. The final judgment ships with its reasoning lineage attached — the path is the product as much as the answer.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">the vault</span><h2>You can't defend a decision on evidence that moved</h2><p>Most tools treat sources as disposable — a link, a paste, a snapshot that drifts. Perpensa treats the evidence behind a consequential decision as something that has to hold up later: in a board review, an audit, a post-mortem when the call turns out to matter.</p></div>
+    <div class="split narrow-right">
+      <div class="prose reveal">
+        <h3>Sealed the day you saw it</h3>
+        <p>When research captures a source — a filing, a page, a transcript, a chart — the vault freezes it: tamper-evident, version-locked, and provably the thing you saw on the date you saw it. Alter it and the seal breaks loudly; nothing changes quietly.</p>
+        <p>This matters most exactly when it's least convenient. A competitor goes private and pulls its filings; a vendor quietly rewrites a pricing page; a study gets retracted. Your decision still rests on what was true at the time — and you can show it.</p>
+        <p class="lead-in">Every conclusion in Perpensa drills down to a sealed source. That's not a feature bolted on the side; it's the floor the whole reasoning chain stands on.</p>
+      </div>
+      <div class="reveal">
+        <div class="demo-frame">
+          <div class="lineage-line seal" style="margin-bottom:12px;">vault · evidence integrity</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px;background:var(--surface-sunken);border-radius:8px;padding:10px 12px"><span class="seal-pill">●&nbsp;sealed</span><div style="font-family:var(--font-mono);font-size:11px;color:var(--slate-500)">10-K · FY25 · a3f9…c204</div></div>
+            <div style="display:flex;align-items:center;gap:10px;background:var(--surface-sunken);border-radius:8px;padding:10px 12px"><span class="seal-pill">●&nbsp;sealed</span><div style="font-family:var(--font-mono);font-size:11px;color:var(--slate-500)">pricing page · 2026-06-09 · 7b1e…99af</div></div>
+            <div style="display:flex;align-items:center;gap:10px;background:var(--surface-sunken);border-radius:8px;padding:10px 12px"><span class="seal-pill">●&nbsp;sealed</span><div style="font-family:var(--font-mono);font-size:11px;color:var(--slate-500)">earnings call · transcript · e0c2…1d77</div></div>
+          </div>
+          <div class="lineage-line" style="margin-top:12px"><span class="ok">ledger verified</span> · 3 assets · no breaks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">the trust model</span><h2>Three planes, never confused</h2><p>The architecture keeps three kinds of thing strictly apart, because conflating them is how reasoning systems quietly lie. What's evidence stays frozen; what's interpreted stays rebuildable; what's asserted stays versioned.</p></div>
+    <div class="planes">
+      <div class="plane plane-evidence reveal"><span class="tag">frozen</span><h3>Evidence</h3><p>Raw captured bytes in the vault. Immutable. Provably the thing you saw, on the day you saw it.</p></div>
+      <div class="plane plane-interp reveal"><span class="tag">rebuildable</span><h3>Interpretation</h3><p>Tags, extractions, graph edges, the deliberation lineage. Derived from evidence — and fully reconstructable from it.</p></div>
+      <div class="plane plane-knowledge reveal"><span class="tag">living, versioned</span><h3>Knowledge</h3><p>The curated assertions you stand behind. Evolves as you learn, but every past state is recoverable. Decisions pin a snapshot.</p></div>
+    </div>
+    <p class="planes-arrow reveal">evidence → interpretation → knowledge · trust never flows backward</p>
+  </div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">templates</span><h2>Methodology, made executable — and yours</h2><p>The deliberation engine is strong for general business decisions. Its real leverage shows when you overlay a domain on top of it: a sector's vocabulary, its expert personas, its challenge rubric, its red-team prompts, all configured once and re-run forever.</p></div>
+    <div class="split">
+      <div class="prose reveal">
+        <h3>A library that gets smarter with every engagement</h3>
+        <p>Run a capital-committee review, or a PE diligence pass on an acquisition. The reusable residue of that work — the persona set, the calibrations, the rubric that actually separated good calls from confident-sounding wrong ones — gets extracted as an overlay. The next deal of that shape runs at a fraction of the effort.</p>
+        <p>No single template is the moat. The compounding library is: dozens of calibrated overlays, tuned by real outcomes, is something no competitor reproduces from a demo. The instrument sharpens as you use it.</p>
+      </div>
+      <div class="prose reveal">
+        <h3>An asset on your books, not a slide in someone's deck</h3>
+        <p>An overlay isn't a framework described in a PowerPoint. It's a configured, auditable instrument you can open, inspect line by line, version as your thesis shifts, and re-run on demand. It behaves like software you own, because it is.</p>
+        <p>That's the whole difference from consulting. A firm sells you the output of its method and keeps the method. Perpensa puts the method in your hands.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="versus reveal" style="margin-bottom:34px">
+      <div class="them"><span class="tag">the old deal</span><h3>You rent a conclusion</h3><p>A recommendation arrives, the engagement ends, the expertise leaves with the consultant. Next decision, you start over — and pay again for thinking you never got to keep.</p></div>
+      <div class="vline" aria-hidden="true"></div>
+      <div class="us"><span class="tag">the perpensa deal</span><h3>You own the capability</h3><p>The reasoning, the overlays you build, and the sealed decision record are yours to keep, re-run, audit, and extend. The value compounds on your side of the table, not the vendor's.</p></div>
+    </div>
+    <div class="sec-head reveal" style="margin-bottom:24px"><span class="eyebrow">the network</span><h2>Seven kinds of voice, one shared record</h2><p>Each perspective holds a stable identity and color across the debate, the lineage, and the final artifact — so you always know who said what, and why it's in the record.</p></div>
+    <div class="voices">
+      <div class="voice reveal"><span class="dot" style="background:#46708F"></span><div><strong>Advocate</strong><span>Builds the strongest case for each option</span></div></div>
+      <div class="voice reveal"><span class="dot" style="background:#CE9140"></span><div><strong>Skeptic</strong><span>Finds the weight the case can't carry</span></div></div>
+      <div class="voice reveal"><span class="dot" style="background:#D85A30"></span><div><strong>Red team</strong><span>Attacks the conclusion before reality does</span></div></div>
+      <div class="voice reveal"><span class="dot" style="background:#3E8475"></span><div><strong>Analyst</strong><span>Brings the numbers, mid-debate, on demand</span></div></div>
+      <div class="voice reveal"><span class="dot" style="background:#7D5072"></span><div><strong>Synthesist</strong><span>Finds the position the debate converges on</span></div></div>
+      <div class="voice reveal"><span class="dot" style="background:#76804B"></span><div><strong>Precedent</strong><span>Surfaces how similar decisions actually went</span></div></div>
+      <div class="voice reveal"><span class="dot" style="background:#5F6B76"></span><div><strong>Moderator</strong><span>Keeps the deliberation honest and moving</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-alt">
+  <div class="wrap">
+    <div class="callout cool reveal">
+      <h2>See the whole thing run</h2>
+      <p>Watch a sample decision move through all four phases, then click any moment to trace its reasoning back to a sealed source.</p>
+      <div class="cta-row" style="margin-top:20px"><a class="btn btn-light" href="demo.html">Open the live demo</a></div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="lockup"><svg width="22" height="22" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12 C18 12 22 22 29 23.4" fill="none" stroke="#46708F" stroke-width="3" stroke-linecap="round"/><path d="M6 24 C14 24 21 23.8 29 23.8" fill="none" stroke="#CE9140" stroke-width="3" stroke-linecap="round"/><path d="M6 36 C18 36 22 26 29 24.4" fill="none" stroke="#D85A30" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="24" x2="42" y2="24" stroke="#14202C" stroke-width="3.5" stroke-linecap="round"/></svg><span style="font-size:14px">Perpensa</span></div>
+    <div class="foot-links"><a href="index.html">Home</a><a href="demo.html">Live demo</a><a href="mailto:info@perpensa.ai">Contact</a></div>
+    <p>© 2026 Perpensa · <span class="maxim">re melius perpensa</span></p>
+  </div>
+</footer>
+<script>
+(function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});})();
+</script>
+</body>
+</html>
