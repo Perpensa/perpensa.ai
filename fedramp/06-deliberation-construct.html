@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpensa Deliberation Construct: FedRAMP Wedge</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brass: #C4993D;
+    --brass-light: #D4AD5A;
+    --brass-pale: #F5EDD8;
+    --brass-dim: #8A6B2B;
+    --steel: #7B8794;
+    --steel-light: #A0AAB4;
+    --steel-pale: #E8EAED;
+    --steel-dark: #4A5568;
+    --signal: #E05B3C;
+    --signal-pale: #FDEAE5;
+    --ink: #1A1D23;
+    --ink-soft: #2D3139;
+    --ink-mid: #3D424A;
+    --paper: #F7F6F3;
+    --paper-warm: #EEECE6;
+    --chalk: #FFFFFF;
+    --green: #3D9970;
+    --blue: #4A7FB5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Instrument Sans', -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.68;
+    font-size: 15.5px;
+  }
+  .header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 3rem;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brass), var(--steel), var(--signal));
+  }
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+  .logo span {
+    color: var(--steel-light);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    display: block;
+    margin-top: 0.2rem;
+  }
+  .meta {
+    text-align: right;
+    font-size: 0.78rem;
+    color: var(--steel-light);
+    line-height: 1.6;
+  }
+  .meta strong { color: var(--brass-light); font-weight: 600; }
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    max-width: 720px;
+    margin-bottom: 0.5rem;
+  }
+  .header .sub {
+    font-size: 1rem;
+    color: var(--steel-light);
+    max-width: 660px;
+  }
+  .content {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 3rem;
+  }
+  .sec { margin-bottom: 2.6rem; }
+  .sec-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 0.4rem;
+  }
+  .sec h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 0.9rem;
+    line-height: 1.25;
+  }
+  .sec p { margin-bottom: 0.95rem; color: var(--ink-soft); }
+  .div {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--paper-warm), transparent);
+    margin: 2.5rem 0;
+  }
+
+  /* Scope banner */
+  .scope-banner {
+    background: var(--ink);
+    border-radius: 10px;
+    padding: 1.5rem 1.8rem;
+    margin: 1.5rem 0;
+    border-left: 5px solid var(--signal);
+  }
+  .scope-banner .sb-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--signal);
+    margin-bottom: 0.4rem;
+  }
+  .scope-banner p {
+    color: var(--paper);
+    font-size: 1.02rem;
+    margin-bottom: 0.5rem;
+  }
+  .scope-banner p:last-child { margin-bottom: 0; }
+  .scope-banner strong { color: var(--brass-light); }
+
+  /* Flow diagram */
+  .flow {
+    margin: 1.5rem 0;
+    background: var(--chalk);
+    border: 1px solid var(--paper-warm);
+    border-radius: 10px;
+    padding: 1.5rem;
+    overflow-x: auto;
+  }
+  .flow svg { display: block; margin: 0 auto; }
+
+  /* Round cards */
+  .round {
+    background: var(--chalk);
+    border: 1px solid var(--paper-warm);
+    border-radius: 12px;
+    margin-bottom: 1.8rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .round-head {
+    display: flex;
+    align-items: stretch;
+  }
+  .round-num {
+    width: 90px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 1.2rem 0.5rem;
+  }
+  .round-num.r1 { background: linear-gradient(160deg, var(--brass), var(--brass-dim)); }
+  .round-num.r2 { background: linear-gradient(160deg, var(--blue), #35608f); }
+  .round-num.r3 { background: linear-gradient(160deg, var(--signal), #c0392b); }
+  .round-num.r4 { background: linear-gradient(160deg, var(--green), #2c7355); }
+  .round-num .rn-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .round-num .rn-n {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0.2rem 0;
+  }
+  .round-num .rn-name {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+  .round-head-body {
+    flex: 1;
+    padding: 1.2rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .round-head-body .rh-obj-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 0.25rem;
+  }
+  .round-head-body .rh-obj {
+    font-size: 0.98rem;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .round-body {
+    padding: 1.3rem 1.4rem;
+    border-top: 1px solid var(--paper-warm);
+  }
+  .round-body h4 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+    margin-bottom: 0.4rem;
+    margin-top: 1.1rem;
+  }
+  .round-body h4:first-child { margin-top: 0; }
+  .round-body p { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 0.6rem; line-height: 1.6; }
+  .round-body ul { margin: 0 0 0.6rem 0; padding-left: 1.2rem; }
+  .round-body li { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 0.3rem; line-height: 1.55; }
+  .round-body strong { color: var(--ink); }
+
+  .exit {
+    background: var(--paper);
+    border-radius: 6px;
+    padding: 0.8rem 1.1rem;
+    margin-top: 0.9rem;
+    border-left: 3px solid var(--green);
+  }
+  .exit .ex-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 0.25rem;
+  }
+  .exit p { font-size: 0.86rem; margin-bottom: 0; color: var(--ink-soft); }
+
+  .donot {
+    background: var(--signal-pale);
+    border-radius: 6px;
+    padding: 0.7rem 1.1rem;
+    margin-top: 0.7rem;
+  }
+  .donot .dn-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--signal);
+    margin-bottom: 0.2rem;
+  }
+  .donot p { font-size: 0.84rem; margin-bottom: 0; color: var(--ink-soft); }
+
+  .hands {
+    font-size: 0.82rem;
+    color: var(--steel-dark);
+    margin-top: 0.7rem;
+    font-style: italic;
+  }
+  .hands strong { font-style: normal; color: var(--brass-dim); }
+
+  /* Committee mini-table */
+  .tb { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.84rem; }
+  .tb thead th { background: var(--ink); color: var(--paper); padding: 0.55rem 0.8rem; text-align: left; font-weight: 600; font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .tb thead th:first-child { border-radius: 6px 0 0 0; }
+  .tb thead th:last-child { border-radius: 0 6px 0 0; }
+  .tb td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--paper-warm); vertical-align: top; }
+  .tb tr:nth-child(even) { background: var(--chalk); }
+  .tb tr:nth-child(odd) { background: rgba(255,255,255,0.4); }
+  .role-pill {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 0.12rem 0.45rem;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+  }
+  .role-pill.adv { background: var(--brass-pale); color: var(--brass-dim); }
+  .role-pill.skp { background: var(--steel-pale); color: var(--steel-dark); }
+  .role-pill.red { background: var(--signal-pale); color: var(--signal); }
+
+  /* Ground rules grid */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.7rem;
+    margin: 1.2rem 0;
+  }
+  .rule {
+    background: var(--chalk);
+    border: 1px solid var(--paper-warm);
+    border-radius: 8px;
+    padding: 0.9rem 0.8rem;
+    text-align: center;
+  }
+  .rule .r-n {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--brass);
+    line-height: 1;
+  }
+  .rule .r-t {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 0.3rem;
+    line-height: 1.3;
+  }
+
+  /* Handoff package */
+  .handoff {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 1.8rem;
+    margin: 1.5rem 0;
+    color: var(--paper);
+  }
+  .handoff h3 { color: var(--brass-light); font-size: 1.15rem; margin-bottom: 0.3rem; }
+  .handoff > p { color: var(--steel-light); font-size: 0.9rem; margin-bottom: 1.2rem; }
+  .handoff-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.8rem;
+  }
+  .ho-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--steel-dark);
+    border-radius: 8px;
+    padding: 0.9rem 0.8rem;
+  }
+  .ho-item .ho-n {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--brass);
+    margin-bottom: 0.3rem;
+  }
+  .ho-item .ho-t {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--paper);
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+  }
+  .ho-item .ho-d {
+    font-size: 0.74rem;
+    color: var(--steel-light);
+    line-height: 1.4;
+  }
+
+  /* Checklist */
+  .checklist {
+    background: var(--chalk);
+    border: 1px solid var(--paper-warm);
+    border-radius: 10px;
+    padding: 1.3rem 1.5rem;
+    margin: 1.3rem 0;
+  }
+  .checklist .ck {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+  .checklist .ck:last-child { margin-bottom: 0; }
+  .checklist .ck .box {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--brass);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .footer {
+    background: var(--ink);
+    color: var(--steel);
+    padding: 1.3rem 3rem;
+    font-size: 0.73rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .footer .pm { color: var(--brass); font-weight: 700; letter-spacing: 0.1em; }
+
+  @media (max-width: 768px) {
+    .header { padding: 1.5rem; }
+    .header h1 { font-size: 1.5rem; }
+    .content { padding: 1.5rem 1rem; }
+    .rules-grid { grid-template-columns: repeat(2, 1fr); }
+    .handoff-grid { grid-template-columns: 1fr; }
+    .round-head { flex-direction: column; }
+    .round-num { width: auto; flex-direction: row; gap: 0.6rem; padding: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div class="logo">Perpensa<span>Research &middot; Discuss &middot; Challenge &middot; Evolve</span></div>
+    <div class="meta">
+      <strong>Deliberation Construct</strong><br>
+      Subject: FedRAMP Wedge<br>
+      Date: June 16, 2026<br>
+      Status: Ready to Run
+    </div>
+  </div>
+  <h1>The Deliberation Construct: Four Rounds to a Hardened Thesis</h1>
+  <div class="sub">The operational design for the FedRAMP wedge deliberation. Each round has one objective, a defined sequence, and a hard exit condition. The deliberation feeds the strategy document. It does not write it.</div>
+</div>
+
+<div class="content">
+
+<!-- SCOPE -->
+<div class="sec">
+  <div class="sec-label">Scope</div>
+  <h2>What This Construct Does and Does Not Do</h2>
+  <p>The objective is to design the company that enters the FedRAMP market at Series A and builds a defensible position through Series C, targeting cloud-native SaaS companies pursuing their first federal authorization. The deliberation must resolve the inputs that determine what to build first, who to sell to first, what to say to them, and what compounding advantage to build.</p>
+
+  <div class="scope-banner">
+    <div class="sb-label">The Boundary</div>
+    <p>The deliberation <strong>feeds</strong> the strategy document. It does not <strong>write</strong> it.</p>
+    <p>The output is a set of resolved tensions, validated hypotheses, surviving claims, and explicit open questions. A separate downstream step synthesizes those into the strategy. If any round starts producing strategy prose, such as roadmaps or pricing tables, that is scope creep and the round has lost its way. Each round's job is to harden the foundation the strategy will later stand on.</p>
+  </div>
+</div>
+
+<!-- FLOW DIAGRAM -->
+<div class="sec">
+  <div class="sec-label">The Arc</div>
+  <h2>How the Four Rounds Connect</h2>
+
+  <div class="flow">
+    <svg viewBox="0 0 860 240" xmlns="http://www.w3.org/2000/svg" font-family="Instrument Sans, -apple-system, sans-serif">
+      <rect width="860" height="240" fill="#FFFFFF" rx="4"/>
+
+      <!-- Round 1 -->
+      <rect x="20" y="60" width="170" height="90" rx="10" fill="#F5EDD8" stroke="#C4993D" stroke-width="1.5"/>
+      <text x="105" y="84" text-anchor="middle" font-size="10" fill="#8A6B2B" font-weight="700" letter-spacing="0.1em">ROUND 1</text>
+      <text x="105" y="106" text-anchor="middle" font-size="15" fill="#1A1D23" font-weight="700">RESEARCH</text>
+      <text x="105" y="124" text-anchor="middle" font-size="8.5" fill="#7B8794">Independent positions</text>
+      <text x="105" y="137" text-anchor="middle" font-size="8.5" fill="#7B8794">No cross-talk</text>
+
+      <!-- arrow -->
+      <line x1="190" y1="105" x2="218" y2="105" stroke="#A0AAB4" stroke-width="2"/>
+      <polygon points="218,105 208,100 208,110" fill="#A0AAB4"/>
+      <text x="204" y="92" text-anchor="middle" font-size="7.5" fill="#7B8794" font-style="italic">disagreement</text>
+      <text x="204" y="100" text-anchor="middle" font-size="7.5" fill="#7B8794" font-style="italic">map</text>
+
+      <!-- Round 2 -->
+      <rect x="232" y="60" width="170" height="90" rx="10" fill="#E3EDF6" stroke="#4A7FB5" stroke-width="1.5"/>
+      <text x="317" y="84" text-anchor="middle" font-size="10" fill="#35608f" font-weight="700" letter-spacing="0.1em">ROUND 2</text>
+      <text x="317" y="106" text-anchor="middle" font-size="15" fill="#1A1D23" font-weight="700">DISCUSS</text>
+      <text x="317" y="124" text-anchor="middle" font-size="8.5" fill="#7B8794">Advocates build</text>
+      <text x="317" y="137" text-anchor="middle" font-size="8.5" fill="#7B8794">Skeptics respond</text>
+
+      <line x1="402" y1="105" x2="430" y2="105" stroke="#A0AAB4" stroke-width="2"/>
+      <polygon points="430,105 420,100 420,110" fill="#A0AAB4"/>
+      <text x="416" y="92" text-anchor="middle" font-size="7.5" fill="#7B8794" font-style="italic">refined</text>
+      <text x="416" y="100" text-anchor="middle" font-size="7.5" fill="#7B8794" font-style="italic">thesis</text>
+
+      <!-- Round 3 -->
+      <rect x="444" y="60" width="170" height="90" rx="10" fill="#FDEAE5" stroke="#E05B3C" stroke-width="1.5"/>
+      <text x="529" y="84" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="700" letter-spacing="0.1em">ROUND 3</text>
+      <text x="529" y="106" text-anchor="middle" font-size="15" fill="#1A1D23" font-weight="700">CHALLENGE</text>
+      <text x="529" y="124" text-anchor="middle" font-size="8.5" fill="#7B8794">Red team attacks</text>
+      <text x="529" y="137" text-anchor="middle" font-size="8.5" fill="#7B8794">Kill conditions</text>
+
+      <line x1="614" y1="105" x2="642" y2="105" stroke="#A0AAB4" stroke-width="2"/>
+      <polygon points="642,105 632,100 632,110" fill="#A0AAB4"/>
+      <text x="628" y="92" text-anchor="middle" font-size="7.5" fill="#7B8794" font-style="italic">kill</text>
+      <text x="628" y="100" text-anchor="middle" font-size="7.5" fill="#7B8794" font-style="italic">list</text>
+
+      <!-- Round 4 -->
+      <rect x="656" y="60" width="170" height="90" rx="10" fill="#E5F2EC" stroke="#3D9970" stroke-width="1.5"/>
+      <text x="741" y="84" text-anchor="middle" font-size="10" fill="#2c7355" font-weight="700" letter-spacing="0.1em">ROUND 4</text>
+      <text x="741" y="106" text-anchor="middle" font-size="15" fill="#1A1D23" font-weight="700">EVOLVE</text>
+      <text x="741" y="124" text-anchor="middle" font-size="8.5" fill="#7B8794">Reconstruct</text>
+      <text x="741" y="137" text-anchor="middle" font-size="8.5" fill="#7B8794">Hardened thesis</text>
+
+      <!-- Handoff -->
+      <line x1="741" y1="150" x2="741" y2="185" stroke="#A0AAB4" stroke-width="2" stroke-dasharray="4,3"/>
+      <polygon points="741,185 736,175 746,175" fill="#A0AAB4"/>
+      <rect x="611" y="188" width="260" height="38" rx="8" fill="#1A1D23"/>
+      <text x="741" y="205" text-anchor="middle" font-size="9" fill="#C4993D" font-weight="700" letter-spacing="0.06em">HANDOFF PACKAGE</text>
+      <text x="741" y="218" text-anchor="middle" font-size="8" fill="#A0AAB4">feeds the strategy document (downstream)</text>
+
+      <!-- Inputs label -->
+      <text x="105" y="40" text-anchor="middle" font-size="8.5" fill="#7B8794" font-style="italic">4 prior artifacts in</text>
+      <text x="105" y="180" text-anchor="middle" font-size="8" fill="#C4993D" font-weight="600">deliberation ENDS here ↓</text>
+      <text x="741" y="40" text-anchor="middle" font-size="8.5" fill="#3D9970" font-weight="600">END OF DELIBERATION</text>
+    </svg>
+  </div>
+</div>
+
+<!-- COMMITTEE & RULES -->
+<div class="sec">
+  <div class="sec-label">Participants</div>
+  <h2>The Committee and the Rules</h2>
+
+  <table class="tb">
+    <thead>
+      <tr><th>Member</th><th>Role</th><th>Lens</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Mariana Reyes</td><td><span class="role-pill adv">Advocate 1</span></td><td>Federal GRC / operational reality</td></tr>
+      <tr><td>James Kowalski</td><td><span class="role-pill adv">Advocate 2</span></td><td>Platform architecture / developer experience</td></tr>
+      <tr><td>Diana Park</td><td><span class="role-pill skp">Skeptic 1</span></td><td>Unit economics / capital efficiency</td></tr>
+      <tr><td>Rafael Navarro</td><td><span class="role-pill skp">Skeptic 2</span></td><td>Federal channel / GTM reality</td></tr>
+      <tr><td>Dr. Sarah Lin</td><td><span class="role-pill red">Red Team 1</span></td><td>Incumbent response / competitive defense</td></tr>
+      <tr><td>Connor Trask</td><td><span class="role-pill red">Red Team 2</span></td><td>Regulatory &amp; execution risk</td></tr>
+    </tbody>
+  </table>
+
+  <h4 style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mid);margin:1.2rem 0 0.4rem;">Ground Rules (Enforced Every Round)</h4>
+  <div class="rules-grid">
+    <div class="rule"><div class="r-n">1</div><div class="r-t">Role discipline</div></div>
+    <div class="rule"><div class="r-n">2</div><div class="r-t">Steel-man obligation</div></div>
+    <div class="rule"><div class="r-n">3</div><div class="r-t">Falsifiability</div></div>
+    <div class="rule"><div class="r-n">4</div><div class="r-t">No unresolved tensions</div></div>
+    <div class="rule"><div class="r-n">5</div><div class="r-t">Evolve is mandatory</div></div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- THE FOUR ROUNDS -->
+<div class="sec">
+  <div class="sec-label">The Construct</div>
+  <h2>Four Rounds, Four Objectives, Four Exits</h2>
+</div>
+
+<!-- ROUND 1 -->
+<div class="round">
+  <div class="round-head">
+    <div class="round-num r1">
+      <div class="rn-label">Round</div>
+      <div class="rn-n">1</div>
+      <div class="rn-name">RESEARCH</div>
+    </div>
+    <div class="round-head-body">
+      <div class="rh-obj-label">Objective</div>
+      <div class="rh-obj">Each member commits an independent, written position on the five anchored conclusions and the central tension, through their own lens, with no cross-talk. Surface disagreement honestly before social dynamics smooth it over.</div>
+    </div>
+  </div>
+  <div class="round-body">
+    <h4>Participant Actions</h4>
+    <p>Each of the six members produces a position statement (under 400 words) covering: which of the five anchored conclusions they accept, doubt, or reject and why; their single sharpest concern about the wedge as framed; and one falsifiable claim they will stake in their role. No member reads another's statement until all six are committed.</p>
+    <div class="donot">
+      <div class="dn-label">Do Not</div>
+      <p>Discuss, rebut, or converge. This round is parallel and silent.</p>
+    </div>
+    <div class="exit">
+      <div class="ex-label">Exit Condition</div>
+      <p>Six committed position statements exist, and at least three distinct points of disagreement are explicitly named. If fewer than three surface, the round failed: the conclusions are being accepted too easily and must be pushed harder.</p>
+    </div>
+    <div class="hands"><strong>Hands to Round 2:</strong> the disagreement map and the six staked claims.</div>
+  </div>
+</div>
+
+<!-- ROUND 2 -->
+<div class="round">
+  <div class="round-head">
+    <div class="round-num r2">
+      <div class="rn-label">Round</div>
+      <div class="rn-n">2</div>
+      <div class="rn-name">DISCUSS</div>
+    </div>
+    <div class="round-head-body">
+      <div class="rh-obj-label">Objective</div>
+      <div class="rh-obj">Produce the strongest articulation of the wedge, then subject it to financial and channel reality. The output is a refined wedge thesis with soft spots identified, not defended away.</div>
+    </div>
+  </div>
+  <div class="round-body">
+    <h4>Sequence (Strict Order)</h4>
+    <ul>
+      <li><strong>Advocates present (Mariana + James).</strong> Build the strongest integrated case: what to build first, why the combination is defensible, why cloud-native Series A-C is the right beachhead. Single combined case, under 700 words.</li>
+      <li><strong>Skeptics respond (Diana + Rafael).</strong> Diana attacks the economics (TAM ceiling, three-pillar margins, Guide Rail cost-to-serve, the ACV question). Rafael attacks the GTM (channel dependence, sales-cycle cash gap, who the buyer is). Each under 500 words.</li>
+      <li><strong>Advocates rebut once</strong> (under 400 words combined), applying the steel-man rule: restate the strongest objection before answering it.</li>
+    </ul>
+    <div class="donot">
+      <div class="dn-label">Do Not</div>
+      <p>Let the Red Team in yet. This is the advocate/skeptic axis only. Do not resolve the TAM tension here. Surface it sharply and carry it forward.</p>
+    </div>
+    <div class="exit">
+      <div class="ex-label">Exit Condition</div>
+      <p>A written refined wedge thesis exists that states the strongest case, lists every skeptic objection that landed, and marks each as answered, partially answered, or open. No objection may be silently dropped.</p>
+    </div>
+    <div class="hands"><strong>Hands to Round 3:</strong> the refined wedge thesis with its labeled soft spots.</div>
+  </div>
+</div>
+
+<!-- ROUND 3 -->
+<div class="round">
+  <div class="round-head">
+    <div class="round-num r3">
+      <div class="rn-label">Round</div>
+      <div class="rn-n">3</div>
+      <div class="rn-name">CHALLENGE</div>
+    </div>
+    <div class="round-head-body">
+      <div class="rh-obj-label">Objective</div>
+      <div class="rh-obj">Try to break the wedge. Construct concrete failure scenarios and competitive-response models. The objective is not to be fair, it is to find the conditions under which this company dies, so the strategy can be built to avoid them.</div>
+    </div>
+  </div>
+  <div class="round-body">
+    <h4>Required Scenarios</h4>
+    <p><strong>Sarah (competitive)</strong> constructs at least three: <em>The Acquisition</em> (Vanta buys Paramify before scale), <em>The Fast Follower</em> (an incumbent ships OSCAL-native plus a basic environment layer within 12 months), and <em>The Bundle</em> (Vanta discounts FedRAMP bundled with SOC 2 to a shared prospect).</p>
+    <p><strong>Connor (regulatory)</strong> constructs at least two: <em>The Slip</em> (Phase 3 slips to mid-2027 and the cash gap opens), and <em>The Reference Implementation</em> (the PMO ships or blesses free 20x tooling). For each: state trigger, mechanism of damage, calibrated probability, and survival verdict.</p>
+    <div class="donot">
+      <div class="dn-label">Do Not</div>
+      <p>Propose fixes. Round 3 names the kill conditions; it does not solve them. Solving happens in Round 4. And no fairness theater: softening the attack defeats the round's purpose.</p>
+    </div>
+    <div class="exit">
+      <div class="ex-label">Exit Condition</div>
+      <p>Every scenario documented with trigger, mechanism, probability, and a verdict (survives / survives-if / fatal). At least one scenario must be rated fatal as currently framed. If everything survives cleanly, the thesis is being protected rather than tested.</p>
+    </div>
+    <div class="hands"><strong>Hands to Round 4:</strong> the ranked kill-condition list, each tagged survives / survives-if / fatal.</div>
+  </div>
+</div>
+
+<!-- ROUND 4 -->
+<div class="round">
+  <div class="round-head">
+    <div class="round-num r4">
+      <div class="rn-label">Round</div>
+      <div class="rn-n">4</div>
+      <div class="rn-name">EVOLVE</div>
+    </div>
+    <div class="round-head-body">
+      <div class="rh-obj-label">Objective</div>
+      <div class="rh-obj">Rebuild the wedge thesis so it survives the Round 3 attacks, or explicitly accept the risks it cannot design away. The output is the hardened input package for the strategy document. This is where the deliberation ends.</div>
+    </div>
+  </div>
+  <div class="round-body">
+    <h4>Participant Actions (Full Committee, Roles Relaxed for Synthesis)</h4>
+    <p>For each fatal and survives-if kill condition, the committee must do exactly one of: <strong>restructure</strong> the thesis so the condition no longer kills it, <strong>hedge</strong> the condition with an explicit mitigation and its cost, or <strong>accept</strong> the risk plainly as one the strategy must carry. Re-test the five anchored conclusions (survived / modified / discarded). Resolve or formally escalate the carried TAM tension, ending as either resolved-with-detail or escalated-with-data-needed.</p>
+    <div class="donot">
+      <div class="dn-label">Do Not</div>
+      <p>Write the strategy. Produce the inputs to the strategy. "The moat is the OSCAL component-definition library plus LaunchPad because acquisition cannot replicate infrastructure switching cost" is a deliberation output. "Here is our 18-month roadmap and pricing table" is strategy, and out of scope.</p>
+    </div>
+    <div class="exit">
+      <div class="ex-label">Exit Condition (All Five Must Exist)</div>
+      <p>Hardened wedge thesis; resolved-tensions log; validated-hypotheses list; open-questions list; risk register. When all five exist, the deliberation is complete.</p>
+    </div>
+    <div class="hands"><strong>Hands to:</strong> the strategy document phase (separate, downstream).</div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- HANDOFF PACKAGE -->
+<div class="sec">
+  <div class="sec-label">The Deliverable</div>
+  <h2>The Handoff Package</h2>
+  <p>When Round 4 exits, the deliberation emits a single structured handoff. This is the entire deliverable and the only thing that crosses into the strategy phase. Five sections, nothing more.</p>
+
+  <div class="handoff">
+    <h3>deliberation-handoff.md</h3>
+    <p>The complete and only output that feeds the downstream strategy document.</p>
+    <div class="handoff-grid">
+      <div class="ho-item">
+        <div class="ho-n">01</div>
+        <div class="ho-t">Hardened Wedge Thesis</div>
+        <div class="ho-d">The surviving core claim: what to build, who for, why defensible. Under 250 words.</div>
+      </div>
+      <div class="ho-item">
+        <div class="ho-n">02</div>
+        <div class="ho-t">Resolved Tensions</div>
+        <div class="ho-d">Every objection with its resolution type: restructured, hedged, or accepted.</div>
+      </div>
+      <div class="ho-item">
+        <div class="ho-n">03</div>
+        <div class="ho-t">Validated Hypotheses</div>
+        <div class="ho-d">The falsifiable claims that survived, each with its test condition.</div>
+      </div>
+      <div class="ho-item">
+        <div class="ho-n">04</div>
+        <div class="ho-t">Open Questions</div>
+        <div class="ho-d">What the strategy phase must still resolve, and the data needed to close each.</div>
+      </div>
+      <div class="ho-item">
+        <div class="ho-n">05</div>
+        <div class="ho-t">Risk Register</div>
+        <div class="ho-d">The accepted risks the strategy must carry forward, with triggers and probabilities.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- RUN DISCIPLINE -->
+<div class="sec">
+  <div class="sec-label">Run Discipline</div>
+  <h2>The Checklist That Keeps It Honest</h2>
+
+  <div class="checklist">
+    <div class="ck"><div class="box"></div><div>Round 1 ends with at least three named disagreements, not premature consensus.</div></div>
+    <div class="ck"><div class="box"></div><div>Round 2 ends with every skeptic objection labeled answered, partial, or open.</div></div>
+    <div class="ck"><div class="box"></div><div>Round 3 ends with at least one fatal kill condition, not everything surviving.</div></div>
+    <div class="ck"><div class="box"></div><div>Round 4 ends with all five handoff sections populated.</div></div>
+    <div class="ck"><div class="box"></div><div>No round produced strategy prose (roadmaps, pricing tables, plans).</div></div>
+    <div class="ck"><div class="box"></div><div>The TAM tension ended as resolved-with-detail or escalated-with-data-needed.</div></div>
+    <div class="ck"><div class="box"></div><div>Every claim that left the deliberation carries a falsification condition.</div></div>
+  </div>
+
+  <h4 style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--signal);margin:1.4rem 0 0.5rem;">Anti-Patterns That Stop the Run</h4>
+  <p style="font-size:0.9rem;"><strong>Premature convergence:</strong> members agreeing early to avoid conflict. <strong>Strategy leakage:</strong> any round drafting the plan instead of resolving inputs. <strong>Unfalsifiable claims:</strong> "the market is huge" without a condition under which it is false. <strong>Silent drops:</strong> a Round 2 objection that never gets resolved in Round 4. <strong>Fairness theater:</strong> the Red Team softening its attacks. <strong>Role collapse:</strong> an Advocate conceding or a Skeptic agreeing before exit conditions are met.</p>
+</div>
+
+<div class="div"></div>
+
+<!-- WHAT COMES NEXT -->
+<div class="sec">
+  <div class="sec-label">The Next Step</div>
+  <h2>What Happens After the Deliberation</h2>
+  <p>The handoff package is not the strategy. It is the validated, stress-tested foundation a strategy is built on. Once the deliberation emits its five sections, a separate synthesis step (a fresh Claude Code run or a human strategist) consumes the hardened thesis, the resolved tensions, the validated hypotheses, the open questions, and the risk register, and turns them into the actual strategy document: the positioning, the messaging, the sequenced build plan, the pricing architecture, the go-to-market motion, and the capitalization plan.</p>
+  <p>Keeping these two steps separate is deliberate. The deliberation's job is to make sure the strategy is built on claims that survived genuine adversarial pressure rather than on optimism. A strategy built directly, without the deliberation, would inherit every unexamined assumption in the briefing materials. A strategy built on the handoff package inherits only what survived the committee. That is the entire point of the construct.</p>
+</div>
+
+</div>
+
+<div class="footer">
+  <div><span class="pm">PERPENSA</span> &middot; Deliberation Construct &middot; FedRAMP Wedge &middot; June 2026</div>
+  <div>Research &middot; Discuss &middot; Challenge &middot; Evolve</div>
+</div>
+
+</body>
+</html>

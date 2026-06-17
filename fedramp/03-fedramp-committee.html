@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpensa Deliberation Committee: FedRAMP in a Box</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brass: #C4993D;
+    --brass-light: #D4AD5A;
+    --brass-pale: #F5EDD8;
+    --brass-dim: #8A6B2B;
+    --steel: #7B8794;
+    --steel-light: #A0AAB4;
+    --steel-pale: #E8EAED;
+    --steel-dark: #4A5568;
+    --signal: #E05B3C;
+    --signal-light: #F07C62;
+    --signal-pale: #FDEAE5;
+    --ink: #1A1D23;
+    --ink-soft: #2D3139;
+    --ink-mid: #3D424A;
+    --paper: #F7F6F3;
+    --paper-warm: #EEECE6;
+    --chalk: #FFFFFF;
+    --green: #3D9970;
+    --blue: #4A7FB5;
+    --violet: #7C5CBF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Instrument Sans', -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.68;
+    font-size: 15.5px;
+  }
+
+  /* Header */
+  .header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 3rem;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brass), var(--steel), var(--signal));
+  }
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+  .logo span {
+    color: var(--steel-light);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    display: block;
+    margin-top: 0.2rem;
+  }
+  .meta {
+    text-align: right;
+    font-size: 0.78rem;
+    color: var(--steel-light);
+    line-height: 1.6;
+  }
+  .meta strong { color: var(--brass-light); font-weight: 600; }
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    max-width: 700px;
+    margin-bottom: 0.5rem;
+  }
+  .header .sub {
+    font-size: 1rem;
+    color: var(--steel-light);
+    max-width: 640px;
+  }
+
+  /* Content */
+  .content {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 3rem;
+  }
+  .sec { margin-bottom: 2.8rem; }
+  .sec-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 0.4rem;
+  }
+  .sec h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 0.9rem;
+    line-height: 1.25;
+  }
+  .sec p { margin-bottom: 0.95rem; color: var(--ink-soft); }
+  .div {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--paper-warm), transparent);
+    margin: 2.5rem 0;
+  }
+
+  /* Persona cards */
+  .persona {
+    background: var(--chalk);
+    border: 1px solid var(--paper-warm);
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .persona-header {
+    display: flex;
+    align-items: stretch;
+    min-height: 120px;
+  }
+  .persona-color {
+    width: 8px;
+    flex-shrink: 0;
+  }
+  .persona-color.advocate { background: var(--brass); }
+  .persona-color.skeptic { background: var(--steel); }
+  .persona-color.redteam { background: var(--signal); }
+  .persona-avatar {
+    width: 100px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 0.5rem 1.2rem 1rem;
+  }
+  .avatar-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--chalk);
+  }
+  .avatar-circle.advocate { background: linear-gradient(135deg, var(--brass), var(--brass-dim)); }
+  .avatar-circle.skeptic { background: linear-gradient(135deg, var(--steel), var(--steel-dark)); }
+  .avatar-circle.redteam { background: linear-gradient(135deg, var(--signal), #C0392B); }
+
+  .persona-intro {
+    flex: 1;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .persona-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .persona-title {
+    font-size: 0.82rem;
+    color: var(--steel);
+    margin-top: 0.15rem;
+    font-weight: 500;
+  }
+  .persona-role-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: 3px;
+    margin-top: 0.4rem;
+  }
+  .persona-role-tag.advocate { background: var(--brass-pale); color: var(--brass-dim); }
+  .persona-role-tag.skeptic { background: var(--steel-pale); color: var(--steel-dark); }
+  .persona-role-tag.redteam { background: var(--signal-pale); color: var(--signal); }
+
+  .persona-body {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    margin-left: 8px;
+  }
+  .persona-section {
+    margin-bottom: 1.2rem;
+  }
+  .persona-section:last-child { margin-bottom: 0; }
+  .persona-section h4 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .persona-section h4.brass { color: var(--brass); }
+  .persona-section h4.steel-h { color: var(--steel); }
+  .persona-section h4.signal-h { color: var(--signal); }
+  .persona-section h4.ink-h { color: var(--ink-mid); }
+  .persona-section p {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  .persona-section p:last-child { margin-bottom: 0; }
+
+  /* Traits grid */
+  .traits {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.3rem;
+  }
+  .trait {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid var(--paper-warm);
+    color: var(--ink-mid);
+    background: var(--paper);
+  }
+
+  /* Structure diagram */
+  .structure {
+    background: var(--chalk);
+    border: 1px solid var(--paper-warm);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .structure svg { display: block; margin: 0 auto; }
+
+  /* Process section */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--paper-warm);
+    border: 1px solid var(--paper-warm);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1.3rem 0;
+  }
+  .process-cell {
+    background: var(--chalk);
+    padding: 1rem;
+    text-align: center;
+  }
+  .process-cell .step-num {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .process-cell .step-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .process-cell .step-desc {
+    font-size: 0.78rem;
+    color: var(--steel);
+    line-height: 1.4;
+  }
+  .process-cell:nth-child(1) .step-num { color: var(--brass); }
+  .process-cell:nth-child(2) .step-num { color: var(--blue); }
+  .process-cell:nth-child(3) .step-num { color: var(--signal); }
+  .process-cell:nth-child(4) .step-num { color: var(--green); }
+
+  /* Interaction matrix */
+  .matrix {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.3rem 0;
+    font-size: 0.82rem;
+  }
+  .matrix thead th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.55rem 0.7rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .matrix thead th:first-child { border-radius: 6px 0 0 0; }
+  .matrix thead th:last-child { border-radius: 0 6px 0 0; }
+  .matrix td {
+    padding: 0.55rem 0.7rem;
+    border-bottom: 1px solid var(--paper-warm);
+    vertical-align: top;
+  }
+  .matrix tr:nth-child(even) { background: var(--chalk); }
+  .matrix tr:nth-child(odd) { background: rgba(255,255,255,0.4); }
+
+  .footer {
+    background: var(--ink);
+    color: var(--steel);
+    padding: 1.3rem 3rem;
+    font-size: 0.73rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .footer .pm { color: var(--brass); font-weight: 700; letter-spacing: 0.1em; }
+
+  @media (max-width: 768px) {
+    .header { padding: 1.5rem; }
+    .header h1 { font-size: 1.5rem; }
+    .process-grid { grid-template-columns: repeat(2, 1fr); }
+    .content { padding: 1.5rem 1rem; }
+    .persona-header { flex-direction: column; }
+    .persona-avatar { width: auto; padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div class="logo">Perpensa<span>Research &middot; Discuss &middot; Challenge &middot; Evolve</span></div>
+    <div class="meta">
+      <strong>Deliberation Committee</strong><br>
+      Subject: FedRAMP in a Box<br>
+      Date: June 16, 2026<br>
+      Status: Committee Formation
+    </div>
+  </div>
+  <h1>Deliberation Committee: Personas and Operating Framework</h1>
+  <div class="sub">Six specialists assembled to stress-test the "FedRAMP in a Box" concept from every angle. Two advocates, two skeptics, two red-team adversaries. No consensus without conflict.</div>
+</div>
+
+<div class="content">
+
+<!-- DELIBERATION FRAMEWORK -->
+<div class="sec">
+  <div class="sec-label">Operating Framework</div>
+  <h2>How This Committee Works</h2>
+
+  <p>The Perpensa deliberation model is not a panel discussion. It is a structured adversarial process where perspectives are assigned rather than discovered, where the goal is not agreement but the sharpest possible articulation of trade-offs. Every participant has a defined role, a cognitive stance, and a set of questions they are responsible for answering. The committee advances through four phases, and no idea survives without being reshaped by the process.</p>
+
+  <div class="process-grid">
+    <div class="process-cell">
+      <div class="step-num">Phase 1</div>
+      <div class="step-name">Research</div>
+      <div class="step-desc">Each persona independently analyzes the briefing materials through their own lens. No cross-talk. Raw assessments only.</div>
+    </div>
+    <div class="process-cell">
+      <div class="step-num">Phase 2</div>
+      <div class="step-name">Discuss</div>
+      <div class="step-desc">Advocates present the strongest case. Skeptics respond. Points of genuine tension are identified and named.</div>
+    </div>
+    <div class="process-cell">
+      <div class="step-num">Phase 3</div>
+      <div class="step-name">Challenge</div>
+      <div class="step-desc">Red team attacks. Every assumption is inverted. Failure scenarios are constructed. The weakest links in the thesis are exposed.</div>
+    </div>
+    <div class="process-cell">
+      <div class="step-num">Phase 4</div>
+      <div class="step-name">Evolve</div>
+      <div class="step-desc">The idea is rebuilt incorporating the strongest objections. What survives is a hardened thesis with explicit risk acknowledgment.</div>
+    </div>
+  </div>
+
+  <p>The committee is balanced by design: two members assigned to the Advocate role (brass), two to the Skeptic role (steel), and two to the Red Team role (signal). Role assignment does not reflect the persona's personal conviction. It reflects their job in this deliberation. A persona assigned as Advocate must find the strongest possible case even if they harbor private doubts, and a Red Team member must construct plausible failure scenarios even if they find the idea compelling.</p>
+</div>
+
+<div class="div"></div>
+
+<!-- COMMITTEE COMPOSITION DIAGRAM -->
+<div class="sec">
+  <div class="sec-label">Committee Structure</div>
+  <h2>The Six Seats</h2>
+
+  <div class="structure">
+    <svg viewBox="0 0 860 320" xmlns="http://www.w3.org/2000/svg" font-family="Instrument Sans, -apple-system, sans-serif">
+      <rect width="860" height="320" fill="#FFFFFF" rx="4"/>
+
+      <!-- Central subject -->
+      <rect x="330" y="120" width="200" height="80" rx="10" fill="#1A1D23"/>
+      <text x="430" y="152" text-anchor="middle" font-size="10" fill="#C4993D" font-weight="700" letter-spacing="0.12em">SUBJECT</text>
+      <text x="430" y="172" text-anchor="middle" font-size="14" fill="#F7F6F3" font-weight="700">FedRAMP in a Box</text>
+      <text x="430" y="190" text-anchor="middle" font-size="9" fill="#A0AAB4">Product + Services Concept</text>
+
+      <!-- Advocate 1 -->
+      <rect x="40" y="30" width="200" height="72" rx="8" fill="#F5EDD8" stroke="#C4993D" stroke-width="1.2"/>
+      <circle cx="80" cy="66" r="22" fill="#C4993D"/>
+      <text x="80" y="72" text-anchor="middle" font-size="14" fill="#FFF" font-weight="700">MR</text>
+      <text x="115" y="54" font-size="11" fill="#1A1D23" font-weight="700">Mariana Reyes</text>
+      <text x="115" y="68" font-size="8.5" fill="#8A6B2B" font-weight="600">ADVOCATE 1 / Federal GRC</text>
+      <text x="115" y="82" font-size="8" fill="#7B8794">Domain Authority</text>
+      <line x1="240" y1="66" x2="330" y2="140" stroke="#C4993D" stroke-width="1" stroke-opacity="0.5"/>
+
+      <!-- Advocate 2 -->
+      <rect x="40" y="218" width="200" height="72" rx="8" fill="#F5EDD8" stroke="#C4993D" stroke-width="1.2"/>
+      <circle cx="80" cy="254" r="22" fill="#C4993D"/>
+      <text x="80" y="260" text-anchor="middle" font-size="14" fill="#FFF" font-weight="700">JK</text>
+      <text x="115" y="242" font-size="11" fill="#1A1D23" font-weight="700">James Kowalski</text>
+      <text x="115" y="256" font-size="8.5" fill="#8A6B2B" font-weight="600">ADVOCATE 2 / Platform</text>
+      <text x="115" y="270" font-size="8" fill="#7B8794">Product Architecture</text>
+      <line x1="240" y1="254" x2="330" y2="180" stroke="#C4993D" stroke-width="1" stroke-opacity="0.5"/>
+
+      <!-- Skeptic 1 -->
+      <rect x="620" y="30" width="200" height="72" rx="8" fill="#E8EAED" stroke="#7B8794" stroke-width="1.2"/>
+      <circle cx="660" cy="66" r="22" fill="#7B8794"/>
+      <text x="660" y="72" text-anchor="middle" font-size="14" fill="#FFF" font-weight="700">DP</text>
+      <text x="695" y="54" font-size="11" fill="#1A1D23" font-weight="700">Diana Park</text>
+      <text x="695" y="68" font-size="8.5" fill="#4A5568" font-weight="600">SKEPTIC 1 / Unit Economics</text>
+      <text x="695" y="82" font-size="8" fill="#7B8794">Financial Stress Test</text>
+      <line x1="620" y1="66" x2="530" y2="140" stroke="#7B8794" stroke-width="1" stroke-opacity="0.5"/>
+
+      <!-- Skeptic 2 -->
+      <rect x="620" y="218" width="200" height="72" rx="8" fill="#E8EAED" stroke="#7B8794" stroke-width="1.2"/>
+      <circle cx="660" cy="254" r="22" fill="#7B8794"/>
+      <text x="660" y="260" text-anchor="middle" font-size="14" fill="#FFF" font-weight="700">RN</text>
+      <text x="695" y="242" font-size="11" fill="#1A1D23" font-weight="700">Rafael Navarro</text>
+      <text x="695" y="256" font-size="8.5" fill="#4A5568" font-weight="600">SKEPTIC 2 / Fed Sales</text>
+      <text x="695" y="270" font-size="8" fill="#7B8794">Channel Reality Check</text>
+      <line x1="620" y1="254" x2="530" y2="180" stroke="#7B8794" stroke-width="1" stroke-opacity="0.5"/>
+
+      <!-- Red Team 1 -->
+      <rect x="250" y="0" width="200" height="60" rx="8" fill="#FDEAE5" stroke="#E05B3C" stroke-width="1.2"/>
+      <circle cx="290" cy="30" r="18" fill="#E05B3C"/>
+      <text x="290" y="35" text-anchor="middle" font-size="12" fill="#FFF" font-weight="700">SL</text>
+      <text x="320" y="24" font-size="11" fill="#1A1D23" font-weight="700">Dr. Sarah Lin</text>
+      <text x="320" y="38" font-size="8.5" fill="#E05B3C" font-weight="600">RED TEAM 1 / Competitive</text>
+      <text x="320" y="50" font-size="8" fill="#7B8794">Incumbent Response Modeling</text>
+      <line x1="370" y1="60" x2="400" y2="120" stroke="#E05B3C" stroke-width="1" stroke-opacity="0.5"/>
+
+      <!-- Red Team 2 -->
+      <rect x="390" y="260" width="200" height="60" rx="8" fill="#FDEAE5" stroke="#E05B3C" stroke-width="1.2"/>
+      <circle cx="430" cy="290" r="18" fill="#E05B3C"/>
+      <text x="430" y="295" text-anchor="middle" font-size="12" fill="#FFF" font-weight="700">CT</text>
+      <text x="460" y="284" font-size="11" fill="#1A1D23" font-weight="700">Connor Trask</text>
+      <text x="460" y="298" font-size="8.5" fill="#E05B3C" font-weight="600">RED TEAM 2 / Regulatory</text>
+      <text x="460" y="310" font-size="8" fill="#7B8794">Policy & Execution Risk</text>
+      <line x1="460" y1="260" x2="450" y2="200" stroke="#E05B3C" stroke-width="1" stroke-opacity="0.5"/>
+    </svg>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- PERSONA 1: MARIANA REYES -->
+<div class="sec">
+  <div class="sec-label">The Committee</div>
+  <h2>Persona Profiles</h2>
+</div>
+
+<div class="persona">
+  <div class="persona-header">
+    <div class="persona-color advocate"></div>
+    <div class="persona-avatar">
+      <div class="avatar-circle advocate">MR</div>
+    </div>
+    <div class="persona-intro">
+      <div class="persona-name">Mariana Reyes</div>
+      <div class="persona-title">Former ISSO, NIST 800-53 Implementer, FedRAMP Authorization Veteran</div>
+      <span class="persona-role-tag advocate">Advocate 1 &mdash; Domain Authority</span>
+    </div>
+  </div>
+  <div class="persona-body">
+    <div class="persona-section">
+      <h4 class="ink-h">Background</h4>
+      <p>Mariana spent twelve years inside the federal compliance machine. She started as an Information System Security Officer at a mid-tier defense contractor, where she shepherded three separate systems through FedRAMP Moderate authorization. She then moved to a major CSP's compliance operations team, where she was responsible for maintaining continuous monitoring across a portfolio of 14 authorized services. She has written SSPs by hand, managed POA&M spreadsheets at 2am before monthly deadlines, and sat across the table from Coalfire and Schellman assessors more times than she can count.</p>
+      <p>She left federal service two years ago to consult, and she has watched the FedRAMP 20x transition from the outside with a mix of excitement and frustration. She knows exactly where the pain points are because she has the scars. She has filled out every FedRAMP template that exists, argued with PMO reviewers about control implementation language, and negotiated risk adjustments with agency Authorizing Officials who wanted zero tolerance on findings.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="brass">Deliberation Approach</h4>
+      <p>Mariana will ground every conversation in operational reality. When someone proposes a feature, she will ask: "What does this look like at 11pm the night before the monthly ConMon package is due?" She will advocate for the product by demonstrating how deeply broken the current tooling is, using specific examples from her own experience. She knows that the pain is real because she has lived it, and she will make the committee feel that pain.</p>
+      <p>Her primary argument will center on the idea that none of the existing tools were built by people who actually had to use them under pressure. She will push hard on the ConMon automation angle, arguing that the initial authorization sprint gets all the attention while the monthly grind is where compliance programs actually fail. She will be the voice that insists the product must be built from the continuous monitoring requirements backward, not from the SSP generation forward.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Key Questions She Will Press</h4>
+      <p>How does the product handle the moment when a critical vulnerability drops on day 28 of a 30-day remediation window? What happens when an agency AO asks for evidence that is not in the standard ConMon package? Can the platform support collaborative ConMon across five agency customers without turning into a meeting scheduling tool? Does the OSCAL export actually validate against the FedRAMP OSCAL Registry, or does it just produce syntactically correct JSON that will fail PMO review?</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Cognitive Traits</h4>
+      <div class="traits">
+        <span class="trait">Operationally grounded</span>
+        <span class="trait">Template-level detail recall</span>
+        <span class="trait">Low tolerance for abstraction</span>
+        <span class="trait">Empathy for the compliance analyst</span>
+        <span class="trait">Bias toward "boring but essential" features</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PERSONA 2: JAMES KOWALSKI -->
+<div class="persona">
+  <div class="persona-header">
+    <div class="persona-color advocate"></div>
+    <div class="persona-avatar">
+      <div class="avatar-circle advocate">JK</div>
+    </div>
+    <div class="persona-intro">
+      <div class="persona-name">James Kowalski</div>
+      <div class="persona-title">SaaS Platform Architect, DevSecOps Builder, Former Startup CTO</div>
+      <span class="persona-role-tag advocate">Advocate 2 &mdash; Product Architecture</span>
+    </div>
+  </div>
+  <div class="persona-body">
+    <div class="persona-section">
+      <h4 class="ink-h">Background</h4>
+      <p>James has built three developer-facing platforms from scratch, two of which reached meaningful scale. He was CTO of a Series B infrastructure startup that sold to mid-market engineering teams, and before that he worked at Hashicorp on the Terraform ecosystem. He thinks in terms of developer experience, API design, and infrastructure-as-code. He has never worked in federal compliance directly, but he has built platforms that companies used to manage regulated workloads in healthcare (HIPAA) and finance (SOC 2).</p>
+      <p>James sees the FedRAMP problem primarily as an infrastructure and developer experience problem that has been mischaracterized as a documentation problem. He believes that if you build the compliant environment correctly, the documentation should generate itself as a side effect of the system's actual state. He is deeply skeptical of any approach that starts with templates and works backward to implementation. He wants the product to feel like deploying a Terraform module, not like filling out a Word document.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="brass">Deliberation Approach</h4>
+      <p>James will be the voice for product vision and technical ambition. He will push the committee to think about the product not as a compliance tool but as a platform that happens to produce compliance as an output. His mental model is that the best compliance product is one where the user never thinks about compliance. They deploy their application on a compliant substrate, they ship features through a pipeline that generates evidence, and the compliance artifacts appear in their dashboard without manual intervention.</p>
+      <p>He will advocate most strongly for the infrastructure layer (the "LaunchPad" concept from the market research brief) and for OSCAL-native architecture. He will argue that being OSCAL-first is not just a technical decision but a strategic moat: if the product's data model is OSCAL from the ground up, every other tool that bolts OSCAL onto a document-centric platform will produce inferior artifacts. He will frame this as the "Terraform moment" for compliance, where infrastructure-as-code replaced manual server provisioning.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Key Questions He Will Press</h4>
+      <p>What does the developer SDK look like? Can a customer's CI/CD pipeline call our API and get back a compliance status check in under 30 seconds? Can we generate the full OSCAL SSP from a running Kubernetes cluster without any manual input? What is the control inheritance API that lets a customer declare "I am running on Azure Government" and automatically remove 150 controls from their responsibility? How do we handle the gap between what can be automated (infrastructure controls) and what cannot (personnel security, training)?</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Cognitive Traits</h4>
+      <div class="traits">
+        <span class="trait">Systems thinker</span>
+        <span class="trait">Developer experience obsessed</span>
+        <span class="trait">Allergic to manual processes</span>
+        <span class="trait">Thinks in APIs and data models</span>
+        <span class="trait">Bias toward technical elegance</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PERSONA 3: DIANA PARK -->
+<div class="persona">
+  <div class="persona-header">
+    <div class="persona-color skeptic"></div>
+    <div class="persona-avatar">
+      <div class="avatar-circle skeptic">DP</div>
+    </div>
+    <div class="persona-intro">
+      <div class="persona-name">Diana Park</div>
+      <div class="persona-title">SaaS CFO, Vertical Software Investor, Unit Economics Specialist</div>
+      <span class="persona-role-tag skeptic">Skeptic 1 &mdash; Financial Stress Test</span>
+    </div>
+  </div>
+  <div class="persona-body">
+    <div class="persona-section">
+      <h4 class="ink-h">Background</h4>
+      <p>Diana has been CFO at two vertical SaaS companies and now sits on the investment committee of a growth equity fund that targets B2B software. She has seen dozens of "compliance-as-a-service" pitches, and she has a finely tuned detector for businesses that look like software companies but operate like services businesses. She was the CFO who had to explain to a board why a compliance product with 80% gross margins on paper was actually running at 55% once you properly allocated the customer success and implementation headcount.</p>
+      <p>She does not have strong opinions about FedRAMP specifically, but she has very strong opinions about margin structure, customer acquisition cost, lifetime value, and the difference between a platform business and a services business wearing a platform costume. She has watched Vanta grow and has studied its economics. She knows what good looks like in the compliance automation category, and she knows what the warning signs of a services trap look like.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="steel-h">Deliberation Approach</h4>
+      <p>Diana will be relentlessly quantitative. Every claim about market opportunity will be met with "show me the math." When James talks about the LaunchPad infrastructure layer, Diana will ask what the cost-to-serve looks like per customer and whether the customization required for each deployment turns a platform business into a consulting engagement. When Mariana talks about the ConMon pain, Diana will ask how many compliance analysts a customer needs on staff to actually use the tool, and what happens to churn when those analysts leave.</p>
+      <p>Her core skepticism centers on the hybrid product-plus-services model. She has seen this movie before: the product attracts customers, but the services component is what actually delivers value, and the services component does not scale. She will force the committee to define exactly which parts of the business earn software margins and which parts earn services margins, and whether the overall blended margin can support a venture-scale outcome.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Key Questions She Will Press</h4>
+      <p>What is the fully loaded cost-to-serve for the "Guide Rail" advisory component? If 81% of organizations cite talent shortage as the primary barrier to FedRAMP, where do we hire the experts who staff the advisory layer, and what do they cost? What is the gross margin at the $50K/year price point versus the $150K/year price point? How many customers do we need to break even on the infrastructure layer? What does churn look like in this market, and are we building a product people renew or a project they complete and then leave?</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Cognitive Traits</h4>
+      <div class="traits">
+        <span class="trait">Margin-first thinking</span>
+        <span class="trait">Pattern matching across SaaS models</span>
+        <span class="trait">Skeptical of blended metrics</span>
+        <span class="trait">Asks "what does this cost?" reflexively</span>
+        <span class="trait">Bias toward capital efficiency</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PERSONA 4: RAFAEL NAVARRO -->
+<div class="persona">
+  <div class="persona-header">
+    <div class="persona-color skeptic"></div>
+    <div class="persona-avatar">
+      <div class="avatar-circle skeptic">RN</div>
+    </div>
+    <div class="persona-intro">
+      <div class="persona-name">Rafael Navarro</div>
+      <div class="persona-title">Federal Channel Sales VP, Former GSA Schedule Holder, GovTech GTM Veteran</div>
+      <span class="persona-role-tag skeptic">Skeptic 2 &mdash; Channel Reality Check</span>
+    </div>
+  </div>
+  <div class="persona-body">
+    <div class="persona-section">
+      <h4 class="ink-h">Background</h4>
+      <p>Rafael has spent 18 years selling technology into the federal government. He started as an SE at a defense integrator, moved into channel sales at a cybersecurity company that achieved FedRAMP Moderate authorization, and most recently ran the federal sales organization at a mid-market SaaS company that went from zero to $30M in government revenue over four years. He has carried a bag, he has managed quota-carrying reps, and he has sat through more procurement cycles than he would like to remember.</p>
+      <p>Rafael knows the difference between the federal market on paper and the federal market in practice. He knows that "the federal government spends $357 billion on technology" does not mean any of that money is easy to access. He knows about set-aside requirements, contract vehicles, the difference between selling to a program office and selling to an agency CIO, and the reality that most federal procurement cycles run 12 to 18 months from initial interest to contract award. He also knows that selling a tool that helps companies get FedRAMP authorized is different from selling a tool to federal agencies, and the GTM implications of that difference are enormous.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="steel-h">Deliberation Approach</h4>
+      <p>Rafael will challenge every assumption about how the product reaches its customers. He will point out that the target customer (Series A through C SaaS companies chasing their first federal deal) is a buyer who is already under enormous stress, often working against a specific contract deadline, and who will not tolerate a long onboarding process. He will ask whether the go-to-market should be direct sales, channel partnerships through 3PAOs and consultants, or a product-led growth motion, and he will explain why each of those has pitfalls the team has not considered.</p>
+      <p>His deepest skepticism is about the competitive moat. He will argue that 3PAOs like Coalfire and Schellman own the customer relationship at the moment of highest anxiety (the assessment), and that any product that does not have a 3PAO partnership strategy is building in a vacuum. He will also push hard on the question of whether the CMMC reciprocity thesis is real or speculative, because he has seen DoD procurement promises fail to materialize many times.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Key Questions He Will Press</h4>
+      <p>Who is the economic buyer? Is it the CISO, the VP of Engineering, the CEO, or the BD lead who just found out they need FedRAMP to close a deal? How do we reach them? What is the sales cycle length, and can we survive the cash flow gap between customer acquisition and first payment? Do we need GSA Schedule listing to be credible? If the customer's 3PAO has never heard of our platform, does the customer trust us? What happens when Vanta's sales team tells our prospect "we do FedRAMP too" and offers a bundle discount with their SOC 2 product?</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Cognitive Traits</h4>
+      <div class="traits">
+        <span class="trait">Revenue-line thinker</span>
+        <span class="trait">Deep federal procurement knowledge</span>
+        <span class="trait">Skeptical of TAM projections</span>
+        <span class="trait">Relationship-driven worldview</span>
+        <span class="trait">Bias toward proven channels</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PERSONA 5: DR. SARAH LIN -->
+<div class="persona">
+  <div class="persona-header">
+    <div class="persona-color redteam"></div>
+    <div class="persona-avatar">
+      <div class="avatar-circle redteam">SL</div>
+    </div>
+    <div class="persona-intro">
+      <div class="persona-name">Dr. Sarah Lin</div>
+      <div class="persona-title">Competitive Strategy PhD, GRC Market Analyst, Former Gartner Analyst</div>
+      <span class="persona-role-tag redteam">Red Team 1 &mdash; Incumbent Response Modeling</span>
+    </div>
+  </div>
+  <div class="persona-body">
+    <div class="persona-section">
+      <h4 class="ink-h">Background</h4>
+      <p>Sarah holds a PhD in competitive strategy from Wharton, where her dissertation analyzed how incumbent SaaS platforms respond to specialist challengers in adjacent markets. She spent five years at Gartner covering the GRC space, where she authored the Magic Quadrant evaluations for IT Risk Management and Integrated Risk Management. She has interviewed the leadership teams at Vanta, Drata, Secureframe, and RegScale, and she has a detailed mental model of how each company thinks about market expansion.</p>
+      <p>Sarah left Gartner to advise growth-stage companies on competitive positioning, and she has a particular interest in markets where regulatory change creates temporary windows of opportunity. She has studied three previous cases where regulatory shifts opened markets to new entrants (SOX for audit software, GDPR for privacy tools, and SOC 2 for compliance automation), and she has strong views about what the winners and losers of those transitions had in common.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="signal-h">Deliberation Approach</h4>
+      <p>Sarah's job is to simulate what the incumbents will do when they see this product enter the market. She will not attack the idea directly. Instead, she will construct detailed scenarios of competitive response and ask the committee whether the product can survive each one. She will model Vanta's likely 20x module expansion roadmap, Paramify's OSCAL-native advantage, RegScale's relationship with the OSCAL Foundation, and Anitian's managed-service pricing response.</p>
+      <p>Her most dangerous contribution will be the "fast follower" scenario: what happens when a well-funded incumbent simply copies the product's best features six months after launch? She will push the committee to identify which elements of the product are genuinely defensible and which are features that any competent engineering team could replicate in a quarter. She will insist that the only durable advantages are data network effects, infrastructure switching costs, and regulatory relationships, and she will demand evidence that the product creates at least one of those.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Key Questions She Will Press</h4>
+      <p>If Vanta ships an OSCAL-native 20x module in Q1 2027, what is our response? If Paramify drops their Moderate pricing to $18K/year to block us, do our unit economics still work? What prevents Coalfire from building their own compliance platform and bundling it with their 3PAO services? If RegScale open-sources OSCAL Hub and it becomes the de facto standard, are we building on top of their substrate or competing with free? What is the scenario where we win the product battle but lose the market to an incumbent's distribution advantage?</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Cognitive Traits</h4>
+      <div class="traits">
+        <span class="trait">Scenario constructor</span>
+        <span class="trait">Incumbent empathy</span>
+        <span class="trait">Distribution > product conviction</span>
+        <span class="trait">Historical pattern matcher</span>
+        <span class="trait">Bias toward defensibility analysis</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PERSONA 6: CONNOR TRASK -->
+<div class="persona">
+  <div class="persona-header">
+    <div class="persona-color redteam"></div>
+    <div class="persona-avatar">
+      <div class="avatar-circle redteam">CT</div>
+    </div>
+    <div class="persona-intro">
+      <div class="persona-name">Connor Trask</div>
+      <div class="persona-title">Former FedRAMP PMO Advisor, Regulatory Policy Analyst, Execution Risk Specialist</div>
+      <span class="persona-role-tag redteam">Red Team 2 &mdash; Policy & Execution Risk</span>
+    </div>
+  </div>
+  <div class="persona-body">
+    <div class="persona-section">
+      <h4 class="ink-h">Background</h4>
+      <p>Connor spent eight years in and around the FedRAMP Program Management Office. He was a contractor supporting the PMO's technical review team, where he reviewed authorization packages and provided feedback to CSPs on control implementation deficiencies. He then moved to a policy role at GSA, where he contributed to the early conceptual work that eventually became FedRAMP 20x. He left government service in 2025, partly because he was frustrated by the pace of change and partly because he wanted to see if the private sector could solve the problems he had identified from the inside.</p>
+      <p>Connor has a deeply ambivalent relationship with FedRAMP 20x. He believes the vision is correct, but he has watched government modernization initiatives stall, get defunded, reverse course, or get captured by incumbent interests too many times to assume the timeline will hold. He has seen RFC comment periods delay implementation by years. He has watched pilot programs produce glowing results that were quietly abandoned when political winds shifted. He is the person in the room who knows exactly what can go wrong with a government program, because he has watched it go wrong from the inside.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="signal-h">Deliberation Approach</h4>
+      <p>Connor will attack the regulatory foundation of the entire business thesis. He will construct detailed scenarios where the 20x timeline slips, where CR26 is watered down by industry lobbying, where the OSCAL mandate is softened or delayed, or where a new administration deprioritizes FedRAMP modernization entirely. He will force the committee to answer: "What is this product worth if 20x reverts to Rev 5 with minor modifications?"</p>
+      <p>He will also focus on execution risk at the product level. He will point out that building to the 20x spec requires interpreting requirements that the PMO has deliberately left ambiguous ("FedRAMP is still deliberately avoiding specifying exactly how all of the requirements must be addressed"). He will argue that this ambiguity is not a feature, it is a risk, because the PMO could later specify requirements in a way that invalidates the product's architecture. He will demand that the product be designed to survive multiple regulatory outcomes, not optimized for a single one.</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Key Questions He Will Press</h4>
+      <p>What happens to the business if Phase 3 does not open until Q2 2027? What if RFC-0024 is revised to extend the OSCAL deadline to 2028? What if a new GSA administrator deprioritizes 20x in favor of a different modernization initiative? If the PMO issues a reference implementation for 20x tooling, do we become redundant? How do we build a product on top of a spec that the government explicitly says is still evolving? What is our "regulatory hedge" strategy for the scenario where we bet on 20x and 20x stalls?</p>
+    </div>
+    <div class="persona-section">
+      <h4 class="ink-h">Cognitive Traits</h4>
+      <div class="traits">
+        <span class="trait">Regulatory insider knowledge</span>
+        <span class="trait">Deeply skeptical of timelines</span>
+        <span class="trait">Constructive pessimist</span>
+        <span class="trait">Policy risk modeler</span>
+        <span class="trait">Bias toward optionality and hedging</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- INTERACTION DYNAMICS -->
+<div class="sec">
+  <div class="sec-label">Interaction Dynamics</div>
+  <h2>How the Personas Collide</h2>
+
+  <p>The value of a deliberation committee lies in the friction between perspectives. Below is a map of the most productive tension lines between committee members. These are the debates that will generate the sharpest insights.</p>
+
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Tension Line</th>
+        <th>Between</th>
+        <th>Core Disagreement</th>
+        <th>What It Resolves</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Automation vs. Reality</strong></td>
+        <td>James (Advocate) vs. Mariana (Advocate)</td>
+        <td>James wants to automate everything. Mariana knows that some controls (personnel security, training, contingency planning) require human judgment and cannot be reduced to API calls. The tension between these two advocates will define how much of the product can be truly self-serve.</td>
+        <td>The boundary between automatable and non-automatable controls, and whether the product acknowledges that boundary honestly or pretends it does not exist.</td>
+      </tr>
+      <tr>
+        <td><strong>Platform vs. Consulting</strong></td>
+        <td>James (Advocate) vs. Diana (Skeptic)</td>
+        <td>James wants to build a platform. Diana wants to know the margin. Every feature that requires a human in the loop (the Guide Rail advisory layer) degrades gross margin. The question is whether the product can deliver the human touch that customers need without becoming a consulting firm.</td>
+        <td>The pricing architecture and the exact split between self-serve platform features and human-delivered services.</td>
+      </tr>
+      <tr>
+        <td><strong>Vision vs. Timeline</strong></td>
+        <td>James (Advocate) vs. Connor (Red Team)</td>
+        <td>James wants to build for 20x. Connor wants to know what happens if 20x stalls. Building an OSCAL-native, KSI-first platform is the right long-term bet, but if the PMO delays Phase 3 or revises the spec, the product needs to also work for Rev 5 customers or it has no market today.</td>
+        <td>Whether the product architecture should be "20x first, Rev 5 compatible" or "Rev 5 first, 20x ready." This is the most consequential architectural decision.</td>
+      </tr>
+      <tr>
+        <td><strong>TAM vs. Channel</strong></td>
+        <td>Mariana (Advocate) vs. Rafael (Skeptic)</td>
+        <td>Mariana sees a huge unserved market of companies that need FedRAMP but cannot afford the current cost. Rafael sees a market where reaching those customers is expensive, the sales cycle is long, and the 3PAOs control the relationship at the point of purchase.</td>
+        <td>The go-to-market architecture: direct sales, 3PAO partnerships, product-led growth, or some combination.</td>
+      </tr>
+      <tr>
+        <td><strong>Moat vs. Speed</strong></td>
+        <td>Diana (Skeptic) vs. Sarah (Red Team)</td>
+        <td>Diana wants capital efficiency and fast time-to-revenue. Sarah wants defensibility that survives a Vanta response. Moving fast means shipping features. Building a moat means investing in data network effects and infrastructure switching costs that take longer to pay off.</td>
+        <td>The capitalization strategy: how much money does this business need, and should it prioritize speed-to-market or long-term defensibility?</td>
+      </tr>
+      <tr>
+        <td><strong>Spec Risk vs. Market Risk</strong></td>
+        <td>Connor (Red Team) vs. Rafael (Skeptic)</td>
+        <td>Connor worries the spec will change. Rafael worries the customers will not show up. Both are right. The question is which risk to hedge first: build to a stable spec and find the customers, or find the customers and hope the spec stabilizes underneath you.</td>
+        <td>The sequencing of product development: should the first release target the transition market (Rev 5 to 20x migration) or the greenfield market (companies starting from scratch)?</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="div"></div>
+
+<!-- OPERATING RULES -->
+<div class="sec">
+  <div class="sec-label">Operating Rules</div>
+  <h2>Committee Ground Rules</h2>
+
+  <p>Every Perpensa deliberation follows a set of rules designed to prevent groupthink, manage status dynamics, and ensure that the strongest objections are not smoothed over in the interest of premature consensus.</p>
+
+  <div class="persona" style="border-left: 3px solid var(--brass); border-radius: 0 10px 10px 0;">
+    <div class="persona-body" style="margin-left: 0; padding-top: 1.2rem;">
+      <div class="persona-section">
+        <h4 class="brass">Rule 1: Role Discipline</h4>
+        <p>Advocates advocate. Skeptics question. Red team attacks. A persona does not get to say "I agree with the other side" without first fully discharging their assigned responsibility. The purpose of role assignment is to prevent the natural human tendency to converge prematurely. Agreement is earned at the end of the process, not granted at the beginning.</p>
+      </div>
+      <div class="persona-section">
+        <h4 class="steel-h">Rule 2: Steel-Man Obligation</h4>
+        <p>Before any persona can dismiss an argument, they must first restate it in its strongest possible form. This prevents strawman dismissals and forces genuine engagement with opposing views. If a Skeptic cannot articulate the Advocate's argument better than the Advocate did, the Skeptic has not earned the right to reject it.</p>
+      </div>
+      <div class="persona-section">
+        <h4 class="signal-h">Rule 3: Falsifiability Requirement</h4>
+        <p>Every claim must come with a condition under which it would be wrong. "This market is huge" is not a claim. "This market will produce at least 500 qualified prospects for a $50K ACV product within 18 months of launch" is a claim, because it can be tested and proven false. The committee must convert every assertion into a testable hypothesis before it can be accepted into the final thesis.</p>
+      </div>
+      <div class="persona-section">
+        <h4 class="ink-h">Rule 4: No Unresolved Tensions</h4>
+        <p>When two personas disagree, the disagreement must be resolved in one of three ways: one side concedes (with an explicit statement of what changed their mind), the committee identifies the disagreement as a genuine uncertainty that requires external validation, or the thesis is restructured to accommodate both positions. Unresolved disagreements that are simply "noted" are the enemy of useful analysis.</p>
+      </div>
+      <div class="persona-section">
+        <h4 class="ink-h">Rule 5: The Evolve Phase Is Mandatory</h4>
+        <p>The deliberation does not end with the Challenge phase. The committee must produce an evolved thesis that incorporates the strongest objections. A thesis that survives the Red Team unchanged was not challenged seriously enough. A thesis that is completely destroyed by the Red Team was not worth deliberating. The goal is transformation, not confirmation or rejection.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- WHAT HAPPENS NEXT -->
+<div class="sec">
+  <div class="sec-label">Next Steps</div>
+  <h2>Initiating the Deliberation</h2>
+
+  <p>The committee has been formed. The briefing materials are the two companion documents: the Market Research Brief (competitive landscape, gap analysis, and product strategy) and the Technical and Functional Brief (FedRAMP requirements, control families, authorization process, and continuous monitoring obligations). Each persona will receive both documents and prepare their initial assessment according to their assigned role and cognitive approach.</p>
+
+  <p>The deliberation itself will proceed through the four phases: Research (independent analysis), Discuss (advocates present, skeptics respond), Challenge (red team attacks), and Evolve (thesis reconstruction). The output will be a hardened strategic thesis with explicit risk acknowledgment, testable hypotheses, and a decision framework for the key architectural and commercial trade-offs identified above.</p>
+
+  <p>The committee is ready. We await the signal to begin.</p>
+</div>
+
+</div>
+
+<div class="footer">
+  <div><span class="pm">PERPENSA</span> &middot; Deliberation Committee &middot; FedRAMP in a Box &middot; June 2026</div>
+  <div>Research &middot; Discuss &middot; Challenge &middot; Evolve</div>
+</div>
+
+</body>
+</html>

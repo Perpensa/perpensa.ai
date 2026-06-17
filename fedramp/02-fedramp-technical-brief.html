@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpensa Technical Brief: FedRAMP Compliance Requirements</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brass: #C4993D;
+    --brass-light: #D4AD5A;
+    --brass-dim: #8A6B2B;
+    --steel: #7B8794;
+    --steel-light: #A0AAB4;
+    --steel-dark: #4A5568;
+    --signal: #E05B3C;
+    --signal-light: #F07C62;
+    --ink: #1A1D23;
+    --ink-soft: #2D3139;
+    --paper: #F7F6F3;
+    --paper-warm: #EEECE6;
+    --chalk: #FFFFFF;
+    --green: #3D9970;
+    --blue: #4A7FB5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Instrument Sans', -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.68;
+    font-size: 15.5px;
+  }
+  .header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 3rem;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brass), var(--steel), var(--signal));
+  }
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+  .logo span {
+    color: var(--steel-light);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    display: block;
+    margin-top: 0.2rem;
+  }
+  .meta {
+    text-align: right;
+    font-size: 0.78rem;
+    color: var(--steel-light);
+    line-height: 1.6;
+  }
+  .meta strong { color: var(--brass-light); font-weight: 600; }
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    max-width: 700px;
+    margin-bottom: 0.5rem;
+  }
+  .header .sub {
+    font-size: 1rem;
+    color: var(--steel-light);
+    max-width: 620px;
+  }
+  .content {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 3rem;
+  }
+  .sec { margin-bottom: 2.8rem; }
+  .sec-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 0.4rem;
+  }
+  .sec h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 0.9rem;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .sec h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.6rem 0 0.5rem;
+    color: var(--ink-soft);
+  }
+  .sec p { margin-bottom: 0.95rem; color: var(--ink-soft); }
+
+  /* Citations */
+  .cite {
+    font-size: 0.72rem;
+    color: var(--steel);
+    vertical-align: super;
+    font-weight: 600;
+    cursor: default;
+    margin-left: 1px;
+  }
+  .cite:hover { color: var(--brass); }
+
+  /* Callout */
+  .callout {
+    background: var(--chalk);
+    border-left: 3px solid var(--brass);
+    padding: 1.1rem 1.4rem;
+    margin: 1.3rem 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout.steel { border-left-color: var(--steel); }
+  .callout.signal { border-left-color: var(--signal); }
+  .callout .cl {
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+  .callout .cl.brass { color: var(--brass); }
+  .callout .cl.steel-c { color: var(--steel); }
+  .callout .cl.signal-c { color: var(--signal); }
+  .callout p { margin-bottom: 0.5rem; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--paper-warm);
+    border: 1px solid var(--paper-warm);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1.3rem 0;
+  }
+  .st {
+    background: var(--chalk);
+    padding: 1rem 0.8rem;
+    text-align: center;
+  }
+  .st .n {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .st .l {
+    font-size: 0.68rem;
+    color: var(--steel);
+    margin-top: 0.3rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  /* Table */
+  .tb {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.3rem 0;
+    font-size: 0.85rem;
+  }
+  .tb thead th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .tb thead th:first-child { border-radius: 6px 0 0 0; }
+  .tb thead th:last-child { border-radius: 0 6px 0 0; }
+  .tb td {
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--paper-warm);
+    vertical-align: top;
+  }
+  .tb tr:nth-child(even) { background: var(--chalk); }
+  .tb tr:nth-child(odd) { background: rgba(255,255,255,0.4); }
+
+  /* Two-col */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.3rem;
+    margin: 1.3rem 0;
+  }
+  .card {
+    background: var(--chalk);
+    border: 1px solid var(--paper-warm);
+    border-radius: 8px;
+    padding: 1.1rem 1.2rem;
+  }
+  .card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--ink);
+  }
+  .card p { font-size: 0.88rem; color: var(--ink-soft); margin-bottom: 0.5rem; }
+
+  /* Blueprint */
+  .bp {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 1.8rem;
+    margin: 1.5rem 0;
+  }
+  .bp h3 { color: var(--brass-light); margin-top: 0; }
+  .bp p { color: var(--steel-light); }
+
+  /* Divider */
+  .div { height: 1px; background: linear-gradient(90deg, transparent, var(--paper-warm), transparent); margin: 2.5rem 0; }
+
+  /* Diagram */
+  .diag {
+    margin: 1.5rem 0;
+    background: var(--chalk);
+    border: 1px solid var(--paper-warm);
+    border-radius: 8px;
+    padding: 1.5rem;
+    overflow-x: auto;
+  }
+  .diag svg { display: block; margin: 0 auto; }
+
+  /* Source list */
+  .sources {
+    background: var(--chalk);
+    border: 1px solid var(--paper-warm);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.78rem;
+    color: var(--steel-dark);
+    line-height: 1.7;
+  }
+  .sources h4 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 0.6rem;
+  }
+  .sources .s {
+    margin-bottom: 0.3rem;
+    padding-left: 1.8rem;
+    text-indent: -1.8rem;
+  }
+  .sources .s .sn {
+    font-weight: 700;
+    color: var(--ink-soft);
+    display: inline-block;
+    width: 1.5rem;
+    text-align: right;
+    margin-right: 0.3rem;
+  }
+  .sources a { color: var(--blue); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+
+  .footer {
+    background: var(--ink);
+    color: var(--steel);
+    padding: 1.3rem 3rem;
+    font-size: 0.73rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .footer .pm { color: var(--brass); font-weight: 700; letter-spacing: 0.1em; }
+
+  @media (max-width: 768px) {
+    .header { padding: 1.5rem; }
+    .header h1 { font-size: 1.5rem; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .cols { grid-template-columns: 1fr; }
+    .content { padding: 1.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div class="logo">Perpensa<span>Research &middot; Discuss &middot; Challenge &middot; Evolve</span></div>
+    <div class="meta">
+      <strong>Technical & Functional Brief</strong><br>
+      Classification: Deliberation Input<br>
+      Date: June 16, 2026<br>
+      Companion to: Market Research Brief
+    </div>
+  </div>
+  <h1>What It Takes to Get and Keep FedRAMP Authorization</h1>
+  <div class="sub">A complete technical and functional requirements map, from FIPS 199 categorization through continuous monitoring, designed to inform the construction of a market-leading compliance product.</div>
+</div>
+
+<div class="content">
+
+<!-- SECTION 1: PROGRAM FOUNDATIONS -->
+<div class="sec">
+  <div class="sec-label">Program Foundations</div>
+  <h2>What FedRAMP Actually Is</h2>
+
+  <p>FedRAMP was established in December 2011 to provide a standardized approach for assessing, monitoring, and authorizing cloud computing products and services under the Federal Information Security Management Act (FISMA), and to accelerate the adoption of secure cloud solutions by federal agencies.<span class="cite">[1]</span> It replaced the FISMA process (though not its underlying standards) as the primary vehicle for cloud authorization.<span class="cite">[1]</span></p>
+
+  <p>A critical distinction that trips up newcomers: FedRAMP is not a point-in-time certification or accreditation. It is an assessment and authorization program that comes with provisions for continuous monitoring to ensure that deployed security controls remain effective in an evolving threat landscape.<span class="cite">[1]</span> This distinction matters because it means the post-authorization obligations are as significant as the initial authorization sprint, and any product targeting this space needs to treat continuous monitoring as a first-class concern rather than an afterthought.</p>
+
+  <p>The program is based on the National Institute of Standards and Technology (NIST) SP 800-53 standard, augmented by FedRAMP-specific controls and control enhancements.<span class="cite">[1]</span> The mandatory NIST 800-53 standards establish security categories across three dimensions: confidentiality, integrity, and availability.<span class="cite">[2]</span> NIST 800-53 Rev. 5 contains 1,196 individual controls organized across 20 control families, with each control potentially having multiple enhancements that add specificity.<span class="cite">[3]</span></p>
+
+  <p>FedRAMP is mandatory for all federal agency cloud deployments and service models at the low, moderate, and high-risk impact levels. Any federal agency that wants to engage a CSP may be required to meet FedRAMP specifications.<span class="cite">[1]</span> The Office of Management and Budget now requires all executive federal agencies to use FedRAMP to validate the security of cloud services.<span class="cite">[2]</span></p>
+
+  <h3>The Shared Responsibility Model</h3>
+  <p>A foundational concept for any product in this space is the shared responsibility model. Microsoft's Azure documentation makes this explicit: regulatory compliance in Azure Policy provides built-in initiative definitions to view a list of controls and compliance domains based on responsibility, which can be customer, Microsoft, or shared.<span class="cite">[1]</span> For Microsoft-responsible controls, they provide audit result details based on third-party attestations and control implementation details.<span class="cite">[1]</span></p>
+
+  <p>The Microsoft Service Trust Portal (STP) serves as the central repository for security, regulatory compliance, and privacy information related to Microsoft's cloud services.<span class="cite">[4]</span> Through it, organizations can access the Control Implementation Summary (CIS) and the Customer Responsibility Matrix (CRM). The CRM identifies which controls are inherited from the cloud service provider versus those that remain the responsibility of the customer (the tenant owner).<span class="cite">[5]</span> This inheritance model is the single most important technical concept in FedRAMP: a CSP building on Azure Government or AWS GovCloud inherits a significant number of controls from the underlying infrastructure provider, which means the product opportunity lies in helping companies handle the controls they cannot inherit.</p>
+
+  <p>Microsoft's Service Trust Portal provides several categories of documentation: Compliance Guides (including ISO, SOC, FedRAMP audit reports and bridge letters), Trust and Transparency Guides (whitepapers on cloud service design and operation), and Azure Blueprints that provide turn-key compliance solutions for regulated industries including FedRAMP.<span class="cite">[6]</span> Azure FedRAMP documentation, including the System Security Plan (SSP), continuous monitoring reports, Plan of Action and Milestones (POA&M), and related materials are available under NDA from a restricted section of the STP.<span class="cite">[1]</span></p>
+</div>
+
+<div class="div"></div>
+
+<!-- SECTION 2: IMPACT LEVELS & CONTROLS -->
+<div class="sec">
+  <div class="sec-label">Impact Levels & Controls</div>
+  <h2>The Three Tiers: Low, Moderate, and High</h2>
+
+  <p>FedRAMP authorizations are granted at three impact levels based on NIST FIPS 199 guidelines. These levels rank the impact that the loss of confidentiality, integrity, or availability could have on an organization: Low (limited effect), Moderate (serious adverse effect), and High (severe or catastrophic effect).<span class="cite">[1]</span> The number of controls in the corresponding baseline increases with impact level.</p>
+
+  <div class="stats">
+    <div class="st">
+      <div class="n">20</div>
+      <div class="l">NIST 800-53 Rev 5<br>Control Families</div>
+    </div>
+    <div class="st">
+      <div class="n">1,196</div>
+      <div class="l">Total Controls<br>in NIST Catalog</div>
+    </div>
+    <div class="st">
+      <div class="n">~150</div>
+      <div class="l">Controls in<br>Low Baseline</div>
+    </div>
+    <div class="st">
+      <div class="n">~325</div>
+      <div class="l">Controls in FedRAMP<br>Moderate Baseline</div>
+    </div>
+  </div>
+
+  <p>Under NIST SP 800-53B (which separates baseline selections from the control catalog), a Low-impact system requires approximately 149 controls, a Moderate-impact system requires 287, and a High-impact system requires 370.<span class="cite">[3]</span> FedRAMP layers additional requirements on top of these NIST baselines: the Low baseline adds 1 additional control above NIST, Moderate adds 17 additional controls, and High adds 22 additional controls.<span class="cite">[7]</span> This brings the FedRAMP-specific control counts to approximately 150 for Low, 325 for Moderate, and 421 for High when including enhancements.<span class="cite">[1][8]</span></p>
+
+  <p>The FedRAMP High authorization represents the highest bar for FedRAMP compliance, requiring nearly 30% more controls than Moderate.<span class="cite">[8]</span> Both Azure and Azure Government maintain FedRAMP High P-ATOs issued by the JAB, in addition to more than 400 Moderate and High ATOs issued by individual federal agencies for in-scope services.<span class="cite">[1]</span> Microsoft Azure supports more services at FedRAMP High Impact levels than any other cloud service provider.<span class="cite">[9]</span></p>
+
+  <h3>The 20 Control Families</h3>
+  <p>The controls are organized into 20 families in Rev 5, up from 18 in Rev 4.<span class="cite">[10]</span> Two new families were added: Privacy and Transparency (PT), which formalized privacy requirements that previously lived in Rev 4's Appendix J, and Supply Chain Risk Management (SR), which responded to escalating supply chain threats.<span class="cite">[10]</span></p>
+
+  <table class="tb">
+    <thead>
+      <tr>
+        <th>Family ID</th>
+        <th>Family Name</th>
+        <th>Scope</th>
+        <th>Notes for Product Design</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>AC</td><td>Access Control</td><td>25 base controls</td><td>Broadest family by scope; one of the most implementation-intensive<span class="cite">[10]</span></td></tr>
+      <tr><td>AT</td><td>Awareness & Training</td><td>6 base controls</td><td>Requires documented training programs and records</td></tr>
+      <tr><td>AU</td><td>Audit & Accountability</td><td>16 base controls</td><td>Logging and audit trail requirements; critical for ConMon</td></tr>
+      <tr><td>CA</td><td>Assessment, Authorization & Monitoring</td><td>9 base controls</td><td>CA-5 (POA&M) and CA-7 (ConMon) are core FedRAMP obligations<span class="cite">[11]</span></td></tr>
+      <tr><td>CM</td><td>Configuration Management</td><td>14 base controls</td><td>CM-8 requires monthly updated inventory<span class="cite">[11]</span></td></tr>
+      <tr><td>CP</td><td>Contingency Planning</td><td>13 base controls</td><td>Annual CP testing required for Moderate and High<span class="cite">[12]</span></td></tr>
+      <tr><td>IA</td><td>Identification & Authentication</td><td>12 base controls</td><td>MFA, credential management, session controls</td></tr>
+      <tr><td>IR</td><td>Incident Response</td><td>10 base controls</td><td>Annual IR plan testing; event-driven reporting obligations<span class="cite">[12]</span></td></tr>
+      <tr><td>MA</td><td>Maintenance</td><td>7 base controls</td><td>System maintenance procedures and records</td></tr>
+      <tr><td>MP</td><td>Media Protection</td><td>8 base controls</td><td>Data sanitization and media handling</td></tr>
+      <tr><td>PE</td><td>Physical & Environmental Protection</td><td>23 base controls</td><td>Typically inherited from IaaS provider</td></tr>
+      <tr><td>PL</td><td>Planning</td><td>11 base controls</td><td>System Security Plan development and maintenance</td></tr>
+      <tr><td>PM</td><td>Program Management</td><td>Organization-wide</td><td>Sits outside Low/Mod/High baseline structure<span class="cite">[3]</span></td></tr>
+      <tr><td>PS</td><td>Personnel Security</td><td>9 base controls</td><td>Background checks, personnel screening</td></tr>
+      <tr><td>PT</td><td>PII Processing & Transparency</td><td>New in Rev 5</td><td>Privacy-specific; formalized from Rev 4 Appendix J<span class="cite">[10]</span></td></tr>
+      <tr><td>RA</td><td>Risk Assessment</td><td>10 base controls</td><td>Vulnerability scanning cadence requirements</td></tr>
+      <tr><td>SA</td><td>System & Services Acquisition</td><td>23 base controls</td><td>Supply chain, development lifecycle controls</td></tr>
+      <tr><td>SC</td><td>System & Communications Protection</td><td>51 base controls</td><td>Largest family; encryption, boundary protection, segmentation<span class="cite">[10]</span></td></tr>
+      <tr><td>SI</td><td>System & Information Integrity</td><td>23 base controls</td><td>Vulnerability remediation timelines tied to ConMon</td></tr>
+      <tr><td>SR</td><td>Supply Chain Risk Management</td><td>New in Rev 5</td><td>Addresses escalating supply chain threats<span class="cite">[10]</span></td></tr>
+    </tbody>
+  </table>
+
+  <p>Azure provides built-in Azure Policy regulatory compliance initiatives that map directly to FedRAMP compliance domains and controls, available in both FedRAMP High and FedRAMP Moderate variants for both Azure public and Azure Government.<span class="cite">[1]</span> Each FedRAMP control is associated with one or more Azure Policy definitions that can help assess compliance, though Azure Policy is only a partial view of overall compliance status.<span class="cite">[1]</span></p>
+</div>
+
+<div class="div"></div>
+
+<!-- SECTION 3: THE AUTHORIZATION JOURNEY -->
+<div class="sec">
+  <div class="sec-label">The Authorization Journey</div>
+  <h2>Three Paths to Authorization</h2>
+
+  <p>Cloud Service Providers desiring to sell services to a federal agency can take three paths to demonstrate FedRAMP compliance.<span class="cite">[1]</span> The first is to earn a Provisional Authorization to Operate (P-ATO) from the FedRAMP Joint Authorization Board (JAB), which consists of CIOs from the Department of Defense, Department of Homeland Security, and General Services Administration.<span class="cite">[1][13]</span> The second is to receive an Authority to Operate (ATO) from a federal agency. The third is to work independently to develop a CSP Supplied Package that meets program requirements. Each path requires assessment by an independent 3PAO accredited by the program and a stringent technical review by the FedRAMP PMO.<span class="cite">[1]</span></p>
+
+  <p>Once a P-ATO is granted, a CSP still requires an authorization (an ATO) from any government agency it works with. A government agency can use an existing P-ATO in its own security authorization process as the basis for issuing an agency ATO.<span class="cite">[1]</span></p>
+
+  <h3>Rev 5 Agency Authorization Process</h3>
+  <p>The Rev 5 Agency Authorization path has three phases: Preparation, Authorization, and Continuous Monitoring.<span class="cite">[13]</span></p>
+
+  <!-- Authorization Process Diagram -->
+  <div class="diag">
+    <svg viewBox="0 0 860 340" xmlns="http://www.w3.org/2000/svg" font-family="Instrument Sans, -apple-system, sans-serif">
+      <rect width="860" height="340" fill="#FFFFFF" rx="4"/>
+
+      <!-- Phase 1: Preparation -->
+      <rect x="20" y="20" width="260" height="300" rx="8" fill="#F7F6F3" stroke="#C4993D" stroke-width="1.5"/>
+      <rect x="20" y="20" width="260" height="36" rx="8" fill="#C4993D"/>
+      <text x="150" y="44" text-anchor="middle" font-size="13" fill="#FFFFFF" font-weight="700">PHASE 1: PREPARATION</text>
+      <text x="40" y="80" font-size="10" fill="#4A5568" font-weight="600">Readiness Assessment (Optional)</text>
+      <text x="40" y="98" font-size="9" fill="#7B8794">RAR development with 3PAO</text>
+      <text x="40" y="112" font-size="9" fill="#7B8794">FedRAMP review of RAR</text>
+      <text x="40" y="126" font-size="9" fill="#7B8794">Remediation if needed</text>
+      <text x="40" y="140" font-size="9" fill="#3D9970" font-weight="600">Result: FedRAMP Ready designation</text>
+      <line x1="40" y1="152" x2="260" y2="152" stroke="#EEECE6" stroke-width="1"/>
+      <text x="40" y="172" font-size="10" fill="#4A5568" font-weight="600">Pre-Authorization (Required)</text>
+      <text x="40" y="190" font-size="9" fill="#7B8794">Submit IPR letter + WBS</text>
+      <text x="40" y="204" font-size="9" fill="#7B8794">FIPS 199 categorization</text>
+      <text x="40" y="218" font-size="9" fill="#7B8794">CSP Information Form submission</text>
+      <text x="40" y="232" font-size="9" fill="#7B8794">Kickoff meeting with agency</text>
+      <text x="40" y="246" font-size="9" fill="#3D9970" font-weight="600">Result: In Process on Marketplace</text>
+      <text x="40" y="275" font-size="8.5" fill="#7B8794" font-style="italic">Prerequisites: fully built system,</text>
+      <text x="40" y="288" font-size="8.5" fill="#7B8794" font-style="italic">committed leadership, selected 3PAO</text>
+
+      <!-- Arrow 1 -->
+      <polygon points="288,170 298,160 298,180" fill="#C4993D"/>
+
+      <!-- Phase 2: Authorization -->
+      <rect x="305" y="20" width="250" height="300" rx="8" fill="#F7F6F3" stroke="#7B8794" stroke-width="1.5"/>
+      <rect x="305" y="20" width="250" height="36" rx="8" fill="#7B8794"/>
+      <text x="430" y="44" text-anchor="middle" font-size="13" fill="#FFFFFF" font-weight="700">PHASE 2: AUTHORIZATION</text>
+      <text x="325" y="80" font-size="10" fill="#4A5568" font-weight="600">Authorization Package</text>
+      <text x="325" y="98" font-size="9" fill="#7B8794">System Security Plan (SSP)</text>
+      <text x="325" y="112" font-size="9" fill="#7B8794">SSP Appendices (C, I, K...)</text>
+      <text x="325" y="126" font-size="9" fill="#7B8794">Policies & procedures</text>
+      <text x="325" y="140" font-size="9" fill="#7B8794">Authorization boundary diagrams</text>
+      <line x1="325" y1="152" x2="535" y2="152" stroke="#EEECE6" stroke-width="1"/>
+      <text x="325" y="172" font-size="10" fill="#4A5568" font-weight="600">3PAO Assessment</text>
+      <text x="325" y="190" font-size="9" fill="#7B8794">Security Assessment Plan (SAP)</text>
+      <text x="325" y="204" font-size="9" fill="#7B8794">Security Assessment Report (SAR)</text>
+      <text x="325" y="218" font-size="9" fill="#7B8794">Penetration testing</text>
+      <text x="325" y="232" font-size="9" fill="#7B8794">Vulnerability scanning</text>
+      <line x1="325" y1="244" x2="535" y2="244" stroke="#EEECE6" stroke-width="1"/>
+      <text x="325" y="264" font-size="10" fill="#4A5568" font-weight="600">Risk Decision</text>
+      <text x="325" y="282" font-size="9" fill="#7B8794">POA&M for open findings</text>
+      <text x="325" y="296" font-size="9" fill="#3D9970" font-weight="600">Result: ATO from agency AO</text>
+
+      <!-- Arrow 2 -->
+      <polygon points="563,170 573,160 573,180" fill="#7B8794"/>
+
+      <!-- Phase 3: Continuous Monitoring -->
+      <rect x="580" y="20" width="260" height="300" rx="8" fill="#F7F6F3" stroke="#E05B3C" stroke-width="1.5"/>
+      <rect x="580" y="20" width="260" height="36" rx="8" fill="#E05B3C"/>
+      <text x="710" y="44" text-anchor="middle" font-size="13" fill="#FFFFFF" font-weight="700">PHASE 3: CONMON</text>
+      <text x="600" y="80" font-size="10" fill="#4A5568" font-weight="600">Monthly Deliverables</text>
+      <text x="600" y="98" font-size="9" fill="#7B8794">Updated POA&M (control CA-5)</text>
+      <text x="600" y="112" font-size="9" fill="#7B8794">Updated system inventory (CM-8)</text>
+      <text x="600" y="126" font-size="9" fill="#7B8794">Vulnerability scan files + reports</text>
+      <text x="600" y="140" font-size="9" fill="#7B8794">Monthly executive summary</text>
+      <line x1="600" y1="152" x2="820" y2="152" stroke="#EEECE6" stroke-width="1"/>
+      <text x="600" y="172" font-size="10" fill="#4A5568" font-weight="600">Annual Activities</text>
+      <text x="600" y="190" font-size="9" fill="#7B8794">3PAO assessment of core controls</text>
+      <text x="600" y="204" font-size="9" fill="#7B8794">+ 1/3 of remaining controls</text>
+      <text x="600" y="218" font-size="9" fill="#7B8794">Penetration testing</text>
+      <text x="600" y="232" font-size="9" fill="#7B8794">SSP and appendix updates</text>
+      <text x="600" y="246" font-size="9" fill="#7B8794">CP and IR plan testing (Mod/High)</text>
+      <line x1="600" y1="258" x2="820" y2="258" stroke="#EEECE6" stroke-width="1"/>
+      <text x="600" y="278" font-size="10" fill="#E05B3C" font-weight="600">Remediation Timelines</text>
+      <text x="600" y="296" font-size="9" fill="#7B8794">Critical/High: 30 days</text>
+      <text x="600" y="310" font-size="9" fill="#7B8794">Moderate: 90 days / Low: 180 days</text>
+    </svg>
+  </div>
+  <p style="font-size: 0.78rem; color: var(--steel); text-align: center; margin-top: -0.5rem;">Sources: fedramp.gov Agency Authorization<span class="cite">[13]</span>, FedRAMP ConMon Playbook<span class="cite">[11][12]</span>, Secureframe<span class="cite">[12]</span>, Elevate Consult<span class="cite">[14]</span></p>
+
+  <h3>The Authorization Package in Detail</h3>
+  <p>A FedRAMP authorization package documents the security and risk posture for a CSP's cloud service offering. It includes the SSP, which is the "security blueprint" for the system. The SSP defines the authorization boundary and describes the security controls in place to protect confidentiality, integrity, and availability of the system and federal data.<span class="cite">[15]</span></p>
+
+  <p>The four core documents form the spine of the package:<span class="cite">[16]</span></p>
+
+  <div class="cols">
+    <div class="card">
+      <h4>SSP: System Security Plan</h4>
+      <p>Describes the system, its authorization boundary, and how every applicable control is implemented. As of January 2026, the FedRAMP SSP template is an Excel workbook with 12 sheets.<span class="cite">[17]</span> CSPs are required to use the official FedRAMP template, and they are prohibited from altering or removing content in the template.<span class="cite">[15]</span> Required appendices include security policies and procedures (Appendix C), the incident response plan (Appendix I), and the FIPS 199 categorization (Appendix K).<span class="cite">[15]</span></p>
+    </div>
+    <div class="card">
+      <h4>SAP: Security Assessment Plan</h4>
+      <p>Developed by the 3PAO, the SAP describes the scope, methodology, test plan, and rules of engagement for the assessment. Both the provider and the 3PAO sign the SAP, confirming agreement on what will be tested and how.<span class="cite">[18]</span> The SAP must be prepared using FedRAMP-provided templates.<span class="cite">[15]</span></p>
+    </div>
+    <div class="card">
+      <h4>SAR: Security Assessment Report</h4>
+      <p>Documents the results of the 3PAO assessment, including the effectiveness of security controls and identified vulnerabilities. Contains the Risk Exposure Table (RET) that catalogs all findings. Without a completed SAR, a provider cannot obtain an ATO.<span class="cite">[18]</span></p>
+    </div>
+    <div class="card">
+      <h4>POA&M: Plan of Action & Milestones</h4>
+      <p>Tracks remediation plans for correcting risks identified during assessments and ConMon activities (security control CA-5).<span class="cite">[11]</span> The POA&M submitted with the initial package must correspond to every risk identified in the SAR's Risk Exposure Table.<span class="cite">[19]</span> All open risks must be captured on the "Open" tab, even if not yet past due.<span class="cite">[19]</span></p>
+    </div>
+  </div>
+
+  <p>FedRAMP authorization package documents must be submitted in designated formats (Microsoft Word and Excel), and some must use FedRAMP-provided templates.<span class="cite">[15]</span> FedRAMP also publishes OSCAL-based templates on their GitHub repository for the SSP, SAP, SAR, and POA&M in both XML and JSON formats.<span class="cite">[20]</span> Under FedRAMP 20x, these materials shift to machine-readable formats where CSPs submit real-time evidence using OSCAL JSON rather than long-form documents.<span class="cite">[21]</span></p>
+</div>
+
+<div class="div"></div>
+
+<!-- SECTION 4: CONTINUOUS MONITORING -->
+<div class="sec">
+  <div class="sec-label">Continuous Monitoring</div>
+  <h2>The Obligations That Never End</h2>
+
+  <p>Continuous monitoring is grounded in NIST SP 800-137, which defines Information Security Continuous Monitoring as ongoing awareness of information security, vulnerabilities, and threats to support risk management decisions.<span class="cite">[22]</span> FedRAMP specifies the details in the ConMon Playbook, implementing fixed monthly cadences rather than organization-defined frequencies.<span class="cite">[22]</span></p>
+
+  <p>Four parties share responsibility: the CSP (full execution layer), the Authorizing Official (review and approval), the 3PAO (independent validation), and the FedRAMP PMO (oversight and standards).<span class="cite">[22]</span> The CSP is responsible for implementing ConMon processes and tools. Each federal agency that issues an ATO is responsible for reviewing the CSP's ConMon activities.<span class="cite">[11]</span></p>
+
+  <h3>Monthly Deliverables (Non-Negotiable)</h3>
+  <p>Every 30 days, the CSP must upload to a secure repository:<span class="cite">[11][14]</span></p>
+
+  <div class="callout">
+    <div class="cl brass">Monthly ConMon Package</div>
+    <p><strong>Updated POA&M</strong> tracking all findings and their remediation status (control CA-5). Every open risk must be captured, including those not yet past due.<span class="cite">[11][19]</span></p>
+    <p><strong>Updated system inventory</strong> with a complete listing of all assets within the authorization boundary (control CM-8), updated whenever assets change.<span class="cite">[11][23]</span></p>
+    <p><strong>Raw vulnerability scan files</strong> and reports, when required by agreements with agency customers, covering 100% of system components.<span class="cite">[11][14]</span></p>
+    <p><strong>Monthly executive summary</strong> covering the overall security posture of the system.<span class="cite">[12]</span></p>
+    <p>CSPs serving more than one federal agency must implement a collaborative ConMon approach, holding monthly meetings at least one week after deliverables are submitted. This is a binding control requirement under CA-7; non-compliance constitutes a finding.<span class="cite">[11][22]</span></p>
+  </div>
+
+  <h3>Annual Activities</h3>
+  <div class="callout steel">
+    <div class="cl steel-c">Annual Assessment and Testing</div>
+    <p><strong>3PAO annual assessment</strong> covering core controls plus one-third of remaining NIST control set, along with review of POA&Ms and remediation.<span class="cite">[11]</span></p>
+    <p><strong>Annual penetration testing</strong> conducted by the 3PAO, with oversight of scanning activities.<span class="cite">[11]</span> Microsoft's Azure penetration test reports are typically due in September for JAB submission.<span class="cite">[1]</span></p>
+    <p><strong>SSP and appendix updates</strong> reflecting any changes to the system or risk environment.<span class="cite">[12]</span></p>
+    <p><strong>Contingency plan and incident response plan testing</strong> required for Moderate and High-impact systems.<span class="cite">[12]</span></p>
+    <p><strong>Red team penetration testing and static code analysis</strong> required for Moderate and High systems.<span class="cite">[12]</span></p>
+  </div>
+
+  <h3>Remediation Timelines</h3>
+  <p>FedRAMP enforces strict remediation windows. Critical and high-severity findings must be addressed within 30 days. Moderate findings have a 90-day window. Low findings have 180 days.<span class="cite">[14]</span> Missing these thresholds can lead to escalation up to ATO revocation.<span class="cite">[14]</span> CSPs should retain 12 months of monthly ConMon packages.<span class="cite">[22]</span></p>
+
+  <div class="callout signal">
+    <div class="cl signal-c">Product Design Implication</div>
+    <p>The ConMon requirements define the operational reality of FedRAMP. Any product that focuses solely on initial authorization and neglects the continuous monitoring cadence will leave customers exposed to the most common compliance failures. Automating evidence collection for the monthly package can lower preparation costs by 75% according to practitioner estimates.<span class="cite">[24]</span> This is where the strongest product wedge exists: making the monthly grind painless rather than just helping with the initial sprint.</p>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- SECTION 5: FedRAMP 20x -->
+<div class="sec">
+  <div class="sec-label">FedRAMP 20x</div>
+  <h2>The New Authorization Model</h2>
+
+  <p>FedRAMP 20x is a modernized authorization path that replaces point-in-time documentation and annual audits with continuous, machine-readable validation against running systems.<span class="cite">[25]</span> It was launched in March 2025 and is now in Phase 3, with GSA confirming the new authorization model is permanent.<span class="cite">[26]</span></p>
+
+  <p>Under 20x, compliance documentation originates in the development pipeline. Providers submit structured data using OSCAL, generated automatically from the running environment through APIs, configuration files, and compliance-as-code systems. Evidence is produced and versioned alongside application code as a first-class output of the build pipeline.<span class="cite">[25]</span></p>
+
+  <h3>Key Security Indicators (KSIs)</h3>
+  <p>The heart of 20x is the Key Security Indicator framework. There are 56 KSIs for Low baseline and 61 for Moderate.<span class="cite">[27]</span> Each KSI ties to a measurable security outcome that can be validated through automation.<span class="cite">[27]</span> KSIs in the "Authorization by FedRAMP" (KSI-AFR) theme tie to FedRAMP-specific standards and policies with government-specific requirements.<span class="cite">[28]</span></p>
+
+  <p>Every single KSI requirement and recommendation must be addressed. The FedRAMP PMO uses language carefully: requirements use "MUST" and recommendations use "SHOULD," and both must be addressed in the submission.<span class="cite">[28]</span> If a recommendation is not implemented, an explanation and justification must be provided.<span class="cite">[28]</span></p>
+
+  <h3>20x Phase 2 Completeness Requirements</h3>
+  <p>Phase 2 submissions must meet specific completeness thresholds:<span class="cite">[28]</span></p>
+
+  <div class="callout">
+    <div class="cl brass">Mandatory Requirements</div>
+    <p>Automated validation must measure some aspects of the provider's goals for at least <strong>70% of Key Security Indicators</strong>.<span class="cite">[28]</span></p>
+    <p>Validation evidence must be embedded or linked directly from both human-readable and machine-readable submission formats and made available (non-redacted) for FedRAMP review.<span class="cite">[28]</span></p>
+    <p>A machine-readable schema must be provided that can validate and interpret the machine-readable format.<span class="cite">[28]</span></p>
+    <p>Information within human-readable and machine-readable formats should fully reconcile.<span class="cite">[28]</span></p>
+    <p>The 3PAO's role shifts toward confirming that the automation actually works, rather than performing the traditional annual audit.<span class="cite">[25]</span></p>
+  </div>
+
+  <h3>OSCAL Mandate (RFC-0024)</h3>
+  <p>RFC-0024, released January 13, 2026, mandates machine-readable authorization packages, including OSCAL, for all FedRAMP providers, not just 20x participants.<span class="cite">[29]</span> The proposed initial compliance deadline is September 30, 2026, and the final deadline is September 30, 2027. Providers who miss the final deadline could lose their FedRAMP certification entirely.<span class="cite">[29]</span></p>
+
+  <p>OSCAL replaces static Word and Excel documents with machine-readable XML, JSON, and YAML, enabling automated validation before submission and dramatically faster SSP creation.<span class="cite">[29]</span> FedRAMP has published OSCAL resources and templates on GitHub for the SSP, SAP, SAR, and POA&M, in collaboration with NIST.<span class="cite">[20]</span></p>
+
+  <h3>The CR26 and Timeline</h3>
+  <p>The Consolidated Rules 2026 (CR26), launched in May 2026, provides a predictable 2.5-year roadmap for cloud compliance. It replaces traditional agency sponsorships with a streamlined Significant Change Notification (SCN) process.<span class="cite">[30]</span> Draft policy from April 2026 signals 20x will become the default for new authorizations starting Q3 2026.<span class="cite">[31]</span> After Phase 5 (H2 2027), no new Rev5 authorizations will be granted.<span class="cite">[27]</span></p>
+
+  <p>FedRAMP has also introduced a new security impact classification system for 2026: Class A (Pilot), Class B (Low), Class C (Moderate), and Class D (High).<span class="cite">[32]</span> Currently 28 products on the marketplace carry 20x certification type.<span class="cite">[32]</span></p>
+</div>
+
+<div class="div"></div>
+
+<!-- SECTION 6: MICROSOFT REFERENCE ARCHITECTURE -->
+<div class="sec">
+  <div class="sec-label">Reference Architecture</div>
+  <h2>How Microsoft Implements FedRAMP at Scale</h2>
+
+  <p>Microsoft's approach to FedRAMP serves as the reference model for how a major CSP implements and maintains authorization. Understanding this architecture is essential for designing a product that helps smaller CSPs do the same thing.</p>
+
+  <p>Microsoft is required to recertify its cloud services each year to maintain its authorizations. To do so, it continuously monitors and assesses its security controls and demonstrates that security remains in compliance.<span class="cite">[9]</span> Both Azure and Azure Government maintain FedRAMP High P-ATOs with more than 400 additional Moderate and High ATOs from individual agencies.<span class="cite">[1]</span></p>
+
+  <p>Azure Government provides additional safeguards beyond the standard Azure public cloud, including heightened screening of personnel, limiting potential access to systems processing customer data to screened US persons.<span class="cite">[1]</span> All US Azure public regions are in scope for FedRAMP High P-ATO, and Azure security controls and operational processes are the same everywhere Azure runs.<span class="cite">[1]</span></p>
+
+  <h3>Azure Policy as Compliance Infrastructure</h3>
+  <p>Azure Policy provides built-in regulatory compliance initiative definitions that map to FedRAMP High and Moderate control sets for both Azure and Azure Government. These provide an aggregated view to evaluate the overall state of the environment, with drill-down to granular control status.<span class="cite">[1]</span> The FedRAMP High initiative definition maps each control to one or more Azure Policy definitions, allowing automated compliance assessment at scale.<span class="cite">[33]</span></p>
+
+  <p>The Azure Security and Compliance Blueprint for FedRAMP helps automate deployment and configuration of Azure resources in a FedRAMP environment, providing turn-key compliance solutions tailored to regulated industries.<span class="cite">[2]</span></p>
+
+  <div class="callout">
+    <div class="cl brass">Product Design Lesson from Microsoft</div>
+    <p>Microsoft's approach demonstrates that FedRAMP compliance at scale requires three things: a policy engine that continuously evaluates control status (Azure Policy), a shared responsibility framework that clearly delineates who owns what (the CRM<span class="cite">[5]</span>), and a documentation infrastructure that keeps evidence accessible under controlled access (the Service Trust Portal<span class="cite">[4]</span>). A "FedRAMP in a Box" product should replicate this pattern at a scale appropriate for Series A through C SaaS companies: an automated control evaluation layer, a clear inheritance model, and a secure evidence repository.</p>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- SECTION 7: PRODUCT REQUIREMENTS -->
+<div class="sec">
+  <div class="sec-label">Product Requirements Synthesis</div>
+  <h2>What the Ultimate FedRAMP Competitor Must Do</h2>
+
+  <p>Synthesizing everything above, a product that wants to lead this market needs to cover every phase of the compliance lifecycle, not just the authorization sprint. Below is the complete functional requirements map, organized by lifecycle phase, with the corresponding controls and standards that drive each requirement.</p>
+
+  <div class="bp">
+    <h3>Pre-Authorization Automation</h3>
+    <p>FIPS 199 categorization wizard that walks users through data classification and impact level determination<span class="cite">[13]</span>. Authorization boundary definition tools that generate the boundary diagrams, data flow diagrams, and network diagrams required by the SSP<span class="cite">[15][18]</span>. Automated gap assessment against the applicable baseline (Low/Moderate/High) with priority scoring. NIST 800-53 Rev 5 control catalog with FedRAMP parameter values pre-populated<span class="cite">[7]</span>. Pre-built Customer Responsibility Matrix templates showing control inheritance from major IaaS providers (AWS GovCloud, Azure Government, Google Cloud)<span class="cite">[5]</span>.</p>
+  </div>
+
+  <div class="bp">
+    <h3>Documentation Engine</h3>
+    <p>SSP generation using both the FedRAMP Word/Excel templates (Rev 5) and OSCAL JSON/XML (20x)<span class="cite">[15][20]</span>. Automated population of control implementation statements from system configuration data. SAP, SAR, and POA&M template management with version control<span class="cite">[16]</span>. All 12 required SSP appendices with pre-populated content where system data is available<span class="cite">[17]</span>. Machine-readable schema generation for 20x submissions<span class="cite">[28]</span>. KSI mapping and evidence linking for each of the 56-61 Key Security Indicators<span class="cite">[27][28]</span>.</p>
+  </div>
+
+  <div class="bp">
+    <h3>Assessment Support</h3>
+    <p>3PAO collaboration workspace where assessors can review evidence, request clarification, and log findings directly within the platform. Evidence linking that maps each control to its supporting artifacts. Automated test execution for controls that can be validated technically (vulnerability scanning, configuration checks, access control verification). Risk Exposure Table generation for SAR findings<span class="cite">[18][19]</span>. POA&M auto-generation from SAR findings with one-to-one correspondence to the RET<span class="cite">[19]</span>.</p>
+  </div>
+
+  <div class="bp">
+    <h3>Continuous Monitoring Platform</h3>
+    <p>Monthly deliverable automation: POA&M updates (CA-5), system inventory updates (CM-8), vulnerability scan aggregation, and executive summary generation<span class="cite">[11][23]</span>. Vulnerability remediation tracking with 30/90/180-day countdown timers tied to finding severity<span class="cite">[14]</span>. Significant Change Request (SCR) workflow management<span class="cite">[11]</span>. Deviation request tracking and approval workflow. Annual assessment scheduling and scope determination (core controls + 1/3 rotation)<span class="cite">[11]</span>. 12-month package retention with audit trail<span class="cite">[22]</span>. Collaborative ConMon support for CSPs serving multiple agencies (CA-7 requirement)<span class="cite">[11][22]</span>.</p>
+  </div>
+
+  <div class="bp">
+    <h3>Infrastructure Layer</h3>
+    <p>Pre-hardened environment templates for AWS GovCloud and Azure Government with all applicable controls pre-implemented. Terraform/Pulumi modules for network segmentation (SC family), encryption at rest and in transit (SC-12, SC-13, SC-28), logging pipelines (AU family), and identity management (IA family)<span class="cite">[10]</span>. CI/CD pipeline integration that generates OSCAL artifacts as part of the build process<span class="cite">[25]</span>. Configuration drift detection mapped to CM-family controls. Automated KSI validation integrated with deployment pipelines (70% automation threshold for 20x)<span class="cite">[28]</span>.</p>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- SOURCES -->
+<div class="sec">
+  <div class="sec-label">Sources</div>
+  <h2>Complete Citation Index</h2>
+
+  <div class="sources">
+    <h4>Primary Sources</h4>
+    <div class="s"><span class="sn">[1]</span> Microsoft Learn, "Federal Risk and Authorization Management Program (FedRAMP) - Azure Compliance," <a href="https://learn.microsoft.com/en-us/azure/compliance/offerings/offering-fedramp">learn.microsoft.com/en-us/azure/compliance/offerings/offering-fedramp</a></div>
+    <div class="s"><span class="sn">[2]</span> Microsoft Trust Center, "Federal Risk and Authorization Management Program (FedRAMP)," <a href="https://www.microsoft.com/en-us/trustcenter/Compliance/FedRAMP">microsoft.com/en-us/trustcenter/Compliance/FedRAMP</a></div>
+    <div class="s"><span class="sn">[3]</span> Isora GRC / Saltycloud, "NIST 800-53 Controls: Complete Guide [2026]," <a href="https://www.saltycloud.com/blog/nist-800-53-controls-overview/">saltycloud.com/blog/nist-800-53-controls-overview</a></div>
+    <div class="s"><span class="sn">[4]</span> Microsoft Service Trust Portal, <a href="https://servicetrust.microsoft.com/">servicetrust.microsoft.com</a></div>
+    <div class="s"><span class="sn">[5]</span> Microsoft Tech Community, "Support for FedRAMP in Microsoft 365 Government (GCC High)," <a href="https://techcommunity.microsoft.com/blog/publicsectorblog/support-for-fedramp-in-microsoft-365-government-gcc-high/4112262">techcommunity.microsoft.com, July 2024</a></div>
+    <div class="s"><span class="sn">[6]</span> Microsoft Learn, "Get to know the new Service Trust Portal," <a href="https://learn.microsoft.com/en-us/archive/blogs/scottschnoll/get-to-know-the-new-service-trust-portal">learn.microsoft.com (archived blog)</a></div>
+    <div class="s"><span class="sn">[7]</span> FedRAMP.gov, "FedRAMP Publishes Draft Rev 5 Baselines," December 2021, <a href="https://www.fedramp.gov/archive/2021-12-21-FedRAMP-Publishes-Draft-Rev-5-Baselines">fedramp.gov/archive</a></div>
+    <div class="s"><span class="sn">[8]</span> Kiteworks, "FedRAMP High In Process: What It Means for Federal Cloud Security," March 2026, <a href="https://www.kiteworks.com/regulatory-compliance/fedramp-high-in-process-federal-cloud-security/">kiteworks.com</a></div>
+    <div class="s"><span class="sn">[9]</span> Microsoft Learn, "Configure Microsoft Entra ID to meet FedRAMP High Impact level," <a href="https://learn.microsoft.com/en-us/entra/standards/configure-for-fedramp-high-impact">learn.microsoft.com</a></div>
+    <div class="s"><span class="sn">[10]</span> Isora GRC / Saltycloud, "NIST 800-53 Control Families: Complete Guide [2026]," <a href="https://www.saltycloud.com/blog/nist-800-53-control-families/">saltycloud.com</a></div>
+
+    <h4>FedRAMP Program Office Sources</h4>
+    <div class="s"><span class="sn">[11]</span> FedRAMP.gov, "Continuous Monitoring Overview - CSP Playbook," <a href="https://www.fedramp.gov/docs/rev5/playbook/csp/continuous-monitoring/overview/">fedramp.gov/docs/rev5/playbook/csp</a></div>
+    <div class="s"><span class="sn">[12]</span> Secureframe, "FedRAMP Requirements: What They Are For Each Baseline + Checklist," <a href="https://secureframe.com/hub/fedramp/compliance-requirements">secureframe.com</a></div>
+    <div class="s"><span class="sn">[13]</span> FedRAMP.gov, "Rev5 Agency Authorization," <a href="https://www.fedramp.gov/rev5/agency-authorization/">fedramp.gov/rev5/agency-authorization</a></div>
+    <div class="s"><span class="sn">[14]</span> Elevate Consult, "FedRAMP ConMon Evidence Guide 2026," <a href="https://elevateconsult.com/insights/fedramp-conmon-deliverables-essential-evidence-requirements-guide-2026/">elevateconsult.com, May 2026</a></div>
+    <div class="s"><span class="sn">[15]</span> FedRAMP.gov, "What's in an Authorization Package," <a href="https://www.fedramp.gov/docs/rev5/playbook/csp/authorization/what/">fedramp.gov/docs/rev5/playbook/csp/authorization</a></div>
+    <div class="s"><span class="sn">[16]</span> Boundera, "FedRAMP Documentation Explained: SSP, SAP, SAR, and POA&M," <a href="https://boundera.io/blog/rev5/fedramp-documentation-ssp-sap-sar-poam">boundera.io, Feb 2025</a></div>
+    <div class="s"><span class="sn">[17]</span> Vanta, "How to write a FedRAMP System Security Plan (SSP)," <a href="https://www.vanta.com/collection/fedramp/fedramp-system-security-plan">vanta.com</a></div>
+    <div class="s"><span class="sn">[18]</span> LegalClarity, "FedRAMP SAR: Contents, Requirements, and Process," June 2026, <a href="https://legalclarity.org/fedramp-sar-contents-requirements-and-process/">legalclarity.org</a></div>
+    <div class="s"><span class="sn">[19]</span> FedRAMP.gov, "Plan of Action and Milestones (POA&M)," <a href="https://www.fedramp.gov/docs/rev5/playbook/csp/authorization/poam/">fedramp.gov/docs/rev5/playbook/csp/authorization/poam</a></div>
+    <div class="s"><span class="sn">[20]</span> FedRAMP.gov, "Additional FedRAMP OSCAL Resources and Templates," August 2020, <a href="https://www.fedramp.gov/archive/2020-08-20-additional-fedramp-oscal-resources-and-templates">fedramp.gov/archive</a></div>
+
+    <h4>FedRAMP 20x & OSCAL Sources</h4>
+    <div class="s"><span class="sn">[21]</span> Secureframe, "FedRAMP Compliance Solutions: Why Automation Is the Key," <a href="https://secureframe.com/hub/fedramp/templates">secureframe.com</a></div>
+    <div class="s"><span class="sn">[22]</span> Knox Systems, "A Guide to FedRAMP Continuous Compliance," April 2026, <a href="https://knoxsystems.com/resources/continuous-compliance-fedramp">knoxsystems.com</a></div>
+    <div class="s"><span class="sn">[23]</span> Knox Systems, "FedRAMP ConMon Deliverables: Submissions & Timelines," April 2026, <a href="https://knoxsystems.com/resources/fedramp-conmon-deliverables">knoxsystems.com</a></div>
+    <div class="s"><span class="sn">[24]</span> SentrIQ, "FedRAMP Continuous Monitoring Requirements: Monthly and Annual Checklist," May 2026, <a href="https://www.sentriq.io/blog/fedramp-continuous-monitoring-requirements-a-monthly-and-annual-checklist">sentriq.io</a></div>
+    <div class="s"><span class="sn">[25]</span> Knox Systems, "FedRAMP 20x: What SaaS Vendors Need to Know (2026)," June 2026, <a href="https://knoxsystems.com/resources/fedramp-20x">knoxsystems.com</a></div>
+    <div class="s"><span class="sn">[26]</span> Carbide Secure, "FedRAMP Is Changing: What the 20x Initiative Means," May 2026, <a href="https://carbidesecure.com/resources/fedramp-20x-update-what-changed/">carbidesecure.com</a></div>
+    <div class="s"><span class="sn">[27]</span> Platform28, "FedRAMP 20x: Complete Guide to Key Security Indicators," February 2026, <a href="https://www.platform28.com/blog/fedramp-20x-complete-guide">platform28.com</a></div>
+    <div class="s"><span class="sn">[28]</span> FedRAMP.gov, "Phase 2 Pilot Authorization Requirements," <a href="https://www.fedramp.gov/20x/phase-two/requirements/">fedramp.gov/20x/phase-two/requirements</a></div>
+    <div class="s"><span class="sn">[29]</span> Elevate Consult, "OSCAL Explained: Faster FedRAMP Authorization," February 2026, <a href="https://elevateconsult.com/insights/oscal-explained-your-guide-to-faster-fedramp-authorization/">elevateconsult.com</a></div>
+    <div class="s"><span class="sn">[30]</span> Paramify, "FedRAMP 20x Update & CR26: 5 Critical Takeaways for 2026," February 2026, <a href="https://www.paramify.com/blog/february-cr26-20x-update">paramify.com</a></div>
+    <div class="s"><span class="sn">[31]</span> Cabrillo Club, "FedRAMP 20x Explained: Timeline, Impact, and Contractor Implications," April 2026, <a href="https://cabrilloclub.com/insights/fedramp-20x-explained">cabrilloclub.com</a></div>
+    <div class="s"><span class="sn">[32]</span> FedRAMP.gov, "Marketplace Products," <a href="https://www.fedramp.gov/marketplace/products/">fedramp.gov/marketplace/products</a></div>
+
+    <h4>Additional Microsoft & NIST Sources</h4>
+    <div class="s"><span class="sn">[33]</span> Microsoft Learn, "Regulatory Compliance details for FedRAMP High - Azure Policy," <a href="https://learn.microsoft.com/en-us/azure/governance/policy/samples/fedramp-high">learn.microsoft.com, May 2026</a></div>
+    <div class="s"><span class="sn">[34]</span> Microsoft Learn, "Azure and other Microsoft cloud services compliance scope," <a href="https://learn.microsoft.com/en-us/azure/azure-government/compliance/azure-services-in-fedramp-auditscope">learn.microsoft.com</a></div>
+    <div class="s"><span class="sn">[35]</span> FedRAMP.gov, "RFC-0028: FedRAMP Rev5 Security Controls Baseline Update," <a href="https://www.fedramp.gov/rfcs/0028/">fedramp.gov/rfcs/0028</a></div>
+    <div class="s"><span class="sn">[36]</span> Nimbus Logic, "How to Access Microsoft 365 GCC High FedRAMP Documentation," June 2026, <a href="https://www.nimbus-logic.com/microsoft-government/how-to-access-microsoft-365-gcc-high-fedramp-documentation-and-shared-responsibility-matrix-srm/">nimbus-logic.com</a></div>
+    <div class="s"><span class="sn">[37]</span> NIST, "SP 800-53 Rev 5: Security and Privacy Controls," <a href="https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/800-53">csrc.nist.gov</a></div>
+    <div class="s"><span class="sn">[38]</span> gotomyerp, "FedRAMP 20x Changes Every Government Contractor Must Understand," March 2026, <a href="https://www.gotomyerp.com/fedramp-20x-changes-government-contractors/">gotomyerp.com</a></div>
+    <div class="s"><span class="sn">[39]</span> Elevate Consult, "Federal FedRAMP: Understanding the PMO's Role in Readiness," February 2026, <a href="https://elevateconsult.com/insights/fedramp-pmo-in-2026-what-changed-with-fedramp-20x-and-how-to-prepare-for-authorization/">elevateconsult.com</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <div><span class="pm">PERPENSA</span> &middot; Technical & Functional Brief &middot; FedRAMP Compliance Requirements &middot; June 2026</div>
+  <div>Research &middot; Discuss &middot; Challenge &middot; Evolve</div>
+</div>
+
+</body>
+</html>

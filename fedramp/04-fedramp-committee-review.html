@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpensa Deliberation: Committee Review & Research Requests</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brass: #C4993D;
+    --brass-light: #D4AD5A;
+    --brass-pale: #F5EDD8;
+    --brass-dim: #8A6B2B;
+    --steel: #7B8794;
+    --steel-light: #A0AAB4;
+    --steel-pale: #E8EAED;
+    --steel-dark: #4A5568;
+    --signal: #E05B3C;
+    --signal-light: #F07C62;
+    --signal-pale: #FDEAE5;
+    --ink: #1A1D23;
+    --ink-soft: #2D3139;
+    --ink-mid: #3D424A;
+    --paper: #F7F6F3;
+    --paper-warm: #EEECE6;
+    --chalk: #FFFFFF;
+    --green: #3D9970;
+    --blue: #4A7FB5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Instrument Sans', -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.68;
+    font-size: 15.5px;
+  }
+  .header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 3rem;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brass), var(--steel), var(--signal));
+  }
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+  .logo span {
+    color: var(--steel-light);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    display: block;
+    margin-top: 0.2rem;
+  }
+  .meta {
+    text-align: right;
+    font-size: 0.78rem;
+    color: var(--steel-light);
+    line-height: 1.6;
+  }
+  .meta strong { color: var(--brass-light); font-weight: 600; }
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    max-width: 720px;
+    margin-bottom: 0.5rem;
+  }
+  .header .sub {
+    font-size: 1rem;
+    color: var(--steel-light);
+    max-width: 660px;
+  }
+  .content {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 3rem;
+  }
+  .sec { margin-bottom: 2.8rem; }
+  .sec-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 0.4rem;
+  }
+  .sec h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 0.9rem;
+    line-height: 1.25;
+  }
+  .sec p { margin-bottom: 0.95rem; color: var(--ink-soft); }
+  .div {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--paper-warm), transparent);
+    margin: 2.5rem 0;
+  }
+
+  /* Persona review block */
+  .review {
+    background: var(--chalk);
+    border-radius: 10px;
+    border: 1px solid var(--paper-warm);
+    margin-bottom: 2.2rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .review-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--paper-warm);
+  }
+  .review-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .review-dot.advocate { background: var(--brass); }
+  .review-dot.skeptic { background: var(--steel); }
+  .review-dot.redteam { background: var(--signal); }
+  .review-id {
+    flex: 1;
+  }
+  .review-id .name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .review-id .role {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .review-id .role.advocate { color: var(--brass); }
+  .review-id .role.skeptic { color: var(--steel); }
+  .review-id .role.redteam { color: var(--signal); }
+
+  .review-body {
+    padding: 1.3rem 1.5rem;
+  }
+  .review-body h4 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    margin-top: 1.2rem;
+  }
+  .review-body h4:first-child { margin-top: 0; }
+  .review-body h4.brass { color: var(--brass); }
+  .review-body h4.steel-c { color: var(--steel); }
+  .review-body h4.signal-c { color: var(--signal); }
+  .review-body h4.ink-c { color: var(--ink-mid); }
+  .review-body p {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.65rem;
+    line-height: 1.62;
+  }
+  .review-body p:last-child { margin-bottom: 0; }
+
+  /* Research request boxes */
+  .rr {
+    background: var(--paper);
+    border-radius: 6px;
+    padding: 0.9rem 1.1rem;
+    margin: 0.7rem 0;
+    border-left: 3px solid transparent;
+  }
+  .rr.advocate { border-left-color: var(--brass); }
+  .rr.skeptic { border-left-color: var(--steel); }
+  .rr.redteam { border-left-color: var(--signal); }
+  .rr .rr-id {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .rr.advocate .rr-id { color: var(--brass); }
+  .rr.skeptic .rr-id { color: var(--steel); }
+  .rr.redteam .rr-id { color: var(--signal); }
+  .rr .rr-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+  .rr .rr-desc {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .rr .rr-why {
+    font-size: 0.78rem;
+    color: var(--steel);
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+
+  /* Priority tags */
+  .ptag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+  .ptag.critical { background: #FDEAE5; color: var(--signal); }
+  .ptag.high { background: #FFF3E0; color: #E65100; }
+  .ptag.medium { background: #E3F2FD; color: #1565C0; }
+
+  /* Consolidated request table */
+  .req-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin: 1.3rem 0;
+  }
+  .req-table thead th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .req-table thead th:first-child { border-radius: 6px 0 0 0; }
+  .req-table thead th:last-child { border-radius: 0 6px 0 0; }
+  .req-table td {
+    padding: 0.55rem 0.8rem;
+    border-bottom: 1px solid var(--paper-warm);
+    vertical-align: top;
+  }
+  .req-table tr:nth-child(even) { background: var(--chalk); }
+  .req-table tr:nth-child(odd) { background: rgba(255,255,255,0.4); }
+  .req-table .owner {
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .footer {
+    background: var(--ink);
+    color: var(--steel);
+    padding: 1.3rem 3rem;
+    font-size: 0.73rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .footer .pm { color: var(--brass); font-weight: 700; letter-spacing: 0.1em; }
+
+  @media (max-width: 768px) {
+    .header { padding: 1.5rem; }
+    .header h1 { font-size: 1.5rem; }
+    .content { padding: 1.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div class="logo">Perpensa<span>Research &middot; Discuss &middot; Challenge &middot; Evolve</span></div>
+    <div class="meta">
+      <strong>Phase 1: Research Review</strong><br>
+      Subject: FedRAMP in a Box<br>
+      Date: June 16, 2026<br>
+      Status: Committee Convened
+    </div>
+  </div>
+  <h1>Committee Convening: Briefing Review and Research Requests</h1>
+  <div class="sub">Each committee member has reviewed the Market Research Brief and Technical & Functional Brief. Below are their independent assessments of the briefing materials and their requests for additional research before the deliberation can proceed. Target: define the company that wins the Series A through Series C SaaS wedge.</div>
+</div>
+
+<div class="content">
+
+<!-- FRAMING -->
+<div class="sec">
+  <div class="sec-label">Deliberation Objective</div>
+  <h2>Sharpened Focus: The Series A-to-C Wedge</h2>
+  <p>The committee has been given a specific mandate: design a company that enters the FedRAMP compliance market at the Series A stage and builds a defensible position through Series C. This is not an exercise in designing the ideal compliance platform in the abstract. It is an exercise in answering a concrete question: what do you build first, who do you sell it to first, what do you say to them, and what structural advantages compound over the first three to five years?</p>
+  <p>The briefing documents provided a strong foundation. The market research identified 14 named competitors across four layers, mapped the FedRAMP 20x transition, and proposed a three-pillar product architecture. The technical brief documented the full lifecycle from FIPS 199 categorization through continuous monitoring, with 39 cited sources. Both documents are good raw material. They are not yet a strategy. Below, each committee member identifies what is missing before the deliberation can produce one.</p>
+</div>
+
+<div class="div"></div>
+
+<!-- MARIANA REYES -->
+<div class="review">
+  <div class="review-header">
+    <div class="review-dot advocate">MR</div>
+    <div class="review-id">
+      <div class="name">Mariana Reyes</div>
+      <div class="role advocate">Advocate 1 &mdash; Domain Authority</div>
+    </div>
+  </div>
+  <div class="review-body">
+    <h4 class="ink-c">Briefing Assessment</h4>
+    <p>The market research correctly identifies the gap between platform companies and services companies. Nobody is doing both well. I have used Paramify and Xacta professionally, and the briefing's characterization of them is accurate. Paramify is excellent at generating SSP content but it does not help you build the environment, and Xacta is powerful but the learning curve is brutal for a team that has never been through FedRAMP. The technical brief is thorough on the control families and authorization process. One thing it understates: the amount of time spent on the SSP appendices. The core SSP gets all the attention, but Appendix A (Information System Contingency Plan), Appendix C (Security Policies), and Appendix I (Incident Response Plan) are each substantial documents that require original writing, not just form-filling. Teams routinely underestimate this by 40 to 60 percent.</p>
+    <p>What I do not see in either document is any analysis of why companies fail FedRAMP. The briefing tells me what the requirements are and what tools exist to meet them. It does not tell me where the bodies are buried. If we are building a product to win the Series A-to-C wedge, we need to understand the specific failure modes so we can build around them.</p>
+
+    <h4 class="brass">Research Requests</h4>
+
+    <div class="rr advocate">
+      <div class="rr-id">MR-01 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">FedRAMP Authorization Failure Mode Analysis</div>
+      <div class="rr-desc">I need a detailed breakdown of why FedRAMP authorization attempts fail or stall. Specifically: what percentage of companies that enter "In Process" status on the Marketplace actually achieve certification, and what is the median time from In Process to Certified? The Marketplace shows 58 products in "Agency Auth In Process" and 10 in "FedRAMP In Process" right now. How long have they been there? What are the most common reasons packages are sent back for rework by the PMO? I want to know the top five reasons SSPs fail initial review, the most common 3PAO findings that block authorization, and the typical POA&M backlog at the point of authorization.</div>
+      <div class="rr-why">Without this, we are designing a product around the happy path. The Series A-to-C customer is going through FedRAMP for the first time. They will hit every failure mode. The product's value proposition has to be "we prevent the failures that kill first-time attempts."</div>
+    </div>
+
+    <div class="rr advocate">
+      <div class="rr-id">MR-02 <span class="ptag high">High</span></div>
+      <div class="rr-title">Control Automation Feasibility Map</div>
+      <div class="rr-desc">Of the approximately 325 controls in the FedRAMP Moderate baseline, I need a rough classification of each into one of three buckets: fully automatable (infrastructure configuration checks, scanning, logging validation), partially automatable (requires human input but can be templated or guided), and inherently manual (personnel security, physical security, training records, organizational policy decisions). This mapping directly determines what the product can automate versus what the "Guide Rail" advisory layer has to cover. I also want to know which controls are most commonly inherited from the IaaS provider (AWS, Azure, GCP) and which remain the customer's responsibility regardless of infrastructure choice.</div>
+      <div class="rr-why">James is going to push for full automation. I need to show him and the committee exactly where the automation boundary falls, so we design the product honestly rather than promising something that cannot be delivered. This also directly feeds the pricing model: the more controls that require human expertise, the higher the cost-to-serve.</div>
+    </div>
+
+    <div class="rr advocate">
+      <div class="rr-id">MR-03 <span class="ptag high">High</span></div>
+      <div class="rr-title">Monthly ConMon Package Workflow Benchmarking</div>
+      <div class="rr-desc">How many person-hours does it take a typical Series B SaaS company to produce and submit the monthly ConMon package today, using existing tools versus manual processes? I want benchmarks from companies using Vanta, Paramify, and manual spreadsheets. I also want to know how many companies have had their ATO threatened or revoked due to ConMon compliance failures, and what the most common ConMon failure modes are (missed deadlines, incomplete scan coverage, stale inventory, unresolved POA&M items past their remediation window).</div>
+      <div class="rr-why">The strongest product wedge may be in ConMon, not initial authorization. If the monthly package takes 40 hours with existing tools and we can reduce it to 4 hours, that is a 10x improvement on a recurring pain point. That sells renewals in a way that one-time authorization support does not.</div>
+    </div>
+
+    <div class="rr advocate">
+      <div class="rr-id">MR-04 <span class="ptag medium">Medium</span></div>
+      <div class="rr-title">3PAO Assessment Friction Analysis</div>
+      <div class="rr-desc">What does the 3PAO assessment workflow actually look like from the assessor's side? How do Coalfire and Schellman assessors currently receive evidence from CSPs? What are their biggest complaints about the packages they review? Do any existing platforms provide a 3PAO collaboration interface, and if so, how well does it work in practice? I want to understand whether the 3PAO is a potential distribution channel (they recommend our tool to their clients) or a potential blocker (they prefer to work with tools they already know).</div>
+      <div class="rr-why">The 3PAO relationship is the most underexplored dimension of the competitive landscape. Rafael is going to argue that 3PAOs control the customer relationship. I need to know whether that is actually true, and if so, whether we can turn them into a channel rather than a competitor.</div>
+    </div>
+  </div>
+</div>
+
+<!-- JAMES KOWALSKI -->
+<div class="review">
+  <div class="review-header">
+    <div class="review-dot advocate">JK</div>
+    <div class="review-id">
+      <div class="name">James Kowalski</div>
+      <div class="role advocate">Advocate 2 &mdash; Product Architecture</div>
+    </div>
+  </div>
+  <div class="review-body">
+    <h4 class="ink-c">Briefing Assessment</h4>
+    <p>The market research is useful but it treats all the competitors as if they are playing the same game. They are not. Paramify and RegScale are playing the OSCAL game. Vanta and Drata are playing the horizontal GRC game. Anitian is playing the managed infrastructure game. These are three different products that happen to overlap on the word "FedRAMP." The question for us is not "how do we beat all of them" but "which game do we play, and can we define a new game that makes their game irrelevant?"</p>
+    <p>The technical brief is solid on the control families and the authorization process, but it does not go deep enough on the OSCAL data model itself. OSCAL is not just a file format. It is a relational data model with defined relationships between components, control implementations, and assessment results. If we are going to be OSCAL-native, I need to understand the data model at the schema level, not the marketing level. I also notice that the technical brief mentions FedRAMP's GitHub repository for OSCAL templates but does not analyze the actual schema, the validation tooling, or the known gaps in the OSCAL spec that will cause implementation problems.</p>
+
+    <h4 class="brass">Research Requests</h4>
+
+    <div class="rr advocate">
+      <div class="rr-id">JK-01 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">OSCAL Schema Deep Dive and Implementation Gaps</div>
+      <div class="rr-desc">I need a technical analysis of the NIST OSCAL schema as it applies to FedRAMP. Specifically: what are the current OSCAL models (catalog, profile, component definition, SSP, assessment plan, assessment results, POA&M), how do they relate to each other, and what are the known gaps or ambiguities in the spec? I want to know what the FedRAMP OSCAL Registry requires beyond base OSCAL, what conformity tags and risk metrics are defined, and where the spec is underspecified enough that two compliant implementations could produce incompatible artifacts. I also want to know what RegScale's OSCAL Hub actually does versus what it claims, and whether it has become a de facto reference implementation that the PMO treats as authoritative.</div>
+      <div class="rr-why">If we build OSCAL-native, the data model is our foundation. Getting this wrong means rework that could cost six months. Getting it right means our artifacts are structurally superior to anything produced by a tool that bolts OSCAL onto a document-centric data model. This is the architectural decision that everything else depends on.</div>
+    </div>
+
+    <div class="rr advocate">
+      <div class="rr-id">JK-02 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">Control Inheritance APIs: AWS, Azure, and GCP</div>
+      <div class="rr-desc">What do AWS GovCloud, Azure Government, and Google Cloud Platform each provide in terms of machine-readable control inheritance data? Azure has Azure Policy with FedRAMP initiative definitions. AWS has their compliance documentation and shared responsibility model. What can be queried programmatically? Can we call an API and get back "these 147 controls are fully inherited from Azure Government, these 83 are shared responsibility, and these 95 are entirely yours"? Or is this information only available in PDF format? I want a detailed comparison of what each cloud provider makes available programmatically versus what has to be manually mapped.</div>
+      <div class="rr-why">The "LaunchPad" pillar only works if we can programmatically determine control inheritance from the underlying infrastructure. If this data is locked in PDFs, we have to build the mapping layer ourselves, which is a significant engineering investment. If it is available via API, we can build control inheritance as a one-click feature. This determines whether LaunchPad is a three-month build or a twelve-month build.</div>
+    </div>
+
+    <div class="rr advocate">
+      <div class="rr-id">JK-03 <span class="ptag high">High</span></div>
+      <div class="rr-title">Developer Experience Audit of Existing Tools</div>
+      <div class="rr-desc">I want a hands-on evaluation of the developer experience for Paramify, RegScale, Vanta's FedRAMP module, and Drata's FedRAMP support. Specifically: what does the onboarding flow look like? How long does it take to connect to a cloud environment? What does the first meaningful output (a partial SSP, a control status dashboard, a gap assessment) look like? How much of the workflow can be completed by an engineer versus requiring a compliance specialist? I want screenshots and step counts, not marketing copy.</div>
+      <div class="rr-why">Our thesis is that the developer experience of existing tools is poor. We need to prove that thesis with evidence before we build around it. If Paramify's onboarding is actually excellent and takes 30 minutes, our "developer experience" differentiation is weaker than we think. If it takes two weeks and a consultant, our wedge is real.</div>
+    </div>
+
+    <div class="rr advocate">
+      <div class="rr-id">JK-04 <span class="ptag medium">Medium</span></div>
+      <div class="rr-title">KSI-to-Infrastructure Mapping for 20x Moderate</div>
+      <div class="rr-desc">For each of the 61 Key Security Indicators in the 20x Moderate baseline, I want to know: which ones can be validated by querying cloud infrastructure APIs (configuration checks, logging verification, encryption status), which ones require application-level instrumentation (code scanning, dependency analysis, access control verification), and which ones require organizational evidence that cannot be extracted from a running system (policies, training records, personnel actions). This is the technical version of Mariana's MR-02 request, but focused specifically on the 20x KSI framework rather than the Rev 5 control set.</div>
+      <div class="rr-why">The 20x Phase 2 requirements say automated validation must cover at least 70% of KSIs. I need to know exactly which 70% is automatable so we can design the automation layer to hit that threshold out of the box. If the automatable KSIs happen to be the ones that overlap with infrastructure configuration, the LaunchPad pillar and the Comply Engine become the same thing, which simplifies the architecture dramatically.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DIANA PARK -->
+<div class="review">
+  <div class="review-header">
+    <div class="review-dot skeptic">DP</div>
+    <div class="review-id">
+      <div class="name">Diana Park</div>
+      <div class="role skeptic">Skeptic 1 &mdash; Financial Stress Test</div>
+    </div>
+  </div>
+  <div class="review-body">
+    <h4 class="ink-c">Briefing Assessment</h4>
+    <p>The market research has an enthusiasm problem. It frames the FedRAMP market as a "$357 billion opportunity" and then proposes a product at $50K to $150K ACV. That is a two-orders-of-magnitude disconnect. The total addressable market for a compliance automation tool is not $357 billion. It is not even $11 billion (the federal cloud spend figure). It is the number of companies that need FedRAMP authorization, multiplied by what they will pay for tooling. That number is nowhere in the briefing, and without it, we are having an emotional conversation rather than a financial one.</p>
+    <p>The three-pillar product architecture (Comply Engine, LaunchPad, Guide Rail) is the part that worries me most. Each pillar has a fundamentally different cost structure. The Comply Engine is software with software margins. LaunchPad is infrastructure with cloud infrastructure margins (which are worse). Guide Rail is professional services with services margins (which are much worse). Blending these into a single subscription price obscures the unit economics. I have watched this exact mistake kill two companies that I invested in. They told investors they were a "platform" and reported blended gross margins of 70%, but when you decomposed it, the software piece was 85% margin, the infrastructure piece was 40% margin, and the services piece was 25% margin, and the services piece was growing faster than the software piece.</p>
+
+    <h4 class="steel-c">Research Requests</h4>
+
+    <div class="rr skeptic">
+      <div class="rr-id">DP-01 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">Total Addressable Market Sizing with Real Numbers</div>
+      <div class="rr-desc">I need a bottom-up TAM calculation. How many companies are currently FedRAMP authorized (the briefing says 523 certified products, but how many unique companies is that)? How many are in process? How many have expressed intent (FedRAMP Ready, publicly stated plans, government contract pipeline)? How many net-new companies per year are entering the FedRAMP pipeline? What is the projected acceleration from 20x (the briefing cites "2-3x more FedRAMP-authorized vendors expected by 2027")? I want a five-year model of the addressable customer count at each impact level (Low, Moderate, High), segmented by company stage (startup, growth, enterprise). Then multiply by realistic ACV at each segment to get a real TAM.</div>
+      <div class="rr-why">Every other conversation is academic without this number. If the realistic TAM for a $50K-$150K ACV product targeting Series A-to-C SaaS companies pursuing FedRAMP Moderate is $200M, this is a venture-backable business. If it is $40M, it is a lifestyle business or an acquisition target, and the strategy changes completely. The committee cannot make capitalization, hiring, or go-to-market decisions without knowing the size of the pond we are fishing in.</div>
+    </div>
+
+    <div class="rr skeptic">
+      <div class="rr-id">DP-02 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">Unit Economics Model: Three Pillars Decomposed</div>
+      <div class="rr-desc">For each of the three product pillars, I want a cost-to-serve model. Comply Engine: what is the cloud infrastructure cost per customer for hosting the platform, running OSCAL validation, storing evidence artifacts? What is the engineering cost to maintain the control catalog as NIST and FedRAMP publish updates? LaunchPad: what is the cost of maintaining Terraform/Pulumi modules across three cloud providers? How much customization does each deployment require, and what does that customization cost in engineering hours? Guide Rail: what is the fully loaded cost of a FedRAMP compliance advisor? How many customers can one advisor support simultaneously? What does that ratio look like at 50 customers, 200 customers, 500 customers? At what point does the advisory layer require its own management layer?</div>
+      <div class="rr-why">The pricing architecture proposed in the market research ($3K-5K/month for Low, $8K-12K/month for Moderate) assumes that the services component scales sub-linearly with customer count. That is a claim, not a fact. If each Moderate customer requires 10 hours per month of advisory support, and a senior compliance advisor costs $180K/year fully loaded, the advisory layer costs $1,125 per customer per month. At the $8K/month price point, that consumes 14% of revenue before touching any other cost. I need to know the real number.</div>
+    </div>
+
+    <div class="rr skeptic">
+      <div class="rr-id">DP-03 <span class="ptag high">High</span></div>
+      <div class="rr-title">Compliance Platform Churn and Expansion Data</div>
+      <div class="rr-desc">What does churn look like in the compliance automation category? Specifically: once a company achieves FedRAMP authorization, do they keep paying for the platform (because they need ConMon support), or do they churn (because they view the tool as a project, not a subscription)? I want data from Vanta, Drata, and Secureframe on net revenue retention for FedRAMP customers specifically, not their overall NRR which is dominated by SOC 2 customers. I also want to understand expansion revenue: does a customer who starts at Low upgrade to Moderate? Does a customer who gets one product authorized come back for a second?</div>
+      <div class="rr-why">The difference between a 90% NRR business and a 120% NRR business is the difference between a company that burns cash to replace churned customers and a company that grows organically. If FedRAMP compliance is a "project" in the customer's mind (they get authorized and then cancel), the LTV is 12 to 18 months of subscription revenue. If it is an "ongoing obligation" (they stay because ConMon requires it), the LTV is 5+ years. This changes the CAC payback math entirely.</div>
+    </div>
+
+    <div class="rr skeptic">
+      <div class="rr-id">DP-04 <span class="ptag high">High</span></div>
+      <div class="rr-title">FedRAMP Compliance Talent Market Analysis</div>
+      <div class="rr-desc">The market research says 81% of organizations cite talent shortage as the primary barrier. I want to understand this talent market quantitatively. How many people in the US have the combination of NIST 800-53, FedRAMP, and OSCAL expertise needed to staff the Guide Rail advisory layer? What are they paid? Where do they currently work (consulting firms, agencies, CSPs, 3PAOs)? What is the recruiting pipeline: are universities producing this talent, or is it purely experience-based? Can the advisory function be partially delivered by less-experienced people using AI-assisted tooling, or does it require senior practitioners for credibility?</div>
+      <div class="rr-why">If the talent pool for Guide Rail advisors is 500 people nationally and they are all employed by Coalfire, Schellman, Booz Allen, and Deloitte, the advisory layer is not a product feature. It is a constraint that limits growth. The committee needs to know whether the human component of the product can scale before we commit to including it in the architecture.</div>
+    </div>
+  </div>
+</div>
+
+<!-- RAFAEL NAVARRO -->
+<div class="review">
+  <div class="review-header">
+    <div class="review-dot skeptic">RN</div>
+    <div class="review-id">
+      <div class="name">Rafael Navarro</div>
+      <div class="role skeptic">Skeptic 2 &mdash; Channel Reality Check</div>
+    </div>
+  </div>
+  <div class="review-body">
+    <h4 class="ink-c">Briefing Assessment</h4>
+    <p>The market research identifies the right target customer (Series A through C SaaS companies pursuing their first federal deal), but it completely ignores how that customer actually makes buying decisions. These companies do not wake up one morning and Google "FedRAMP compliance software." What actually happens is this: a BD lead closes a verbal commitment from a federal program office, the program office says "you need FedRAMP Moderate," the BD lead panics, and within 48 hours the company has hired a consultant, contacted a 3PAO, and started asking their network for tool recommendations. The buying decision happens under extreme time pressure, is heavily influenced by the 3PAO's recommendation, and is almost never a product-led discovery process.</p>
+    <p>The technical brief is good reference material but it is written for someone who is going to implement FedRAMP. Our customer is not going to implement FedRAMP. Our customer is going to buy something that implements FedRAMP for them. The brief needs to be translated into buyer-facing language before it is useful for messaging.</p>
+
+    <h4 class="steel-c">Research Requests</h4>
+
+    <div class="rr skeptic">
+      <div class="rr-id">RN-01 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">Buyer Journey Mapping for First-Time FedRAMP Customers</div>
+      <div class="rr-desc">I need a detailed buyer journey map for a Series B SaaS company pursuing FedRAMP for the first time. Who triggers the decision (CEO, VP Sales, BD lead, CISO)? What do they search for first (consultant, 3PAO, software tool, blog content)? How do they evaluate options (referrals, G2/Gartner, 3PAO recommendation, investor network)? What is the typical timeline from "we need FedRAMP" to "we have selected our tooling and 3PAO"? How much budget authority does the buyer have, and who signs off on a $50K+ annual subscription? I want five to ten real customer stories, anonymized is fine, that trace the decision path from trigger event to tool selection.</div>
+      <div class="rr-why">The go-to-market strategy cannot be designed without understanding how the customer actually buys. If the 3PAO recommendation is the dominant influence (which I believe it is), then 3PAO partnerships are not a "nice to have," they are the primary distribution channel. If the trigger is always a specific federal contract opportunity, then the sales motion needs to be tied to federal procurement signals, not inbound marketing.</div>
+    </div>
+
+    <div class="rr skeptic">
+      <div class="rr-id">RN-02 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">3PAO Economics and Referral Incentive Structure</div>
+      <div class="rr-desc">I want to understand the economics of the 3PAO market. What does a FedRAMP Moderate assessment cost from Coalfire versus Schellman versus A-LIGN versus a smaller firm like Fortreum or BD Emerson? What is their margin on those engagements? Do they currently receive referral fees or revenue shares from compliance platforms (the briefing mentions Coalfire is a "Paramify Premier Partner," but what does that mean financially)? Would 3PAOs be incentivized to recommend our product if we offered a referral arrangement, or do they view platform tools as competitive threats to their consulting revenue? How many active 3PAOs are there in the FedRAMP marketplace, and which ones have the most assessment volume?</div>
+      <div class="rr-why">The 3PAO relationship is potentially the single most important channel decision. If we can get two or three top 3PAOs to actively recommend our platform to their clients, we have a distribution advantage that no amount of content marketing can replicate. But if 3PAOs view us as a threat to their advisory revenue, they will actively steer clients away from us. I need to know which scenario is more likely before we design the channel strategy.</div>
+    </div>
+
+    <div class="rr skeptic">
+      <div class="rr-id">RN-03 <span class="ptag high">High</span></div>
+      <div class="rr-title">Competitive Win/Loss Analysis in Federal Compliance Sales</div>
+      <div class="rr-desc">When a Series B SaaS company selects a FedRAMP compliance tool, what are the final-round alternatives? Is the typical competitive set "Vanta vs. Paramify vs. a consultant"? Or is it "Paramify vs. RegScale vs. doing it manually"? I want to know the most common head-to-head matchups, the primary selection criteria (price, FedRAMP depth, multi-framework support, 3PAO compatibility, speed to authorization), and what the winning tool's decisive advantage usually is. I also want to understand how often the company decides to hire a consultant and use Excel instead of buying a platform, because that is our real competitor: not Vanta, but the spreadsheet.</div>
+      <div class="rr-why">The messaging and competitive positioning depend entirely on who we are actually competing against in the buyer's mind. If the alternative is Vanta, we need to differentiate on FedRAMP depth. If the alternative is a consultant with Excel, we need to differentiate on cost and speed. If the alternative is "we will figure it out ourselves," we need to differentiate on risk reduction. These are three different sales conversations.</div>
+    </div>
+
+    <div class="rr skeptic">
+      <div class="rr-id">RN-04 <span class="ptag medium">Medium</span></div>
+      <div class="rr-title">Federal Contract Trigger Signal Identification</div>
+      <div class="rr-desc">If the trigger for FedRAMP tool purchase is almost always a specific federal contract opportunity, can we identify those opportunities programmatically? I want to know whether SAM.gov, GovWin, FPDS, or other federal procurement databases can be mined for RFPs and contract awards that require FedRAMP authorization. If we could identify companies that have just won or are pursuing contracts that require FedRAMP, we could reach them at the exact moment of need. Is anyone doing this today? What would the data pipeline look like?</div>
+      <div class="rr-why">This is a potential product-led growth wedge. Instead of waiting for the customer to find us, we find the customer at the moment they learn they need FedRAMP. If this data is accessible and actionable, it becomes a proprietary demand generation engine that competitors cannot easily replicate.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DR. SARAH LIN -->
+<div class="review">
+  <div class="review-header">
+    <div class="review-dot redteam">SL</div>
+    <div class="review-id">
+      <div class="name">Dr. Sarah Lin</div>
+      <div class="role redteam">Red Team 1 &mdash; Incumbent Response Modeling</div>
+    </div>
+  </div>
+  <div class="review-body">
+    <h4 class="ink-c">Briefing Assessment</h4>
+    <p>The market research identifies the competitors accurately but treats them as static. Companies do not stand still while a new entrant enters their market. I want to know what each major player is doing right now about FedRAMP 20x, because whatever we build, we are building into a market where Vanta, Paramify, and RegScale are all simultaneously trying to own the same transition moment. The briefing notes that Vanta is "FedRAMP Certified itself (20x)" and that Paramify is "FedRAMP 20x Moderate Authorized." Those are not just product features, they are credibility signals that our company will not have at launch.</p>
+    <p>I also notice an absence in the competitive analysis: nobody is discussing the potential for a large consulting firm to build or acquire a platform. Coalfire has "100+ assessments" and deep PMO relationships. Deloitte and Accenture are listed as key players in the assessment market. If Coalfire decided to build a compliance platform and bundle it with their 3PAO services, or if Deloitte acquired Paramify, the competitive landscape would shift overnight. The briefing does not model these scenarios.</p>
+
+    <h4 class="signal-c">Research Requests</h4>
+
+    <div class="rr redteam">
+      <div class="rr-id">SL-01 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">Incumbent Product Roadmap Intelligence</div>
+      <div class="rr-desc">I need current intelligence on what Vanta, Drata, Paramify, RegScale, and Anitian are building or have announced for the FedRAMP 20x transition. Specifically: has Vanta announced an OSCAL-native mode or are they still in export-only? What is Paramify's roadmap for expanding beyond documentation into infrastructure or advisory? Has RegScale announced any partnerships with 3PAOs? Is Anitian adjusting their managed-service pricing for the 20x market where authorization costs are expected to drop? Has Secureframe's "Defense tier" gained meaningful traction? I want job postings, blog posts, conference presentations, and any product announcements from the last six months.</div>
+      <div class="rr-why">We are planning a product that will take 12 to 18 months to reach market readiness. Everything each incumbent ships in that window narrows our positioning options. If Vanta ships OSCAL-native in Q4 2026, our "OSCAL-first" differentiation evaporates. If Paramify adds an infrastructure layer, our "three pillars" thesis is no longer novel. I need to model the competitive landscape 18 months forward, not as it exists today.</div>
+    </div>
+
+    <div class="rr redteam">
+      <div class="rr-id">SL-02 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">M&A and Consolidation Scenario Modeling</div>
+      <div class="rr-desc">I want to map the acquisition landscape. Which FedRAMP-specialist companies are likely acquisition targets? Paramify is small, OSCAL-native, and already FedRAMP 20x authorized. That makes it an obvious acquisition target for Vanta, Drata, or a consulting firm. RegScale is VC-backed and OSCAL Foundation affiliated. What are their funding histories and investor profiles? Are there signals that any of the large consulting firms (Coalfire, Deloitte, Booz Allen) are building or acquiring compliance platform capabilities? If a major acquisition happens (Vanta acquires Paramify, Coalfire builds a platform), what does that do to our positioning?</div>
+      <div class="rr-why">The worst outcome for a Series A startup is to build into a market where a well-funded incumbent acquires your closest competitor and uses that acquisition to leapfrog your product. If Paramify is acquired before we launch, the acquirer gets OSCAL-native architecture, FedRAMP 20x authorization, and 3PAO partnerships in one transaction. We need to either move faster than this scenario or position ourselves so that an acquisition of Paramify does not eliminate our differentiation.</div>
+    </div>
+
+    <div class="rr redteam">
+      <div class="rr-id">SL-03 <span class="ptag high">High</span></div>
+      <div class="rr-title">Historical Pattern Analysis: Specialist vs. Platform in Compliance Markets</div>
+      <div class="rr-desc">I want case studies of three previous markets where a regulatory change created an opening for specialist tools, and what happened to those specialists as the market matured. Specifically: (1) the SOC 2 compliance automation market from 2018 to 2024, where Vanta, Drata, and Secureframe emerged and then consolidated, (2) the GDPR compliance tool market from 2016 to 2022, where specialist tools were largely absorbed by horizontal GRC platforms, and (3) the HIPAA compliance market, where specialist tools like Compliancy Group coexist with horizontal platforms. What determined whether the specialist survived or was absorbed? Was it product depth, distribution, data moat, or switching cost?</div>
+      <div class="rr-why">History does not repeat but it rhymes. The FedRAMP 20x transition looks structurally similar to the SOC 2 compliance automation wave of 2019 to 2021. In that wave, Vanta won distribution, Drata won product depth, and everyone else either got acquired or marginalized. If the same dynamic plays out here, we need to know which position (distribution, product depth, or something else) gives us the best odds of long-term survival as the market consolidates.</div>
+    </div>
+
+    <div class="rr redteam">
+      <div class="rr-id">SL-04 <span class="ptag medium">Medium</span></div>
+      <div class="rr-title">Messaging Vulnerability Analysis of Current Competitors</div>
+      <div class="rr-desc">I want a detailed analysis of how each major competitor positions themselves in their marketing and sales materials, specifically for FedRAMP. What are the primary claims (time to authorization, cost savings, automation percentage)? Which claims are verifiable and which are vague? Where are the gaps in their messaging that we could exploit? For example, if Vanta claims "FedRAMP automation" but their OSCAL support is export-only, that is a messaging vulnerability we can attack. If Paramify claims "90% faster" but does not address ConMon, that is another gap. I want a competitor messaging audit that maps claims to reality.</div>
+      <div class="rr-why">The strongest competitive messaging is not about what we do. It is about what they do not do. If we can identify three or four things that every competitor claims but none of them actually deliver, we can build our messaging around those gaps and force the incumbents to respond to our framing rather than the other way around.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONNOR TRASK -->
+<div class="review">
+  <div class="review-header">
+    <div class="review-dot redteam">CT</div>
+    <div class="review-id">
+      <div class="name">Connor Trask</div>
+      <div class="role redteam">Red Team 2 &mdash; Policy & Execution Risk</div>
+    </div>
+  </div>
+  <div class="review-body">
+    <h4 class="ink-c">Briefing Assessment</h4>
+    <p>The briefing materials treat FedRAMP 20x as if it is a settled matter. It is not. I was inside the building when the early 20x concepts were being discussed, and I can tell you that what shipped in Phase 1 looked nothing like the original vision, and what is in Phase 2 has already been revised twice. The briefing correctly notes that the PMO "is still deliberately avoiding specifying exactly how all of the requirements must be addressed," but it then proceeds to design a product as if the requirements are known. They are known directionally. They are not known at the implementation level, and the gap between directional and implementable is where products go to die.</p>
+    <p>The RFC-0024 OSCAL mandate is the piece I am most concerned about. The briefing treats September 2027 as a hard deadline. I have watched five RFC deadlines slip in the last three years. The comment period alone can delay implementation by six to twelve months if industry pushback is significant. And there is significant industry pushback: many existing FedRAMP-authorized companies have zero OSCAL capability and their trade associations are lobbying for extensions. If the OSCAL deadline moves to 2028 or 2029, the urgency that drives our TAM projection evaporates.</p>
+
+    <h4 class="signal-c">Research Requests</h4>
+
+    <div class="rr redteam">
+      <div class="rr-id">CT-01 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">FedRAMP 20x Timeline Reliability Assessment</div>
+      <div class="rr-desc">I need a historical analysis of FedRAMP program milestones versus actual delivery. For the last five years, how often has the PMO hit its stated timelines? When have deadlines slipped, and by how much? I want the specific history of: Phase 1 pilot (was it on time?), Phase 2 pilot launch (was it on time?), Phase 3 opening (currently projected Q3 2026, has this date changed?), CR26 finalization (projected June 2026, is it on track?), and RFC-0024 deadlines (September 2026 initial, September 2027 final). I also want to know whether the current GSA leadership and the current administration are politically committed to 20x, or whether a leadership change could deprioritize it.</div>
+      <div class="rr-why">Our entire business thesis is time-sensitive. If the 20x transition happens on the stated timeline, we have a window from late 2026 through 2028 where demand for 20x-native tooling will spike. If the timeline slips by 18 months, our Series A cash runs out before the market materializes. The committee needs a calibrated probability estimate, not an assumption, about whether the timeline will hold. I will model three scenarios: on-time, 12-month delay, and indefinite delay. Each scenario produces a different capitalization and product strategy.</div>
+    </div>
+
+    <div class="rr redteam">
+      <div class="rr-id">CT-02 <span class="ptag critical">Critical</span></div>
+      <div class="rr-title">RFC-0024 Comment Analysis and Lobbying Activity</div>
+      <div class="rr-desc">I want to read the actual RFC-0024 comment submissions. Who commented? What did they request? How many requested deadline extensions? Is there organized industry opposition through trade associations (BSA, ITI, ACT-IAC, CompTIA)? Have any members of Congress weighed in on FedRAMP modernization timelines? I also want to know whether the PMO has the statutory authority to enforce the OSCAL mandate or whether it requires OMB action, because statutory versus policy authority dramatically changes the durability of the requirement.</div>
+      <div class="rr-why">The OSCAL mandate is the forcing function that creates our transition-market opportunity. If the mandate is softened, delayed, or made optional, the 523 currently certified products have less urgency to adopt OSCAL tooling, which shrinks the transition market that the market research identifies as a "significant revenue stream." I need to assess the political durability of the mandate, not just its existence on paper.</div>
+    </div>
+
+    <div class="rr redteam">
+      <div class="rr-id">CT-03 <span class="ptag high">High</span></div>
+      <div class="rr-title">Product Architecture Hedge: Dual-Track Viability</div>
+      <div class="rr-desc">I want an engineering assessment of whether the product can be architecturally designed to support both Rev 5 (traditional document-based) and 20x (OSCAL-native, KSI-based) workflows without the dual-track support creating engineering debt that slows iteration on the 20x path. Specifically: if we build OSCAL-native from day one, how much additional work is it to generate Rev 5 Word/Excel templates from the OSCAL data model? Is this a simple export function or a fundamental architectural compromise? Can we serve Rev 5 customers today while building for 20x customers tomorrow, or does the attempt to serve both result in a product that does neither well?</div>
+      <div class="rr-why">James wants to build 20x-first. The market today is Rev 5. If we cannot serve Rev 5 customers credibly, we have no revenue until 20x fully opens, which may not happen until mid-2027. If we build Rev 5-first, we may end up with technical debt that prevents us from being the best 20x platform. This is the central architectural tension and it needs a concrete engineering assessment, not a philosophical debate.</div>
+    </div>
+
+    <div class="rr redteam">
+      <div class="rr-id">CT-04 <span class="ptag high">High</span></div>
+      <div class="rr-title">CMMC Reciprocity: Real Probability Assessment</div>
+      <div class="rr-desc">The market research says FedRAMP 20x "explicitly targets full FedRAMP-to-CMMC reciprocity" and notes this would roughly double the TAM. I want to know how real this is. Has the DoD issued any formal policy guidance accepting 20x packages for CMMC L2? Are there pilot programs? What is the CMMC Accreditation Body's (the Cyber AB's) position on reciprocity? I have seen "reciprocity" promised between federal frameworks for 15 years, and the delivery rate is close to zero. If we build CMMC into our TAM projection and it does not materialize, we are overstating our market by a factor of two.</div>
+      <div class="rr-why">The pricing and capitalization strategy look very different at $200M TAM (FedRAMP only) versus $400M TAM (FedRAMP plus CMMC). If CMMC reciprocity is speculative, we should design the product to support CMMC as a future expansion and price it without assuming the CMMC revenue. If it is near-certain, we should build CMMC support from day one and use it as a competitive differentiator. I need a probability estimate, not a wish.</div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- CONSOLIDATED REQUEST TABLE -->
+<div class="sec">
+  <div class="sec-label">Consolidated Research Agenda</div>
+  <h2>All Requests, Prioritized and Cross-Referenced</h2>
+
+  <p>Below is the complete research agenda, organized by priority. Requests that multiple committee members raised independently are marked as convergent, because when an Advocate and a Red Team member independently ask the same question, that question is almost certainly load-bearing for the deliberation.</p>
+
+  <table class="req-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Request</th>
+        <th>Owner</th>
+        <th>Priority</th>
+        <th>Cross-Reference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>DP-01</td>
+        <td><strong>Bottom-up TAM sizing with real customer counts</strong></td>
+        <td><span class="owner" style="color:var(--steel)">Diana Park</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Foundational to all financial decisions. Enables RN-01, SL-03.</td>
+      </tr>
+      <tr>
+        <td>MR-01</td>
+        <td><strong>FedRAMP authorization failure mode analysis</strong></td>
+        <td><span class="owner" style="color:var(--brass)">Mariana Reyes</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Drives product design and messaging. Converges with RN-03.</td>
+      </tr>
+      <tr>
+        <td>JK-01</td>
+        <td><strong>OSCAL schema deep dive and implementation gaps</strong></td>
+        <td><span class="owner" style="color:var(--brass)">James Kowalski</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Foundational architectural decision. Converges with CT-03.</td>
+      </tr>
+      <tr>
+        <td>CT-01</td>
+        <td><strong>FedRAMP 20x timeline reliability assessment</strong></td>
+        <td><span class="owner" style="color:var(--signal)">Connor Trask</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Determines capitalization strategy. Enables CT-03.</td>
+      </tr>
+      <tr>
+        <td>RN-01</td>
+        <td><strong>First-time FedRAMP buyer journey mapping</strong></td>
+        <td><span class="owner" style="color:var(--steel)">Rafael Navarro</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Determines GTM architecture. Converges with RN-02.</td>
+      </tr>
+      <tr>
+        <td>SL-01</td>
+        <td><strong>Incumbent product roadmap intelligence</strong></td>
+        <td><span class="owner" style="color:var(--signal)">Dr. Sarah Lin</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Required for competitive positioning. Enables SL-04.</td>
+      </tr>
+      <tr>
+        <td>DP-02</td>
+        <td><strong>Three-pillar unit economics model</strong></td>
+        <td><span class="owner" style="color:var(--steel)">Diana Park</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Determines whether the hybrid model is viable at all.</td>
+      </tr>
+      <tr>
+        <td>JK-02</td>
+        <td><strong>Control inheritance APIs across cloud providers</strong></td>
+        <td><span class="owner" style="color:var(--brass)">James Kowalski</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Determines LaunchPad build timeline. Enables MR-02.</td>
+      </tr>
+      <tr>
+        <td>RN-02</td>
+        <td><strong>3PAO economics and referral incentive structure</strong></td>
+        <td><span class="owner" style="color:var(--steel)">Rafael Navarro</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Primary channel decision. Converges with MR-04.</td>
+      </tr>
+      <tr>
+        <td>CT-02</td>
+        <td><strong>RFC-0024 comment analysis and lobbying activity</strong></td>
+        <td><span class="owner" style="color:var(--signal)">Connor Trask</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Validates OSCAL mandate durability. Enables DP-01 projections.</td>
+      </tr>
+      <tr>
+        <td>SL-02</td>
+        <td><strong>M&A and consolidation scenario modeling</strong></td>
+        <td><span class="owner" style="color:var(--signal)">Dr. Sarah Lin</span></td>
+        <td><span class="ptag critical">Critical</span></td>
+        <td>Existential risk to positioning. Time-sensitive.</td>
+      </tr>
+      <tr>
+        <td>MR-02</td>
+        <td><strong>Control automation feasibility map (325 controls)</strong></td>
+        <td><span class="owner" style="color:var(--brass)">Mariana Reyes</span></td>
+        <td><span class="ptag high">High</span></td>
+        <td>Converges with JK-04. Determines automation ceiling.</td>
+      </tr>
+      <tr>
+        <td>MR-03</td>
+        <td><strong>ConMon package workflow benchmarking</strong></td>
+        <td><span class="owner" style="color:var(--brass)">Mariana Reyes</span></td>
+        <td><span class="ptag high">High</span></td>
+        <td>Validates ConMon-first product strategy. Enables DP-03.</td>
+      </tr>
+      <tr>
+        <td>DP-03</td>
+        <td><strong>Compliance platform churn and expansion data</strong></td>
+        <td><span class="owner" style="color:var(--steel)">Diana Park</span></td>
+        <td><span class="ptag high">High</span></td>
+        <td>LTV calculation. Required for CAC payback analysis.</td>
+      </tr>
+      <tr>
+        <td>DP-04</td>
+        <td><strong>FedRAMP compliance talent market analysis</strong></td>
+        <td><span class="owner" style="color:var(--steel)">Diana Park</span></td>
+        <td><span class="ptag high">High</span></td>
+        <td>Determines Guide Rail scalability. Enables DP-02.</td>
+      </tr>
+      <tr>
+        <td>JK-03</td>
+        <td><strong>Developer experience audit of existing tools</strong></td>
+        <td><span class="owner" style="color:var(--brass)">James Kowalski</span></td>
+        <td><span class="ptag high">High</span></td>
+        <td>Validates DX differentiation thesis. Enables SL-04.</td>
+      </tr>
+      <tr>
+        <td>RN-03</td>
+        <td><strong>Win/loss analysis in federal compliance sales</strong></td>
+        <td><span class="owner" style="color:var(--steel)">Rafael Navarro</span></td>
+        <td><span class="ptag high">High</span></td>
+        <td>Competitive positioning. Enables SL-04 messaging analysis.</td>
+      </tr>
+      <tr>
+        <td>SL-03</td>
+        <td><strong>Historical specialist vs. platform pattern analysis</strong></td>
+        <td><span class="owner" style="color:var(--signal)">Dr. Sarah Lin</span></td>
+        <td><span class="ptag high">High</span></td>
+        <td>Strategic pattern matching. Informs moat strategy.</td>
+      </tr>
+      <tr>
+        <td>CT-03</td>
+        <td><strong>Dual-track architecture viability assessment</strong></td>
+        <td><span class="owner" style="color:var(--signal)">Connor Trask</span></td>
+        <td><span class="ptag high">High</span></td>
+        <td>Central architectural tension. Converges with JK-01.</td>
+      </tr>
+      <tr>
+        <td>CT-04</td>
+        <td><strong>CMMC reciprocity probability assessment</strong></td>
+        <td><span class="owner" style="color:var(--signal)">Connor Trask</span></td>
+        <td><span class="ptag high">High</span></td>
+        <td>TAM multiplier. Converges with DP-01.</td>
+      </tr>
+      <tr>
+        <td>JK-04</td>
+        <td><strong>KSI-to-infrastructure mapping for 20x Moderate</strong></td>
+        <td><span class="owner" style="color:var(--brass)">James Kowalski</span></td>
+        <td><span class="ptag medium">Medium</span></td>
+        <td>Automation architecture. Converges with MR-02.</td>
+      </tr>
+      <tr>
+        <td>MR-04</td>
+        <td><strong>3PAO assessment friction analysis</strong></td>
+        <td><span class="owner" style="color:var(--brass)">Mariana Reyes</span></td>
+        <td><span class="ptag medium">Medium</span></td>
+        <td>Channel strategy input. Converges with RN-02.</td>
+      </tr>
+      <tr>
+        <td>RN-04</td>
+        <td><strong>Federal contract trigger signal identification</strong></td>
+        <td><span class="owner" style="color:var(--steel)">Rafael Navarro</span></td>
+        <td><span class="ptag medium">Medium</span></td>
+        <td>Demand generation innovation. Potential proprietary advantage.</td>
+      </tr>
+      <tr>
+        <td>SL-04</td>
+        <td><strong>Competitor messaging vulnerability analysis</strong></td>
+        <td><span class="owner" style="color:var(--signal)">Dr. Sarah Lin</span></td>
+        <td><span class="ptag medium">Medium</span></td>
+        <td>Messaging strategy. Requires SL-01, JK-03, RN-03 first.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="div"></div>
+
+<!-- CONVERGENCE NOTES -->
+<div class="sec">
+  <div class="sec-label">Convergence Analysis</div>
+  <h2>Where the Committee Independently Agrees</h2>
+
+  <p>Four research themes emerged independently from multiple committee members, which signals that these are the load-bearing questions the deliberation cannot proceed without answering.</p>
+
+  <p><strong>The automation boundary.</strong> Both Mariana (MR-02, from the operational perspective) and James (JK-04, from the architecture perspective) independently asked for a mapping of which controls and KSIs can be automated. This is not a coincidence. The product's value proposition, its pricing, and its competitive moat all depend on where the line falls between "the software does it" and "a human has to do it." Until this line is drawn with precision, the three-pillar architecture is a hypothesis, not a plan.</p>
+
+  <p><strong>The 3PAO question.</strong> Mariana (MR-04) and Rafael (RN-02) both centered their analysis on the 3PAO relationship, approaching it from opposite directions. Mariana wants to know if 3PAOs are a channel opportunity. Rafael wants to know if they are a channel requirement. Both are right to focus here, because the 3PAO is present at the customer's moment of highest decision-making urgency, and any product that does not have a clear answer to "how do we relate to the 3PAO?" is missing the most important go-to-market variable.</p>
+
+  <p><strong>The OSCAL architecture decision.</strong> James (JK-01) and Connor (CT-03) both identified the OSCAL schema and dual-track architecture question as foundational, though from opposing perspectives. James wants to understand the schema so he can build on it. Connor wants to understand whether building on it creates a dependency on a spec that might shift. The resolution of this tension will determine whether the product is 20x-first (with Rev 5 export) or Rev 5-first (with 20x capability), and that decision cascades into every other architectural choice.</p>
+
+  <p><strong>The timing dependency.</strong> Connor (CT-01, CT-02) and Diana (DP-01) both circled the question of whether the market will materialize on the expected timeline. Connor approaches it from the regulatory side (will the PMO deliver?). Diana approaches it from the financial side (how much runway do we need if it is late?). Together, they are asking the same question: is this a 2026 business, a 2027 business, or a 2028 business? The answer determines how much capital to raise, how fast to hire, and whether to pursue Rev 5 revenue in the interim.</p>
+</div>
+
+<div class="div"></div>
+
+<!-- NEXT STEPS -->
+<div class="sec">
+  <div class="sec-label">Process Status</div>
+  <h2>State of the Deliberation</h2>
+
+  <p>Phase 1 (Research) is now complete with the identification of 24 research requests across four priority tiers: 11 Critical, 9 High, and 4 Medium. The committee has surfaced four convergent themes that represent the structural questions the deliberation must resolve.</p>
+
+  <p>The research agenda is designed to be executable in parallel. The Critical requests should be prioritized in the following order based on dependency chains: DP-01 (TAM) and CT-01 (timeline reliability) are foundational and can proceed immediately; JK-01 (OSCAL schema) and RN-01 (buyer journey) can proceed in parallel; the remaining Critical requests depend on outputs from the first four.</p>
+
+  <p>Once the research requests are fulfilled, the committee will proceed to Phase 2 (Discuss), where the Advocates will present their strongest case for the product and GTM architecture, informed by the additional research, and the Skeptics will respond with their financial and channel objections. Phase 3 (Challenge) will follow, with the Red Team constructing failure scenarios and competitive response models. Phase 4 (Evolve) will produce the hardened thesis.</p>
+
+  <p>The committee is convened. The research agenda is set. Awaiting authorization to proceed.</p>
+</div>
+
+</div>
+
+<div class="footer">
+  <div><span class="pm">PERPENSA</span> &middot; Committee Convening &middot; Phase 1 Research Review &middot; June 2026</div>
+  <div>Research &middot; Discuss &middot; Challenge &middot; Evolve</div>
+</div>
+
+</body>
+</html>
