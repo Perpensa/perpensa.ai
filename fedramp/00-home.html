@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FedRAMP Wedge: Project Index</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brass:#C4993D; --brass-light:#D4AD5A; --brass-pale:#F5EDD8; --brass-dim:#8A6B2B;
+    --steel:#7B8794; --steel-light:#A0AAB4; --steel-pale:#E8EAED; --steel-dark:#4A5568;
+    --signal:#E05B3C; --signal-pale:#FDEAE5;
+    --ink:#1A1D23; --ink-soft:#2D3139; --paper:#F7F6F3; --paper-warm:#EEECE6; --chalk:#FFFFFF;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Instrument Sans',-apple-system,sans-serif; background:var(--paper); color:var(--ink); line-height:1.68; font-size:15.5px; }
+  .header { background:var(--ink); color:var(--paper); padding:2.8rem 3rem; position:relative; }
+  .header::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--brass),var(--steel),var(--signal)); }
+  .logo { font-size:1.1rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--brass); margin-bottom:1.4rem; }
+  .logo span { color:var(--steel-light); font-weight:400; letter-spacing:0.08em; font-size:0.72rem; display:block; margin-top:0.2rem; }
+  .header h1 { font-size:2.1rem; font-weight:700; line-height:1.18; max-width:780px; margin-bottom:0.7rem; }
+  .header .sub { font-size:1.02rem; color:var(--steel-light); max-width:760px; }
+  .content { max-width:960px; margin:0 auto; padding:2.5rem 2rem 4rem; }
+  .intro { font-size:1.05rem; color:var(--ink-soft); margin-bottom:2.2rem; }
+  .intro strong { color:var(--ink); }
+  .sec-label { font-size:0.68rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--brass); margin-bottom:0.9rem; }
+  .cards { display:flex; flex-direction:column; gap:0.7rem; }
+  .card { display:flex; align-items:stretch; gap:0; background:var(--chalk); border:1px solid var(--paper-warm); border-radius:10px; overflow:hidden; text-decoration:none; transition:border-color 0.12s, transform 0.12s, box-shadow 0.12s; box-shadow:0 1px 2px rgba(0,0,0,0.03); }
+  .card:hover { border-color:var(--brass); transform:translateX(3px); box-shadow:0 2px 8px rgba(196,153,61,0.12); }
+  .card-num { flex-shrink:0; width:64px; background:var(--ink); color:var(--brass); font-family:'Geist Mono',monospace; font-weight:700; font-size:1.25rem; display:flex; align-items:center; justify-content:center; }
+  .card-body { padding:0.85rem 1.2rem; }
+  .card-title { font-size:0.96rem; font-weight:700; color:var(--ink); margin-bottom:0.15rem; }
+  .card-title { font-family:'Instrument Sans',sans-serif; }
+  .card-desc { font-size:0.86rem; color:var(--ink-soft); line-height:1.5; }
+  .footer { background:var(--ink); color:var(--steel); padding:1.4rem 3rem; font-size:0.73rem; display:flex; justify-content:space-between; }
+  .footer .pm { color:var(--brass); font-weight:700; letter-spacing:0.1em; }
+  @media (max-width:768px) {
+    .header { padding:1.5rem; } .header h1 { font-size:1.5rem; }
+    .content { padding:1.5rem 1rem; }
+    .card-num { width:48px; font-size:1rem; }
+    .footer { flex-direction:column; gap:0.4rem; padding:1.4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- perpensa-nav -->
+<nav style="font-family:'Instrument Sans',-apple-system,sans-serif;background:#1A1D23;border-radius:8px;padding:0.7rem 1.1rem;margin:1.1rem auto;max-width:960px;display:flex;flex-wrap:wrap;gap:0.4rem 1rem;font-size:0.8rem;line-height:1.7;">
+  <a href="00-home.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">00</span> Home</a>
+  <a href="01-fedramp-market-research.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">01</span> Market</a>
+  <a href="02-fedramp-technical-brief.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">02</span> Technical</a>
+  <a href="03-fedramp-committee.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">03</span> Committee</a>
+  <a href="04-fedramp-committee-review.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">04</span> Requests</a>
+  <a href="05-fedramp-research-findings.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">05</span> Findings</a>
+  <a href="06-deliberation-construct.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">06</span> Construct</a>
+  <a href="07-fedramp-deliberation-reading-copy.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">07</span> Handoff</a>
+  <a href="08-fedramp-strategy-execution-plan.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">08</span> Strategy</a>
+  <a href="09-fedramp-redteam-premortem.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">09</span> Red Team</a>
+</nav>
+<!-- /perpensa-nav -->
+
+<div class="header">
+  <div class="logo">Perpensa<span>Research &middot; Discuss &middot; Challenge &middot; Evolve</span></div>
+  <h1>FedRAMP Wedge: The Complete Project</h1>
+  <div class="sub">From market research to a stress-tested strategy, assembled as one navigable set.</div>
+</div>
+
+<div class="content">
+  <p class="intro">This is a complete pass of the Perpensa method applied to one question: how to build the company that wins the Series A through Series C federal-SaaS compliance wedge under FedRAMP 20x. It runs from raw <strong>market and technical research</strong>, through a structured <strong>adversarial deliberation</strong> by a six-person committee, into a synthesized <strong>strategy and execution plan</strong>, and finally a <strong>red-team teardown and pre-mortem</strong> that attacks the strategy without mercy. Read it in order for the full arc, or jump to any piece below.</p>
+
+  <div class="sec-label">The Ten Documents</div>
+  <div class="cards">
+    <a class="card" href="01-fedramp-market-research.html">
+      <div class="card-num">01</div>
+      <div class="card-body">
+        <div class="card-title">Market &middot; 01-fedramp-market-research.html</div>
+        <div class="card-desc">The FedRAMP 20x market, the 14-player competitive landscape, and the four gaps that define the opening.</div>
+      </div>
+    </a>
+    <a class="card" href="02-fedramp-technical-brief.html">
+      <div class="card-num">02</div>
+      <div class="card-body">
+        <div class="card-title">Technical &middot; 02-fedramp-technical-brief.html</div>
+        <div class="card-desc">What FedRAMP actually requires: the controls, the authorization lifecycle, continuous monitoring, and the 20x/OSCAL shift.</div>
+      </div>
+    </a>
+    <a class="card" href="03-fedramp-committee.html">
+      <div class="card-num">03</div>
+      <div class="card-body">
+        <div class="card-title">Committee &middot; 03-fedramp-committee.html</div>
+        <div class="card-desc">The six adversarial personas, two advocates, two skeptics, two red team, and the ground rules they operate under.</div>
+      </div>
+    </a>
+    <a class="card" href="04-fedramp-committee-review.html">
+      <div class="card-num">04</div>
+      <div class="card-body">
+        <div class="card-title">Requests &middot; 04-fedramp-committee-review.html</div>
+        <div class="card-desc">The committee convenes and generates 24 prioritized research requests across four convergent themes.</div>
+      </div>
+    </a>
+    <a class="card" href="05-fedramp-research-findings.html">
+      <div class="card-num">05</div>
+      <div class="card-body">
+        <div class="card-title">Findings &middot; 05-fedramp-research-findings.html</div>
+        <div class="card-desc">Answers to all 24 requests with 69 sources, landing the five anchored conclusions and the central TAM tension.</div>
+      </div>
+    </a>
+    <a class="card" href="06-deliberation-construct.html">
+      <div class="card-num">06</div>
+      <div class="card-body">
+        <div class="card-title">Construct &middot; 06-deliberation-construct.html</div>
+        <div class="card-desc">The four-round Research, Discuss, Challenge, Evolve spec that feeds the strategy without writing it.</div>
+      </div>
+    </a>
+    <a class="card" href="07-fedramp-deliberation-reading-copy.html">
+      <div class="card-num">07</div>
+      <div class="card-body">
+        <div class="card-title">Handoff &middot; 07-fedramp-deliberation-reading-copy.html</div>
+        <div class="card-desc">The hardened deliberation handoff plus the five source documents, assembled for reading in one place.</div>
+      </div>
+    </a>
+    <a class="card" href="08-fedramp-strategy-execution-plan.html">
+      <div class="card-num">08</div>
+      <div class="card-body">
+        <div class="card-title">Strategy &middot; 08-fedramp-strategy-execution-plan.html</div>
+        <div class="card-desc">The advisor's plan to reach $100K+ ACV: the category move, the ACV bridge, and a phased, gated execution roadmap.</div>
+      </div>
+    </a>
+    <a class="card" href="09-fedramp-redteam-premortem.html">
+      <div class="card-num">09</div>
+      <div class="card-body">
+        <div class="card-title">Red Team &middot; 09-fedramp-redteam-premortem.html</div>
+        <div class="card-desc">Eleven attacks on the strategy and three death narratives, with an honest account of what survives the assault.</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- perpensa-nav -->
+<nav style="font-family:'Instrument Sans',-apple-system,sans-serif;background:#1A1D23;border-radius:8px;padding:0.7rem 1.1rem;margin:1.1rem auto;max-width:960px;display:flex;flex-wrap:wrap;gap:0.4rem 1rem;font-size:0.8rem;line-height:1.7;">
+  <a href="00-home.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">00</span> Home</a>
+  <a href="01-fedramp-market-research.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">01</span> Market</a>
+  <a href="02-fedramp-technical-brief.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">02</span> Technical</a>
+  <a href="03-fedramp-committee.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">03</span> Committee</a>
+  <a href="04-fedramp-committee-review.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">04</span> Requests</a>
+  <a href="05-fedramp-research-findings.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">05</span> Findings</a>
+  <a href="06-deliberation-construct.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">06</span> Construct</a>
+  <a href="07-fedramp-deliberation-reading-copy.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">07</span> Handoff</a>
+  <a href="08-fedramp-strategy-execution-plan.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">08</span> Strategy</a>
+  <a href="09-fedramp-redteam-premortem.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">09</span> Red Team</a>
+</nav>
+<!-- /perpensa-nav -->
+
+<div class="footer">
+  <div><span class="pm">PERPENSA</span> &middot; Project Index &middot; FedRAMP Wedge &middot; June 2026</div>
+  <div>Research &middot; Discuss &middot; Challenge &middot; Evolve</div>
+</div>
+
+</body>
+</html>
