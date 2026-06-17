@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perpensa — Functional &amp; Architectural Overview</title>
+<title>Perpensa  - Functional &amp; Architectural Overview</title>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.6.0/dist/tabler-icons.min.css">
 <style>
@@ -279,11 +279,11 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
 
 <h2 id="what">1. What Perpensa is</h2>
 
-<p>Perpensa is an AI-orchestrated deliberation and research platform. It takes a question — "Should we acquire TargetCo at 9x EBITDA?", "Should we overhaul this turbine or run it to failure?", "Is this market entry defensible?" — and subjects it to structured adversarial reasoning before producing a decision artifact backed by frozen, traceable evidence.</p>
+<p>Perpensa is an AI-orchestrated deliberation and research platform. It takes a question  - "Should we acquire TargetCo at 9x EBITDA?", "Should we overhaul this turbine or run it to failure?", "Is this market entry defensible?"  - and subjects it to structured adversarial reasoning before producing a decision artifact backed by frozen, traceable evidence.</p>
 
-<p>The core workflow follows four phases: <strong>Research → Discuss → Challenge → Evolve.</strong> AI agents with distinct perspectives (advocate, skeptic, red team) are assembled into teams, debate the question using real evidence, and produce artifacts that capture not just the conclusion but the full reasoning lineage — who argued what, what evidence supported each position, where the team agreed, and where they didn't.</p>
+<p>The core workflow follows four phases: <strong>Research → Discuss → Challenge → Evolve.</strong> AI agents with distinct perspectives (advocate, skeptic, red team) are assembled into teams, debate the question using real evidence, and produce artifacts that capture not just the conclusion but the full reasoning lineage  - who argued what, what evidence supported each position, where the team agreed, and where they didn't.</p>
 
-<p>The name comes from the Latin <em>perpēnsa</em> — "having been thoroughly weighed." The platform exists because consequential decisions deserve more than a single analyst's perspective and more than a chatbot's confident answer. They deserve structured opposition, evidence provenance, and a permanent record of how the conclusion was reached.</p>
+<p>The name comes from the Latin <em>perpēnsa</em>  - "having been thoroughly weighed." The platform exists because consequential decisions deserve more than a single analyst's perspective and more than a chatbot's confident answer. They deserve structured opposition, evidence provenance, and a permanent record of how the conclusion was reached.</p>
 
 <h2 id="architecture">2. System architecture</h2>
 
@@ -299,7 +299,7 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
       <div class="card"><div class="card-name">Monitor</div><div class="card-subs">Detect changes · Notify · Record diffs · Re-trigger</div></div>
       <div class="card"><div class="card-name">Scenario</div><div class="card-subs">Branch · Compare · Merge · Time machine</div></div>
     </div>
-    <div class="research-note"><span style="font-size:10px;color:var(--p-teal);font-weight:600;">↻</span><span class="research-note-text">Research is callable from any workflow step, at any time — it is not a sequential stage</span></div>
+    <div class="research-note"><span style="font-size:10px;color:var(--p-teal);font-weight:600;">↻</span><span class="research-note-text">Research is callable from any workflow step, at any time  - it is not a sequential stage</span></div>
   </div>
   <div class="connector-hint">▼ agents assembled per workflow ▼</div>
   <div class="layer l-agents">
@@ -355,9 +355,9 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
 <div class="diagram-frame">
   <div class="research-bar">
     <span class="rb-label">Research</span>
-    <span class="rb-text">— omnipresent service, callable from any workflow at any step: search, validate, tag, archive</span>
+    <span class="rb-text"> - omnipresent service, callable from any workflow at any step: search, validate, tag, archive</span>
   </div>
-  <div class="section-label sl-steel">Workflows — composable, invoke each other freely</div>
+  <div class="section-label sl-steel">Workflows  - composable, invoke each other freely</div>
   <div class="wf-grid-2">
     <div class="wf-group wf-group-steel"><div class="wf-group-name">Deliberate</div><div class="step-flow"><span class="step">Form team</span><span class="step-arrow">→</span><span class="step">Debate</span><span class="step-arrow">→</span><span class="step">Decide</span></div><div class="wf-note">Rewind &amp; inject at any point · Can spawn Attack mid-debate</div></div>
     <div class="wf-group wf-group-signal"><div class="wf-group-name">Attack</div><div class="step-flow"><span class="step">Find weak spots</span><span class="step-arrow">→</span><span class="step">Pre-mortem</span><span class="step-arrow">→</span><span class="step">Red team</span></div><div class="wf-note">Standalone or spawned from Deliberate</div></div>
@@ -367,8 +367,8 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
     <div class="wf-group wf-group-green"><div class="wf-group-name">Monitor</div><div class="step-flow"><span class="step">Detect changes</span><span class="step-arrow">→</span><span class="step">Notify</span><span class="step-arrow">→</span><span class="step">Record diffs</span></div><div class="wf-note">Can re-trigger any workflow when evidence drifts</div></div>
   </div>
   <div class="flow-arrow">▼ any workflow above can invoke Create at any time ▼</div>
-  <div class="section-label sl-teal">Create — universal output stage</div>
-  <div class="create-label">Create accepts input from any source — not just deliberation</div>
+  <div class="section-label sl-teal">Create  - universal output stage</div>
+  <div class="create-label">Create accepts input from any source  - not just deliberation</div>
   <div class="create-sources">
     <span class="cs-pill">Research output ↓</span>
     <span class="cs-pill">Deliberation transcript ↓</span>
@@ -396,9 +396,9 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
 
 <h2 id="agents">4. Agent catalog</h2>
 
-<p>Agents are AI personas with defined roles, perspectives, and behavioral constraints. They are assembled dynamically into teams by the orchestration engine based on the decision question and workflow requirements. New agents can be added without modifying workflows — the agent pool is the extensibility point for vertical specialization.</p>
+<p>Agents are AI personas with defined roles, perspectives, and behavioral constraints. They are assembled dynamically into teams by the orchestration engine based on the decision question and workflow requirements. New agents can be added without modifying workflows  - the agent pool is the extensibility point for vertical specialization.</p>
 
-<div class="callout callout-teal">The Synthesizer deserves special attention. It can be loaded from a prompt template (the default — a general-purpose synthesis prompt that adapts to input type) or created as a specialized custom synthesizer (e.g., a "PE Deal Synthesizer" that knows IC memo conventions, or a "Capital Assessment Synthesizer" that understands asset lifecycle terminology). Either approach works; the choice is made at team assembly time based on the decision domain.</div>
+<div class="callout callout-teal">The Synthesizer deserves special attention. It can be loaded from a prompt template (the default  - a general-purpose synthesis prompt that adapts to input type) or created as a specialized custom synthesizer (e.g., a "PE Deal Synthesizer" that knows IC memo conventions, or a "Capital Assessment Synthesizer" that understands asset lifecycle terminology). Either approach works; the choice is made at team assembly time based on the decision domain.</div>
 
 <div class="diagram-frame">
   <div class="section-label" style="color:var(--p-brass-dark);">Deliberation roles</div>
@@ -408,12 +408,12 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
   </div>
   <div class="section-label" style="color:var(--p-signal);">Adversarial roles</div>
   <div class="agents-grid">
-    <div class="agent-card agent-card-signal agent-card-full"><div class="agent-name">Red team</div><div class="agent-role">Adversarial challenge — tries to break the thesis</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Hostile to the prevailing position, contrarian, seeks failure modes and catastrophic risks</span></div><div class="agent-prop"><span class="prop-label">Behavior</span><span class="prop-value">Finds blind spots, runs pre-mortems, identifies scenarios where the decision fails catastrophically</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Attack</span> — spawned during Deliberate when confidence exceeds threshold or on demand</span></div></div></div>
+    <div class="agent-card agent-card-signal agent-card-full"><div class="agent-name">Red team</div><div class="agent-role">Adversarial challenge  - tries to break the thesis</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Hostile to the prevailing position, contrarian, seeks failure modes and catastrophic risks</span></div><div class="agent-prop"><span class="prop-label">Behavior</span><span class="prop-value">Finds blind spots, runs pre-mortems, identifies scenarios where the decision fails catastrophically</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Attack</span>  - spawned during Deliberate when confidence exceeds threshold or on demand</span></div></div></div>
   </div>
   <div class="section-label" style="color:var(--p-teal-dark);">Service roles</div>
   <div class="agents-grid">
-    <div class="agent-card agent-card-teal"><div class="agent-name">Researcher</div><div class="agent-role">Finds, validates, and contextualizes evidence</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Neutral, thorough, source-critical</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">All workflows</span> — omnipresent, callable at any step</span></div></div></div>
-    <div class="agent-card agent-card-teal"><div class="agent-name">Synthesizer</div><div class="agent-role">Merges input into coherent output</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Balanced, editorial, narrative-focused</span></div><div class="agent-prop"><span class="prop-label">Modes</span><span class="prop-value">Prompt-template loaded (default) or custom specialized variant per domain</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Create</span> — primary role in Synthesize and Compose steps</span></div></div></div>
+    <div class="agent-card agent-card-teal"><div class="agent-name">Researcher</div><div class="agent-role">Finds, validates, and contextualizes evidence</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Neutral, thorough, source-critical</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">All workflows</span>  - omnipresent, callable at any step</span></div></div></div>
+    <div class="agent-card agent-card-teal"><div class="agent-name">Synthesizer</div><div class="agent-role">Merges input into coherent output</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Balanced, editorial, narrative-focused</span></div><div class="agent-prop"><span class="prop-label">Modes</span><span class="prop-value">Prompt-template loaded (default) or custom specialized variant per domain</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Create</span>  - primary role in Synthesize and Compose steps</span></div></div></div>
   </div>
   <div class="section-label" style="color:var(--p-text-muted);">Analytical roles</div>
   <div class="agents-grid">
@@ -425,22 +425,22 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
 
 <h2 id="agent-api">5. Agent API &amp; extensibility</h2>
 
-<p>The agent pool is not a closed system. Perpensa exposes an internal Agent API that allows users and partners to create, test, and deploy custom agents. This is the developer platform layer — it turns Perpensa from a product into an ecosystem.</p>
+<p>The agent pool is not a closed system. Perpensa exposes an internal Agent API that allows users and partners to create, test, and deploy custom agents. This is the developer platform layer  - it turns Perpensa from a product into an ecosystem.</p>
 
 <h3>Agent creation paths</h3>
 
 <p>There are two paths to creating a custom agent, both producing the same deployable artifact:</p>
 
-<p><strong>Prompt-template path.</strong> The simplest route. A user defines an agent's role, perspective, behavioral constraints, and domain context via a structured prompt template in Template Studio. The platform wraps the template in the standard agent interface (input schema, output schema, workflow hooks) automatically. This is how most domain experts and specialized analysts will be created — a PE firm's "regulatory specialist" is a prompt template with FTC merger review context, not custom code.</p>
+<p><strong>Prompt-template path.</strong> The simplest route. A user defines an agent's role, perspective, behavioral constraints, and domain context via a structured prompt template in Template Studio. The platform wraps the template in the standard agent interface (input schema, output schema, workflow hooks) automatically. This is how most domain experts and specialized analysts will be created  - a PE firm's "regulatory specialist" is a prompt template with FTC merger review context, not custom code.</p>
 
-<p><strong>Code path.</strong> For agents that need custom logic — external API calls, proprietary models, complex scoring algorithms, or integration with enterprise systems — users can write agent code directly. The platform provides a chatbot interface that generates LangGraph agent code from natural language descriptions, scaffolding the correct input/output contracts and workflow hooks. Users can also load their own code directly.</p>
+<p><strong>Code path.</strong> For agents that need custom logic  - external API calls, proprietary models, complex scoring algorithms, or integration with enterprise systems  - users can write agent code directly. The platform provides a chatbot interface that generates LangGraph agent code from natural language descriptions, scaffolding the correct input/output contracts and workflow hooks. Users can also load their own code directly.</p>
 
 <h3>Validation &amp; governance</h3>
 
 <p>Whether an agent arrives via prompt template or code, it passes through a validation pipeline before deployment:</p>
 
 <div class="callout callout-steel">
-<strong>Behavioral validation.</strong> The agent is tested against a suite of scenarios to verify it behaves within its declared constraints — a skeptic agent shouldn't advocate, a domain expert shouldn't opine outside its specialty. Agents that fail behavioral validation are flagged for review, not silently deployed.
+<strong>Behavioral validation.</strong> The agent is tested against a suite of scenarios to verify it behaves within its declared constraints  - a skeptic agent shouldn't advocate, a domain expert shouldn't opine outside its specialty. Agents that fail behavioral validation are flagged for review, not silently deployed.
 </div>
 
 <p><strong>Interface compliance.</strong> Every agent must implement the standard input/output contract: it receives a deliberation context (the question, current state, evidence available, other agents' positions) and returns a structured response (its position, supporting evidence citations, confidence level, and any requests for further research). Code-path agents that don't conform to this contract are rejected with specific errors.</p>
@@ -501,22 +501,22 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
 
 <h2 id="templates">7. Template system</h2>
 
-<p>Perpensa's template system serves two distinct functions under one management interface — Template Studio. Because Create is a universal output stage that accepts input from any workflow, templates must handle deliberation transcripts, raw research output, attack findings, scenario comparisons, and monitor change reports.</p>
+<p>Perpensa's template system serves two distinct functions under one management interface  - Template Studio. Because Create is a universal output stage that accepts input from any workflow, templates must handle deliberation transcripts, raw research output, attack findings, scenario comparisons, and monitor change reports.</p>
 
 <div class="diagram-frame">
-  <div class="section-label" style="color:var(--p-teal-dark);">Output templates — what the artifact looks like</div>
+  <div class="section-label" style="color:var(--p-teal-dark);">Output templates  - what the artifact looks like</div>
   <div class="ts-grid">
     <div class="tc tc-teal"><div class="tc-name">Decision artifacts</div><div class="tc-desc">Structured deliverables produced by the Create workflow</div><div class="tc-items"><span class="tc-item">Deal memo</span><span class="tc-item">IC deck</span><span class="tc-item">Risk matrix</span><span class="tc-item">Executive summary</span><span class="tc-item">Board brief</span></div></div>
     <div class="tc tc-teal"><div class="tc-name">Operational artifacts</div><div class="tc-desc">Ongoing monitoring and capital planning outputs</div><div class="tc-items"><span class="tc-item">Capital plan</span><span class="tc-item">Asset assessment</span><span class="tc-item">Change report</span><span class="tc-item">Variance analysis</span><span class="tc-item">Audit trail</span></div></div>
   </div>
-  <div class="section-label" style="color:var(--p-steel-dark);">Prompt templates — how agents behave</div>
+  <div class="section-label" style="color:var(--p-steel-dark);">Prompt templates  - how agents behave</div>
   <div class="ts-grid">
     <div class="tc tc-steel"><div class="tc-name">System prompts</div><div class="tc-desc">Role definition, behavioral constraints, domain context for each agent persona</div><div class="tc-items"><span class="tc-item">Advocate v2.1</span><span class="tc-item">Skeptic v1.4</span><span class="tc-item">Red team v3.0</span><span class="tc-item">PE analyst v1.0</span></div></div>
     <div class="tc tc-steel"><div class="tc-name">Workflow prompts</div><div class="tc-desc">Step-specific instructions for synthesis, composition, attack patterns, and evidence validation</div><div class="tc-items"><span class="tc-item">Synthesize brief</span><span class="tc-item">Pre-mortem frame</span><span class="tc-item">Validate source</span><span class="tc-item">Compare scenarios</span></div></div>
   </div>
-  <div class="section-label" style="color:var(--p-brass-dark);">Reusable components — building blocks</div>
+  <div class="section-label" style="color:var(--p-brass-dark);">Reusable components  - building blocks</div>
   <div class="ts-grid">
-    <div class="tc tc-brass tc-full"><div class="tc-name">Component library</div><div class="tc-desc">Modular sections that output templates compose from — each handles its own data binding and formatting</div><div class="tc-items"><span class="tc-item">Evidence citation block</span><span class="tc-item">Argument summary card</span><span class="tc-item">Dissent register</span><span class="tc-item">Confidence meter</span><span class="tc-item">Source provenance chain</span><span class="tc-item">Scenario comparison table</span><span class="tc-item">Risk heat map</span><span class="tc-item">Decision tree visual</span></div></div>
+    <div class="tc tc-brass tc-full"><div class="tc-name">Component library</div><div class="tc-desc">Modular sections that output templates compose from  - each handles its own data binding and formatting</div><div class="tc-items"><span class="tc-item">Evidence citation block</span><span class="tc-item">Argument summary card</span><span class="tc-item">Dissent register</span><span class="tc-item">Confidence meter</span><span class="tc-item">Source provenance chain</span><span class="tc-item">Scenario comparison table</span><span class="tc-item">Risk heat map</span><span class="tc-item">Decision tree visual</span></div></div>
   </div>
   <div class="v-label">perpensa v0.1 · template system · june 2026</div>
 </div>
@@ -600,17 +600,17 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
       </div>
     </div>
   </div>
-  <div class="diagram-caption">Template Studio — Deal memo output template with variable bindings and reusable components</div>
+  <div class="diagram-caption">Template Studio  - Deal memo output template with variable bindings and reusable components</div>
 </div>
 
 <h2 id="overlays">8. Vertical overlays</h2>
 
 <p>The base platform handles generic deliberation. Vertical overlays specialize it for specific domains by adding custom agents (via the Agent API), domain-specific templates, and pre-configured workflow patterns.</p>
 
-<h3>PE due diligence (Perpensa Capital — Deals)</h3>
-<p>A PE firm evaluating an acquisition uses Deliberate with advocate and skeptic agents supplemented by a PE analyst, a regulatory specialist, and a market comparables researcher. The Attack workflow runs a red team against the investment thesis. Scenario branches the analysis at different multiples. Create produces a deal memo using the IC deck template — or Create can produce a standalone competitive landscape report directly from Research without any deliberation at all. The Research Vault provides the audit trail that the IC requires.</p>
+<h3>PE due diligence (Perpensa Capital  - Deals)</h3>
+<p>A PE firm evaluating an acquisition uses Deliberate with advocate and skeptic agents supplemented by a PE analyst, a regulatory specialist, and a market comparables researcher. The Attack workflow runs a red team against the investment thesis. Scenario branches the analysis at different multiples. Create produces a deal memo using the IC deck template  - or Create can produce a standalone competitive landscape report directly from Research without any deliberation at all. The Research Vault provides the audit trail that the IC requires.</p>
 
-<h3>Capital asset lifecycle (Perpensa Capital — Assets)</h3>
+<h3>Capital asset lifecycle (Perpensa Capital  - Assets)</h3>
 <p>A manufacturer managing a fleet of capital assets uses Index to maintain the asset registry, Monitor to watch for lifecycle events (maintenance thresholds, regulatory deadlines, condition changes), Deliberate with maintenance engineer and capital planner agents to evaluate overhaul vs. replace decisions, and Scenario to model different capital planning approaches. Create produces capital plans and asset assessment reports. Custom agents built via the Agent API can integrate directly with enterprise CMMS systems to pull real-time asset condition data into the deliberation.</p>
 
 <h2 id="technology">9. Technology considerations</h2>
@@ -625,21 +625,21 @@ hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
 
 <h2 id="questions">10. Open questions for technical advisors</h2>
 
-<p><strong>1. Build vs. integrate on ingestion.</strong> How much of the ingestion pipeline (Stage 2 — Parse &amp; Extract) should be built vs. integrated from existing libraries? The document parsing problem is well-solved; the question is whether our normalization and deduplication requirements justify a custom pipeline or whether we compose from existing tools (Unstructured, LlamaParse, Apache Tika) with a thin orchestration layer.</p>
+<p><strong>1. Build vs. integrate on ingestion.</strong> How much of the ingestion pipeline (Stage 2  - Parse &amp; Extract) should be built vs. integrated from existing libraries? The document parsing problem is well-solved; the question is whether our normalization and deduplication requirements justify a custom pipeline or whether we compose from existing tools (Unstructured, LlamaParse, Apache Tika) with a thin orchestration layer.</p>
 
 <p><strong>2. Agent API priority.</strong> The Agent API is clearly needed, but should it be V1 or V2? A V1 Agent API accelerates the ecosystem and enables partner-built vertical agents, but adds surface area and requires the validation/sandboxing pipeline to be production-ready at launch. A V1 without it means all custom agents are prompt-template-only until V2 ships the code path.</p>
 
 <p><strong>3. Vault implementation.</strong> The research vault architecture (content-addressable storage, hash-chain manifest) is well-defined conceptually. The implementation question is whether to build on existing CAS systems (IPFS, git's object store model), adapt a purpose-built store optimized for evidence snapshots, or start with something simpler (S3 + DynamoDB with content hashing) and migrate later. What's the right fidelity for V1 given that the tamper-evidence story is central to the value proposition?</p>
 
-<p><strong>4. Context window management.</strong> During a multi-round debate, the accumulated deliberation transcript can easily exceed any model's context window. How do we manage this? Progressive summarization (lossy but predictable), retrieval-augmented context (maintains full fidelity but adds latency), sliding window with full archive access, or a hybrid? The choice affects how "rewind &amp; inject" works — rewinding to an earlier state is trivial with full history but expensive with summarized history.</p>
+<p><strong>4. Context window management.</strong> During a multi-round debate, the accumulated deliberation transcript can easily exceed any model's context window. How do we manage this? Progressive summarization (lossy but predictable), retrieval-augmented context (maintains full fidelity but adds latency), sliding window with full archive access, or a hybrid? The choice affects how "rewind &amp; inject" works  - rewinding to an earlier state is trivial with full history but expensive with summarized history.</p>
 
 <p><strong>5. Vector store selection.</strong> The semantic index needs to handle evidence embeddings, taxonomy relationships, and similarity search. The options range from embedded (ChromaDB, LanceDB) to managed (Pinecone, Weaviate) to PostgreSQL-native (pgvector). Given that the vault already needs a durable store, does it make sense to co-locate embeddings in PostgreSQL via pgvector, or does the query pattern (high-throughput similarity search during active debate) justify a dedicated vector store?</p>
 
-<p><strong>6. Agent observability.</strong> When a deliberation produces a surprising result, someone needs to debug it. What does agent observability look like? Full transcript logging is necessary but not sufficient — you need to see which evidence each agent retrieved, what its confidence was at each turn, and where the debate turned. Is this a custom tracing implementation, or can we build on existing LLM observability frameworks (LangSmith, Arize, Helicone) and extend them for multi-agent orchestration?</p>
+<p><strong>6. Agent observability.</strong> When a deliberation produces a surprising result, someone needs to debug it. What does agent observability look like? Full transcript logging is necessary but not sufficient  - you need to see which evidence each agent retrieved, what its confidence was at each turn, and where the debate turned. Is this a custom tracing implementation, or can we build on existing LLM observability frameworks (LangSmith, Arize, Helicone) and extend them for multi-agent orchestration?</p>
 
 <p><strong>7. Testing strategy for prompt templates.</strong> A prompt template change can fundamentally alter an agent's behavior. How do we regression-test prompt changes before publishing? The options include golden-set evaluation (run the updated agent against known scenarios and compare outputs), behavioral assertions (the skeptic must challenge at least N claims per round), and A/B deployment (run old and new templates in parallel on the same deliberation). What combination gives us confidence without creating a testing bottleneck?</p>
 
-<p><strong>8. TypeScript/Python split.</strong> The current leaning is TypeScript for orchestration and frontend, Python for ML-heavy services (embedding, classification, NLP). Where exactly does the boundary sit? Does the LangGraph agent runtime live in Python (natural fit) or TypeScript (unified with orchestration)? What's the IPC mechanism between the two — HTTP, gRPC, message queue?</p>
+<p><strong>8. TypeScript/Python split.</strong> The current leaning is TypeScript for orchestration and frontend, Python for ML-heavy services (embedding, classification, NLP). Where exactly does the boundary sit? Does the LangGraph agent runtime live in Python (natural fit) or TypeScript (unified with orchestration)? What's the IPC mechanism between the two  - HTTP, gRPC, message queue?</p>
 
 <hr>
 
