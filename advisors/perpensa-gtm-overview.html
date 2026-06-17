@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpensa — Go-to-Market Overview for Advisors</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --p-brass: #C4962C; --p-brass-light: #F5EDD8; --p-brass-dark: #8B6914;
+  --p-steel: #4A6D7C; --p-steel-light: #D8E4EA; --p-steel-dark: #2B4450;
+  --p-signal: #C4432B; --p-signal-light: #FADDD7;
+  --p-teal: #1D7A6A; --p-teal-light: #D4EDE8; --p-teal-dark: #0F4F44;
+  --p-green: #2D6B3F; --p-green-light: #D8EDDE; --p-green-dark: #1A4028;
+  --p-text: #1B2838; --p-text-muted: #5A6672; --p-border: rgba(27,40,56,0.12);
+  --p-card-bg: #FFFFFF; --p-bg: #FAFAF8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --p-brass-light: rgba(196,150,44,0.15); --p-steel-light: rgba(74,109,124,0.18);
+    --p-teal-light: rgba(29,122,106,0.15); --p-green-light: rgba(45,107,63,0.15);
+    --p-signal-light: rgba(196,67,43,0.12); --p-bg: #1a1d20;
+    --p-text: #d8d4cc; --p-text-muted: #8a9098;
+    --p-border: rgba(255,255,255,0.1); --p-card-bg: rgba(255,255,255,0.06);
+    --p-steel-dark: #8ab4c8; --p-teal-dark: #5cc4b0; --p-green-dark: #68b87c;
+    --p-brass-dark: #e0c478; --p-signal: #e08878;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Instrument Sans', sans-serif; color: var(--p-text); background: var(--p-bg); line-height: 1.7; font-size: 15px; max-width: 780px; margin: 0 auto; padding: 40px 24px 80px; }
+h1 { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 28px; margin-bottom: 4px; line-height: 1.2; }
+h2 { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-top: 48px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid var(--p-border); }
+h3 { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 16px; margin-top: 28px; margin-bottom: 6px; color: var(--p-steel-dark); }
+p { margin-bottom: 12px; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+.subtitle { font-size: 13px; color: var(--p-text-muted); letter-spacing: 0.02em; margin-bottom: 24px; }
+.doc-meta { display: flex; gap: 20px; font-size: 12px; color: var(--p-text-muted); margin-bottom: 32px; padding: 12px 16px; border-radius: 8px; background: var(--p-card-bg); border: 1px solid var(--p-border); }
+.toc { margin: 24px 0 36px; padding: 16px 20px; border-radius: 8px; background: var(--p-card-bg); border: 1px solid var(--p-border); }
+.toc-title { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 13px; color: var(--p-text-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 8px; }
+.toc a { font-size: 13px; color: var(--p-teal-dark); text-decoration: none; display: block; padding: 3px 0; }
+.toc a:hover { text-decoration: underline; }
+.callout { padding: 14px 18px; border-radius: 0; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+.callout-teal { background: var(--p-teal-light); border-left: 3px solid var(--p-teal); color: var(--p-teal-dark); }
+.callout-brass { background: var(--p-brass-light); border-left: 3px solid var(--p-brass); color: var(--p-brass-dark); }
+.callout-steel { background: var(--p-steel-light); border-left: 3px solid var(--p-steel); color: var(--p-steel-dark); }
+.callout-signal { background: var(--p-signal-light); border-left: 3px solid var(--p-signal); color: #8B2E1A; }
+@media (prefers-color-scheme: dark) { .callout-signal { color: #e08878; } }
+hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
+code { font-family: 'Geist Mono', monospace; font-size: 13px; padding: 1px 5px; border-radius: 3px; background: rgba(0,0,0,0.04); }
+@media (prefers-color-scheme: dark) { code { background: rgba(255,255,255,0.06); } }
+
+.diagram-frame { margin: 20px 0 28px; border-radius: 10px; border: 1px solid var(--p-border); background: var(--p-card-bg); padding: 20px; overflow: hidden; }
+.diagram-caption { font-size: 11px; color: var(--p-text-muted); text-align: center; margin-top: 8px; font-style: italic; }
+
+.comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.comp-card { border-radius: 8px; padding: 14px; border: 1px solid var(--p-border); background: var(--p-card-bg); }
+.comp-name { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.comp-type { font-size: 10px; color: var(--p-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.comp-desc { font-size: 12px; color: var(--p-text-muted); line-height: 1.5; margin-bottom: 6px; }
+.comp-gap { font-size: 11px; padding: 4px 8px; border-radius: 4px; }
+.comp-gap-yes { background: var(--p-green-light); color: var(--p-green-dark); }
+.comp-gap-no { background: var(--p-signal-light); color: #8B2E1A; }
+@media (prefers-color-scheme: dark) { .comp-gap-no { color: #e08878; } }
+.perp-card { border: 2px solid var(--p-teal); grid-column: 1 / -1; }
+.perp-card .comp-name { color: var(--p-teal-dark); }
+
+.persona-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.persona { border-radius: 8px; padding: 14px; border: 1px solid var(--p-border); background: var(--p-card-bg); }
+.persona-title { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+.persona-role { font-size: 11px; color: var(--p-text-muted); margin-bottom: 8px; font-style: italic; }
+.persona-props { font-size: 11px; line-height: 1.6; }
+.persona-label { font-weight: 600; color: var(--p-text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+.persona-econ { border-left: 3px solid var(--p-brass); border-radius: 0; }
+.persona-champ { border-left: 3px solid var(--p-teal); border-radius: 0; }
+
+.phase-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.phase { border-radius: 8px; padding: 14px; border: 1px solid var(--p-border); background: var(--p-card-bg); }
+.phase-num { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--p-text-muted); opacity: 0.5; }
+.phase-name { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.phase-timeline { font-size: 10px; color: var(--p-text-muted); margin-bottom: 8px; }
+.phase-items { font-size: 11px; color: var(--p-text); line-height: 1.7; }
+.phase-revenue { font-size: 10px; margin-top: 8px; padding: 4px 8px; border-radius: 4px; background: rgba(0,0,0,0.03); color: var(--p-text-muted); }
+@media (prefers-color-scheme: dark) { .phase-revenue { background: rgba(255,255,255,0.04); } }
+.phase-1 .phase-name { color: var(--p-steel-dark); }
+.phase-2 .phase-name { color: var(--p-teal-dark); }
+.phase-3 .phase-name { color: var(--p-brass-dark); }
+.phase-arrow { text-align: center; color: var(--p-text-muted); font-size: 10px; opacity: 0.35; padding: 2px 0; }
+
+.wf-group { border-radius: 8px; padding: 12px; }
+.wf-group-steel { background: var(--p-steel-light); border: 1px solid rgba(74,109,124,0.2); }
+.wf-group-teal { background: var(--p-teal-light); border: 1px solid rgba(29,122,106,0.2); }
+.wf-group-green { background: var(--p-green-light); border: 1px solid rgba(45,107,63,0.2); }
+.wf-group-brass { background: var(--p-brass-light); border: 1px solid rgba(196,150,44,0.2); }
+.wf-group-signal { background: var(--p-signal-light); border: 1px solid rgba(196,67,43,0.15); }
+.wf-group-name { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.wf-group-steel .wf-group-name { color: var(--p-steel-dark); }
+.wf-group-teal .wf-group-name { color: var(--p-teal-dark); }
+.wf-group-green .wf-group-name { color: var(--p-green-dark); }
+.wf-group-brass .wf-group-name { color: var(--p-brass-dark); }
+.wf-group-signal .wf-group-name { color: var(--p-signal); }
+.wf-note { font-size: 10px; color: var(--p-text-muted); margin-top: 5px; font-style: italic; }
+.step-flow { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.step { font-size: 11px; color: var(--p-text); padding: 3px 8px; border-radius: 4px; background: var(--p-card-bg); border: 1px solid var(--p-border); white-space: nowrap; }
+.step-arrow { color: var(--p-text-muted); font-size: 10px; opacity: 0.5; }
+.wf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; }
+.section-label { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--p-border); color: var(--p-steel-dark); }
+.flow-arrow { text-align: center; color: var(--p-text-muted); font-size: 10px; opacity: 0.35; padding: 3px 0; }
+.create-sources { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+.cs-pill { font-size: 9px; padding: 3px 8px; border-radius: 12px; border: 1px solid rgba(29,122,106,0.3); color: var(--p-teal-dark); background: var(--p-card-bg); }
+.example-row { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
+.example-item { font-size: 9px; padding: 3px 7px; border-radius: 3px; background: var(--p-card-bg); border: 1px solid var(--p-border); color: var(--p-text-muted); }
+.example-label { font-size: 9px; color: var(--p-text-muted); font-weight: 500; }
+
+.before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ba-col { border-radius: 8px; padding: 16px; }
+.ba-before { background: var(--p-signal-light); border: 1px solid rgba(196,67,43,0.15); }
+.ba-after { background: var(--p-teal-light); border: 1px solid rgba(29,122,106,0.2); }
+.ba-title { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 13px; margin-bottom: 8px; }
+.ba-before .ba-title { color: var(--p-signal); }
+.ba-after .ba-title { color: var(--p-teal-dark); }
+.ba-item { font-size: 12px; line-height: 1.6; color: var(--p-text); padding: 4px 0; border-bottom: 1px solid var(--p-border); }
+.ba-item:last-child { border-bottom: none; }
+
+.v-label { font-size: 9px; color: var(--p-text-muted); font-family: 'Geist Mono', monospace; letter-spacing: 0.05em; text-align: right; margin-top: 8px; }
+
+@media print { body { max-width: 100%; padding: 20px; font-size: 12px; } .diagram-frame { break-inside: avoid; } h2 { break-before: page; } }
+</style>
+</head>
+<body>
+
+<h1>Perpensa</h1>
+<p class="subtitle">Go-to-market overview for advisors</p>
+<div class="doc-meta">
+  <span>Version 0.1</span>
+  <span>Internal</span>
+  <span>June 2026</span>
+  <span>Audience: GTM advisors</span>
+</div>
+
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <a href="#problem">1. The problem we solve</a>
+  <a href="#product">2. What Perpensa does</a>
+  <a href="#market">3. Market landscape &amp; competitive positioning</a>
+  <a href="#buyer">4. Buyer personas &amp; ICP</a>
+  <a href="#gtm">5. Go-to-market strategy</a>
+  <a href="#revenue">6. Revenue model</a>
+  <a href="#proof">7. First proof point</a>
+  <a href="#moat">8. Defensibility &amp; moat</a>
+  <a href="#questions">9. Open questions for GTM advisors</a>
+</div>
+
+<h2 id="problem">1. The problem we solve</h2>
+
+<p>Consequential decisions in enterprise — acquisitions, capital investments, market entries, strategic pivots — are made through a process that hasn't fundamentally changed in decades: an analyst builds a model, a team discusses it in a conference room, a senior leader makes the call. The reasoning lives in people's heads, the supporting evidence is scattered across email threads and slide decks, and six months later nobody can reconstruct <em>why</em> the decision was made or <em>what evidence</em> supported it.</p>
+
+<p>AI has made this worse, not better. Executives now get fast, confident, single-perspective answers from AI assistants — answers that feel authoritative but lack the structured opposition that good decision-making requires. Nobody stress-tests the AI's output. Nobody records the dissenting view. Nobody freezes the evidence.</p>
+
+<div class="diagram-frame">
+  <div class="before-after">
+    <div class="ba-col ba-before">
+      <div class="ba-title">How decisions are made today</div>
+      <div class="ba-item">Analyst builds a model with a single thesis</div>
+      <div class="ba-item">Team reviews in a meeting — groupthink prevails</div>
+      <div class="ba-item">Dissenting views go unrecorded</div>
+      <div class="ba-item">Evidence scattered across slides, email, chat</div>
+      <div class="ba-item">Decision rationale lost within weeks</div>
+      <div class="ba-item">No audit trail when the decision needs review</div>
+    </div>
+    <div class="ba-col ba-after">
+      <div class="ba-title">How decisions are made with Perpensa</div>
+      <div class="ba-item">AI agents with opposing perspectives debate the question</div>
+      <div class="ba-item">Structured adversarial challenge — every claim stress-tested</div>
+      <div class="ba-item">Dissent is a first-class output, not a footnote</div>
+      <div class="ba-item">Evidence frozen in a tamper-evident vault at decision time</div>
+      <div class="ba-item">Full reasoning lineage preserved permanently</div>
+      <div class="ba-item">Any stakeholder can audit exactly what was known and argued</div>
+    </div>
+  </div>
+  <div class="diagram-caption">The shift from consensus-driven to evidence-driven decision-making</div>
+</div>
+
+<p>Perpensa exists because consequential decisions deserve more than a single analyst's perspective and more than a chatbot's confident answer. They deserve structured opposition, evidence provenance, and a permanent record of how the conclusion was reached.</p>
+
+<h2 id="product">2. What Perpensa does</h2>
+
+<p>Perpensa is an AI-orchestrated deliberation and research platform. A user brings a question — "Should we acquire TargetCo at 9x EBITDA?", "Should we overhaul this turbine or run it to failure?" — and the platform assembles a team of AI agents with distinct perspectives to research, debate, challenge, and produce a decision artifact backed by frozen, traceable evidence.</p>
+
+<p>The name comes from the Latin <em>perpēnsa</em> — "having been thoroughly weighed."</p>
+
+<div class="callout callout-teal">
+<strong>The one-sentence pitch:</strong> Perpensa turns high-stakes decisions into structured, auditable, adversarial deliberations — with AI agents that argue both sides, evidence that's frozen at decision time, and a permanent record of why you decided what you decided.
+</div>
+
+<h3>The workflow — what a user actually experiences</h3>
+
+<p>The system is built around five composable workflows that can be invoked independently or chained together. A user doesn't need to follow a fixed sequence — they can go straight from research to a report, or run a standalone stress test without ever entering a full deliberation.</p>
+
+<div class="diagram-frame">
+  <div class="section-label">Workflows — composable, invoke each other freely</div>
+  <div class="wf-grid-2">
+    <div class="wf-group wf-group-steel"><div class="wf-group-name">Deliberate</div><div class="wf-note">Assemble AI agents with opposing perspectives. They debate using real evidence, argue for and against, and converge on a position — or explicitly record that they couldn't.</div></div>
+    <div class="wf-group wf-group-signal"><div class="wf-group-name">Attack</div><div class="wf-note">Adversarial stress-testing. "Assume this decision failed catastrophically — what went wrong?" Red team agents try to break the thesis. Can run standalone or spawn mid-debate.</div></div>
+  </div>
+  <div class="wf-grid-2">
+    <div class="wf-group wf-group-brass"><div class="wf-group-name">Scenario</div><div class="wf-note">Branch the analysis into parallel "what if?" paths — acquire at 9x vs. 12x vs. walk away — and compare the results side by side. Each branch runs its own deliberation.</div></div>
+    <div class="wf-group wf-group-green"><div class="wf-group-name">Monitor</div><div class="wf-note">After a decision is made, watches for new evidence that might invalidate it. A regulatory change, a competitor move, a market shift — and alerts you when the ground shifts.</div></div>
+  </div>
+  <div class="flow-arrow">▼ any workflow can produce an artifact ▼</div>
+  <div class="wf-group wf-group-teal">
+    <div class="wf-group-name">Create</div>
+    <div class="wf-note">Universal output stage. Takes input from any workflow — a deliberation, a research pass, an attack — and produces a polished, frozen artifact: deal memos, IC decks, risk matrices, competitive landscape reports, capital plans.</div>
+    <div class="example-row">
+      <span class="example-label">Example outputs:</span>
+      <span class="example-item">Research → competitive landscape</span>
+      <span class="example-item">Deliberate → deal memo</span>
+      <span class="example-item">Attack → red team brief</span>
+      <span class="example-item">Scenario → comparison matrix</span>
+    </div>
+  </div>
+  <div class="v-label">perpensa v0.1 · product overview · june 2026</div>
+</div>
+
+<h3>The agents — why this isn't just another AI assistant</h3>
+
+<p>The differentiator is not "AI does research" — every platform does that. The differentiator is <strong>structured adversarial reasoning with evidence provenance</strong>. The AI agents have defined roles and opposing perspectives:</p>
+
+<p>The <strong>Advocate</strong> builds the strongest case for the proposed action. The <strong>Skeptic</strong> challenges every claim and demands evidence. The <strong>Red Team</strong> tries to break the thesis entirely. The <strong>Researcher</strong> finds and validates evidence. The <strong>Synthesizer</strong> merges opposing views into a coherent artifact that captures both consensus <em>and</em> dissent.</p>
+
+<p>These agents are extensible — a PE firm adds a "regulatory specialist" tuned to FTC merger review. A manufacturer adds a "maintenance engineer" with equipment lifecycle expertise. The platform provides a chatbot interface for creating custom agents and a template system for managing agent behavior.</p>
+
+<h3>The vault — why this matters for compliance and governance</h3>
+
+<p>Every piece of evidence used in a deliberation is frozen at decision time in a tamper-evident Research Vault. Six months later, when a board member asks "what did we know when we approved this acquisition?", the answer is a click away — not a multi-week forensic exercise through old email and shared drives. This is the evidence provenance story, and for regulated industries and institutional investors, it's as valuable as the deliberation itself.</p>
+
+<h2 id="market">3. Market landscape &amp; competitive positioning</h2>
+
+<p>Perpensa sits at the intersection of three existing markets but doesn't fit cleanly into any of them. This is a category-creation play — there is no "AI deliberation platform" market today. The closest adjacencies are enterprise research/intelligence, decision intelligence, and AI assistants.</p>
+
+<div class="diagram-frame">
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="comp-name">AlphaSense</div>
+      <div class="comp-type">Enterprise search &amp; intelligence</div>
+      <div class="comp-desc">AI-powered research platform for financial professionals. Strong in document search, sentiment analysis, expert transcript analysis.</div>
+      <div class="comp-gap comp-gap-no">Gap: Single-perspective. Finds information but doesn't challenge conclusions or produce structured deliberation.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-name">Hebbia</div>
+      <div class="comp-type">AI document analysis</div>
+      <div class="comp-desc">AI-native analyst for complex document review. Strong in PE due diligence, legal review, financial analysis.</div>
+      <div class="comp-gap comp-gap-no">Gap: Analysis tool, not a deliberation engine. Answers questions but doesn't structure adversarial debate or freeze evidence provenance.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-name">Copperleaf / IFS</div>
+      <div class="comp-type">Capital planning &amp; asset management</div>
+      <div class="comp-desc">Enterprise asset investment planning. Strong in utilities, infrastructure, capital-intensive industries. Quantitative optimization focus.</div>
+      <div class="comp-gap comp-gap-no">Gap: Optimization engine, not reasoning engine. Makes capital allocation recommendations but doesn't surface the qualitative arguments for and against.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-name">Enterprise AI assistants</div>
+      <div class="comp-type">Copilots &amp; chatbots (general)</div>
+      <div class="comp-desc">Microsoft Copilot, Google Gemini for Workspace, various vertical AI assistants. Single-perspective, single-turn or short-conversation interactions.</div>
+      <div class="comp-gap comp-gap-no">Gap: Fast answers, zero adversarial structure. No evidence freeze, no reasoning lineage, no dissent recording. Designed for productivity, not decision quality.</div>
+    </div>
+    <div class="comp-card perp-card">
+      <div class="comp-name">Perpensa</div>
+      <div class="comp-type">AI-orchestrated deliberation &amp; research</div>
+      <div class="comp-desc">Multi-agent adversarial reasoning with evidence provenance. Structured deliberation that produces auditable decision artifacts. Research, challenge, and create — with every piece of evidence frozen and traceable.</div>
+      <div class="comp-gap comp-gap-yes">Unique: No existing platform combines structured adversarial AI debate, evidence provenance, and audience-specific artifact generation in a single workflow.</div>
+    </div>
+  </div>
+  <div class="diagram-caption">Competitive landscape — Perpensa occupies white space between existing categories</div>
+</div>
+
+<div class="callout callout-brass"><strong>The category-creation question is the most important GTM decision.</strong> Creating a new category is expensive and requires market education. The alternative is to position Perpensa as a "next-generation research platform" or "AI-powered decision support" and enter an existing category with differentiated features. The tradeoff: category entry is cheaper but invites direct comparison with funded incumbents. Category creation is slower but defines the competitive frame.</div>
+
+<h2 id="buyer">4. Buyer personas &amp; ICP</h2>
+
+<p>The ideal first customers share three characteristics: they make high-stakes decisions frequently, they operate in environments where decision audit trails have regulatory or governance value, and they have the sophistication to evaluate AI-augmented workflows.</p>
+
+<h3>Primary beachhead: PE / growth equity</h3>
+
+<p>Private equity firms make consequential investment decisions on compressed timelines, with significant downside risk, and increasing pressure from LPs for transparency in decision-making. The IC memo — the artifact that captures the investment thesis and its supporting evidence — is exactly what Perpensa produces.</p>
+
+<div class="diagram-frame">
+  <div class="persona-grid">
+    <div class="persona persona-econ">
+      <div class="persona-title">Managing director / Partner</div>
+      <div class="persona-role">Economic buyer</div>
+      <div class="persona-props">
+        <div><span class="persona-label">Cares about: </span>Decision quality at scale. Portfolio performance. LP transparency and governance. Competitive edge in deal sourcing and evaluation.</div>
+        <div style="margin-top:6px;"><span class="persona-label">Budget: </span>Discretionary. Will pay for outcomes that demonstrably improve deal evaluation or reduce risk of bad investments.</div>
+        <div style="margin-top:6px;"><span class="persona-label">Objection: </span>"We already have analysts and advisors doing this. Why would I trust AI with investment decisions?"</div>
+        <div style="margin-top:6px;"><span class="persona-label">Answer: </span>Perpensa doesn't replace analysts — it gives them structured opposition. The analyst's thesis gets stress-tested before it reaches the IC, not after. The evidence trail protects the firm.</div>
+      </div>
+    </div>
+    <div class="persona persona-champ">
+      <div class="persona-title">VP portfolio operations</div>
+      <div class="persona-role">Champion / internal sponsor</div>
+      <div class="persona-props">
+        <div><span class="persona-label">Cares about: </span>Operational efficiency across portfolio companies. Standardized evaluation frameworks. Knowledge management and institutional memory.</div>
+        <div style="margin-top:6px;"><span class="persona-label">Why they champion: </span>They see the same analysis done inconsistently across deals. They know the institutional knowledge walks out the door when an associate leaves. Perpensa gives them a system.</div>
+        <div style="margin-top:6px;"><span class="persona-label">How they sell internally: </span>"We ran a blind analysis of the Hg Capital/OneStream deal and caught three risks the original IC memo missed."</div>
+      </div>
+    </div>
+  </div>
+  <div class="diagram-caption">PE buyer personas — the partner decides, the VP of portfolio ops champions</div>
+</div>
+
+<h3>Secondary beachhead: Capital-intensive enterprise</h3>
+
+<p>Manufacturers, utilities, and infrastructure operators make capital allocation decisions — overhaul vs. replace, build vs. retrofit, invest vs. defer — that involve tens of millions of dollars and multi-year consequences. The current process is spreadsheet models reviewed in committee, with the same groupthink and evidence-scatter problems that PE firms face.</p>
+
+<p>The economic buyer here is the COO or VP of Asset Management. The champion is a maintenance director or capital planner who knows the current process is inadequate but doesn't have a tool that combines quantitative analysis with structured qualitative reasoning.</p>
+
+<h2 id="gtm">5. Go-to-market strategy</h2>
+
+<p>The current working model is a three-phase approach that starts with services and ends with a platform.</p>
+
+<div class="diagram-frame">
+  <div class="phase-grid">
+    <div class="phase phase-1">
+      <div class="phase-num">Phase 1</div>
+      <div class="phase-name">Services wedge</div>
+      <div class="phase-timeline">Months 0–12</div>
+      <div class="phase-items">
+        Deliver Perpensa-powered analyses as a service. The customer buys an outcome (a deal evaluation, a capital plan, a competitive landscape) — not a tool. This lets us learn what the product should be while generating revenue.
+      </div>
+      <div class="phase-revenue">Revenue: Project-based. $25K–$75K per engagement.</div>
+    </div>
+    <div class="phase phase-2">
+      <div class="phase-num">Phase 2</div>
+      <div class="phase-name">Product</div>
+      <div class="phase-timeline">Months 9–24</div>
+      <div class="phase-items">
+        Package the workflows and agent system into a self-service product. Customers run their own deliberations using platform-provided agents plus custom agents they define. Templates and the vault are core product features.
+      </div>
+      <div class="phase-revenue">Revenue: Subscription. Platform + per-deliberation or per-seat pricing.</div>
+    </div>
+    <div class="phase phase-3">
+      <div class="phase-num">Phase 3</div>
+      <div class="phase-name">Platform</div>
+      <div class="phase-timeline">Months 18–36</div>
+      <div class="phase-items">
+        Open the Agent API for partners and customers to build custom agents and vertical overlays. Perpensa becomes the orchestration layer that powers an ecosystem of domain-specific deliberation workflows.
+      </div>
+      <div class="phase-revenue">Revenue: Platform fees + marketplace + enterprise licensing.</div>
+    </div>
+  </div>
+  <div class="diagram-caption">Three-phase GTM: services → product → platform</div>
+</div>
+
+<h3>Channel strategy: Operating partner path</h3>
+
+<p>The services wedge targets PE firms through operating partner channels. Operating partners have existing relationships with fund managers and portfolio companies, understand the decision-making pain points firsthand, and are motivated by tools that make their portfolio companies more effective. The play: partner with 2-3 operating partners at PE firms, deliver Perpensa-powered deal evaluations and portfolio analyses, and use the results to build the case for the product.</p>
+
+<p>A secondary channel is direct to mid-market enterprise through referral from an existing compliance consultancy relationship. This serves the capital asset lifecycle overlay specifically.</p>
+
+<h2 id="revenue">6. Revenue model</h2>
+
+<p>Three revenue model options are under consideration, not mutually exclusive:</p>
+
+<p><strong>Per-engagement (Phase 1).</strong> Project-based pricing for services. Establishes value before the product exists. Risk: doesn't scale; can become a consultancy trap if the transition to product is delayed.</p>
+
+<p><strong>Platform subscription (Phase 2).</strong> Monthly/annual fee for access to the workflow engine, agent pool, template system, and research vault. Usage-based component for LLM inference costs (passed through or bundled). This is the scalable model but requires the product to be self-service enough that customers don't need hand-holding.</p>
+
+<p><strong>Per-deliberation (Phase 2/3).</strong> Charge per completed deliberation rather than per-seat. This aligns pricing with value — a $500M acquisition decision is worth more than a routine capital plan — and avoids the "shelfware" problem where seats are purchased but unused. Risk: harder to predict revenue; customers may optimize to reduce deliberation count.</p>
+
+<div class="callout callout-steel"><strong>The pricing question is really a positioning question.</strong> If Perpensa is positioned as a productivity tool (it makes analysts faster), per-seat pricing works. If it's positioned as a decision-quality tool (it makes decisions better), per-deliberation or outcome-based pricing captures more value. The positioning determines the pricing, not the other way around.</div>
+
+<h2 id="proof">7. First proof point</h2>
+
+<p>The priority proof artifact is a <strong>blind analysis of the Hg Capital / OneStream deal</strong>. Perpensa runs a full deliberation on publicly available information — the investment thesis, the competitive landscape, the risks — and produces an IC-quality deal memo. This memo is then compared against what is publicly known about how the deal actually performed.</p>
+
+<p>Why this works as a proof point:</p>
+
+<p>It demonstrates the product without requiring customer data or access. OneStream is a company the founder has deep domain expertise in (former Director of AI &amp; Emerging Technology), making the analysis credible and specific. The PE audience can evaluate the output against their own standards. And the "blind" framing — Perpensa analyzing a deal it wasn't involved in — eliminates the objection that the analysis was cherry-picked or coached.</p>
+
+<p>The proof artifact should be shareable, polished, and accompanied by a brief showing the evidence provenance trail. An LP or operating partner should be able to look at it and say: "I wish we had this for every deal we evaluate."</p>
+
+<h2 id="moat">8. Defensibility &amp; moat</h2>
+
+<p>Three moat candidates, in order of durability:</p>
+
+<p><strong>Evidence vault and institutional memory.</strong> Once a firm has 50+ deliberations in the vault, switching costs are enormous. The vault contains not just the decisions but the reasoning lineage — why each decision was made, what evidence existed at the time, where the team agreed and disagreed. This is institutional memory that doesn't exist anywhere else. It gets more valuable over time, not less.</p>
+
+<p><strong>Custom agent library.</strong> As firms build domain-specific agents (a "regulatory specialist," a "deal structuring expert," a "maintenance engineer"), those agents embody institutional knowledge that took significant effort to create. The agent library becomes a proprietary asset tied to the platform.</p>
+
+<p><strong>Patent portfolio.</strong> A provisional patent filing covering the "Time Machine" concept — the ability to branch deliberations, compare alternative scenarios, and merge results with full evidence lineage — is under consideration. This is the strongest candidate for defensible IP in the deliberation-branch cluster.</p>
+
+<div class="callout callout-signal"><strong>The moat risk:</strong> AlphaSense, Hebbia, or a well-funded startup could add multi-agent debate to an existing research platform. The response: the vault is the moat, not the debate. Anyone can build agents that argue — the hard part is the immutable evidence layer, the reasoning lineage, and the institutional memory that accumulates over years of use. First-mover advantage in the vault is real.</div>
+
+<h2 id="questions">9. Open questions for GTM advisors</h2>
+
+<p><strong>1. Category creation vs. category entry.</strong> Should Perpensa create the "AI deliberation platform" category, or position as a next-generation entry in an existing category (enterprise research, decision intelligence, AI-powered advisory)? Category creation controls the narrative but requires market education budget. Category entry is faster but invites feature-by-feature comparison with funded incumbents.</p>
+
+<p><strong>2. Which vertical leads.</strong> PE due diligence is the current hypothesis for the beachhead. But capital asset lifecycle has a larger TAM, longer contracts, and stickier usage patterns. Should the GTM sequence PE first (faster proof point, smaller market) or capital-intensive enterprise first (slower sale, larger opportunity)?</p>
+
+<p><strong>3. Services-first duration.</strong> How long should Phase 1 (services wedge) last before pushing aggressively to Phase 2 (product)? The risk of staying in services too long is becoming a consultancy. The risk of transitioning too early is shipping a product that doesn't reflect what customers actually need. What signals indicate readiness to transition?</p>
+
+<p><strong>4. Pricing model.</strong> Per-seat, per-deliberation, or outcome-based? Each has different implications for the sales motion, customer behavior, and revenue predictability. What does the market expect, and what captures the most value for a decision-quality tool vs. a productivity tool?</p>
+
+<p><strong>5. Operating partner channel depth.</strong> How many operating partner relationships should we target in Phase 1? Too few (1-2) and we lack diversity of feedback. Too many (5+) and we spread ourselves thin on services delivery before the product exists. What's the right number, and what does the ideal operating partner profile look like?</p>
+
+<p><strong>6. The "trust AI with decisions" objection.</strong> This is the single most common objection and the biggest risk to adoption. How do we frame the message so it's clear that Perpensa augments human judgment rather than replacing it? The product is designed for this — the human is always in the loop, and the dissent register ensures no perspective is suppressed — but the messaging has to land before the demo does.</p>
+
+<p><strong>7. Proof artifact distribution.</strong> The Hg Capital / OneStream blind analysis is the priority proof point. What's the right distribution strategy? Direct outreach to target operating partners? LinkedIn thought leadership? Conference presentations? A gated report that builds an email list? The distribution channel shapes how the first conversations happen.</p>
+
+<p><strong>8. Collaboration depth in V1.</strong> How important is multi-human collaboration (multiple stakeholders annotating, voting, and commenting within a deliberation) for the first product release? For PE, the analyst runs the deliberation and the partner reviews the output — that might not require real-time collaboration. For enterprise capital planning, multiple stakeholders need to participate. Does V1 need both, or can we defer the full collaboration layer?</p>
+
+<p><strong>9. Brand positioning.</strong> The Perpensa name and brand identity (Latin etymology, the Counterweight visual metaphor, brass/steel color language for advocate/skeptic perspectives) is designed for a serious, institutional audience. Is this the right tone for the beachhead buyer? Does it signal "enterprise-grade" or "academic"? What adjustments, if any, would make the brand land better with a PE operating partner or a VP of asset management?</p>
+
+<hr>
+
+<p style="font-size: 12px; color: var(--p-text-muted); margin-top: 24px;">A companion document — <em>Perpensa: Functional &amp; Architectural Overview</em> — provides detailed technical architecture, system diagrams, agent catalog, evidence flow, and template system specifications for technical advisors. Available on request.</p>
+
+<p style="font-size: 12px; color: var(--p-text-muted);">Internal naming convention: Product family uses a Latin <em>per-</em> prefix (Perpensa, Pertela, Perdocta, Pervecta) with music-themed internal codenames (Forte, Chorus, Tempo, Remix).</p>
+
+</body>
+</html>

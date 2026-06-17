@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpensa — Functional &amp; Architectural Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.6.0/dist/tabler-icons.min.css">
+<style>
+:root {
+  --p-brass: #C4962C; --p-brass-light: #F5EDD8; --p-brass-dark: #8B6914;
+  --p-steel: #4A6D7C; --p-steel-light: #D8E4EA; --p-steel-dark: #2B4450;
+  --p-signal: #C4432B; --p-signal-light: #FADDD7;
+  --p-teal: #1D7A6A; --p-teal-light: #D4EDE8; --p-teal-dark: #0F4F44;
+  --p-green: #2D6B3F; --p-green-light: #D8EDDE; --p-green-dark: #1A4028;
+  --p-text: #1B2838; --p-text-muted: #5A6672; --p-border: rgba(27,40,56,0.12);
+  --p-card-bg: #FFFFFF; --p-bg: #FAFAF8;
+  --p-sidebar-bg: #F6F5F1; --p-toolbar-bg: #FAFAF8;
+  --p-editor-bg: #FFFFFF; --p-hover: rgba(0,0,0,0.04);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --p-brass-light: rgba(196,150,44,0.15); --p-steel-light: rgba(74,109,124,0.18);
+    --p-teal-light: rgba(29,122,106,0.15); --p-green-light: rgba(45,107,63,0.15);
+    --p-signal-light: rgba(196,67,43,0.12); --p-bg: #1a1d20;
+    --p-text: #d8d4cc; --p-text-muted: #8a9098;
+    --p-border: rgba(255,255,255,0.1); --p-card-bg: rgba(255,255,255,0.06);
+    --p-steel-dark: #8ab4c8; --p-teal-dark: #5cc4b0; --p-green-dark: #68b87c;
+    --p-brass-dark: #e0c478; --p-signal: #e08878;
+    --p-sidebar-bg: rgba(255,255,255,0.03); --p-toolbar-bg: rgba(255,255,255,0.04);
+    --p-editor-bg: rgba(255,255,255,0.02); --p-hover: rgba(255,255,255,0.06);
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Instrument Sans', sans-serif; color: var(--p-text);
+  background: var(--p-bg); line-height: 1.7; font-size: 15px;
+  max-width: 780px; margin: 0 auto; padding: 40px 24px 80px;
+}
+h1 { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 28px; margin-bottom: 4px; line-height: 1.2; }
+h2 { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin-top: 48px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid var(--p-border); }
+h3 { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 16px; margin-top: 28px; margin-bottom: 6px; color: var(--p-steel-dark); }
+h4 { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 14px; margin-top: 20px; margin-bottom: 4px; }
+p { margin-bottom: 12px; }
+.subtitle { font-size: 13px; color: var(--p-text-muted); letter-spacing: 0.02em; margin-bottom: 24px; }
+.doc-meta { display: flex; gap: 20px; font-size: 12px; color: var(--p-text-muted); margin-bottom: 32px; padding: 12px 16px; border-radius: 8px; background: var(--p-card-bg); border: 1px solid var(--p-border); }
+.doc-meta span { display: flex; align-items: center; gap: 4px; }
+em { font-style: italic; }
+strong { font-weight: 600; }
+.toc { margin: 24px 0 36px; padding: 16px 20px; border-radius: 8px; background: var(--p-card-bg); border: 1px solid var(--p-border); }
+.toc-title { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 13px; color: var(--p-text-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 8px; }
+.toc a { font-size: 13px; color: var(--p-teal-dark); text-decoration: none; display: block; padding: 3px 0; }
+.toc a:hover { text-decoration: underline; }
+.toc .indent { padding-left: 16px; }
+.callout { padding: 12px 16px; border-radius: 6px; margin: 16px 0; font-size: 13px; line-height: 1.6; }
+.callout-teal { background: var(--p-teal-light); border-left: 3px solid var(--p-teal); color: var(--p-teal-dark); border-radius: 0; }
+.callout-brass { background: var(--p-brass-light); border-left: 3px solid var(--p-brass); color: var(--p-brass-dark); border-radius: 0; }
+.callout-steel { background: var(--p-steel-light); border-left: 3px solid var(--p-steel); color: var(--p-steel-dark); border-radius: 0; }
+code { font-family: 'Geist Mono', monospace; font-size: 13px; padding: 1px 5px; border-radius: 3px; background: rgba(0,0,0,0.04); }
+@media (prefers-color-scheme: dark) { code { background: rgba(255,255,255,0.06); } }
+hr { border: none; border-top: 1px solid var(--p-border); margin: 32px 0; }
+
+.diagram-frame { margin: 20px 0 28px; border-radius: 10px; border: 1px solid var(--p-border); background: var(--p-card-bg); padding: 20px; overflow: hidden; }
+.diagram-caption { font-size: 11px; color: var(--p-text-muted); text-align: center; margin-top: 8px; font-style: italic; }
+
+.layer { margin-bottom: 2px; border-radius: 8px; padding: 14px 16px; }
+.layer-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.layer-label { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.layer-line { flex: 1; height: 1px; opacity: 0.3; }
+.layer-cards { display: grid; gap: 6px; }
+.cards-5 { grid-template-columns: repeat(5, 1fr); }
+.cards-6 { grid-template-columns: repeat(6, 1fr); }
+.card { background: var(--p-card-bg); border-radius: 6px; padding: 10px 8px 8px; border: 1px solid var(--p-border); }
+.card-name { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 12px; margin-bottom: 4px; line-height: 1.2; }
+.card-subs { font-size: 10px; color: var(--p-text-muted); line-height: 1.45; }
+.l-workflow { background: var(--p-steel-light); }
+.l-workflow .layer-label { color: var(--p-steel-dark); }
+.l-workflow .layer-line { background: var(--p-steel); }
+.l-workflow .card-name { color: var(--p-steel-dark); }
+.l-agents { background: var(--p-brass-light); }
+.l-agents .layer-label { color: var(--p-brass-dark); }
+.l-agents .layer-line { background: var(--p-brass); }
+.l-services { background: var(--p-teal-light); }
+.l-services .layer-label { color: var(--p-teal-dark); }
+.l-services .layer-line { background: var(--p-teal); }
+.l-services .card-name { color: var(--p-teal-dark); }
+.l-infra { background: var(--p-green-light); }
+.l-infra .layer-label { color: var(--p-green-dark); }
+.l-infra .layer-line { background: var(--p-green); }
+.l-infra .card-name { color: var(--p-green-dark); }
+.agent-bar { display: flex; flex-wrap: wrap; gap: 6px; }
+.agent-pill { font-family: 'Schibsted Grotesk', sans-serif; font-size: 11px; font-weight: 500; padding: 5px 10px; border-radius: 20px; border: 1px solid; }
+.agent-advocate { background: rgba(196,150,44,0.12); border-color: rgba(196,150,44,0.3); color: var(--p-brass-dark); }
+.agent-skeptic { background: rgba(74,109,124,0.12); border-color: rgba(74,109,124,0.3); color: var(--p-steel-dark); }
+.agent-redteam { background: rgba(196,67,43,0.1); border-color: rgba(196,67,43,0.25); color: #8B2E1A; }
+@media (prefers-color-scheme: dark) { .agent-redteam { color: #e08878; } }
+.agent-neutral { background: var(--p-card-bg); border-color: var(--p-border); color: var(--p-text-muted); }
+.research-note { display: flex; align-items: center; gap: 6px; margin: 8px 0 2px; padding: 6px 10px; border-radius: 4px; border-left: 3px solid var(--p-teal); background: rgba(29,122,106,0.06); }
+.research-note-text { font-size: 10px; color: var(--p-text-muted); font-style: italic; }
+.connector-hint { text-align: center; color: var(--p-text-muted); font-size: 10px; opacity: 0.4; padding: 2px 0; }
+.legend { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--p-text-muted); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+.wf-intro { font-size: 12px; color: var(--p-text-muted); margin-bottom: 14px; line-height: 1.5; }
+.section-label { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--p-border); }
+.sl-steel { color: var(--p-steel-dark); }
+.sl-teal { color: var(--p-teal-dark); }
+.wf-group { border-radius: 8px; padding: 12px; }
+.wf-group-steel { background: var(--p-steel-light); border: 1px solid rgba(74,109,124,0.2); }
+.wf-group-teal { background: var(--p-teal-light); border: 1px solid rgba(29,122,106,0.2); }
+.wf-group-green { background: var(--p-green-light); border: 1px solid rgba(45,107,63,0.2); }
+.wf-group-brass { background: var(--p-brass-light); border: 1px solid rgba(196,150,44,0.2); }
+.wf-group-signal { background: var(--p-signal-light); border: 1px solid rgba(196,67,43,0.15); }
+.wf-group-name { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.wf-group-steel .wf-group-name { color: var(--p-steel-dark); }
+.wf-group-teal .wf-group-name { color: var(--p-teal-dark); }
+.wf-group-green .wf-group-name { color: var(--p-green-dark); }
+.wf-group-brass .wf-group-name { color: var(--p-brass-dark); }
+.wf-group-signal .wf-group-name { color: var(--p-signal); }
+.step-flow { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.step { font-size: 11px; color: var(--p-text); padding: 3px 8px; border-radius: 4px; background: var(--p-card-bg); border: 1px solid var(--p-border); white-space: nowrap; }
+.step-arrow { color: var(--p-text-muted); font-size: 10px; opacity: 0.5; }
+.wf-note { font-size: 10px; color: var(--p-text-muted); margin-top: 5px; font-style: italic; }
+.wf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; }
+.flow-arrow { text-align: center; color: var(--p-text-muted); font-size: 10px; opacity: 0.35; padding: 3px 0; }
+.create-sources { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+.cs-pill { font-size: 9px; padding: 3px 8px; border-radius: 12px; border: 1px solid rgba(29,122,106,0.3); color: var(--p-teal-dark); background: var(--p-card-bg); }
+.create-label { font-size: 10px; text-align: center; color: var(--p-text-muted); margin-bottom: 6px; font-style: italic; }
+.template-connect { display: flex; align-items: center; gap: 6px; margin: 8px 0; }
+.tc-line { flex: 1; height: 1px; background: var(--p-text-muted); opacity: 0.15; }
+.tc-badge { font-size: 9px; padding: 3px 8px; border-radius: 3px; border: 1px dashed rgba(196,150,44,0.3); background: var(--p-brass-light); color: var(--p-brass-dark); white-space: nowrap; }
+.example-row { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
+.example-item { font-size: 9px; padding: 3px 7px; border-radius: 3px; background: var(--p-card-bg); border: 1px solid var(--p-border); color: var(--p-text-muted); }
+.example-label { font-size: 9px; color: var(--p-text-muted); font-weight: 500; margin-right: 2px; }
+.feedback-box { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 6px; border: 1px dashed var(--p-border); background: rgba(74,109,124,0.04); margin-top: 6px; }
+.feedback-text { font-size: 10px; color: var(--p-text-muted); }
+.research-bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(29,122,106,0.2); background: rgba(29,122,106,0.04); margin-bottom: 12px; }
+.rb-text { font-size: 10px; color: var(--p-teal-dark); }
+.rb-label { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 10px; color: var(--p-teal-dark); }
+
+.agents-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+.agent-card { border-radius: 8px; padding: 12px; border: 1px solid var(--p-border); background: var(--p-card-bg); }
+.agent-card-brass { border-left: 3px solid var(--p-brass); border-radius: 0; }
+.agent-card-steel { border-left: 3px solid var(--p-steel); border-radius: 0; }
+.agent-card-signal { border-left: 3px solid var(--p-signal); border-radius: 0; }
+.agent-card-teal { border-left: 3px solid var(--p-teal); border-radius: 0; }
+.agent-card-neutral { border-left: 3px solid var(--p-border); border-radius: 0; }
+.agent-name { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+.agent-card-brass .agent-name { color: var(--p-brass-dark); }
+.agent-card-steel .agent-name { color: var(--p-steel-dark); }
+.agent-card-signal .agent-name { color: var(--p-signal); }
+.agent-card-teal .agent-name { color: var(--p-teal-dark); }
+.agent-role { font-size: 11px; color: var(--p-text-muted); margin-bottom: 8px; font-style: italic; }
+.agent-props { display: flex; flex-direction: column; gap: 5px; }
+.agent-prop { display: flex; gap: 6px; font-size: 11px; line-height: 1.4; }
+.prop-label { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--p-text-muted); min-width: 58px; flex-shrink: 0; padding-top: 1px; }
+.prop-value { color: var(--p-text); }
+.wf-tag { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 3px; background: rgba(0,0,0,0.03); border: 1px solid var(--p-border); margin-right: 3px; }
+@media (prefers-color-scheme: dark) { .wf-tag { background: rgba(255,255,255,0.04); } }
+.agent-card-full { grid-column: 1 / -1; }
+
+.stage { margin-bottom: 6px; }
+.stage-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.stage-num { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--p-text-muted); opacity: 0.5; min-width: 18px; }
+.stage-label { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+.stage-line { flex: 1; height: 1px; opacity: 0.2; }
+.stage-cards { display: grid; gap: 6px; margin-left: 26px; }
+.cards-4 { grid-template-columns: repeat(4, 1fr); }
+.cards-3 { grid-template-columns: repeat(3, 1fr); }
+.cards-2 { grid-template-columns: repeat(2, 1fr); }
+.sc { border-radius: 6px; padding: 10px 8px 8px; border: 1px solid var(--p-border); background: var(--p-card-bg); }
+.sc-name { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 12px; margin-bottom: 3px; }
+.sc-desc { font-size: 10px; color: var(--p-text-muted); line-height: 1.4; }
+.sc-examples { font-size: 9px; color: var(--p-text-muted); margin-top: 3px; font-style: italic; }
+.s-sources .stage-label { color: var(--p-brass-dark); }
+.s-sources .stage-line { background: var(--p-brass); }
+.s-sources .sc-name { color: var(--p-brass-dark); }
+.s-ingest .stage-label { color: var(--p-steel-dark); }
+.s-ingest .stage-line { background: var(--p-steel); }
+.s-ingest .sc-name { color: var(--p-steel-dark); }
+.s-enrich .stage-label { color: var(--p-teal-dark); }
+.s-enrich .stage-line { background: var(--p-teal); }
+.s-enrich .sc-name { color: var(--p-teal-dark); }
+.s-store .stage-label { color: var(--p-green-dark); }
+.s-store .stage-line { background: var(--p-green); }
+.s-store .sc-name { color: var(--p-green-dark); }
+.flow-indicator { text-align: center; color: var(--p-text-muted); font-size: 10px; opacity: 0.35; padding: 2px 0; margin-left: 26px; }
+.vault-highlight { margin-left: 26px; padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(45,107,63,0.25); background: var(--p-green-light); margin-top: 4px; }
+.vault-title { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 12px; color: var(--p-green-dark); margin-bottom: 4px; }
+.vault-props { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.vault-prop { font-size: 10px; color: var(--p-text-muted); }
+.vault-prop strong { font-weight: 600; color: var(--p-green-dark); display: block; font-size: 10px; }
+
+.ts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.tc { border-radius: 6px; padding: 10px; border: 1px solid var(--p-border); background: var(--p-card-bg); }
+.tc-full { grid-column: 1 / -1; }
+.tc-name { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 12px; margin-bottom: 3px; }
+.tc-desc { font-size: 10px; color: var(--p-text-muted); line-height: 1.5; }
+.tc-items { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.tc-item { font-size: 9px; padding: 2px 7px; border-radius: 3px; background: rgba(0,0,0,0.03); border: 1px solid var(--p-border); color: var(--p-text-muted); }
+@media (prefers-color-scheme: dark) { .tc-item { background: rgba(255,255,255,0.04); } }
+.tc-teal .tc-name { color: var(--p-teal-dark); }
+.tc-steel .tc-name { color: var(--p-steel-dark); }
+.tc-brass .tc-name { color: var(--p-brass-dark); }
+
+.mockup-frame { border-radius: 10px; border: 1px solid var(--p-border); overflow: hidden; background: var(--p-editor-bg); font-family: 'Instrument Sans', sans-serif; }
+.mock-toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--p-toolbar-bg); border-bottom: 1px solid var(--p-border); }
+.mock-logo { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 13px; margin-right: 8px; }
+.mock-breadcrumb { font-size: 11px; color: var(--p-text-muted); display: flex; align-items: center; gap: 4px; }
+.mock-breadcrumb span { opacity: 0.5; }
+.mock-toolbar-actions { margin-left: auto; display: flex; gap: 6px; }
+.mock-btn { font-size: 11px; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--p-border); background: var(--p-card-bg); color: var(--p-text-muted); display: flex; align-items: center; gap: 4px; }
+.mock-btn-primary { background: var(--p-teal); color: white; border-color: var(--p-teal); }
+.mock-body { display: grid; grid-template-columns: 180px minmax(0,1fr) 200px; min-height: 380px; }
+.mock-sidebar { background: var(--p-sidebar-bg); border-right: 1px solid var(--p-border); padding: 10px 0; }
+.sb-section { padding: 0 10px; margin-bottom: 10px; }
+.sb-section-title { font-family: 'Schibsted Grotesk', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--p-text-muted); margin-bottom: 4px; padding: 0 4px; }
+.sb-item { font-size: 11px; padding: 5px 8px; border-radius: 4px; display: flex; align-items: center; gap: 6px; }
+.sb-item-active { background: var(--p-teal-light); color: var(--p-teal-dark); font-weight: 500; }
+.sb-item i { font-size: 13px; opacity: 0.5; }
+.sb-item-active i { opacity: 0.8; }
+.sb-count { margin-left: auto; font-size: 9px; color: var(--p-text-muted); opacity: 0.6; }
+.mock-editor { padding: 16px 20px; }
+.ed-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.ed-title { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 16px; }
+.ed-version { font-size: 10px; padding: 2px 6px; border-radius: 3px; background: var(--p-teal-light); color: var(--p-teal-dark); }
+.ed-status { font-size: 10px; padding: 2px 6px; border-radius: 3px; background: rgba(45,107,63,0.1); color: var(--p-green-dark); margin-left: auto; }
+.ed-meta { display: flex; gap: 16px; font-size: 10px; color: var(--p-text-muted); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--p-border); }
+.ed-content { font-size: 12px; line-height: 1.8; }
+.ed-section-head { font-family: 'Schibsted Grotesk', sans-serif; font-weight: 600; font-size: 13px; margin: 12px 0 6px; color: var(--p-steel-dark); }
+.ed-var { font-family: 'Geist Mono', monospace; font-size: 11px; padding: 1px 5px; border-radius: 3px; background: var(--p-teal-light); color: var(--p-teal-dark); border: 1px solid rgba(29,122,106,0.2); }
+.ed-component { font-family: 'Geist Mono', monospace; font-size: 11px; padding: 1px 5px; border-radius: 3px; background: var(--p-steel-light); color: var(--p-steel-dark); border: 1px solid rgba(74,109,124,0.2); }
+.ed-static { color: var(--p-text-muted); }
+.mock-props { background: var(--p-sidebar-bg); border-left: 1px solid var(--p-border); padding: 12px; }
+.props-title { font-family: 'Schibsted Grotesk', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--p-text-muted); margin-bottom: 8px; }
+.prop-group { margin-bottom: 12px; }
+.mp-label { font-size: 10px; color: var(--p-text-muted); margin-bottom: 3px; }
+.prop-select { font-size: 11px; padding: 5px 8px; border-radius: 4px; border: 1px solid var(--p-border); background: var(--p-card-bg); width: 100%; }
+.prop-tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
+.prop-tag { font-size: 9px; padding: 2px 6px; border-radius: 3px; background: var(--p-card-bg); border: 1px solid var(--p-border); color: var(--p-text-muted); }
+.var-row { display: flex; align-items: center; gap: 4px; font-size: 10px; padding: 3px 0; border-bottom: 1px solid var(--p-border); }
+.var-name { font-family: 'Geist Mono', monospace; color: var(--p-teal-dark); min-width: 70px; }
+.var-type { color: var(--p-text-muted); font-size: 9px; }
+
+.v-label { font-size: 9px; color: var(--p-text-muted); font-family: 'Geist Mono', monospace; letter-spacing: 0.05em; text-align: right; margin-top: 8px; }
+
+@media print {
+  body { max-width: 100%; padding: 20px; font-size: 12px; }
+  .diagram-frame { break-inside: avoid; }
+  h2 { break-before: page; }
+}
+</style>
+</head>
+<body>
+
+<h1>Perpensa</h1>
+<p class="subtitle">Functional &amp; architectural overview</p>
+<div class="doc-meta">
+  <span>Version 0.1</span>
+  <span>Internal</span>
+  <span>June 2026</span>
+  <span>Audience: Founding advisors</span>
+</div>
+
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <a href="#what">1. What Perpensa is</a>
+  <a href="#architecture">2. System architecture</a>
+  <a href="#workflows">3. Workflow compositions</a>
+  <a href="#agents">4. Agent catalog</a>
+  <a href="#agent-api">5. Agent API &amp; extensibility</a>
+  <a href="#evidence">6. Evidence flow</a>
+  <a href="#templates">7. Template system</a>
+  <a href="#overlays">8. Vertical overlays</a>
+  <a href="#technology">9. Technology considerations</a>
+  <a href="#questions">10. Open questions for technical advisors</a>
+</div>
+
+<h2 id="what">1. What Perpensa is</h2>
+
+<p>Perpensa is an AI-orchestrated deliberation and research platform. It takes a question — "Should we acquire TargetCo at 9x EBITDA?", "Should we overhaul this turbine or run it to failure?", "Is this market entry defensible?" — and subjects it to structured adversarial reasoning before producing a decision artifact backed by frozen, traceable evidence.</p>
+
+<p>The core workflow follows four phases: <strong>Research → Discuss → Challenge → Evolve.</strong> AI agents with distinct perspectives (advocate, skeptic, red team) are assembled into teams, debate the question using real evidence, and produce artifacts that capture not just the conclusion but the full reasoning lineage — who argued what, what evidence supported each position, where the team agreed, and where they didn't.</p>
+
+<p>The name comes from the Latin <em>perpēnsa</em> — "having been thoroughly weighed." The platform exists because consequential decisions deserve more than a single analyst's perspective and more than a chatbot's confident answer. They deserve structured opposition, evidence provenance, and a permanent record of how the conclusion was reached.</p>
+
+<h2 id="architecture">2. System architecture</h2>
+
+<p>Perpensa is organized in four horizontal layers. Each layer has a distinct responsibility, and components communicate downward (workflows invoke agents, agents invoke services, services read/write infrastructure) with one exception: the Research service is callable from any layer at any time.</p>
+
+<div class="diagram-frame">
+  <div class="layer l-workflow">
+    <div class="layer-head"><span class="layer-label">Workflow compositions</span><div class="layer-line"></div></div>
+    <div class="layer-cards cards-5">
+      <div class="card"><div class="card-name">Deliberate</div><div class="card-subs">Form team · Debate · Decide · Rewind &amp; inject</div></div>
+      <div class="card"><div class="card-name">Create</div><div class="card-subs">Synthesize · Compose · Freeze · Distribute</div></div>
+      <div class="card"><div class="card-name">Attack</div><div class="card-subs">Find weak spots · Pre-mortem · Red team</div></div>
+      <div class="card"><div class="card-name">Monitor</div><div class="card-subs">Detect changes · Notify · Record diffs · Re-trigger</div></div>
+      <div class="card"><div class="card-name">Scenario</div><div class="card-subs">Branch · Compare · Merge · Time machine</div></div>
+    </div>
+    <div class="research-note"><span style="font-size:10px;color:var(--p-teal);font-weight:600;">↻</span><span class="research-note-text">Research is callable from any workflow step, at any time — it is not a sequential stage</span></div>
+  </div>
+  <div class="connector-hint">▼ agents assembled per workflow ▼</div>
+  <div class="layer l-agents">
+    <div class="layer-head"><span class="layer-label">Agent pool</span><div class="layer-line"></div></div>
+    <div class="agent-bar">
+      <span class="agent-pill agent-advocate">Advocate</span>
+      <span class="agent-pill agent-skeptic">Skeptic</span>
+      <span class="agent-pill agent-redteam">Red team</span>
+      <span class="agent-pill agent-neutral">Synthesizer</span>
+      <span class="agent-pill agent-neutral">Researcher</span>
+      <span class="agent-pill agent-neutral">Domain expert</span>
+      <span class="agent-pill agent-neutral">Analyst</span>
+      <span class="agent-pill agent-neutral" style="border-style:dashed;opacity:0.6;">+ custom</span>
+    </div>
+  </div>
+  <div class="connector-hint">▼ agents invoke services ▼</div>
+  <div class="layer l-services">
+    <div class="layer-head"><span class="layer-label">Services</span><div class="layer-line"></div></div>
+    <div class="layer-cards cards-6">
+      <div class="card"><div class="card-name">Research</div><div class="card-subs">Search · Archive · Validate · Tag</div></div>
+      <div class="card"><div class="card-name">Index</div><div class="card-subs">Metadata · Semantics · Taxonomy</div></div>
+      <div class="card"><div class="card-name">Orchestration</div><div class="card-subs">Flow engine · Agent registry · Scheduling</div></div>
+      <div class="card"><div class="card-name">Analytics</div><div class="card-subs">ML · Aggregation · Calculation · Scoring</div></div>
+      <div class="card"><div class="card-name">Templates</div><div class="card-subs">Output rendering · Prompts · Format library</div></div>
+      <div class="card"><div class="card-name">Collaboration</div><div class="card-subs">Stakeholders · Annotations · Voting · Assign</div></div>
+    </div>
+  </div>
+  <div class="connector-hint">▼ services read/write infrastructure ▼</div>
+  <div class="layer l-infra">
+    <div class="layer-head"><span class="layer-label">Infrastructure</span><div class="layer-line"></div></div>
+    <div class="layer-cards cards-6">
+      <div class="card"><div class="card-name">Data connectors</div><div class="card-subs">APIs · File systems · Databases · SaaS</div></div>
+      <div class="card"><div class="card-name">User upload</div><div class="card-subs">Documents · Data · Media · Ingestion pipeline</div></div>
+      <div class="card"><div class="card-name">Research vault</div><div class="card-subs">CAS · Hash-chain · Immutable evidence</div></div>
+      <div class="card"><div class="card-name">Identity &amp; auth</div><div class="card-subs">Users · Roles · Permissions · Tenancy</div></div>
+      <div class="card"><div class="card-name">LLM router</div><div class="card-subs">Model selection · Cost opt · Fallback chains</div></div>
+      <div class="card"><div class="card-name">Audit trail</div><div class="card-subs">Reasoning lineage · Provenance · Decision log</div></div>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--p-steel);"></div>Workflow = composable deliberation flows</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--p-brass);"></div>Agents = AI personas with role-specific behavior</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--p-teal);"></div>Services = shared capabilities any agent can invoke</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--p-green);"></div>Infrastructure = storage, connectivity, platform</div>
+  </div>
+  <div class="v-label">perpensa v0.1 · system architecture · june 2026</div>
+</div>
+
+<h2 id="workflows">3. Workflow compositions</h2>
+
+<p>Workflows are composable and non-sequential. Any workflow can invoke Create to produce an artifact. Any workflow can call Research at any step. Workflows can spawn other workflows mid-execution. A user can go straight from Research to Create without ever entering a deliberation, or run Attack as a standalone stress test and produce a red team brief directly.</p>
+
+<div class="diagram-frame">
+  <div class="research-bar">
+    <span class="rb-label">Research</span>
+    <span class="rb-text">— omnipresent service, callable from any workflow at any step: search, validate, tag, archive</span>
+  </div>
+  <div class="section-label sl-steel">Workflows — composable, invoke each other freely</div>
+  <div class="wf-grid-2">
+    <div class="wf-group wf-group-steel"><div class="wf-group-name">Deliberate</div><div class="step-flow"><span class="step">Form team</span><span class="step-arrow">→</span><span class="step">Debate</span><span class="step-arrow">→</span><span class="step">Decide</span></div><div class="wf-note">Rewind &amp; inject at any point · Can spawn Attack mid-debate</div></div>
+    <div class="wf-group wf-group-signal"><div class="wf-group-name">Attack</div><div class="step-flow"><span class="step">Find weak spots</span><span class="step-arrow">→</span><span class="step">Pre-mortem</span><span class="step-arrow">→</span><span class="step">Red team</span></div><div class="wf-note">Standalone or spawned from Deliberate</div></div>
+  </div>
+  <div class="wf-grid-2">
+    <div class="wf-group wf-group-brass"><div class="wf-group-name">Scenario</div><div class="step-flow"><span class="step">Branch</span><span class="step-arrow">→</span><span class="step">Compare</span><span class="step-arrow">→</span><span class="step">Merge</span></div><div class="wf-note">Each branch can run its own Deliberate cycle</div></div>
+    <div class="wf-group wf-group-green"><div class="wf-group-name">Monitor</div><div class="step-flow"><span class="step">Detect changes</span><span class="step-arrow">→</span><span class="step">Notify</span><span class="step-arrow">→</span><span class="step">Record diffs</span></div><div class="wf-note">Can re-trigger any workflow when evidence drifts</div></div>
+  </div>
+  <div class="flow-arrow">▼ any workflow above can invoke Create at any time ▼</div>
+  <div class="section-label sl-teal">Create — universal output stage</div>
+  <div class="create-label">Create accepts input from any source — not just deliberation</div>
+  <div class="create-sources">
+    <span class="cs-pill">Research output ↓</span>
+    <span class="cs-pill">Deliberation transcript ↓</span>
+    <span class="cs-pill">Attack findings ↓</span>
+    <span class="cs-pill">Scenario comparison ↓</span>
+    <span class="cs-pill">Monitor change report ↓</span>
+  </div>
+  <div class="wf-group wf-group-teal">
+    <div class="wf-group-name">Create</div>
+    <div class="step-flow"><span class="step">Synthesize</span><span class="step-arrow">→</span><span class="step">Compose</span><span class="step-arrow">→</span><span class="step">Freeze</span><span class="step-arrow">→</span><span class="step">Distribute</span></div>
+    <div class="template-connect"><div class="tc-line"></div><span class="tc-badge"><i class="ti ti-layout" style="font-size:11px"></i> Templates feed into Compose</span><div class="tc-line"></div></div>
+    <div class="wf-note">Compose pulls from template library · Freeze writes to research vault · Distribute notifies stakeholders</div>
+    <div class="example-row">
+      <span class="example-label">Examples:</span>
+      <span class="example-item">Research → competitive landscape report</span>
+      <span class="example-item">Attack → standalone red team brief</span>
+      <span class="example-item">Deliberate → deal memo</span>
+      <span class="example-item">Scenario → comparison matrix</span>
+      <span class="example-item">Monitor → evidence drift alert</span>
+    </div>
+  </div>
+  <div class="feedback-box"><span style="font-size:14px;color:var(--p-steel);opacity:0.6;">↻</span><span class="feedback-text">Monitor can re-trigger any workflow with updated evidence, preserving full lineage · Any frozen artifact can be reopened as input to a new workflow</span></div>
+  <div class="v-label">perpensa v0.1 · workflow composition v2 · june 2026</div>
+</div>
+
+<h2 id="agents">4. Agent catalog</h2>
+
+<p>Agents are AI personas with defined roles, perspectives, and behavioral constraints. They are assembled dynamically into teams by the orchestration engine based on the decision question and workflow requirements. New agents can be added without modifying workflows — the agent pool is the extensibility point for vertical specialization.</p>
+
+<div class="callout callout-teal">The Synthesizer deserves special attention. It can be loaded from a prompt template (the default — a general-purpose synthesis prompt that adapts to input type) or created as a specialized custom synthesizer (e.g., a "PE Deal Synthesizer" that knows IC memo conventions, or a "Capital Assessment Synthesizer" that understands asset lifecycle terminology). Either approach works; the choice is made at team assembly time based on the decision domain.</div>
+
+<div class="diagram-frame">
+  <div class="section-label" style="color:var(--p-brass-dark);">Deliberation roles</div>
+  <div class="agents-grid">
+    <div class="agent-card agent-card-brass"><div class="agent-name">Advocate</div><div class="agent-role">Builds the strongest case for a position</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Constructive, optimistic, opportunity-seeking</span></div><div class="agent-prop"><span class="prop-label">Behavior</span><span class="prop-value">Cites supporting evidence, identifies upside, argues for action</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Deliberate</span><span class="wf-tag">Create</span></span></div></div></div>
+    <div class="agent-card agent-card-steel"><div class="agent-name">Skeptic</div><div class="agent-role">Stress-tests claims and assumptions</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Questioning, evidence-demanding, risk-aware</span></div><div class="agent-prop"><span class="prop-label">Behavior</span><span class="prop-value">Challenges weak evidence, surfaces hidden assumptions, demands rigor</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Deliberate</span><span class="wf-tag">Attack</span></span></div></div></div>
+  </div>
+  <div class="section-label" style="color:var(--p-signal);">Adversarial roles</div>
+  <div class="agents-grid">
+    <div class="agent-card agent-card-signal agent-card-full"><div class="agent-name">Red team</div><div class="agent-role">Adversarial challenge — tries to break the thesis</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Hostile to the prevailing position, contrarian, seeks failure modes and catastrophic risks</span></div><div class="agent-prop"><span class="prop-label">Behavior</span><span class="prop-value">Finds blind spots, runs pre-mortems, identifies scenarios where the decision fails catastrophically</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Attack</span> — spawned during Deliberate when confidence exceeds threshold or on demand</span></div></div></div>
+  </div>
+  <div class="section-label" style="color:var(--p-teal-dark);">Service roles</div>
+  <div class="agents-grid">
+    <div class="agent-card agent-card-teal"><div class="agent-name">Researcher</div><div class="agent-role">Finds, validates, and contextualizes evidence</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Neutral, thorough, source-critical</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">All workflows</span> — omnipresent, callable at any step</span></div></div></div>
+    <div class="agent-card agent-card-teal"><div class="agent-name">Synthesizer</div><div class="agent-role">Merges input into coherent output</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Balanced, editorial, narrative-focused</span></div><div class="agent-prop"><span class="prop-label">Modes</span><span class="prop-value">Prompt-template loaded (default) or custom specialized variant per domain</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Create</span> — primary role in Synthesize and Compose steps</span></div></div></div>
+  </div>
+  <div class="section-label" style="color:var(--p-text-muted);">Analytical roles</div>
+  <div class="agents-grid">
+    <div class="agent-card agent-card-neutral"><div class="agent-name">Domain expert</div><div class="agent-role">Subject-matter authority for the decision context</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Authoritative within specialty, defers outside it</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Deliberate</span><span class="wf-tag">Attack</span><span class="wf-tag">Scenario</span></span></div></div></div>
+    <div class="agent-card agent-card-neutral"><div class="agent-name">Analyst</div><div class="agent-role">Quantitative analysis and financial modeling</div><div class="agent-props"><div class="agent-prop"><span class="prop-label">Stance</span><span class="prop-value">Data-driven, computational, assumption-explicit</span></div><div class="agent-prop"><span class="prop-label">Invoked</span><span class="prop-value"><span class="wf-tag">Deliberate</span><span class="wf-tag">Scenario</span><span class="wf-tag">Create</span></span></div></div></div>
+  </div>
+  <div class="v-label">perpensa v0.1 · agent catalog · june 2026</div>
+</div>
+
+<h2 id="agent-api">5. Agent API &amp; extensibility</h2>
+
+<p>The agent pool is not a closed system. Perpensa exposes an internal Agent API that allows users and partners to create, test, and deploy custom agents. This is the developer platform layer — it turns Perpensa from a product into an ecosystem.</p>
+
+<h3>Agent creation paths</h3>
+
+<p>There are two paths to creating a custom agent, both producing the same deployable artifact:</p>
+
+<p><strong>Prompt-template path.</strong> The simplest route. A user defines an agent's role, perspective, behavioral constraints, and domain context via a structured prompt template in Template Studio. The platform wraps the template in the standard agent interface (input schema, output schema, workflow hooks) automatically. This is how most domain experts and specialized analysts will be created — a PE firm's "regulatory specialist" is a prompt template with FTC merger review context, not custom code.</p>
+
+<p><strong>Code path.</strong> For agents that need custom logic — external API calls, proprietary models, complex scoring algorithms, or integration with enterprise systems — users can write agent code directly. The platform provides a chatbot interface that generates LangGraph agent code from natural language descriptions, scaffolding the correct input/output contracts and workflow hooks. Users can also load their own code directly.</p>
+
+<h3>Validation &amp; governance</h3>
+
+<p>Whether an agent arrives via prompt template or code, it passes through a validation pipeline before deployment:</p>
+
+<div class="callout callout-steel">
+<strong>Behavioral validation.</strong> The agent is tested against a suite of scenarios to verify it behaves within its declared constraints — a skeptic agent shouldn't advocate, a domain expert shouldn't opine outside its specialty. Agents that fail behavioral validation are flagged for review, not silently deployed.
+</div>
+
+<p><strong>Interface compliance.</strong> Every agent must implement the standard input/output contract: it receives a deliberation context (the question, current state, evidence available, other agents' positions) and returns a structured response (its position, supporting evidence citations, confidence level, and any requests for further research). Code-path agents that don't conform to this contract are rejected with specific errors.</p>
+
+<p><strong>Sandboxing.</strong> Code-path agents run in isolated execution environments. They cannot access other tenants' data, cannot make unauthorized external calls, and cannot modify the deliberation state outside their declared output contract. The validation layer inspects code for prohibited patterns before deployment.</p>
+
+<h2 id="evidence">6. Evidence flow</h2>
+
+<p>Evidence enters Perpensa through four source categories and passes through a four-stage pipeline before becoming available to workflows and agents.</p>
+
+<div class="diagram-frame">
+  <div class="stage s-sources">
+    <div class="stage-bar"><span class="stage-num">01</span><span class="stage-label">Sources</span><div class="stage-line"></div></div>
+    <div class="stage-cards cards-4">
+      <div class="sc"><div class="sc-name">Corporate APIs</div><div class="sc-desc">ERP, CRM, CMMS, data warehouses</div><div class="sc-examples">SAP, Salesforce, Maximo</div></div>
+      <div class="sc"><div class="sc-name">File systems</div><div class="sc-desc">Shared drives, data rooms, repositories</div><div class="sc-examples">SharePoint, Datasite, S3</div></div>
+      <div class="sc"><div class="sc-name">User upload</div><div class="sc-desc">Direct document and data submission</div><div class="sc-examples">PDF, XLSX, CSV, images</div></div>
+      <div class="sc"><div class="sc-name">Web research</div><div class="sc-desc">Agent-initiated search and retrieval</div><div class="sc-examples">SEC filings, news, patents</div></div>
+    </div>
+  </div>
+  <div class="flow-indicator">▼ raw content ▼</div>
+  <div class="stage s-ingest">
+    <div class="stage-bar"><span class="stage-num">02</span><span class="stage-label">Ingest</span><div class="stage-line"></div></div>
+    <div class="stage-cards cards-3">
+      <div class="sc"><div class="sc-name">Parse &amp; extract</div><div class="sc-desc">PDF/DOCX/XLSX parsing, table extraction, OCR for scanned documents</div></div>
+      <div class="sc"><div class="sc-name">Normalize</div><div class="sc-desc">Canonical format, UTF-8, structured metadata envelope</div></div>
+      <div class="sc"><div class="sc-name">Deduplicate</div><div class="sc-desc">SHA-256 content hash, exact and fuzzy match detection</div></div>
+    </div>
+  </div>
+  <div class="flow-indicator">▼ normalized evidence ▼</div>
+  <div class="stage s-enrich">
+    <div class="stage-bar"><span class="stage-num">03</span><span class="stage-label">Enrich</span><div class="stage-line"></div></div>
+    <div class="stage-cards cards-4">
+      <div class="sc"><div class="sc-name">Validate</div><div class="sc-desc">Source credibility scoring, recency check, cross-reference</div></div>
+      <div class="sc"><div class="sc-name">Classify</div><div class="sc-desc">Topic taxonomy assignment, relevance scoring, sensitivity</div></div>
+      <div class="sc"><div class="sc-name">Tag</div><div class="sc-desc">Entity extraction, key terms, relationship mapping</div></div>
+      <div class="sc"><div class="sc-name">Embed</div><div class="sc-desc">Vector embedding for semantic search and similarity</div></div>
+    </div>
+  </div>
+  <div class="flow-indicator">▼ enriched, indexed evidence ▼</div>
+  <div class="stage s-store">
+    <div class="stage-bar"><span class="stage-num">04</span><span class="stage-label">Store &amp; index</span><div class="stage-line"></div></div>
+    <div class="stage-cards cards-2">
+      <div class="sc"><div class="sc-name">Semantic index</div><div class="sc-desc">Vector store for similarity search, metadata catalog, taxonomy graph for navigation</div></div>
+      <div class="sc"><div class="sc-name">Evidence ledger</div><div class="sc-desc">Hash-chain manifest linking every piece of evidence to its source, version, and ingestion timestamp</div></div>
+    </div>
+    <div class="vault-highlight">
+      <div class="vault-title">Research vault</div>
+      <div class="vault-props">
+        <div class="vault-prop"><strong>Immutable blobs</strong>Content-addressable storage, write-once</div>
+        <div class="vault-prop"><strong>Hash-chain manifest</strong>Append-only ledger, tamper-evident</div>
+        <div class="vault-prop"><strong>Decision snapshots</strong>Frozen evidence sets per deliberation</div>
+      </div>
+    </div>
+  </div>
+  <div class="v-label">perpensa v0.1 · evidence flow · june 2026</div>
+</div>
+
+<h2 id="templates">7. Template system</h2>
+
+<p>Perpensa's template system serves two distinct functions under one management interface — Template Studio. Because Create is a universal output stage that accepts input from any workflow, templates must handle deliberation transcripts, raw research output, attack findings, scenario comparisons, and monitor change reports.</p>
+
+<div class="diagram-frame">
+  <div class="section-label" style="color:var(--p-teal-dark);">Output templates — what the artifact looks like</div>
+  <div class="ts-grid">
+    <div class="tc tc-teal"><div class="tc-name">Decision artifacts</div><div class="tc-desc">Structured deliverables produced by the Create workflow</div><div class="tc-items"><span class="tc-item">Deal memo</span><span class="tc-item">IC deck</span><span class="tc-item">Risk matrix</span><span class="tc-item">Executive summary</span><span class="tc-item">Board brief</span></div></div>
+    <div class="tc tc-teal"><div class="tc-name">Operational artifacts</div><div class="tc-desc">Ongoing monitoring and capital planning outputs</div><div class="tc-items"><span class="tc-item">Capital plan</span><span class="tc-item">Asset assessment</span><span class="tc-item">Change report</span><span class="tc-item">Variance analysis</span><span class="tc-item">Audit trail</span></div></div>
+  </div>
+  <div class="section-label" style="color:var(--p-steel-dark);">Prompt templates — how agents behave</div>
+  <div class="ts-grid">
+    <div class="tc tc-steel"><div class="tc-name">System prompts</div><div class="tc-desc">Role definition, behavioral constraints, domain context for each agent persona</div><div class="tc-items"><span class="tc-item">Advocate v2.1</span><span class="tc-item">Skeptic v1.4</span><span class="tc-item">Red team v3.0</span><span class="tc-item">PE analyst v1.0</span></div></div>
+    <div class="tc tc-steel"><div class="tc-name">Workflow prompts</div><div class="tc-desc">Step-specific instructions for synthesis, composition, attack patterns, and evidence validation</div><div class="tc-items"><span class="tc-item">Synthesize brief</span><span class="tc-item">Pre-mortem frame</span><span class="tc-item">Validate source</span><span class="tc-item">Compare scenarios</span></div></div>
+  </div>
+  <div class="section-label" style="color:var(--p-brass-dark);">Reusable components — building blocks</div>
+  <div class="ts-grid">
+    <div class="tc tc-brass tc-full"><div class="tc-name">Component library</div><div class="tc-desc">Modular sections that output templates compose from — each handles its own data binding and formatting</div><div class="tc-items"><span class="tc-item">Evidence citation block</span><span class="tc-item">Argument summary card</span><span class="tc-item">Dissent register</span><span class="tc-item">Confidence meter</span><span class="tc-item">Source provenance chain</span><span class="tc-item">Scenario comparison table</span><span class="tc-item">Risk heat map</span><span class="tc-item">Decision tree visual</span></div></div>
+  </div>
+  <div class="v-label">perpensa v0.1 · template system · june 2026</div>
+</div>
+
+<h3>Template Studio</h3>
+
+<p>Template Studio is the management interface for both output and prompt template libraries. It provides a visual editor for composing templates from components and variables, a properties panel for audience targeting and format selection, version history, and the ability to test templates against sample data before publishing.</p>
+
+<div class="diagram-frame">
+  <div class="mockup-frame">
+    <div class="mock-toolbar">
+      <span class="mock-logo">Perpensa</span>
+      <div class="mock-breadcrumb">Template studio <span>/</span> Output templates <span>/</span> Deal memo</div>
+      <div class="mock-toolbar-actions">
+        <div class="mock-btn"><i class="ti ti-eye" style="font-size:13px"></i> Preview</div>
+        <div class="mock-btn"><i class="ti ti-history" style="font-size:13px"></i> History</div>
+        <div class="mock-btn mock-btn-primary"><i class="ti ti-check" style="font-size:13px"></i> Publish</div>
+      </div>
+    </div>
+    <div class="mock-body">
+      <div class="mock-sidebar">
+        <div class="sb-section">
+          <div class="sb-section-title">Output templates</div>
+          <div class="sb-item sb-item-active"><i class="ti ti-file-text"></i> Deal memo <span class="sb-count">v2.1</span></div>
+          <div class="sb-item"><i class="ti ti-file-text"></i> IC deck <span class="sb-count">v1.3</span></div>
+          <div class="sb-item"><i class="ti ti-file-text"></i> Risk matrix <span class="sb-count">v1.0</span></div>
+          <div class="sb-item"><i class="ti ti-file-text"></i> Executive summary <span class="sb-count">v2.0</span></div>
+          <div class="sb-item"><i class="ti ti-file-text"></i> Capital plan <span class="sb-count">v1.1</span></div>
+        </div>
+        <div class="sb-section">
+          <div class="sb-section-title">Prompt templates</div>
+          <div class="sb-item"><i class="ti ti-robot"></i> Advocate <span class="sb-count">v2.1</span></div>
+          <div class="sb-item"><i class="ti ti-robot"></i> Skeptic <span class="sb-count">v1.4</span></div>
+          <div class="sb-item"><i class="ti ti-robot"></i> Red team <span class="sb-count">v3.0</span></div>
+          <div class="sb-item"><i class="ti ti-robot"></i> Synthesizer <span class="sb-count">v1.2</span></div>
+        </div>
+        <div class="sb-section">
+          <div class="sb-section-title">Components</div>
+          <div class="sb-item"><i class="ti ti-layout"></i> Citation block</div>
+          <div class="sb-item"><i class="ti ti-layout"></i> Dissent register</div>
+          <div class="sb-item"><i class="ti ti-layout"></i> Confidence meter</div>
+        </div>
+      </div>
+      <div class="mock-editor">
+        <div class="ed-header"><span class="ed-title">Deal memo</span><span class="ed-version">v2.1</span><span class="ed-status">Published</span></div>
+        <div class="ed-meta"><span>Audience: Investment committee</span><span>Last edited: Jun 14, 2026</span><span>Used in 12 deliberations</span></div>
+        <div class="ed-content">
+          <div class="ed-section-head">1. Transaction overview</div>
+          <div><span class="ed-static">Target:</span> <span class="ed-var">{{target_name}}</span></div>
+          <div><span class="ed-static">Proposed valuation:</span> <span class="ed-var">{{valuation}}</span> <span class="ed-static">at</span> <span class="ed-var">{{multiple}}</span> <span class="ed-static">EV/EBITDA</span></div>
+          <div class="ed-section-head">2. Deliberation summary</div>
+          <div><span class="ed-component">@argument_summary_card</span></div>
+          <div style="margin-top:4px;"><span class="ed-static">Consensus:</span> <span class="ed-var">{{consensus}}</span></div>
+          <div><span class="ed-static">Confidence:</span> <span class="ed-component">@confidence_meter</span></div>
+          <div class="ed-section-head">3. Risk assessment</div>
+          <div><span class="ed-component">@risk_heat_map</span></div>
+          <div class="ed-section-head">4. Dissenting views</div>
+          <div><span class="ed-component">@dissent_register</span></div>
+          <div class="ed-section-head">5. Evidence &amp; provenance</div>
+          <div><span class="ed-component">@evidence_citation_block</span></div>
+          <div style="margin-top:4px;"><span class="ed-static">Vault snapshot:</span> <span class="ed-var">{{vault_snapshot_id}}</span></div>
+        </div>
+      </div>
+      <div class="mock-props">
+        <div class="props-title">Properties</div>
+        <div class="prop-group"><div class="mp-label">Template type</div><div class="prop-select">Output template</div></div>
+        <div class="prop-group"><div class="mp-label">Target audience</div><div class="prop-select">Investment committee</div></div>
+        <div class="prop-group"><div class="mp-label">Output format</div><div class="prop-tags"><span class="prop-tag">PDF</span><span class="prop-tag">DOCX</span><span class="prop-tag">HTML</span></div></div>
+        <div class="props-title" style="margin-top:14px;">Variables</div>
+        <div class="var-row"><span class="var-name">target_name</span><span class="var-type">string</span></div>
+        <div class="var-row"><span class="var-name">valuation</span><span class="var-type">currency</span></div>
+        <div class="var-row"><span class="var-name">multiple</span><span class="var-type">number</span></div>
+        <div class="var-row"><span class="var-name">consensus</span><span class="var-type">text</span></div>
+        <div class="var-row"><span class="var-name">vault_snapshot_id</span><span class="var-type">ref</span></div>
+        <div class="props-title" style="margin-top:14px;">Components</div>
+        <div class="var-row"><span class="var-name" style="color:var(--p-steel-dark);">@argument_summary</span></div>
+        <div class="var-row"><span class="var-name" style="color:var(--p-steel-dark);">@confidence_meter</span></div>
+        <div class="var-row"><span class="var-name" style="color:var(--p-steel-dark);">@risk_heat_map</span></div>
+        <div class="var-row"><span class="var-name" style="color:var(--p-steel-dark);">@dissent_register</span></div>
+        <div class="var-row"><span class="var-name" style="color:var(--p-steel-dark);">@evidence_citation</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="diagram-caption">Template Studio — Deal memo output template with variable bindings and reusable components</div>
+</div>
+
+<h2 id="overlays">8. Vertical overlays</h2>
+
+<p>The base platform handles generic deliberation. Vertical overlays specialize it for specific domains by adding custom agents (via the Agent API), domain-specific templates, and pre-configured workflow patterns.</p>
+
+<h3>PE due diligence (Perpensa Capital — Deals)</h3>
+<p>A PE firm evaluating an acquisition uses Deliberate with advocate and skeptic agents supplemented by a PE analyst, a regulatory specialist, and a market comparables researcher. The Attack workflow runs a red team against the investment thesis. Scenario branches the analysis at different multiples. Create produces a deal memo using the IC deck template — or Create can produce a standalone competitive landscape report directly from Research without any deliberation at all. The Research Vault provides the audit trail that the IC requires.</p>
+
+<h3>Capital asset lifecycle (Perpensa Capital — Assets)</h3>
+<p>A manufacturer managing a fleet of capital assets uses Index to maintain the asset registry, Monitor to watch for lifecycle events (maintenance thresholds, regulatory deadlines, condition changes), Deliberate with maintenance engineer and capital planner agents to evaluate overhaul vs. replace decisions, and Scenario to model different capital planning approaches. Create produces capital plans and asset assessment reports. Custom agents built via the Agent API can integrate directly with enterprise CMMS systems to pull real-time asset condition data into the deliberation.</p>
+
+<h2 id="technology">9. Technology considerations</h2>
+
+<p><strong>Language split.</strong> The primary question is TypeScript vs. Python for the capture engine and orchestration layer. TypeScript offers strong typing, excellent async patterns for agent orchestration, and a unified stack with the frontend. Python offers a richer ML/NLP ecosystem and more mature libraries for document parsing and vector operations. The current leaning is a TypeScript orchestration layer with Python services for ML-heavy operations, but this decision has not been finalized.</p>
+
+<p><strong>Agent framework.</strong> LangGraph is the target framework for agent implementation, providing the graph-based execution model that maps naturally to Perpensa's workflow compositions. The Agent API's chatbot interface generates LangGraph code, and the validation pipeline tests against LangGraph's execution semantics.</p>
+
+<p><strong>Infrastructure stack.</strong> Development and early deployment maps across a tiered compute architecture: Synology NAS (storage, data management), Raspberry Pi 5 + Hailo NPU (lightweight inference, edge processing), Jetson Orin Nano (local model serving), and HP Z2/RTX 4070 Ti Super workstation (heavy inference, training, development).</p>
+
+<p><strong>Development tooling.</strong> Claude Code with Linear MCP integration and Ralph plugin for agentic development loops. Linear project (Perpensa MVP, ID 249fb60c) is active.</p>
+
+<h2 id="questions">10. Open questions for technical advisors</h2>
+
+<p><strong>1. Build vs. integrate on ingestion.</strong> How much of the ingestion pipeline (Stage 2 — Parse &amp; Extract) should be built vs. integrated from existing libraries? The document parsing problem is well-solved; the question is whether our normalization and deduplication requirements justify a custom pipeline or whether we compose from existing tools (Unstructured, LlamaParse, Apache Tika) with a thin orchestration layer.</p>
+
+<p><strong>2. Agent API priority.</strong> The Agent API is clearly needed, but should it be V1 or V2? A V1 Agent API accelerates the ecosystem and enables partner-built vertical agents, but adds surface area and requires the validation/sandboxing pipeline to be production-ready at launch. A V1 without it means all custom agents are prompt-template-only until V2 ships the code path.</p>
+
+<p><strong>3. Vault implementation.</strong> The research vault architecture (content-addressable storage, hash-chain manifest) is well-defined conceptually. The implementation question is whether to build on existing CAS systems (IPFS, git's object store model), adapt a purpose-built store optimized for evidence snapshots, or start with something simpler (S3 + DynamoDB with content hashing) and migrate later. What's the right fidelity for V1 given that the tamper-evidence story is central to the value proposition?</p>
+
+<p><strong>4. Context window management.</strong> During a multi-round debate, the accumulated deliberation transcript can easily exceed any model's context window. How do we manage this? Progressive summarization (lossy but predictable), retrieval-augmented context (maintains full fidelity but adds latency), sliding window with full archive access, or a hybrid? The choice affects how "rewind &amp; inject" works — rewinding to an earlier state is trivial with full history but expensive with summarized history.</p>
+
+<p><strong>5. Vector store selection.</strong> The semantic index needs to handle evidence embeddings, taxonomy relationships, and similarity search. The options range from embedded (ChromaDB, LanceDB) to managed (Pinecone, Weaviate) to PostgreSQL-native (pgvector). Given that the vault already needs a durable store, does it make sense to co-locate embeddings in PostgreSQL via pgvector, or does the query pattern (high-throughput similarity search during active debate) justify a dedicated vector store?</p>
+
+<p><strong>6. Agent observability.</strong> When a deliberation produces a surprising result, someone needs to debug it. What does agent observability look like? Full transcript logging is necessary but not sufficient — you need to see which evidence each agent retrieved, what its confidence was at each turn, and where the debate turned. Is this a custom tracing implementation, or can we build on existing LLM observability frameworks (LangSmith, Arize, Helicone) and extend them for multi-agent orchestration?</p>
+
+<p><strong>7. Testing strategy for prompt templates.</strong> A prompt template change can fundamentally alter an agent's behavior. How do we regression-test prompt changes before publishing? The options include golden-set evaluation (run the updated agent against known scenarios and compare outputs), behavioral assertions (the skeptic must challenge at least N claims per round), and A/B deployment (run old and new templates in parallel on the same deliberation). What combination gives us confidence without creating a testing bottleneck?</p>
+
+<p><strong>8. TypeScript/Python split.</strong> The current leaning is TypeScript for orchestration and frontend, Python for ML-heavy services (embedding, classification, NLP). Where exactly does the boundary sit? Does the LangGraph agent runtime live in Python (natural fit) or TypeScript (unified with orchestration)? What's the IPC mechanism between the two — HTTP, gRPC, message queue?</p>
+
+<hr>
+
+<p style="font-size: 12px; color: var(--p-text-muted); margin-top: 24px;">This document includes the system architecture diagram, workflow composition (v2), agent catalog, evidence flow diagram, template system diagram, and Template Studio mockup produced in the June 2026 design sessions.</p>
+<p style="font-size: 12px; color: var(--p-text-muted);">Internal naming convention: Product family uses a Latin <em>per-</em> prefix (Perpensa, Pertela, Perdocta, Pervecta) with music-themed internal codenames (Forte, Chorus, Tempo, Remix).</p>
+
+</body>
+</html>
