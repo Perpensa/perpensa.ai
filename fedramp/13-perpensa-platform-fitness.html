@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpensa Platform Fitness Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--brass:#C4993D;--brass-light:#D4AD5A;--brass-pale:#F5EDD8;--brass-dim:#8A6B2B;--steel:#7B8794;--steel-light:#A0AAB4;--steel-pale:#E8EAED;--steel-dark:#4A5568;--signal:#E05B3C;--signal-pale:#FDEAE5;--signal-deep:#B83D22;--ink:#1A1D23;--ink-soft:#2D3139;--ink-mid:#3D424A;--paper:#F7F6F3;--paper-warm:#EEECE6;--chalk:#FFFFFF;--green:#3D9970;--green-pale:#E5F2EC;--blue:#4A7FB5;--blue-pale:#E3EDF6;--amber:#D89A3C;--amber-pale:#F8EED6;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Instrument Sans',-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.66;font-size:15.5px;}
+  .header{background:var(--ink);color:var(--paper);padding:2.6rem 3rem;position:relative;}
+  .header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--brass),var(--steel),var(--green));}
+  .header-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.4rem;}
+  .logo{font-size:1.05rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brass);}
+  .logo span{color:var(--steel-light);font-weight:400;letter-spacing:0.08em;font-size:0.72rem;display:block;margin-top:0.2rem;}
+  .meta{text-align:right;font-size:0.76rem;color:var(--steel-light);line-height:1.6;}
+  .meta strong{color:var(--brass-light);font-weight:600;}
+  .header h1{font-size:1.95rem;font-weight:700;line-height:1.2;max-width:760px;margin-bottom:0.5rem;}
+  .header .sub{font-size:1rem;color:var(--steel-light);max-width:700px;}
+  .content{max-width:960px;margin:0 auto;padding:2.4rem 2rem 3.5rem;}
+  .sec{margin-bottom:2.4rem;}
+  .sec-label{font-size:0.66rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--brass);margin-bottom:0.4rem;}
+  .sec h2{font-size:1.45rem;font-weight:700;margin-bottom:0.9rem;line-height:1.25;}
+  .sec h3{font-size:1.08rem;font-weight:700;margin:1.4rem 0 0.5rem;color:var(--ink);}
+  .sec p{margin-bottom:0.9rem;color:var(--ink-soft);}
+  .sec ul,.sec ol{margin:0 0 1rem 1.3rem;}
+  .sec li{margin-bottom:0.45rem;color:var(--ink-soft);line-height:1.55;}
+  .sec strong{color:var(--ink);font-weight:600;}
+  .div{height:1px;background:linear-gradient(90deg,transparent,var(--paper-warm),transparent);margin:2.3rem 0;}
+  .thesis{background:linear-gradient(135deg,var(--ink),#2a2f38);border-radius:13px;padding:1.8rem 2.1rem;margin-bottom:2.3rem;border-left:5px solid var(--green);}
+  .thesis .tl{font-size:0.64rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);margin-bottom:0.5rem;}
+  .thesis h2{color:var(--paper);font-size:1.4rem;margin-bottom:0.9rem;line-height:1.3;}
+  .thesis p{color:var(--steel-light);font-size:0.95rem;margin-bottom:0.7rem;}.thesis p:last-child{margin-bottom:0;}
+  .thesis strong{color:var(--brass-light);}
+  .arch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.8rem;margin:1.1rem 0;}
+  .arch{background:var(--chalk);border:1px solid var(--paper-warm);border-radius:9px;padding:1rem 1.1rem;}
+  .arch.core{border-color:#CDE6DB;background:var(--green-pale);}
+  .arch .a-tag{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;color:var(--brass);}
+  .arch.core .a-tag{color:#2c7355;}
+  .arch h4{font-size:0.96rem;margin:0 0 0.3rem;color:var(--ink);}
+  .arch p{font-size:0.83rem;color:var(--ink-soft);margin-bottom:0;line-height:1.5;}
+  .tb{width:100%;border-collapse:collapse;margin:1.1rem 0;font-size:0.82rem;}
+  .tb thead th{background:var(--ink);color:var(--paper);padding:0.55rem 0.7rem;text-align:left;font-weight:600;font-size:0.65rem;letter-spacing:0.03em;text-transform:uppercase;vertical-align:top;}
+  .tb thead th:first-child{border-radius:6px 0 0 0;}.tb thead th:last-child{border-radius:0 6px 0 0;}
+  .tb td{padding:0.5rem 0.7rem;border-bottom:1px solid var(--paper-warm);vertical-align:top;color:var(--ink-soft);line-height:1.45;}
+  .tb tr:nth-child(even){background:var(--chalk);}.tb tr:nth-child(odd){background:rgba(255,255,255,0.4);}
+  .fit{font-weight:700;font-size:0.7rem;padding:0.12rem 0.5rem;border-radius:4px;white-space:nowrap;text-transform:uppercase;letter-spacing:0.03em;}
+  .fit.strong{background:var(--green-pale);color:#2c7355;}
+  .fit.mod{background:var(--amber-pale);color:#9a6c1c;}
+  .fit.weak{background:var(--signal-pale);color:var(--signal-deep);}
+  .fit.crud{background:var(--steel-pale);color:var(--steel-dark);}
+  .stagecol{font-family:'Geist Mono',monospace;font-size:0.72rem;color:var(--steel);white-space:nowrap;}
+  .legend{display:flex;flex-wrap:wrap;gap:0.7rem;margin:0.8rem 0 0.4rem;font-size:0.76rem;}
+  .legend span{display:inline-flex;align-items:center;gap:0.35rem;}
+  .legend .sw{width:12px;height:12px;border-radius:3px;display:inline-block;}
+  .box{background:var(--chalk);border:1px solid var(--paper-warm);border-radius:10px;padding:1.2rem 1.4rem;margin:1rem 0;box-shadow:0 1px 2px rgba(0,0,0,0.03);}
+  .box.green{background:var(--green-pale);border-color:#CDE6DB;}
+  .box.amber{background:var(--amber-pale);border-color:#EBDCB4;}
+  .box .bl{font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.35rem;}
+  .box.green .bl{color:#2c7355;}.box.amber .bl{color:#9a6c1c;}
+  .box p{font-size:0.92rem;margin-bottom:0.5rem;}.box p:last-child{margin-bottom:0;}
+  .change{display:flex;gap:0.9rem;padding:0.7rem 0;border-bottom:1px solid var(--paper-warm);}
+  .change:last-child{border-bottom:none;}
+  .change .c-sev{flex-shrink:0;font-size:0.62rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.5rem;border-radius:4px;height:fit-content;width:84px;text-align:center;}
+  .c-sev.real{background:var(--amber-pale);color:#9a6c1c;}
+  .c-sev.minor{background:var(--steel-pale);color:var(--steel-dark);}
+  .change .c-body{font-size:0.89rem;color:var(--ink-soft);}
+  .change .c-body strong{color:var(--ink);}
+  .verdict{background:linear-gradient(135deg,var(--ink),#2a2f38);border-radius:13px;padding:1.9rem 2.1rem;margin:1.4rem 0;border-left:5px solid var(--brass);}
+  .verdict .vl{font-size:0.66rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--brass-light);margin-bottom:0.6rem;}
+  .verdict h2{color:var(--paper);font-size:1.4rem;margin-bottom:1rem;line-height:1.3;}
+  .verdict p{color:var(--steel-light);font-size:0.95rem;margin-bottom:0.8rem;}.verdict p:last-child{margin-bottom:0;}
+  .verdict strong{color:var(--brass-light);}
+  .footer{background:var(--ink);color:var(--steel);padding:1.3rem 3rem;font-size:0.73rem;display:flex;justify-content:space-between;}
+  .footer .pm{color:var(--brass);font-weight:700;letter-spacing:0.1em;}
+  @media(max-width:768px){.header{padding:1.5rem;}.header h1{font-size:1.4rem;}.content{padding:1.5rem 1rem;}.arch-grid{grid-template-columns:1fr;}.tb{font-size:0.74rem;}.change{flex-direction:column;gap:0.3rem;}.footer{flex-direction:column;gap:0.4rem;padding:1.3rem 1.5rem;}}
+</style>
+</head>
+<body>
+<!-- perpensa-prd-nav -->
+<nav style="font-family:'Instrument Sans',-apple-system,sans-serif;background:#1A1D23;border-radius:8px;padding:0.7rem 1.1rem;margin:1.1rem auto;max-width:920px;display:flex;flex-wrap:wrap;gap:0.4rem 1rem;font-size:0.8rem;line-height:1.7;">
+  <a href="product-home.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">&#8962;</span> Home</a>
+  <a href="10-prd-mvp.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">10</span> MVP</a>
+  <a href="11-prd-v1.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">11</span> V1</a>
+  <a href="12-prd-v2.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">12</span> V2</a>
+  <a href="13-perpensa-platform-fitness.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">13</span> Fitness</a>
+  <a href="00-home.html" style="text-decoration:none;color:#7B8794;white-space:nowrap;margin-left:auto;font-size:0.75rem;">&#8593; Project index</a>
+</nav>
+<!-- /perpensa-prd-nav -->
+
+
+<div class="header">
+  <div class="header-row">
+    <div class="logo">Perpensa<span>Platform Fitness &middot; Architecture Evaluation</span></div>
+    <div class="meta"><strong>Document 4 of 4</strong><br>Subject: Perpensa-as-Platform<br>Date: June 16, 2026<br>Focus: product fitness</div>
+  </div>
+  <h1>Is Perpensa Fit to Be the Platform Under This Product?</h1>
+  <div class="sub">An evaluation of Perpensa's architecture against the three product requirement documents: where the platform fits, where it does not, the strong/moderate/weak feature matrix, and the architectural work required to build the product on it.</div>
+</div>
+
+<div class="content">
+
+  <div class="thesis">
+    <div class="tl">The finding, stated plainly</div>
+    <h2>No major re-architecture is required. Perpensa is a workflow-and-provenance platform, and a FedRAMP authorization is a workflow.</h2>
+    <p>Perpensa's differentiated asset is not a deliberation engine. It is a <strong>flexible intelligent workflow with the ability to record and trace what happens inside every step</strong>, sitting over a domain-neutral, content-addressable, tamper-evident evidence store. A FedRAMP authorization is exactly such a workflow: pre-authorization, SSP assembly, assessment, POA&amp;M, then continuous monitoring, each step consuming and producing evidence whose provenance must be verifiable.</p>
+    <p>Recording and tracing what happens inside those steps is not analogous to the audit trail. <strong>It is the audit trail.</strong> The platform is therefore a strong architectural fit for the product's hardest and most defensible layer, evidence integrity, immutable package assembly, continuous monitoring over a frozen baseline, and decision provenance, and a weak fit only for commoditized application plumbing, which is the best possible distribution of strengths. The substrate runs on AWS, where FedRAMP-authorized infrastructure already exists, and the evidence schema is domain-neutral, so OSCAL and compliance evidence are simply payloads on it. What remains is bounded engineering work, not re-architecture.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Baseline</div>
+    <h2>Perpensa's distinctive architecture</h2>
+    <p>Stripped of branding, the differentiated core is a domain-neutral workflow-and-provenance substrate. The deliberation agent is an application of it, not the architecture itself. Compute for the product is AWS; the local lab (NAS, Pi, Jetson, workstation) is development and inference, not the product's hosting.</p>
+    <div class="arch-grid">
+      <div class="arch core"><div class="a-tag">Core &middot; differentiated</div><h4>Flexible intelligent workflow engine</h4><p>Configurable multi-step workflows over arbitrary domains. The deliberation flow is one instance; an authorization lifecycle is another.</p></div>
+      <div class="arch core"><div class="a-tag">Core &middot; differentiated</div><h4>Intra-step recording &amp; tracing</h4><p>Captures and traces what happens inside each workflow step. This is the provenance/lineage engine, and it is domain-agnostic.</p></div>
+      <div class="arch core"><div class="a-tag">Core &middot; differentiated</div><h4>Domain-neutral evidence vault</h4><p>Content-addressable store accepting any domain schema. OSCAL is just another payload.</p></div>
+      <div class="arch core"><div class="a-tag">Core &middot; differentiated</div><h4>Hash-chained manifest ledger</h4><p>Append-only, tamper-evident record of what was captured, when, and in what state. Native integrity.</p></div>
+      <div class="arch core"><div class="a-tag">Core &middot; differentiated</div><h4>Immutable / mutable plane split</h4><p>Frozen evidence plane beneath a mutable interpretation plane. Exactly the ConMon-over-a-baseline shape.</p></div>
+      <div class="arch"><div class="a-tag">Application</div><h4>Deliberation agent</h4><p>One workflow configured on the engine above. Not the core; one of many possible workflows.</p></div>
+      <div class="arch"><div class="a-tag">Conventional</div><h4>AI orchestration + app shell</h4><p>Model routing, agentic loops, capture plumbing, UI. Valuable, not unique.</p></div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <div class="sec">
+    <div class="sec-label">The Matrix</div>
+    <h2>Feature-requirement fitness across the three PRDs</h2>
+    <p>Each row is a requirement drawn from the MVP, V1, or V2 PRD, scored against the architecture. The CRUD caveat applies: anything that is commoditized application plumbing is tagged accordingly and treated as a minor, easily-closed gap rather than a structural weakness.</p>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--green-pale);"></span> <strong>Strong</strong> &mdash; core architecture serves this directly</span>
+      <span><span class="sw" style="background:var(--amber-pale);"></span> <strong>Moderate</strong> &mdash; partial fit, domain build on top</span>
+      <span><span class="sw" style="background:var(--signal-pale);"></span> <strong>Weak</strong> &mdash; net-new, domain-specific</span>
+      <span><span class="sw" style="background:var(--steel-pale);"></span> <strong>CRUD</strong> &mdash; weak fit but commoditized, minor gap</span>
+    </div>
+    <table class="tb">
+      <thead><tr><th>Requirement</th><th>PRD</th><th>Fit</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Authorization lifecycle as a traced workflow</strong></td><td class="stagecol">MVP/V1</td><td><span class="fit strong">Strong</span></td><td>The whole authorization process is a multi-step workflow whose per-step recording is the audit trail. This is the workflow engine's home turf, not an adaptation.</td></tr>
+        <tr><td><strong>Evidence capture &amp; integrity</strong></td><td class="stagecol">MVP</td><td><span class="fit strong">Strong</span></td><td>The content-addressable vault. Each artifact gets a verifiable identity natively.</td></tr>
+        <tr><td><strong>Immutable authorization package</strong></td><td class="stagecol">MVP/V1</td><td><span class="fit strong">Strong</span></td><td>A submitted package is a frozen, hash-verifiable archive. The ledger is built for this.</td></tr>
+        <tr><td><strong>ConMon over a frozen baseline</strong></td><td class="stagecol">V1</td><td><span class="fit strong">Strong</span></td><td>Continuous monitoring is a mutable interpretation plane over an immutable evidence plane. One-to-one.</td></tr>
+        <tr><td><strong>POA&amp;M / audit trail / provenance</strong></td><td class="stagecol">V1/V2</td><td><span class="fit strong">Strong</span></td><td>Intra-step tracing is decision provenance. V2's auditor-grade provenance differentiator is a direct application.</td></tr>
+        <tr><td><strong>Single OSCAL data model</strong></td><td class="stagecol">MVP</td><td><span class="fit strong">Strong</span></td><td>The neutral schema holds OSCAL as a payload and the plane split enforces single-source consistency natively. Only the OSCAL generation logic sits on top as domain work.</td></tr>
+        <tr><td><strong>Decision support (path/boundary/build-buy)</strong></td><td class="stagecol">V1</td><td><span class="fit strong">Strong</span></td><td>The deliberation workflow that produced this project. Guide Rail's hardest judgment calls run on it directly.</td></tr>
+        <tr><td><strong>Multi-framework evidence reuse</strong></td><td class="stagecol">V2</td><td><span class="fit mod">Moderate</span></td><td>Each framework is a domain payload plus a workflow on the neutral substrate. Moderate only because the framework mappings are real domain content.</td></tr>
+        <tr><td><strong>3PAO collaboration workspace</strong></td><td class="stagecol">V1</td><td><span class="fit mod">Moderate</span></td><td>Collaboration UI is CRUD, but multi-party evidence sharing with integrity guarantees is a genuine vault strength. Net moderate.</td></tr>
+        <tr><td><strong>KSI automated validation</strong></td><td class="stagecol">V1</td><td><span class="fit weak">Weak</span></td><td>Cloud-API control checks are domain-specific and net-new, though each check is a traceable workflow step on the engine.</td></tr>
+        <tr><td><strong>Component-definition library</strong></td><td class="stagecol">V2</td><td><span class="fit weak">Weak</span></td><td>The library content is domain IP the platform does not supply. The vault is an excellent integrity-and-lineage store for it. Container strong, contents net-new.</td></tr>
+        <tr><td><strong>Inheritable compliant IaC (LaunchPad)</strong></td><td class="stagecol">V1</td><td><span class="fit weak">Weak</span></td><td>Entirely domain/infrastructure. No meaningful overlap. Net-new regardless of platform.</td></tr>
+        <tr><td><strong>Procurement-signal pipeline</strong></td><td class="stagecol">V1</td><td><span class="fit crud">CRUD</span></td><td>Data ingestion / ETL against public sources. Commoditized. Minor gap.</td></tr>
+        <tr><td><strong>Multi-tenancy, auth, RBAC</strong></td><td class="stagecol">V1</td><td><span class="fit crud">CRUD</span></td><td>Standard SaaS plumbing. Minor gap. (Integrity-scoped multi-party sharing is the one non-trivial wrinkle, below.)</td></tr>
+        <tr><td><strong>Billing &amp; subscription mgmt</strong></td><td class="stagecol">V1</td><td><span class="fit crud">CRUD</span></td><td>Off-the-shelf. Minor gap, near-zero risk.</td></tr>
+        <tr><td><strong>Dashboards &amp; onboarding flows</strong></td><td class="stagecol">V1/V2</td><td><span class="fit crud">CRUD</span></td><td>Commoditized UI. Minor gap. Cheap to produce and straightforward to extend.</td></tr>
+        <tr><td><strong>Partner / white-label platform</strong></td><td class="stagecol">V2</td><td><span class="fit mod">Moderate</span></td><td>Needs the extension API below, but the integrity-and-workflow substrate is the differentiated thing such a capability would rest on.</td></tr>
+      </tbody>
+    </table>
+    <div class="box green">
+      <div class="bl">What the matrix shows</div>
+      <p>Seven Strong, three Moderate, three Weak, four CRUD. The Strong rows include the authorization lifecycle itself and the single OSCAL model, and they cover the product's hardest and most defensible layer outright. The net-new work concentrates in three domain-specific Weak rows where Perpensa is still a strong store-and-trace layer, and the four CRUD rows are minor by definition.</p>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <div class="sec">
+    <div class="sec-label">The Real Work</div>
+    <h2>Architectural change list</h2>
+    <p>The work is bounded: a handful of genuine items and the commoditized minors. None requires re-architecting the platform.</p>
+
+    <div class="box">
+      <div class="change">
+        <div class="c-sev real">Real</div>
+        <div class="c-body"><strong>FedRAMP-grade AWS posture &amp; boundary strategy.</strong> Choose the deployment posture (GovCloud vs commercial, which authorized services to inherit from) and resolve the one genuinely non-obvious question: if the platform stores and processes a customer's federal compliance evidence, does it fall inside the customer's authorization boundary, and does it therefore need its own authorization or a clear inheritance/equivalency story? This is a posture and scoping decision to make deliberately, not a re-architecture.</div>
+      </div>
+      <div class="change">
+        <div class="c-sev real">Real</div>
+        <div class="c-body"><strong>External extension API / SDK.</strong> The primary enabling work. A stable, documented surface over the workflow engine, evidence vault, ledger, planes, and tracing, so the product's domain layer can be built on top of the platform rather than beside it. This is what lets the OSCAL and compliance functionality sit on the substrate and inherit its integrity and provenance guarantees.</div>
+      </div>
+      <div class="change">
+        <div class="c-sev real">Real</div>
+        <div class="c-body"><strong>Scheduled / recurring workflow triggers.</strong> ConMon runs on a strict monthly cadence with 30/90/180 timers. The workflow engine needs reliable scheduled and time-based triggering. Bounded, and it extends the existing engine rather than adding a new subsystem.</div>
+      </div>
+      <div class="change">
+        <div class="c-sev real">Real</div>
+        <div class="c-body"><strong>Multi-party RBAC with integrity-scoped sharing.</strong> Customer, 3PAO, and agency reviewer each need scoped access to the same evidence with integrity intact. Standard RBAC plus cryptographically verifiable shared views, which leans on the ledger Perpensa already has.</div>
+      </div>
+      <div class="change">
+        <div class="c-sev minor">Minor</div>
+        <div class="c-body"><strong>Retention &amp; lifecycle management.</strong> 12-month package retention and evidence lifecycle rules. Commoditized policy-engine work atop the vault.</div>
+      </div>
+      <div class="change">
+        <div class="c-sev minor">Minor</div>
+        <div class="c-body"><strong>CRUD application layer.</strong> Multi-tenancy plumbing, auth, billing, dashboards, onboarding, the procurement-signal ETL. Commoditized by current AI coding tooling; never a gating risk.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Integration Model</div>
+    <h2>How the product is built on the platform</h2>
+    <div class="box amber">
+      <div class="bl">The division of labor</div>
+      <p>The platform provides the workflow engine, the domain-neutral evidence vault, the integrity ledger, the immutable/mutable plane split, and the provenance tracing. The product's domain layer, OSCAL generation, KSI checks, cloud control inheritance, and the compliance-specific workflows, is built on top through the extension API. The commoditized CRUD (multi-tenancy, dashboards, billing) is cheap to add on either side. The gap between the platform as it stands and the substrate the product needs is the extension API, a deliberate AWS posture-and-scoping decision, and a few bounded workflow extensions.</p>
+    </div>
+    <p>The product does not require the platform to become something it is not. It requires the platform to expose what it already is, through an API, on infrastructure it already runs on. The hard, defensible parts of the product, evidence integrity, immutable packages, continuous monitoring, and decision provenance, are the platform's native strengths; the domain layer is built on top of them.</p>
+  </div>
+
+  <div class="div"></div>
+
+  <div class="sec">
+    <div class="verdict">
+      <div class="vl">Fitness Verdict</div>
+      <h2>Fit for purpose at the layer that matters, with one genuine investment and a pile of cheap ones.</h2>
+      <p>There is no major re-architecture. Hosting is an AWS posture decision, and the domain-neutral schema needs no generalization. What remains is a single genuine piece of platform engineering, the <strong>extension API</strong>, plus a deliberate <strong>AWS posture-and-boundary decision</strong> and a few bounded workflow extensions (scheduled triggers, integrity-scoped RBAC). Everything else is commoditized CRUD that is a minor gap by definition.</p>
+      <p>The reframe is what makes this strong rather than merely workable. Perpensa is a workflow-and-provenance platform, and a FedRAMP authorization is a workflow whose per-step tracing is the audit trail. Seven of seventeen requirements are a direct architectural fit, and they are the defensible ones. The honest watch-item is the boundary question: storing federal compliance evidence may pull the platform into authorization scope, which is a scoping and posture decision to make deliberately, not a blocker.</p>
+      <p>The product is buildable on the platform without re-architecting it. The path is to build the extension API and the AWS posture as durable platform capabilities rather than one-off custom work, and to build the OSCAL and compliance domain layer on top. The product's hardest and most defensible requirements are the platform's native strengths; the rest is bounded or commoditized. <strong>The architecture says the fit is real.</strong></p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><span class="pm">PERPENSA</span> &middot; Platform Fitness Analysis &middot; Document 4 of 4 &middot; June 2026</div>
+  <div>Product fitness assessment</div>
+</div>
+
+<!-- perpensa-prd-nav -->
+<nav style="font-family:'Instrument Sans',-apple-system,sans-serif;background:#1A1D23;border-radius:8px;padding:0.7rem 1.1rem;margin:1.1rem auto;max-width:920px;display:flex;flex-wrap:wrap;gap:0.4rem 1rem;font-size:0.8rem;line-height:1.7;">
+  <a href="product-home.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">&#8962;</span> Home</a>
+  <a href="10-prd-mvp.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">10</span> MVP</a>
+  <a href="11-prd-v1.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">11</span> V1</a>
+  <a href="12-prd-v2.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">12</span> V2</a>
+  <a href="13-perpensa-platform-fitness.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">13</span> Fitness</a>
+  <a href="00-home.html" style="text-decoration:none;color:#7B8794;white-space:nowrap;margin-left:auto;font-size:0.75rem;">&#8593; Project index</a>
+</nav>
+<!-- /perpensa-prd-nav -->
+</body>
+</html>

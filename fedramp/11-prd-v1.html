@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRD: V1 — FedRAMP Wedge</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--brass:#C4993D;--brass-light:#D4AD5A;--brass-pale:#F5EDD8;--brass-dim:#8A6B2B;--steel:#7B8794;--steel-light:#A0AAB4;--steel-pale:#E8EAED;--steel-dark:#4A5568;--signal:#E05B3C;--signal-pale:#FDEAE5;--ink:#1A1D23;--ink-soft:#2D3139;--ink-mid:#3D424A;--paper:#F7F6F3;--paper-warm:#EEECE6;--chalk:#FFFFFF;--green:#3D9970;--green-pale:#E5F2EC;--blue:#4A7FB5;--blue-pale:#E3EDF6;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Instrument Sans',-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.66;font-size:15.5px;}
+  .header{background:var(--ink);color:var(--paper);padding:2.6rem 3rem;position:relative;}
+  .header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--steel),var(--brass));}
+  .header-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.4rem;}
+  .logo{font-size:1.05rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brass);}
+  .logo span{color:var(--steel-light);font-weight:400;letter-spacing:0.08em;font-size:0.72rem;display:block;margin-top:0.2rem;}
+  .meta{text-align:right;font-size:0.76rem;color:var(--steel-light);line-height:1.6;}
+  .meta strong{color:var(--brass-light);font-weight:600;}
+  .stage-pill{display:inline-block;font-size:0.66rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:var(--blue);color:#fff;padding:0.28rem 0.7rem;border-radius:5px;margin-bottom:0.9rem;}
+  .header h1{font-size:1.95rem;font-weight:700;line-height:1.2;max-width:740px;margin-bottom:0.5rem;}
+  .header .sub{font-size:1rem;color:var(--steel-light);max-width:680px;}
+  .content{max-width:920px;margin:0 auto;padding:2.4rem 2rem 3.5rem;}
+  .sec{margin-bottom:2.3rem;}
+  .sec-label{font-size:0.66rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:0.4rem;}
+  .sec h2{font-size:1.4rem;font-weight:700;margin-bottom:0.8rem;line-height:1.25;}
+  .sec h3{font-size:1.05rem;font-weight:700;margin:1.3rem 0 0.5rem;color:var(--ink);}
+  .sec p{margin-bottom:0.9rem;color:var(--ink-soft);}
+  .sec ul,.sec ol{margin:0 0 1rem 1.3rem;}
+  .sec li{margin-bottom:0.4rem;color:var(--ink-soft);line-height:1.55;}
+  .sec strong{color:var(--ink);font-weight:600;}
+  .div{height:1px;background:linear-gradient(90deg,transparent,var(--paper-warm),transparent);margin:2.2rem 0;}
+  .launch-state{background:linear-gradient(135deg,var(--ink),#2a2f38);border-radius:12px;padding:1.6rem 1.9rem;margin:1rem 0 1.5rem;border-left:5px solid var(--blue);}
+  .launch-state .ls-l{font-size:0.64rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;}
+  .launch-state h3{color:var(--paper);font-size:1.1rem;margin:0 0 0.7rem;}
+  .launch-state p{color:var(--steel-light);font-size:0.92rem;margin-bottom:0.6rem;}.launch-state p:last-child{margin-bottom:0;}
+  .launch-state strong{color:var(--brass-light);}
+  .box{background:var(--chalk);border:1px solid var(--paper-warm);border-radius:10px;padding:1.2rem 1.4rem;margin:1rem 0;box-shadow:0 1px 2px rgba(0,0,0,0.03);}
+  .box .bl{font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.35rem;}
+  .box p{font-size:0.92rem;margin-bottom:0.5rem;}.box p:last-child{margin-bottom:0;}
+  .tb{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.83rem;}
+  .tb thead th{background:var(--ink);color:var(--paper);padding:0.55rem 0.75rem;text-align:left;font-weight:600;font-size:0.66rem;letter-spacing:0.03em;text-transform:uppercase;vertical-align:top;}
+  .tb thead th:first-child{border-radius:6px 0 0 0;}.tb thead th:last-child{border-radius:0 6px 0 0;}
+  .tb td{padding:0.5rem 0.75rem;border-bottom:1px solid var(--paper-warm);vertical-align:top;color:var(--ink-soft);line-height:1.45;}
+  .tb tr:nth-child(even){background:var(--chalk);}.tb tr:nth-child(odd){background:rgba(255,255,255,0.4);}
+  .pri{font-family:'Geist Mono',monospace;font-weight:700;font-size:0.74rem;padding:0.1rem 0.4rem;border-radius:4px;white-space:nowrap;}
+  .pri.p0{background:var(--signal-pale);color:var(--signal);}
+  .pri.p1{background:var(--brass-pale);color:var(--brass-dim);}
+  .pri.p2{background:var(--steel-pale);color:var(--steel-dark);}
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:0.7rem;margin:1rem 0;}
+  .metric{background:var(--chalk);border:1px solid var(--paper-warm);border-radius:9px;padding:0.85rem 0.9rem;}
+  .metric .m-n{font-size:1.1rem;font-weight:700;color:var(--ink);line-height:1.15;}
+  .metric .m-l{font-size:0.72rem;color:var(--steel);margin-top:0.3rem;line-height:1.35;}
+  .footer{background:var(--ink);color:var(--steel);padding:1.3rem 3rem;font-size:0.73rem;display:flex;justify-content:space-between;}
+  .footer .pm{color:var(--brass);font-weight:700;letter-spacing:0.1em;}
+  @media(max-width:768px){.header{padding:1.5rem;}.header h1{font-size:1.4rem;}.content{padding:1.5rem 1rem;}.metrics{grid-template-columns:repeat(2,1fr);}.tb{font-size:0.75rem;}.footer{flex-direction:column;gap:0.4rem;padding:1.3rem 1.5rem;}}
+</style>
+</head>
+<body>
+<!-- perpensa-prd-nav -->
+<nav style="font-family:'Instrument Sans',-apple-system,sans-serif;background:#1A1D23;border-radius:8px;padding:0.7rem 1.1rem;margin:1.1rem auto;max-width:920px;display:flex;flex-wrap:wrap;gap:0.4rem 1rem;font-size:0.8rem;line-height:1.7;">
+  <a href="product-home.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">&#8962;</span> Home</a>
+  <a href="10-prd-mvp.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">10</span> MVP</a>
+  <a href="11-prd-v1.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">11</span> V1</a>
+  <a href="12-prd-v2.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">12</span> V2</a>
+  <a href="13-perpensa-platform-fitness.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">13</span> Fitness</a>
+  <a href="00-home.html" style="text-decoration:none;color:#7B8794;white-space:nowrap;margin-left:auto;font-size:0.75rem;">&#8593; Project index</a>
+</nav>
+<!-- /perpensa-prd-nav -->
+
+
+<div class="header">
+  <div class="header-row">
+    <div class="logo">FedRAMP Wedge<span>Product Requirements &middot; built on the Perpensa method</span></div>
+    <div class="meta"><strong>PRD 2 of 3</strong><br>Stage: V1<br>Date: June 16, 2026<br>Status: Draft for build</div>
+  </div>
+  <div class="stage-pill">V1 &mdash; The repeatable commercial product</div>
+  <h1>V1: From One Authorization to a Repeatable Compliance Platform</h1>
+  <div class="sub">The product that can be sold and delivered repeatably, not just to a design partner. V1 turns the authorization sprint into the on-ramp for the recurring infrastructure subscription that carries the business.</div>
+</div>
+
+<div class="content">
+
+  <div class="sec">
+    <div class="sec-label">Starting point</div>
+    <h2>Expected minimal launch state (what MVP delivered)</h2>
+    <div class="launch-state">
+      <div class="ls-l">Inherited from the MVP</div>
+      <h3>V1 begins from this baseline</h3>
+      <p>The MVP shipped a <strong>single OSCAL data-model engine</strong> that generated a complete, internally consistent 20x Class C (Moderate) package, an <strong>authorization-boundary builder</strong> from which the boundary diagram, data-flow diagram, and SSP narrative all derive, and <strong>evidence capture with content-addressed linking</strong> to controls and the core KSI set. It took <strong>one design-partner customer</strong> through a full authorization with a cooperating 3PAO, reaching an assessable package in two or fewer review cycles with zero cross-document inconsistencies found.</p>
+      <p>What the MVP did <strong>not</strong> have, and what V1 must add: no managed infrastructure, no ConMon automation, no multi-tenancy, no self-serve onboarding, no procurement signal, no productized advisory. Advisory was a human founder working beside the customer. V1's job is to make all of that repeatable and to open the recurring revenue line.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Summary</div>
+    <h2>What V1 is</h2>
+    <p>V1 is the commercially complete compliance infrastructure platform: it lands a customer through the authorization sprint, then expands them into a recurring subscription built on continuous-monitoring automation and inheritable compliant infrastructure. V1 is where the business model becomes real, the authorization is priced as customer acquisition near cost, and the recurring Operate tier becomes the revenue.</p>
+    <div class="box">
+      <div class="bl">The shift from MVP to V1</div>
+      <p>MVP proved the package can be consistent. V1 proves the company can repeatably land customers and convert each into a recurring infrastructure relationship that the customer cannot easily leave once continuous monitoring is live.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Goals</div>
+    <h2>Goals &amp; success metrics</h2>
+    <div class="metrics">
+      <div class="metric"><div class="m-n">~20</div><div class="m-l">Authorization-sprint customers landed (the first-cohort ACV reading)</div></div>
+      <div class="metric"><div class="m-n">$100K+</div><div class="m-l">Blended steady-state ACV across the bundle (the make-or-break number)</div></div>
+      <div class="metric"><div class="m-n">70%</div><div class="m-l">KSI automation coverage, meeting the 20x completeness threshold</div></div>
+      <div class="metric"><div class="m-n">&ge;5</div><div class="m-l">Qualified opportunities from a single 3PAO partnership in 12 months</div></div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <div class="sec">
+    <div class="sec-label">Scope</div>
+    <h2>Capabilities added in V1</h2>
+    <table class="tb">
+      <thead><tr><th>Capability</th><th>Pri</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ConMon automation layer</strong></td><td><span class="pri p0">P0</span></td><td>The retention engine. Automated monthly deliverable assembly (POA&amp;M, inventory, scan ingestion, executive summary), 30/90/180 remediation timers, collaborative ConMon for multi-agency, 12-month package retention. This is where most of the recurring ACV lives.</td></tr>
+        <tr><td><strong>Inheritable compliant infrastructure</strong></td><td><span class="pri p0">P0</span></td><td>Pre-built, version-controlled IaC modules (AWS GovCloud + Azure Government) the customer's own team applies, with controls pre-implemented and inheritance mapped into the OSCAL model. Delivered as customer-run infrastructure-as-code, not a vendor-operated environment.</td></tr>
+        <tr><td><strong>Full KSI automation to 70%</strong></td><td><span class="pri p0">P0</span></td><td>Automated validation pulling from cloud APIs and the running environment to meet the 20x completeness threshold, with the remaining ~30% routed to templated and advisory workflows.</td></tr>
+        <tr><td><strong>Multi-tenancy &amp; onboarding</strong></td><td><span class="pri p0">P0</span></td><td>Real tenant isolation, self-guided onboarding, role-based access for customer, 3PAO, and agency reviewer. Tenant isolation must be demonstrable with strong evidence (a FedRAMP assessment requirement in itself).</td></tr>
+        <tr><td><strong>3PAO collaboration workspace</strong></td><td><span class="pri p1">P1</span></td><td>A shared, evidence-linked workspace where the assessing 3PAO reviews, requests, and validates with integrity-verified artifacts. Turns the channel partner into a power user.</td></tr>
+        <tr><td><strong>Guide Rail (AI-augmented advisory)</strong></td><td><span class="pri p1">P1</span></td><td>Templating and pattern-matching for common controls, with senior human review reserved for 3PAO-challenged controls. Metered and capped, targeting a 1:30 advisor-to-customer ratio.</td></tr>
+        <tr><td><strong>Migration product (Rev5 &rarr; 20x)</strong></td><td><span class="pri p1">P1</span></td><td>Convert existing Rev5-certified orgs into the 20x machine-readable model. A distinct revenue line and a bridge against a 20x Phase 3 slip.</td></tr>
+        <tr><td><strong>Procurement signal (demand-gen)</strong></td><td><span class="pri p2">P2</span></td><td>SAM.gov / FPDS / GovWin ingestion to prioritize federally-active accounts. Built as a lead-prioritization tool; aggressive pre-3PAO timing treated as upside, not a dependency.</td></tr>
+        <tr><td><strong>Billing &amp; subscription management</strong></td><td><span class="pri p2">P2</span></td><td>Tiered billing for Launch / Operate / Expand. Commodity capability, low risk.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Out of scope</div>
+    <h2>Deferred to V2</h2>
+    <p>V1 does not include: deep multi-framework expansion beyond a first CMMC-equivalency mapping, a white-label / partner platform, the decision-provenance audit-lineage product as a standalone differentiator, FedRAMP High (Class D) support, or any defensive repositioning against a major competitor. Those are V2, triggered by competitive motion.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Dependencies</div>
+    <h2>Dependencies &amp; assumptions</h2>
+    <ul>
+      <li>MVP reference customer and a working 3PAO relationship to seed the channel.</li>
+      <li>Series A capital sufficient to fund the heavier V1 build and an 18-24 month path to recurring revenue at scale.</li>
+      <li>20x Phase 3 open and processing Moderate at volume (migration product is the hedge if it slips).</li>
+      <li>Senior FedRAMP advisory talent hired to seed Guide Rail and hold the advisor ratio.</li>
+      <li>Cloud provider control-inheritance data (Azure Policy initiatives, AWS GovCloud mappings) accessible and current.</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Release criteria</div>
+    <h2>When V1 is done</h2>
+    <p>V1 ships as a sellable product when a new customer can be onboarded without founder heroics, taken through an authorization sprint, and converted to a recurring Operate subscription with live ConMon automation; when KSI automation clears the 70% threshold; and when at least one 3PAO partnership is producing qualified referrals. The decisive read is the first-cohort blended ACV: V1 has succeeded commercially only if it clears $100K and shows the expansion path into the Operate and Expand tiers.</p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><span class="pm">FEDRAMP WEDGE</span> &middot; PRD 2 of 3 &middot; V1 &middot; June 2026</div>
+  <div>Built on the Perpensa method</div>
+</div>
+
+<!-- perpensa-prd-nav -->
+<nav style="font-family:'Instrument Sans',-apple-system,sans-serif;background:#1A1D23;border-radius:8px;padding:0.7rem 1.1rem;margin:1.1rem auto;max-width:920px;display:flex;flex-wrap:wrap;gap:0.4rem 1rem;font-size:0.8rem;line-height:1.7;">
+  <a href="product-home.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">&#8962;</span> Home</a>
+  <a href="10-prd-mvp.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">10</span> MVP</a>
+  <a href="11-prd-v1.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">11</span> V1</a>
+  <a href="12-prd-v2.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">12</span> V2</a>
+  <a href="13-perpensa-platform-fitness.html" style="text-decoration:none;color:#A0AAB4;white-space:nowrap;"><span style="color:#C4993D;font-family:'Geist Mono',monospace;font-weight:700;">13</span> Fitness</a>
+  <a href="00-home.html" style="text-decoration:none;color:#7B8794;white-space:nowrap;margin-left:auto;font-size:0.75rem;">&#8593; Project index</a>
+</nav>
+<!-- /perpensa-prd-nav -->
+</body>
+</html>
