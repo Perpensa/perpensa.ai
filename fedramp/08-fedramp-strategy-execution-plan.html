@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FedRAMP Wedge: Strategy &amp; Execution Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brass:#C4993D; --brass-light:#D4AD5A; --brass-pale:#F5EDD8; --brass-dim:#8A6B2B;
+    --steel:#7B8794; --steel-light:#A0AAB4; --steel-pale:#E8EAED; --steel-dark:#4A5568;
+    --signal:#E05B3C; --signal-pale:#FDEAE5;
+    --ink:#1A1D23; --ink-soft:#2D3139; --ink-mid:#3D424A;
+    --paper:#F7F6F3; --paper-warm:#EEECE6; --chalk:#FFFFFF;
+    --green:#3D9970; --green-pale:#E5F2EC; --blue:#4A7FB5; --blue-pale:#E3EDF6;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Instrument Sans',-apple-system,sans-serif; background:var(--paper); color:var(--ink); line-height:1.68; font-size:15.5px; }
+
+  .header { background:var(--ink); color:var(--paper); padding:2.8rem 3rem; position:relative; }
+  .header::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--brass),var(--steel),var(--signal)); }
+  .header-row { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.6rem; }
+  .logo { font-size:1.1rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--brass); }
+  .logo span { color:var(--steel-light); font-weight:400; letter-spacing:0.08em; font-size:0.72rem; display:block; margin-top:0.2rem; }
+  .meta { text-align:right; font-size:0.78rem; color:var(--steel-light); line-height:1.6; }
+  .meta strong { color:var(--brass-light); font-weight:600; }
+  .header h1 { font-size:2.1rem; font-weight:700; line-height:1.18; max-width:780px; margin-bottom:0.6rem; }
+  .header .sub { font-size:1.02rem; color:var(--steel-light); max-width:700px; }
+
+  .content { max-width:960px; margin:0 auto; padding:2.5rem 2rem 4rem; }
+
+  /* The verdict box */
+  .verdict-box { background:linear-gradient(135deg,var(--ink),#2a2f38); border-radius:14px; padding:2rem 2.2rem; margin-bottom:2.5rem; border-left:5px solid var(--brass); }
+  .verdict-box .vb-label { font-size:0.66rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--brass-light); margin-bottom:0.6rem; }
+  .verdict-box h2 { font-size:1.5rem; color:var(--paper); font-weight:700; line-height:1.3; margin-bottom:1rem; }
+  .verdict-box p { color:var(--steel-light); font-size:0.96rem; margin-bottom:0.8rem; }
+  .verdict-box p:last-child { margin-bottom:0; }
+  .verdict-box strong { color:var(--brass-light); }
+
+  /* TOC */
+  .toc { background:var(--chalk); border:1px solid var(--paper-warm); border-radius:12px; padding:1.3rem 1.6rem; margin-bottom:2.5rem; }
+  .toc-label { font-size:0.68rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--brass); margin-bottom:0.7rem; }
+  .toc-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.3rem 1.5rem; }
+  .toc a { display:flex; align-items:baseline; gap:0.6rem; padding:0.32rem 0.4rem; border-radius:6px; text-decoration:none; color:var(--ink-soft); font-size:0.88rem; transition:background 0.12s; }
+  .toc a:hover { background:var(--paper); color:var(--brass-dim); }
+  .toc a .tn { font-family:'Geist Mono',monospace; font-size:0.72rem; color:var(--brass); font-weight:500; flex-shrink:0; }
+
+  .sec { margin-bottom:2.8rem; scroll-margin-top:1rem; }
+  .sec-label { font-size:0.68rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--brass); margin-bottom:0.4rem; }
+  .sec h2 { font-size:1.55rem; font-weight:700; margin-bottom:1rem; line-height:1.22; }
+  .sec h3 { font-size:1.12rem; font-weight:700; margin:1.5rem 0 0.6rem; color:var(--ink); }
+  .sec h4 { font-size:0.92rem; font-weight:700; margin:1.1rem 0 0.4rem; color:var(--ink-mid); letter-spacing:0.01em; }
+  .sec p { margin-bottom:0.95rem; color:var(--ink-soft); }
+  .sec ul, .sec ol { margin:0 0 1rem 1.4rem; }
+  .sec li { margin-bottom:0.45rem; color:var(--ink-soft); line-height:1.6; }
+  .sec strong { color:var(--ink); font-weight:600; }
+  .sec em { color:var(--ink-mid); }
+
+  .div { height:1px; background:linear-gradient(90deg,transparent,var(--paper-warm),transparent); margin:2.5rem 0; }
+
+  /* Callouts */
+  .call { border-radius:10px; padding:1.1rem 1.4rem; margin:1.2rem 0; font-size:0.92rem; }
+  .call .cl { font-size:0.62rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.35rem; }
+  .call p { margin-bottom:0.5rem; }
+  .call p:last-child { margin-bottom:0; }
+  .call.advisor { background:var(--brass-pale); border-left:4px solid var(--brass); }
+  .call.advisor .cl { color:var(--brass-dim); }
+  .call.watch { background:var(--signal-pale); border-left:4px solid var(--signal); }
+  .call.watch .cl { color:var(--signal); }
+  .call.win { background:var(--green-pale); border-left:4px solid var(--green); }
+  .call.win .cl { color:var(--green); }
+
+  /* Tables */
+  .tb { width:100%; border-collapse:collapse; margin:1.1rem 0; font-size:0.84rem; }
+  .tb thead th { background:var(--ink); color:var(--paper); padding:0.6rem 0.8rem; text-align:left; font-weight:600; font-size:0.68rem; letter-spacing:0.03em; text-transform:uppercase; vertical-align:top; }
+  .tb thead th:first-child { border-radius:6px 0 0 0; }
+  .tb thead th:last-child { border-radius:0 6px 0 0; }
+  .tb td { padding:0.55rem 0.8rem; border-bottom:1px solid var(--paper-warm); vertical-align:top; color:var(--ink-soft); line-height:1.5; }
+  .tb tr:nth-child(even) { background:var(--chalk); }
+  .tb tr:nth-child(odd) { background:rgba(255,255,255,0.4); }
+  .tb .num { font-family:'Geist Mono',monospace; font-weight:500; white-space:nowrap; }
+  .tb .pos { color:var(--green); font-weight:600; }
+
+  /* ACV bridge */
+  .bridge { background:var(--chalk); border:1px solid var(--paper-warm); border-radius:12px; padding:1.5rem; margin:1.3rem 0; }
+  .bridge-row { display:flex; align-items:center; gap:1rem; padding:0.6rem 0; border-bottom:1px dashed var(--paper-warm); }
+  .bridge-row:last-child { border-bottom:none; }
+  .bridge-row.total { border-top:2px solid var(--ink); margin-top:0.4rem; padding-top:0.9rem; }
+  .bridge-label { flex:1; font-size:0.9rem; }
+  .bridge-label .bl-sub { font-size:0.76rem; color:var(--steel); display:block; }
+  .bridge-val { font-family:'Geist Mono',monospace; font-weight:500; font-size:0.95rem; white-space:nowrap; }
+  .bridge-row.total .bridge-label { font-weight:700; font-size:1rem; }
+  .bridge-row.total .bridge-val { font-weight:700; color:var(--green); font-size:1.15rem; }
+  .bridge-plus { color:var(--brass); font-weight:700; }
+
+  /* Phase timeline */
+  .phase { background:var(--chalk); border:1px solid var(--paper-warm); border-radius:12px; margin-bottom:1.4rem; overflow:hidden; }
+  .phase-head { display:flex; align-items:stretch; }
+  .phase-tag { flex-shrink:0; width:120px; color:#fff; padding:1rem 0.8rem; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+  .phase-tag.p0 { background:linear-gradient(160deg,var(--steel),var(--steel-dark)); }
+  .phase-tag.p1 { background:linear-gradient(160deg,var(--brass),var(--brass-dim)); }
+  .phase-tag.p2 { background:linear-gradient(160deg,var(--blue),#35608f); }
+  .phase-tag.p3 { background:linear-gradient(160deg,var(--green),#2c7355); }
+  .phase-tag .pt-n { font-size:0.62rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.85; }
+  .phase-tag .pt-t { font-size:1rem; font-weight:700; margin:0.2rem 0; line-height:1.1; }
+  .phase-tag .pt-time { font-size:0.68rem; opacity:0.9; }
+  .phase-body { flex:1; padding:1.1rem 1.4rem; }
+  .phase-body .pb-goal { font-size:0.94rem; font-weight:600; color:var(--ink); margin-bottom:0.6rem; }
+  .phase-body ul { margin:0 0 0.6rem 1.2rem; }
+  .phase-body li { font-size:0.86rem; margin-bottom:0.3rem; }
+  .phase-gate { background:var(--paper); border-radius:6px; padding:0.55rem 0.9rem; margin-top:0.6rem; font-size:0.82rem; border-left:3px solid var(--green); }
+  .phase-gate .pg-l { font-size:0.6rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--green); margin-bottom:0.15rem; }
+
+  /* Pillars */
+  .pillars { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:1.3rem 0; }
+  .pillar { background:var(--chalk); border:1px solid var(--paper-warm); border-radius:10px; padding:1.1rem 1.2rem; }
+  .pillar .p-n { font-size:0.62rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--brass); margin-bottom:0.3rem; }
+  .pillar h4 { font-size:1rem; margin:0 0 0.4rem; color:var(--ink); }
+  .pillar p { font-size:0.82rem; color:var(--ink-soft); margin-bottom:0; line-height:1.5; }
+
+  /* First 90 days */
+  .days { background:var(--ink); border-radius:12px; padding:1.6rem 1.8rem; margin:1.3rem 0; }
+  .days h3 { color:var(--brass-light); margin-top:0; }
+  .days .day-row { display:flex; gap:1rem; padding:0.6rem 0; border-bottom:1px solid var(--steel-dark); }
+  .days .day-row:last-child { border-bottom:none; }
+  .days .dr-when { font-family:'Geist Mono',monospace; font-size:0.74rem; color:var(--brass); font-weight:500; flex-shrink:0; width:75px; padding-top:0.1rem; }
+  .days .dr-what { font-size:0.88rem; color:var(--paper); }
+  .days .dr-what strong { color:var(--brass-light); }
+
+  .footer { background:var(--ink); color:var(--steel); padding:1.4rem 3rem; font-size:0.73rem; display:flex; justify-content:space-between; }
+  .footer .pm { color:var(--brass); font-weight:700; letter-spacing:0.1em; }
+
+  @media (max-width:768px) {
+    .header { padding:1.5rem; } .header h1 { font-size:1.5rem; }
+    .content { padding:1.5rem 1rem; }
+    .toc-grid { grid-template-columns:1fr; }
+    .pillars { grid-template-columns:1fr; }
+    .phase-head { flex-direction:column; }
+    .phase-tag { width:auto; flex-direction:row; gap:0.6rem; padding:0.7rem; }
+    .tb { font-size:0.76rem; }
+    .bridge-row { flex-wrap:wrap; }
+    .footer { flex-direction:column; gap:0.4rem; padding:1.4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header" id="top">
+  <div class="header-row">
+    <div class="logo">Perpensa<span>Strategy Synthesis &middot; Advisor Engagement</span></div>
+    <div class="meta">
+      <strong>Strategy &amp; Execution Plan</strong><br>
+      Venture: FedRAMP Wedge (working)<br>
+      Date: June 16, 2026<br>
+      Built from: deliberation-handoff.md
+    </div>
+  </div>
+  <h1>Strategy &amp; Execution Plan: Winning the Federal SaaS Compliance Wedge</h1>
+  <div class="sub">Synthesized from the hardened deliberation handoff. This document makes the strategic calls the committee deferred, proves the path to $100K+ ACV, and sequences execution against the gating metrics already defined by the deliberation.</div>
+</div>
+
+<div class="content">
+
+  <div class="verdict-box">
+    <div class="vb-label">The Advisor's Verdict</div>
+    <h2>Do not build a compliance software company. Build the compliance infrastructure layer for federal SaaS, and price it as infrastructure.</h2>
+    <p>I have taken multiple GovTech companies into the $100K+ ACV segment, and they all share one move: they refused to be sold as a tool in a category that was already racing to the bottom on price. The deliberation handed you the answer without quite naming it. The reason FedRAMP-only tops out at a $30-45M ceiling is that the committee was still pricing against the GRC-software category, where Paramify sells Moderate documentation for $28K and Vanta is a $20-50K line item. <strong>That ceiling is a category artifact, not a market fact.</strong></p>
+    <p>The $100K+ ACV target you have set is not aspirational. It is achievable, but only if the product the customer buys is the running compliant environment plus the continuous-monitoring engine plus the embedded advisory, with documentation as a byproduct. That bundle replaces $150-500K of annual spend the customer is already committed to. Capturing a third of it clears $100K with room to spare. <strong>The strategy below is the path from a $28K documentation sale to a $130-170K infrastructure subscription, and the execution plan that de-risks it.</strong></p>
+  </div>
+
+  <div class="toc">
+    <div class="toc-label">Contents</div>
+    <div class="toc-grid">
+      <a href="#s1"><span class="tn">01</span> The category decision</a>
+      <a href="#s2"><span class="tn">02</span> The exit-path call</a>
+      <a href="#s3"><span class="tn">03</span> The ACV bridge (the proof)</a>
+      <a href="#s4"><span class="tn">04</span> Positioning &amp; messaging</a>
+      <a href="#s5"><span class="tn">05</span> Product strategy &amp; build sequence</a>
+      <a href="#s6"><span class="tn">06</span> Pricing architecture</a>
+      <a href="#s7"><span class="tn">07</span> Go-to-market motion</a>
+      <a href="#s8"><span class="tn">08</span> Capitalization</a>
+      <a href="#s9"><span class="tn">09</span> The execution plan</a>
+      <a href="#s10"><span class="tn">10</span> Risk management</a>
+      <a href="#s11"><span class="tn">11</span> The first 90 days</a>
+      <a href="#s12"><span class="tn">12</span> What would make me wrong</a>
+    </div>
+  </div>
+
+  <!-- 01 CATEGORY -->
+  <div class="sec" id="s1">
+    <div class="sec-label">01 &middot; The Strategic Foundation</div>
+    <h2>Escape the GRC software category. Create the compliance infrastructure category.</h2>
+    <p>Every name in the competitive landscape sits inside one category: governance, risk, and compliance software. Vanta, Drata, Secureframe, Sprinto, Paramify, RegScale all sell software that documents and monitors compliance. That category has a known price ceiling because buyers benchmark it against other software line items. Paramify's $28K Moderate price is not a Paramify decision; it is what the category permits.</p>
+    <p>There is exactly one player who escaped that ceiling: Anitian, the only managed-service-plus-platform model, with what the research politely calls "opaque premium pricing." Anitian gets the price point because it sells an outcome (a compliant environment you can operate in) rather than a tool. But Anitian carries a services cost structure, so its margins are mediocre and it does not scale like software.</p>
+    <p><strong>Your opening is the empty quadrant: Anitian's price point with software margins.</strong> You reach it by automating what Anitian does with people. The OSCAL component-definition library replaces the consultant who writes control narratives. LaunchPad replaces the engineers who hand-build the environment. AI-augmented Guide Rail replaces the advisory hours. You sell the outcome, you price like infrastructure, and your cost to deliver it falls toward software economics as the library and templates mature.</p>
+    <div class="call advisor">
+      <div class="cl">Advisor's note</div>
+      <p>Category design is the highest-leverage decision a GovTech founder makes, and it has to be made before the first sales deck, because it determines who you are benchmarked against. If your prospect compares you to Vanta, you have already lost the pricing conversation. If they compare you to the $800K-$2M they were about to spend doing this manually with a consultant, you win it. The entire go-to-market exists to force the second comparison and forbid the first.</p>
+    </div>
+    <p>The category name matters less than the discipline of refusing the old one. Internally, call it the compliance infrastructure layer. Externally, the message is always framed against the manual alternative and never against the GRC tools, even when a prospect raises them.</p>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 02 EXIT PATH -->
+  <div class="sec" id="s2">
+    <div class="sec-label">02 &middot; The Decision the Committee Deferred</div>
+    <h2>The exit path: build the infrastructure platform, keep acquisition as a live floor.</h2>
+    <p>The handoff's first open question was the load-bearing one: acquisition ($18-45M ARR), expansion IPO ($100M+ ARR), or infrastructure platform ($100K+ ACV standalone)? The committee correctly refused to answer it, because it is a choice, not a discovery. Your brief makes the choice: the $100K+ ACV segment is the infrastructure-platform path. So I am making it formally.</p>
+    <p><strong>Build for the infrastructure-platform outcome.</strong> That decision cascades into everything downstream: the primary R&D investment is the component-definition library and LaunchPad (not documentation UX), the pricing is the recurring platform subscription (not the authorization sprint), and the Series A is pitched as "the AWS of federal compliance," not "a better Vanta for government."</p>
+    <p>But here is the discipline that keeps this from being a bet-the-company gamble. The infrastructure path and the acquisition path are not in conflict in the early innings. Every milestone that builds infrastructure-platform value also builds acquisition value: the library, the installed ConMon base, the 3PAO channel. So you build toward the platform outcome while every quarter raises your acquisition floor. <strong>You are never trapped.</strong> If the ACV thesis fails at the first-cohort gate (Section 09), you pivot to the acquisition-path framing from a position of accumulated value, not from zero.</p>
+    <div class="call win">
+      <div class="cl">Why this resolves the central tension</div>
+      <p>The deliberation's escalated TAM tension ($18-29M adjusted ceiling vs venture scale) dissolves the moment you stop selling documentation. A $40M TAM at $28K ACV is a different universe from the same logo count at $130K ACV. The TAM tension was never really about market size; it was about ACV. The $100K+ mandate answers it, and the ACV bridge in the next section proves the answer is real.</p>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 03 ACV BRIDGE -->
+  <div class="sec" id="s3">
+    <div class="sec-label">03 &middot; The Proof</div>
+    <h2>The ACV bridge: from a $28K documentation sale to a $130-170K infrastructure subscription.</h2>
+    <p>This is the most important section in the document. Everything else is execution detail. If this bridge does not hold, the strategy collapses back to the acquisition path. So let me build it explicitly, anchored to the spend the customer has already committed to making, drawn straight from the research.</p>
+    <p>The first-time FedRAMP Moderate customer is going to spend $800K-$2M over 18-24 months, then $150-350K per year on continuous monitoring for the life of the authorization. They are not deciding whether to spend; a federal contract requirement has already decided that for them. They are deciding how. Your ACV is a share of money that is already moving.</p>
+
+    <div class="bridge">
+      <div class="bridge-row">
+        <div class="bridge-label">Documentation engine (the Paramify-equivalent baseline)
+          <span class="bl-sub">OSCAL-native SSP/SAP/SAR/POA&amp;M generation, single-model consistency</span></div>
+        <div class="bridge-val">$28K</div>
+      </div>
+      <div class="bridge-row">
+        <div class="bridge-label"><span class="bridge-plus">+</span> LaunchPad infrastructure management
+          <span class="bl-sub">Replaces hand-built GovCloud environment + ongoing config/drift engineering</span></div>
+        <div class="bridge-val">+$30-40K</div>
+      </div>
+      <div class="bridge-row">
+        <div class="bridge-label"><span class="bridge-plus">+</span> ConMon automation (the retention engine)
+          <span class="bl-sub">Captures a share of the $150-350K/yr the customer spends on monitoring anyway</span></div>
+        <div class="bridge-val">+$50-70K</div>
+      </div>
+      <div class="bridge-row">
+        <div class="bridge-label"><span class="bridge-plus">+</span> Guide Rail advisory (metered, capped)
+          <span class="bl-sub">Replaces a slice of the $100-500K consultant engagement; AI-augmented</span></div>
+        <div class="bridge-val">+$22-32K</div>
+      </div>
+      <div class="bridge-row total">
+        <div class="bridge-label">Blended platform ACV (Moderate, steady-state)</div>
+        <div class="bridge-val">$130-170K</div>
+      </div>
+    </div>
+
+    <p>The bridge clears $100K by the third line item alone, and the structure is what makes it defensible. Notice what is <em>not</em> the product: the authorization sprint. That is deliberately priced near cost as a customer-acquisition mechanism (Section 06), because pricing the sprint as the product is the exact trap that caps Paramify at $28K. You give away the thing competitors sell, and you sell the thing they give away: the running infrastructure and the perpetual monitoring.</p>
+    <div class="call advisor">
+      <div class="cl">Advisor's note</div>
+      <p>I have watched GovTech founders fall in love with the authorization sprint because it is the visible, painful moment the customer is screaming about. That instinct caps your company. The sprint is a one-time event with a natural price anchor (the consultant quote). The infrastructure and ConMon are perpetual and have no clean comparable, which is exactly why you can price them as infrastructure. Sell the forever, subsidize the once.</p>
+    </div>
+    <p>One honest caveat the deliberation flagged and I am carrying forward: no real ACV data exists until the first cohort of roughly 20 authorizations completes, earliest H1 2027. The bridge above is a constructed argument from known adjacent spend, not measured ACV. That is why the first-cohort ACV reading is the single most important gate in the execution plan, and why the company holds optionality on the acquisition path until that gate clears.</p>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 04 POSITIONING -->
+  <div class="sec" id="s4">
+    <div class="sec-label">04 &middot; Positioning &amp; Messaging</div>
+    <h2>One position, three messages, zero comparisons to GRC tools.</h2>
+    <p><strong>Position:</strong> the compliance infrastructure layer for federal SaaS. The platform that makes federal authorization a byproduct of running on infrastructure that is already compliant, and then runs your continuous monitoring forever. Not a GRC tool. Not a documentation engine. The layer underneath both.</p>
+    <p>Three messages carry the position, each drawn from a validated research finding:</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="p-n">Message 1</div>
+        <h4>Consistency by construction</h4>
+        <p>"Your authorization package cannot be internally inconsistent, because it is generated from one model." First-time authorizations fail on inconsistency between the SSP, boundary, data flows, SAR, and POA&amp;M. A single OSCAL data model eliminates that failure mode by design.</p>
+      </div>
+      <div class="pillar">
+        <div class="p-n">Message 2</div>
+        <h4>The integrated triple</h4>
+        <p>"We build your compliant environment, generate your machine-readable package, and reach you the moment your contract requires it." No competitor owns all three. The horizontals export OSCAL; the specialists only do documents; nobody owns the infrastructure plus the procurement signal.</p>
+      </div>
+      <div class="pillar">
+        <div class="p-n">Message 3</div>
+        <h4>ConMon-first</h4>
+        <p>"Authorization is the on-ramp. We run your compliance for the life of the system." The recurring obligation with revocation teeth is the relationship; the sprint is just how it starts. This is the message that justifies the infrastructure price.</p>
+      </div>
+    </div>
+    <div class="call watch">
+      <div class="cl">Discipline to enforce</div>
+      <p>Sales will be tempted to win feature bake-offs against Vanta and Paramify because those comparisons feel winnable. Forbid it. The moment you are on a feature-comparison grid against a $28K tool, you have surrendered the category and the price. When a prospect raises Vanta, the only correct response is to reframe: "Vanta is great software for documenting compliance you have already built. We build the compliance." Redirect to the manual-alternative comparison every time.</p>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 05 PRODUCT -->
+  <div class="sec" id="s5">
+    <div class="sec-label">05 &middot; Product Strategy &amp; Build Sequence</div>
+    <h2>Build the moat first, the demo second.</h2>
+    <p>The deliberation identified two durable moats and several open architecture questions. The product strategy is to resolve those questions in the direction that maximizes defensibility, and to sequence the build so the non-replicable assets start compounding from day one.</p>
+
+    <h3>The two moats, and the calls that protect them</h3>
+    <p><strong>Moat 1: the OSCAL component-definition library.</strong> A proprietary, production-validated repository of reusable control implementations, built through live 3PAO assessments. It takes 2-3 years of real authorizations to build at cloud-provider depth, which is why a fast follower cannot replicate it on a 12-18 month timeline and why buying Paramify does not deliver it.</p>
+    <div class="call advisor">
+      <div class="cl">Architecture call (resolving open question 6)</div>
+      <p>The library must be platform-resident, not an exportable artifact. It lives inside your data model and generates OSCAL packages on demand without ever exporting the library itself. This is the difference between a moat and a giveaway. If the library outputs portable OSCAL files, a free PMO reference tool could ingest and replicate its value, and Connor's K5 scenario becomes fatal. The customer gets their package; they never get the library that made it. Lock this decision before the first line of schema is written.</p>
+    </div>
+    <p><strong>Moat 2: ConMon switching costs.</strong> Migrating compliance tooling during active continuous monitoring is itself a compliance event requiring a significant change notification. The switching cost grows monotonically with time. Vanta can win the net-new authorization market; it structurally cannot unlock an installed ConMon base. This is why ConMon is the retention engine and why the company is designed ConMon-first.</p>
+
+    <h3>The build sequence</h3>
+    <table class="tb">
+      <thead><tr><th>Order</th><th>Build</th><th>Why this order</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td><strong>OSCAL single-model core + Comply Engine</strong></td><td>The consistency moat and the documentation byproduct. This is table stakes and the demo, but built on the library-resident architecture so it compounds from the first customer.</td></tr>
+        <tr><td class="num">2</td><td><strong>LaunchPad Phase 1</strong></td><td>Two cloud providers (AWS GovCloud + Azure Government), Moderate control-family depth, component-definition telemetry active. This is the K1 hedge milestone: production within 12 months of Series A close.</td></tr>
+        <tr><td class="num">3</td><td><strong>ConMon automation layer</strong></td><td>The retention engine and the bulk of the ACV. Monthly deliverable automation, 30/90/180 remediation timers, collaborative ConMon. Begins accruing switching costs the moment the first customer is authorized.</td></tr>
+        <tr><td class="num">4</td><td><strong>Migration product (Rev5 &rarr; 20x)</strong></td><td>Ships within 6 months as bridge revenue against a Phase 3 slip. Serves the 523 Rev5-certified orgs. First-class revenue line, not a contingency.</td></tr>
+        <tr><td class="num">5</td><td><strong>Procurement signal pipeline</strong></td><td>SAM.gov / FPDS / GovWin ingestion, &lt;30-day detection latency. Built as a hard product spec but treated as GTM upside, not the core bet (see Section 07).</td></tr>
+        <tr><td class="num">6</td><td><strong>Guide Rail (AI-augmented advisory)</strong></td><td>Layered in continuously. Scoped to templating and pattern-matching; senior judgment reserved for 3PAO-challenged controls. The 1:30 advisor-to-customer ratio is the guardrail.</td></tr>
+      </tbody>
+    </table>
+    <div class="call watch">
+      <div class="cl">The build is heavier than a software play</div>
+      <p>Be honest with yourself and your investors: LaunchPad across two clouds plus a library that deepens over 2-3 years means this is more capital-intensive and slower to first revenue than a pure-software GRC tool. That is the price of the moat and the price point. A founder who wants a light, fast, capital-efficient software company should not build this. A founder who wants a defensible $100K+ ACV infrastructure business should accept the heavier build as the thing that keeps the fast follower out.</p>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 06 PRICING -->
+  <div class="sec" id="s6">
+    <div class="sec-label">06 &middot; Pricing Architecture</div>
+    <h2>Land near cost, expand into the infrastructure subscription.</h2>
+    <p>The pricing model is the strategy made concrete. Three tiers, designed so the blended steady-state ACV clears $100K and the authorization sprint never becomes the price anchor.</p>
+    <table class="tb">
+      <thead><tr><th>Tier</th><th>What it is</th><th>Price</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Launch</strong></td>
+          <td>The authorization sprint: environment stand-up, package generation, assessment support to ATO.</td>
+          <td class="num">$40-60K one-time</td>
+          <td>Customer acquisition, priced near cost. Deliberately not where the margin lives.</td>
+        </tr>
+        <tr>
+          <td><strong>Operate</strong></td>
+          <td>The recurring platform: LaunchPad infrastructure management + ConMon automation + metered Guide Rail.</td>
+          <td class="num pos">$130-170K / yr</td>
+          <td>The business. The infrastructure subscription. Where the $100K+ ACV is realized.</td>
+        </tr>
+        <tr>
+          <td><strong>Expand</strong></td>
+          <td>Multi-framework add-ons (CMMC L2 equivalency, GovRAMP, FISMA) and the path to High.</td>
+          <td class="num">+$25-60K / framework</td>
+          <td>Net revenue retention above 100%. The shared NIST substrate makes each add-on cheap to deliver.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The pricing logic enforces three of the deliberation's resolutions. LaunchPad is priced at a cost-recovery baseline inside Operate, with the premium attaching to the ConMon management tier (Diana's DP-02 restructure). Guide Rail is explicitly metered and capped, never unlimited consulting (Diana's margin guardrail). And the Expand tier is what carries the company from a single-framework TAM into the multi-framework expansion that answers the venture-scale question.</p>
+    <div class="call win">
+      <div class="cl">The expansion math</div>
+      <p>A customer who lands at $50K Launch, grows to $150K Operate in year one, then adds CMMC equivalency (+$40K) and trends toward High over three years is a $200K+ ACV account with 5+ year retention because they cannot leave during active ConMon. That is the account profile that makes this a Series C company rather than a $40M acquisition. The expansion path, not the initial land, is where venture scale lives.</p>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 07 GTM -->
+  <div class="sec" id="s7">
+    <div class="sec-label">07 &middot; Go-to-Market Motion</div>
+    <h2>Channel-led, greenfield-only, signal-assisted.</h2>
+    <p>The research was decisive that this is not a product-led-growth market. The buyer is triggered by a federal contract, arrives in crisis, cannot hire the expertise, and trusts the 3PAO and consultant network for tooling recommendations. The motion is built around that reality.</p>
+
+    <h3>Primary channel: the 3PAO partnership network</h3>
+    <p>The independence rule is the unlock: a 3PAO that advises a customer cannot assess that customer, so 3PAOs are not competitors on the advisory side. They are distribution. A platform that produces cleaner packages means fewer review iterations, which means better 3PAO margins, which means the 3PAO recommends the platform. Paramify already proved the referral model works with its advisor/assessor marketplace. <strong>Build the channel independently from day one</strong> (the K1 hedge: assume Paramify gets acquired and do not depend on its relationships). Target the high-volume assessors (Coalfire, Schellman, A-LIGN) and the fast-growing ones (Fortreum).</p>
+
+    <h3>Demand generation: the procurement signal</h3>
+    <p>The SAM.gov / FPDS / GovWin pipeline that detects companies bidding on or winning contracts with FedRAMP requirements, before they have called a 3PAO, is a structural customer-acquisition-cost advantage no competitor has. But the deliberation rightly flagged the timing risk: if detection latency exceeds 30 days, the 3PAO may have already recommended a competitor. <strong>So treat the pre-3PAO timing as upside, not the core bet.</strong> Even at 60-day latency, the signal is a best-in-class demand-gen tool; the sub-30-day capability is the bonus that makes it a pre-emption weapon. Build it, measure the latency in production, and do not stake the model on the aggressive case.</p>
+
+    <h3>The greenfield discipline (the K3 hedge)</h3>
+    <p>For the first 18-24 months, the GTM explicitly excludes Vanta's installed base. Vanta can bundle FedRAMP with SOC 2 at a discount to its 16,000 existing customers, and you will not win that knife fight early. You compete for the greenfield cohort: companies hitting their first federal requirement who are not already deep in a horizontal GRC platform. This narrows the effective near-term TAM, which is a deliberate trade: you win a defensible beachhead instead of losing an expensive war.</p>
+    <div class="call advisor">
+      <div class="cl">Advisor's note</div>
+      <p>The land motion is the authorization sprint at near-cost, sold through the 3PAO relationship and surfaced by the procurement signal. The expand motion is the infrastructure subscription, which the customer barely chooses because by the time the sprint is done they are running on your environment and your ConMon. This is the whole game: make the land easy and cheap, make the expansion structural and sticky. Land is a decision; expansion is gravity.</p>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 08 CAPITALIZATION -->
+  <div class="sec" id="s8">
+    <div class="sec-label">08 &middot; Capitalization</div>
+    <h2>Raise a Series A sized for the slip, bridged by migration revenue.</h2>
+    <p>The cash-flow reality is unavoidable: with a 6-12 month sales cycle and ConMon ARR not arriving in volume before Q1-Q2 2028, the company spends 18-24 months building heavy infrastructure before the recurring revenue compounds. The capitalization plan accepts this rather than wishing it away.</p>
+    <ul>
+      <li><strong>Series A: $15-20M</strong>, explicitly sized to survive a 12-month Phase 3 slip. Pitched as the compliance infrastructure category, benchmarked against the $800K-$2M manual alternative, not against GRC software valuations. The library and LaunchPad are the R&D story; the ACV bridge is the unit-economics story.</li>
+      <li><strong>Migration revenue as the bridge.</strong> The 523 Rev5-certified orgs needing OSCAL transition are a first-class revenue line that ships within 6 months and generates cash during the build, independent of the 20x Phase 3 timeline. This is the hedge against the slip and the thing that makes the Series A defensible to a careful investor.</li>
+      <li><strong>Series B gated on the ACV proof and channel proof,</strong> not on logo count. The metrics that unlock the B are first-cohort ACV above the $100K line and at least five qualified opportunities from a single 3PAO partnership. Raising the B before those gates clear means raising on hope.</li>
+    </ul>
+    <div class="call watch">
+      <div class="cl">The honest investor conversation</div>
+      <p>A sharp Series A investor will ask the two questions the deliberation could not answer: does the ACV actually clear $100K, and does the 3PAO channel actually convert? You cannot prove either pre-investment. The right move is not to fake certainty; it is to show that the company is structured so both questions get answered cheaply and early (the first-cohort gate), and that the acquisition-path floor protects the downside if either answer disappoints. Investors fund de-risked uncertainty, not false confidence.</p>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 09 EXECUTION PLAN -->
+  <div class="sec" id="s9">
+    <div class="sec-label">09 &middot; The Execution Plan</div>
+    <h2>Four phases, each with a gate the company must clear to proceed.</h2>
+    <p>The deliberation already defined the falsification conditions. The execution plan turns those into go/no-go gates, so the company is never proceeding on momentum alone. Each phase ends with a specific, measurable gate drawn from the validated hypotheses and risk register.</p>
+
+    <div class="phase">
+      <div class="phase-head">
+        <div class="phase-tag p0">
+          <div class="pt-n">Phase 0</div>
+          <div class="pt-t">Commit</div>
+          <div class="pt-time">Months 0-3</div>
+        </div>
+        <div class="phase-body">
+          <div class="pb-goal">Lock the decisions that cannot be changed later, and raise the round.</div>
+          <ul>
+            <li>Founder + investor alignment on the infrastructure-platform exit path, in writing. This is the choice; make it explicitly.</li>
+            <li>Lock the library-resident architecture decision (platform-resident, non-exportable). This is irreversible once schema is built.</li>
+            <li>Close Series A ($15-20M), pitched as compliance infrastructure.</li>
+            <li>Sign first 3PAO partnership LOI, built independently of any Paramify relationship.</li>
+          </ul>
+          <div class="phase-gate">
+            <div class="pg-l">Gate to proceed</div>
+            Round closed, exit-path decision documented, library architecture locked, one 3PAO LOI signed.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head">
+        <div class="phase-tag p1">
+          <div class="pt-n">Phase 1</div>
+          <div class="pt-t">Build &amp; Land</div>
+          <div class="pt-time">Months 3-12</div>
+        </div>
+        <div class="phase-body">
+          <div class="pb-goal">Ship the moat to production and land the first cohort.</div>
+          <ul>
+            <li>OSCAL single-model core + Comply Engine to production.</li>
+            <li><strong>LaunchPad Phase 1 to production</strong> (AWS GovCloud + Azure Gov, Moderate depth, component-definition telemetry active). This is the K1 hedge milestone.</li>
+            <li>Migration product ships by month 6 as bridge revenue.</li>
+            <li>Procurement signal MVP live; begin measuring detection latency in production.</li>
+            <li>First authorization-sprint cohort signed and in process.</li>
+          </ul>
+          <div class="phase-gate">
+            <div class="pg-l">Gate to proceed</div>
+            LaunchPad Phase 1 in production within 12 months (if missed, K1 risk escalates toward fatal); migration revenue flowing; first cohort in process.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head">
+        <div class="phase-tag p2">
+          <div class="pt-n">Phase 2</div>
+          <div class="pt-t">Prove</div>
+          <div class="pt-time">Months 12-24</div>
+        </div>
+        <div class="phase-body">
+          <div class="pb-goal">Prove the two things the deliberation could not: ACV and channel conversion.</div>
+          <ul>
+            <li>First ~20 authorizations complete; <strong>measure realized ACV against the $100K line.</strong> This is the decisive reading (earliest H1 2027).</li>
+            <li>Channel proof: at least 5 qualified opportunities from a single 3PAO partnership.</li>
+            <li>First ConMon ARR begins compounding; switching costs start accruing.</li>
+            <li>First CMMC-adjacent customers engaged post-November 2026; test whether equivalency drives premium ACV.</li>
+            <li>Guide Rail advisor-to-customer ratio measured against the 1:30 guardrail.</li>
+          </ul>
+          <div class="phase-gate">
+            <div class="pg-l">Gate to proceed (the company's most important gate)</div>
+            First-cohort ACV clears $100K AND channel produced &ge;5 qualified opps. If ACV clears: raise Series B on the infrastructure thesis. If ACV misses: pivot to acquisition-path framing from accumulated value.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head">
+        <div class="phase-tag p3">
+          <div class="pt-n">Phase 3</div>
+          <div class="pt-t">Scale</div>
+          <div class="pt-time">Months 24-36</div>
+        </div>
+        <div class="phase-body">
+          <div class="pb-goal">Compound the moats into Series C metrics.</div>
+          <ul>
+            <li>Deepen the component-definition library toward the 2-3 year non-replicable threshold across more cloud services.</li>
+            <li>Activate the Expand tier: CMMC, GovRAMP, FISMA add-ons driving net revenue retention above 100%.</li>
+            <li>Grow the installed ConMon base ahead of any fast-follower arrival (the K2 defense).</li>
+            <li>Open the path to High (Class D) as the 20x High pilot completes in H2 2027.</li>
+            <li>Demonstrate LaunchPad + ConMon standalone economics to validate the infrastructure-platform standalone thesis.</li>
+          </ul>
+          <div class="phase-gate">
+            <div class="pg-l">Gate to Series C</div>
+            Net revenue retention &gt;110%, installed ConMon base accumulating faster than fast-follower entry, blended ACV trending toward $150K+ with Expand attach.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 10 RISK -->
+  <div class="sec" id="s10">
+    <div class="sec-label">10 &middot; Risk Management</div>
+    <h2>The five things that can kill this, and how each is contained.</h2>
+    <p>The deliberation's risk register is the watch list. As advisor, here is how I would actively manage the top five, in priority order.</p>
+    <table class="tb">
+      <thead><tr><th>Risk</th><th>Prob.</th><th>How it is contained</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>TAM ceiling</strong><br>ACV fails to clear $100K</td>
+          <td class="num">Decisive at Phase 2 gate</td>
+          <td>The whole strategy is built to clear it (the ACV bridge), but it is unproven until the first cohort. Contained by the Phase 2 gate and the acquisition-path floor. This is the bet; everything else is execution.</td>
+        </tr>
+        <tr>
+          <td><strong>K1: Acquisition</strong><br>Vanta buys Paramify pre-LaunchPad</td>
+          <td class="num">30-40% before milestone</td>
+          <td>No Paramify dependency anywhere in architecture or channel. LaunchPad Phase 1 in production within 12 months. Missing that milestone is what turns this from contained to fatal, so it is the Phase 1 gate.</td>
+        </tr>
+        <tr>
+          <td><strong>K2: Fast Follower</strong><br>Incumbent ships OSCAL + infra in 12-18mo</td>
+          <td class="num">40-50%</td>
+          <td>The component-definition library (2-3 yr to build) and the accumulating ConMon switching costs are the defense. Monitor Vanta/Drata changelogs quarterly. The fast follower wins net-new; it cannot unlock your installed base.</td>
+        </tr>
+        <tr>
+          <td><strong>K3: Bundle</strong><br>Vanta discounts FedRAMP+SOC2 to 16K base</td>
+          <td class="num">60-70% of their accounts</td>
+          <td>Greenfield-only GTM for 18-24 months sidesteps the knife fight. Carried partially unmitigated if Vanta-base overlap exceeds 40% of the addressable market; monitor and revisit at Series B.</td>
+        </tr>
+        <tr>
+          <td><strong>K4: Phase 3 Slip</strong><br>20x enrollment slips 9-12mo</td>
+          <td class="num">30-40%</td>
+          <td>Migration market as first-class bridge revenue; Series A sized for the slip. Residual: migration ACV is lower than the sprint, so the bridge is cash-flow insurance, not a valuation story. Watch slip signals from the PMO.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="call advisor">
+      <div class="cl">The risk that matters most</div>
+      <p>Four of these five are contained by decisions already in the plan. The one that is not contained, and cannot be until you have real customers, is the ACV ceiling. Do not let the comfort of the other mitigations lull you. Spend disproportionate energy getting to the first-cohort ACV reading as fast and as cheaply as possible, because that single number decides whether you are building the company your brief describes or pivoting to the acquisition floor. Everything before Phase 2 is, in a sense, an expensive experiment to learn that one number.</p>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 11 FIRST 90 -->
+  <div class="sec" id="s11">
+    <div class="sec-label">11 &middot; The First 90 Days</div>
+    <h2>Concrete actions, starting now.</h2>
+    <div class="days">
+      <h3>Phase 0 execution checklist</h3>
+      <div class="day-row">
+        <div class="dr-when">Weeks 1-2</div>
+        <div class="dr-what"><strong>Make the exit-path decision formally</strong> with co-founders and lead investor. Document the infrastructure-platform choice and the acquisition-floor fallback. Nothing else starts until this is settled.</div>
+      </div>
+      <div class="day-row">
+        <div class="dr-when">Weeks 2-4</div>
+        <div class="dr-what"><strong>Lock the library-resident architecture</strong> in a written technical decision record: platform-resident, non-exportable, generates artifacts on demand. This is the most consequential irreversible call.</div>
+      </div>
+      <div class="day-row">
+        <div class="dr-when">Weeks 3-6</div>
+        <div class="dr-what"><strong>Open the first 3PAO conversation</strong> with a high-volume assessor. Frame it as "we make your assessments cleaner and faster," not "we want a referral." Target a partnership LOI, built to stand without any Paramify relationship.</div>
+      </div>
+      <div class="day-row">
+        <div class="dr-when">Weeks 4-8</div>
+        <div class="dr-what"><strong>Build the Series A narrative around compliance infrastructure.</strong> The deck benchmarks against the $800K-$2M manual alternative, leads with the ACV bridge, and names the two moats. Never position as "a better Vanta."</div>
+      </div>
+      <div class="day-row">
+        <div class="dr-when">Weeks 6-10</div>
+        <div class="dr-what"><strong>Scope LaunchPad Phase 1 precisely enough to gate it:</strong> define exactly what "production-deployed" means (which clouds, which control-family depth, what telemetry). The K1 hedge is only measurable if this is concrete.</div>
+      </div>
+      <div class="day-row">
+        <div class="dr-when">Weeks 8-12</div>
+        <div class="dr-what"><strong>Spec the migration product</strong> (Rev5&rarr;20x for the 523 installed orgs) as the bridge-revenue line, and validate ACV and sales cycle with 3-5 target migration customers before committing the build.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- 12 WHAT WOULD MAKE ME WRONG -->
+  <div class="sec" id="s12">
+    <div class="sec-label">12 &middot; Intellectual Honesty</div>
+    <h2>What would make this strategy wrong.</h2>
+    <p>A strategy you cannot falsify is a story, not a plan. Here is what would tell you, early, that this thesis is breaking, and what to do about each.</p>
+    <ul>
+      <li><strong>If the first cohort's ACV lands below $100K,</strong> the infrastructure-pricing thesis is wrong and the bridge does not hold. Pivot immediately to the acquisition-path framing; do not spend a second cohort proving it twice. This is the master gate.</li>
+      <li><strong>If LaunchPad Phase 1 misses the 12-month mark,</strong> the K1 acquisition risk goes from contained to fatal, because a Vanta-Paramify combination would reach the infrastructure layer before you do. Treat the milestone as non-negotiable, even at the cost of cutting scope elsewhere.</li>
+      <li><strong>If no 3PAO partnership produces five qualified opportunities in twelve months,</strong> the channel hypothesis is broken and the GTM has no engine, because this is not a PLG market. Re-examine whether the cleaner-package value proposition is real to the 3PAO or just real to you.</li>
+      <li><strong>If the Guide Rail ratio runs worse than 1:20,</strong> you are a services business wearing a software costume, and the margins that justify the price will not materialize. Reprice Guide Rail as an explicit premium advisory tier and model its margin honestly rather than burying it in the blend.</li>
+      <li><strong>If a competitor ships a production-validated component-definition library within 18 months,</strong> not just SSP generation but the validated-content library, then the primary moat was replicable after all and the defensibility case weakens. This is the one to watch in competitor changelogs every quarter.</li>
+    </ul>
+    <div class="call advisor">
+      <div class="cl">Closing advisor's note</div>
+      <p>The deliberation did its job: it handed you a thesis that survived genuine adversarial pressure, with the soft spots labeled rather than hidden. My job was to make the calls it deferred and to prove the $100K+ ACV path is real rather than hoped-for. It is real, but it rests on one unproven number that you will not know until your first cohort completes. Build the company so that you learn that number as fast and as cheaply as possible, keep the acquisition floor intact until you do, and protect the two moats that no amount of incumbent capital can buy quickly. Do that, and you are not building a better compliance tool. You are building the infrastructure layer the entire federal SaaS market has to run on.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div><span class="pm">PERPENSA</span> &middot; Strategy &amp; Execution Plan &middot; FedRAMP Wedge &middot; June 2026</div>
+  <div>Synthesized from deliberation-handoff.md</div>
+</div>
+
+</body>
+</html>
