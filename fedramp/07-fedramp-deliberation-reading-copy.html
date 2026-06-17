@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perpensa: FedRAMP Deliberation Handoff &amp; Source Documents</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brass:#C4993D; --brass-light:#D4AD5A; --brass-pale:#F5EDD8; --brass-dim:#8A6B2B;
+    --steel:#7B8794; --steel-light:#A0AAB4; --steel-pale:#E8EAED; --steel-dark:#4A5568;
+    --signal:#E05B3C; --signal-pale:#FDEAE5;
+    --ink:#1A1D23; --ink-soft:#2D3139; --ink-mid:#3D424A;
+    --paper:#F7F6F3; --paper-warm:#EEECE6; --chalk:#FFFFFF;
+    --green:#3D9970; --blue:#4A7FB5;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Instrument Sans',-apple-system,sans-serif; background:var(--paper); color:var(--ink); line-height:1.68; font-size:15.5px; }
+
+  .header { background:var(--ink); color:var(--paper); padding:2.5rem 3rem; position:relative; }
+  .header::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--brass),var(--steel),var(--signal)); }
+  .header-row { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem; }
+  .logo { font-size:1.1rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--brass); }
+  .logo span { color:var(--steel-light); font-weight:400; letter-spacing:0.08em; font-size:0.72rem; display:block; margin-top:0.2rem; }
+  .meta { text-align:right; font-size:0.78rem; color:var(--steel-light); line-height:1.6; }
+  .meta strong { color:var(--brass-light); font-weight:600; }
+  .header h1 { font-size:2rem; font-weight:700; line-height:1.2; max-width:760px; margin-bottom:0.5rem; }
+  .header .sub { font-size:1rem; color:var(--steel-light); max-width:680px; }
+
+  .content { max-width:1000px; margin:0 auto; padding:2.5rem 2rem 4rem; }
+
+  /* TOC */
+  .toc { background:var(--chalk); border:1px solid var(--paper-warm); border-radius:12px; padding:1.4rem 1.6rem; margin-bottom:2.5rem; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+  .toc-label { font-size:0.68rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--brass); margin-bottom:0.8rem; }
+  .toc-item { display:flex; align-items:baseline; gap:0.8rem; padding:0.5rem 0.6rem; border-radius:7px; text-decoration:none; color:var(--ink); transition:background 0.12s; }
+  .toc-item:hover { background:var(--paper); }
+  .toc-item .toc-kind { font-size:0.6rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:0.18rem 0.5rem; border-radius:4px; flex-shrink:0; width:120px; text-align:center; }
+  .toc-handoff .toc-kind { background:var(--brass); color:#fff; }
+  .toc-ctx .toc-kind { background:var(--steel-pale); color:var(--steel-dark); }
+  .toc-item .toc-title { font-size:0.92rem; font-weight:500; }
+  .toc-handoff .toc-title { font-weight:700; }
+
+  /* Document sections */
+  .doc { margin-bottom:2.5rem; border-radius:12px; overflow:hidden; border:1px solid var(--paper-warm); box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+  .doc-head { padding:1.4rem 1.8rem; }
+  .doc.handoff .doc-head { background:linear-gradient(135deg,var(--ink),#2a2f38); }
+  .doc.ctx .doc-head { background:var(--steel-pale); }
+  .doc-kind { font-size:0.64rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; margin-bottom:0.25rem; }
+  .doc.handoff .doc-kind { color:var(--brass-light); }
+  .doc.ctx .doc-kind { color:var(--steel-dark); }
+  .doc-head h2 { font-size:1.5rem; font-weight:700; line-height:1.2; }
+  .doc.handoff .doc-head h2 { color:var(--paper); }
+  .doc.ctx .doc-head h2 { color:var(--ink); }
+  .doc-src { font-size:0.72rem; font-family:'Geist Mono',monospace; margin-top:0.4rem; }
+  .doc.handoff .doc-src { color:var(--steel-light); }
+  .doc.ctx .doc-src { color:var(--steel); }
+  .doc-body { background:var(--chalk); padding:1.8rem 2rem 2rem; }
+
+  /* Markdown content styling */
+  .doc-body h1 { font-size:1.5rem; font-weight:700; margin:1.6rem 0 0.8rem; color:var(--ink); }
+  .doc-body h2 { font-size:1.2rem; font-weight:700; margin:1.8rem 0 0.7rem; padding-top:1.2rem; border-top:1px solid var(--paper-warm); color:var(--ink); }
+  .doc-body > h2:first-child { border-top:none; padding-top:0; margin-top:0; }
+  .doc-body h3 { font-size:1.02rem; font-weight:700; margin:1.3rem 0 0.5rem; color:var(--brass-dim); }
+  .doc-body h4 { font-size:0.9rem; font-weight:700; margin:1rem 0 0.4rem; color:var(--ink-mid); }
+  .doc-body p { margin-bottom:0.9rem; color:var(--ink-soft); }
+  .doc-body ul, .doc-body ol { margin:0 0 1rem 1.4rem; }
+  .doc-body li { margin-bottom:0.4rem; color:var(--ink-soft); line-height:1.6; }
+  .doc-body li > ul, .doc-body li > ol { margin-top:0.4rem; margin-bottom:0.4rem; }
+  .doc-body strong { color:var(--ink); font-weight:600; }
+  .doc-body hr { border:none; height:1px; background:linear-gradient(90deg,transparent,var(--paper-warm),transparent); margin:1.8rem 0; }
+  .doc-body code { font-family:'Geist Mono',monospace; font-size:0.84em; background:var(--paper-warm); padding:0.1rem 0.35rem; border-radius:4px; color:var(--ink); }
+  .doc-body pre { background:var(--ink); color:var(--paper); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; margin:1rem 0; }
+  .doc-body pre code { background:none; color:var(--paper); padding:0; font-size:0.82rem; }
+
+  /* Tables */
+  .doc-body table { width:100%; border-collapse:collapse; margin:1.1rem 0; font-size:0.82rem; }
+  .doc-body thead th { background:var(--ink); color:var(--paper); padding:0.6rem 0.75rem; text-align:left; font-weight:600; font-size:0.68rem; letter-spacing:0.03em; text-transform:uppercase; vertical-align:top; }
+  .doc-body thead th:first-child { border-radius:6px 0 0 0; }
+  .doc-body thead th:last-child { border-radius:0 6px 0 0; }
+  .doc-body tbody td { padding:0.55rem 0.75rem; border-bottom:1px solid var(--paper-warm); vertical-align:top; color:var(--ink-soft); line-height:1.5; }
+  .doc-body tbody tr:nth-child(even) { background:var(--paper); }
+  .doc-body tbody tr:hover { background:var(--brass-pale); }
+
+  .backtop { display:inline-block; margin-top:1.2rem; font-size:0.74rem; color:var(--steel); text-decoration:none; font-weight:600; }
+  .backtop:hover { color:var(--brass-dim); }
+
+  .footer { background:var(--ink); color:var(--steel); padding:1.3rem 3rem; font-size:0.73rem; display:flex; justify-content:space-between; }
+  .footer .pm { color:var(--brass); font-weight:700; letter-spacing:0.1em; }
+
+  @media (max-width:768px) {
+    .header { padding:1.5rem; }
+    .header h1 { font-size:1.5rem; }
+    .content { padding:1.5rem 1rem; }
+    .doc-body { padding:1.2rem; }
+    .doc-body table { font-size:0.74rem; }
+    .doc-body thead th, .doc-body tbody td { padding:0.4rem 0.5rem; }
+    .toc-item { flex-direction:column; gap:0.2rem; }
+    .toc-item .toc-kind { width:auto; }
+    .footer { flex-direction:column; gap:0.4rem; padding:1.3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header" id="top">
+  <div class="header-row">
+    <div class="logo">Perpensa<span>Research &middot; Discuss &middot; Challenge &middot; Evolve</span></div>
+    <div class="meta">
+      <strong>Deliberation Handoff &amp; Sources</strong><br>
+      Subject: FedRAMP Wedge<br>
+      Date: June 16, 2026<br>
+      Assembled reading copy
+    </div>
+  </div>
+  <h1>FedRAMP Wedge: Deliberation Handoff &amp; Source Documents</h1>
+  <div class="sub">The hardened handoff package that feeds the strategy document, followed by the five source documents the deliberation consumed. Assembled verbatim for reading in one place.</div>
+</div>
+
+<div class="content">
+
+  <div class="toc">
+    <div class="toc-label">Contents</div>
+    <a class="toc-item toc-handoff" href="#sec-0"><span class="toc-kind">The Deliverable</span><span class="toc-title">Deliberation Handoff</span></a>
+<a class="toc-item toc-ctx" href="#sec-1"><span class="toc-kind">Input Document</span><span class="toc-title">Context 01: Market Research</span></a>
+<a class="toc-item toc-ctx" href="#sec-2"><span class="toc-kind">Input Document</span><span class="toc-title">Context 02: Technical &amp; Functional Brief</span></a>
+<a class="toc-item toc-ctx" href="#sec-3"><span class="toc-kind">Input Document</span><span class="toc-title">Context 03: Committee Personas</span></a>
+<a class="toc-item toc-ctx" href="#sec-4"><span class="toc-kind">Input Document</span><span class="toc-title">Context 04: Committee Review &amp; Requests</span></a>
+<a class="toc-item toc-ctx" href="#sec-5"><span class="toc-kind">Input Document</span><span class="toc-title">Context 05: Research Findings</span></a>
+  </div>
+
+  
+    <section class="doc handoff" id="sec-0">
+      <div class="doc-head">
+        <div class="doc-kind">The Deliverable</div>
+        <h2>Deliberation Handoff</h2>
+        <div class="doc-src">source file: deliberation-handoff.md</div>
+      </div>
+      <div class="doc-body">
+        <hr />
+<h2>1. Hardened Wedge Thesis</h2>
+<p>The company builds the compliance infrastructure layer — not the compliance documentation software — for cloud-native SaaS companies pursuing their first federal authorization under FedRAMP 20x. The core claim: winning is not about building the best SSP editor. It is about owning the compliant environment (LaunchPad), the proprietary validated control-implementation repository (OSCAL component-definition library), and the ConMon automation layer — and making the documentation a byproduct of that infrastructure.</p>
+<p>The structural moat is twofold. First: the OSCAL component-definition library is a proprietary data asset requiring 2-3 years of production exposure to build at cloud-provider depth. It cannot be replicated by free PMO tooling (which generates structure, not validated content) and cannot be acquired by buying Paramify. Second: live ConMon workflows create switching costs that grow monotonically with time — migrating compliance tooling during active ConMon is a compliance event. Vanta can win the net-new authorization market; it cannot unlock an installed ConMon base.</p>
+<p>Target customer: cloud-native Series A-C SaaS on the 20x Class C (Moderate) path under CR26, triggered by a federal contract requirement. Product reason-to-exist: structural consistency from a single OSCAL data model eliminates the cross-document inconsistency that kills first-time authorizations.</p>
+<p>What changed after deliberation: (1) ConMon is the primary moat anchor — authorization sprint is priced as customer acquisition, near cost; (2) the OSCAL component-definition library is the primary R&amp;D investment, not documentation UX; (3) Paramify must be treated as already-acquired from day one — 3PAO channel built independently; (4) GTM targets greenfield cohort only in first 18-24 months (Vanta installed base excluded); (5) procurement signal must fire within 30 days of contract award; (6) migration market (523 Rev5-certified orgs) is a first-class revenue line, not a contingency; (7) Series A must be sized for a 12-month Phase 3 slip ($15-20M).</p>
+<hr />
+<h2>2. Resolved Tensions</h2>
+<table>
+<thead>
+<tr>
+<th>Objection</th>
+<th>Raised by</th>
+<th>Resolution type</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FedRAMP-only TAM ($30-45M) is a Series B ceiling, not Series C foundation</td>
+<td>Diana (R2-S1)</td>
+<td>Escalated</td>
+<td>TAM worsened post-K3 to $18-29M adjusted. Three exit paths identified (acquisition / expansion IPO / infrastructure platform). Choice deferred to strategy; data required before resolution.</td>
+</tr>
+<tr>
+<td>Guide Rail margin risk — AI augmentation unproven at control-family depth</td>
+<td>Diana (R2-S2)</td>
+<td>Hedged</td>
+<td>1:30 advisor:customer ratio guardrail retained. AI augmentation scoped to pattern-matching and templating; senior judgment required for 3PAO-challenged controls. Falsification: ratio exceeds 1:20 at Series B.</td>
+</tr>
+<tr>
+<td>LaunchPad unit economics not disaggregated</td>
+<td>Diana (R2-S3)</td>
+<td>Restructured</td>
+<td>LaunchPad priced at cost-recovery baseline; premium pricing for ConMon infrastructure management tier. Migration product added as separate revenue line (K4 restructure).</td>
+</tr>
+<tr>
+<td>3PAO channel conversion hypothesis unproven at scale</td>
+<td>Rafael (R2-S4)</td>
+<td>Hedged</td>
+<td>Channel built independently (no Paramify dependency per K1 hedge). Validation metric: ≥5 qualified opportunities in 12 months of first partnership. Hedge cost: 6-12 months additional channel build time.</td>
+</tr>
+<tr>
+<td>Sales-cycle cash gap — first ConMon ARR not before Q1-Q2 2028</td>
+<td>Rafael (R2-S5)</td>
+<td>Restructured</td>
+<td>Series A sized for 12-month slip ($15-20M). Migration market (523 orgs) activated as bridge revenue. Gap acknowledged and capitalized.</td>
+</tr>
+<tr>
+<td>Procurement signal timing — may land after 3PAO recommendation already made</td>
+<td>Rafael (R2-S6)</td>
+<td>Restructured</td>
+<td>Detection latency &lt;30 days from contract award elevated to hard product spec requirement. Falsification: &gt;50% of first-cohort accounts received 3PAO recommendation before outreach landed.</td>
+</tr>
+<tr>
+<td>K1: Vanta acquires Paramify before LaunchPad deployed</td>
+<td>Sarah (R3)</td>
+<td>Hedged</td>
+<td>No Paramify dependency in architecture or GTM. 3PAO channel built independently. LaunchPad Phase 1 (two cloud providers, component-definition telemetry active) must reach production within 12 months of Series A close.</td>
+</tr>
+<tr>
+<td>K2: Incumbent ships OSCAL-native + infrastructure in 12-18 months</td>
+<td>Sarah (R3)</td>
+<td>Restructured</td>
+<td>Thesis rebuilt around component-definition library (non-replicable data moat) and ConMon switching costs. Authorization sprint repriced as acquisition mechanism. Fast follower wins net-new market; cannot unlock installed ConMon base.</td>
+</tr>
+<tr>
+<td>K3: Vanta bundles FedRAMP + SOC 2 to existing 16K customers</td>
+<td>Sarah (R3)</td>
+<td>Hedged</td>
+<td>GTM explicitly excludes Vanta installed base for first 18-24 months. Effective TAM adjusted to ~1,050-1,275 accounts ($18-29M ceiling). TAM tension escalated to strategy.</td>
+</tr>
+<tr>
+<td>K4: Phase 3 slips 9-12 months</td>
+<td>Connor (R3)</td>
+<td>Restructured</td>
+<td>Migration market (523 Rev5 orgs) becomes first-class revenue line shipping within 6 months. Series A sized for slip.</td>
+</tr>
+<tr>
+<td>K5: PMO endorses free 20x OSCAL toolchain</td>
+<td>Connor (R3)</td>
+<td>Restructured</td>
+<td>Comply Engine value repositioned from documentation generation to proprietary component-definition library content. Free PMO tool generates structure; library generates validated content. Library must remain proprietary.</td>
+</tr>
+<tr>
+<td>Regulatory stability — OSCAL mandate softens, 20x deprioritized</td>
+<td>Connor (R1-D5)</td>
+<td>Accepted</td>
+<td>OSCAL is load-bearing infrastructure for PMO's operating model; full rollback requires abandoning 20x entirely. Accepted as low-probability residual risk.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. Validated Hypotheses</h2>
+<table>
+<thead>
+<tr>
+<th>Hypothesis</th>
+<th>Owner</th>
+<th>Falsification condition</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CR26 routes cloud-native Moderate applicants exclusively to 20x Class C; Rev5 and 20x are non-interchangeable</td>
+<td>Connor</td>
+<td>PMO issues guidance permitting Rev5 for cloud-native Moderate applicants post-CR26</td>
+<td>Survived — stable confirmed policy</td>
+</tr>
+<tr>
+<td>The OSCAL component-definition library, built through live 3PAO assessments, is non-replicable on a 12-18 month timeline</td>
+<td>James</td>
+<td>Vanta or competitor ships production-validated component-definition library (not just SSP generation) within 18 months of CR26</td>
+<td>Survived — contingent on library being the primary R&amp;D investment from day one</td>
+</tr>
+<tr>
+<td>ConMon migration during active authorization is a compliance event that creates structural switching costs</td>
+<td>Mariana</td>
+<td>PMO clarifies that platform migration during ConMon does not require a significant change notification</td>
+<td>Survived — grounded in 20x ConMon specification</td>
+</tr>
+<tr>
+<td>Guide Rail is deliverable at 1:30+ advisor:customer ratio using AI-augmented review</td>
+<td>Mariana</td>
+<td>Headcount ratio exceeds 1:20 at Series B</td>
+<td>Survived as target model; unproven operationally. Modified: AI scope narrowed to templating and pattern-matching; judgment calls for 3PAO-challenged controls require senior review</td>
+</tr>
+<tr>
+<td>3PAO referral channel converts when cleaner packages improve 3PAO margins</td>
+<td>Rafael</td>
+<td>Fewer than 5 qualified opportunities from any single 3PAO partnership in 12 months</td>
+<td>Survived — structural logic intact; path to channel now independent of Paramify</td>
+</tr>
+<tr>
+<td>Procurement signal fires within 30 days of contract award, before 3PAO recommendation</td>
+<td>Rafael</td>
+<td>&gt;50% of first-cohort accounts already had 3PAO recommendation before outreach reached them</td>
+<td>Modified — upgraded from GTM assumption to hard product spec requirement; engineering feasibility unconfirmed</td>
+</tr>
+<tr>
+<td>FedRAMP Moderate authorization satisfies CMMC L2 requirements under Jan 2 2024 DoD memo</td>
+<td>Research / Connor</td>
+<td>DoD reverses FedRAMP Moderate Equivalency for CMMC L2, or adds CMMC-specific requirements not covered by FedRAMP Moderate</td>
+<td>Survived — policy mechanism established. Unvalidated: whether it drives premium ACV from CMMC-adjacent customers</td>
+</tr>
+<tr>
+<td>Integrated wedge commands ACV above $150K</td>
+<td>Diana</td>
+<td>First 20 customer ACVs average below $150K</td>
+<td>Unvalidated — no data exists until first 20x authorization cohort completes. Critical dependency for the expansion TAM thesis</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. Open Questions for Strategy</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Why it matters</th>
+<th>Data needed to resolve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What exit path is the company building toward: acquisition ($18-45M ARR), expansion IPO ($100M+ ARR), or infrastructure platform ($100K+ ACV on LaunchPad/ConMon standalone)?</td>
+<td>Determines Series A framing, milestone structure, investor profile, and product investment priorities. The three paths diverge; choosing the wrong one wastes 2 years</td>
+<td>Founder and investor alignment decision. This is a choice, not a discovery. Must be made before the Series A pitch.</td>
+</tr>
+<tr>
+<td>Does the integrated wedge command ACV above $150K in the first 20 customer relationships?</td>
+<td>K3 hedge reduced effective TAM to $18-29M FedRAMP-only ceiling. Without ACV &gt;$150K, there is no Series C path</td>
+<td>First 20 authorization sprint contracts signed and priced. Earliest data: H1 2027 if Phase 3 opens Q4 2026</td>
+</tr>
+<tr>
+<td>Does FedRAMP Moderate Equivalency translate to CMMC-adjacent customers paying a premium?</td>
+<td>Nearest-term TAM expansion lever with a live policy mechanism. CMMC 2.0 L2 mandatory assessments take effect November 2026</td>
+<td>First CMMC-adjacent customers engaged post-November 2026; whether they pay a premium for dual-compliance value</td>
+</tr>
+<tr>
+<td>Can procurement signal detection latency be reduced to &lt;30 days from contract award?</td>
+<td>S6 restructure elevated this to a hard product spec requirement. If infeasible, the pre-3PAO timing advantage disappears</td>
+<td>Engineering feasibility assessment of SAM.gov/FPDS/GovWin pipeline; live measurement in first 90 days of production signal detection</td>
+</tr>
+<tr>
+<td>At what LaunchPad depth does the K1 hedge condition become satisfied — specifically, what constitutes "Phase 1 production-deployed"?</td>
+<td>The K1 hedge requires LaunchPad Phase 1 production-deployed within 12 months of Series A close; "production-deployed" must be defined precisely enough to evaluate whether the hedge is met</td>
+<td>Product team specification: cloud providers covered, control-family depth, OSCAL component-definition telemetry requirements</td>
+</tr>
+<tr>
+<td>Does the component-definition library architecture permit the K5 restructure — is the library a platform-resident data asset or an exportable OSCAL artifact?</td>
+<td>K5 restructure survives only if the library cannot be ingested by a PMO reference tool. If the library outputs portable OSCAL files, a free tool could replicate its value</td>
+<td>Architecture decision: whether library outputs OSCAL artifacts (portable) or lives inside the platform's data model and generates artifacts on demand without exporting the library itself</td>
+</tr>
+<tr>
+<td>What is the migration market's ACV and sales cycle, and can it serve as meaningful bridge revenue during a Phase 3 slip?</td>
+<td>K4 restructure depends on the migration market (523 Rev5 orgs) generating real bridge revenue. If the market is slower or lower-ACV than assumed, the Phase 3 slip scenario becomes more dangerous</td>
+<td>First 3-5 migration customer engagements; measure ACV, sales cycle length, and buyer profile relative to authorization sprint customers</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. Risk Register</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Trigger</th>
+<th>Probability</th>
+<th>Accepted mitigation / carried unmitigated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K2: Fast Follower — Vanta ships OSCAL-native + infrastructure in 12-18 months</td>
+<td>Vanta ships credible OSCAL-native + infra product by Q4 2027</td>
+<td>40-50%</td>
+<td>Mitigated by restructure: thesis repositioned to component-definition library data moat + ConMon switching costs. Mitigation requires library built to production-validated depth within 24 months and ConMon installed base accumulating before fast follower arrives. Monitor Vanta product changelogs quarterly.</td>
+</tr>
+<tr>
+<td>K5: Reference Implementation — PMO endorses free 20x OSCAL toolchain</td>
+<td>GSA/PMO endorses free OSCAL-native 20x documentation suite within 36 months</td>
+<td>20-30%</td>
+<td>Mitigated by restructure: Comply Engine value repositioned to proprietary validated library content, not generation software. Library must remain proprietary. Residual 5-10% that PMO ships a library with validated content (not just structure) carried unmitigated.</td>
+</tr>
+<tr>
+<td>K1: Acquisition — Vanta buys Paramify before LaunchPad Phase 1 is production-deployed</td>
+<td>Vanta acquisition closes before LaunchPad Phase 1 milestones met</td>
+<td>45-55% acquisition probability; 30-40% that it precedes LaunchPad Phase 1</td>
+<td>Mitigated by hedge: no Paramify dependency. LaunchPad Phase 1 production within 12 months of Series A close. If milestone is missed, risk escalates to fatal.</td>
+</tr>
+<tr>
+<td>K3: Bundle — Vanta discounts FedRAMP + SOC 2 to installed base</td>
+<td>Vanta activates FedRAMP expansion sales to existing 16K customers at 75-80% combined pricing</td>
+<td>60-70% of eligible Vanta accounts</td>
+<td>Mitigated by hedge: GTM excludes Vanta installed base for 18-24 months; effective TAM reduced. Residual: if Vanta installed-base overlap exceeds 40% of total addressable FedRAMP market, hedge is insufficient — carried partially unmitigated at that level.</td>
+</tr>
+<tr>
+<td>K4: Phase 3 Slip — enrollment slips 9-12 months</td>
+<td>Phase 3 opens mid-2027; first ConMon revenue shifts to H1-H2 2029</td>
+<td>30-40%</td>
+<td>Mitigated by restructure: migration market as first-class bridge revenue; Series A sized for slip ($15-20M). Residual: migration ACV (~$30-50K) does not match authorization sprint; bridge is cash-flow mitigation, not valuation story. Series B may require bridge at unfavorable terms if slip extends beyond 12 months.</td>
+</tr>
+<tr>
+<td>TAM ceiling — FedRAMP-only TAM insufficient for venture scale without expansion validation</td>
+<td>First 20 ACVs average below $150K; CMMC equivalency generates no premium revenue</td>
+<td>Measured by first ACV cohort (H1 2027 earliest)</td>
+<td>Carried unmitigated within the deliberation. Mitigation path exists (first ACV data, CMMC customer signals) but requires post-Series A validation. If first ACV data does not exceed $150K, expansion path closes and strategy must pivot to acquisition-path framing.</td>
+</tr>
+<tr>
+<td>Guide Rail model failure — advisory ratio breaks under authorization complexity</td>
+<td>First-time authorizations require senior judgment at higher frequency than 1:30 ratio supports</td>
+<td>Contingent on first Guide Rail deployments</td>
+<td>Hedged: 1:30 ratio is the guardrail; AI coverage built iteratively against live package judgment categories. Falsification: ratio exceeds 1:20 at Series B. If falsified, Guide Rail must be repriced as premium advisory tier with explicit margin modeling.</td>
+</tr>
+<tr>
+<td>Procurement signal timing — signal fires after 3PAO recommendation</td>
+<td>Detection latency exceeds 30 days; 3PAO recommends competitor before outreach lands</td>
+<td>Unmeasured until first cohort</td>
+<td>Mitigated by restructure: &lt;30 days elevated to hard product spec. Residual: engineering feasibility unconfirmed. If infeasible, procurement signal advantage is reduced from pre-3PAO edge to general demand-generation tool.</td>
+</tr>
+<tr>
+<td>Regulatory stability — 20x timeline or OSCAL mandate changes materially</td>
+<td>Administration priority shift or Phase 3 implementation failure triggers CR26 revision</td>
+<td>10-15% for material change; &lt;5% for full rollback</td>
+<td>Accepted: OSCAL is load-bearing for PMO operating model; full rollback requires abandoning 20x. Partial softening (&gt;12-month Phase 3 extension) captured in K4 and already mitigated. Residual tail risk accepted.</td>
+</tr>
+</tbody>
+</table>
+      </div>
+    </section>
+    
+    <section class="doc ctx" id="sec-1">
+      <div class="doc-head">
+        <div class="doc-kind">Input Document</div>
+        <h2>Context 01: Market Research</h2>
+        <div class="doc-src">source file: 01-market-research.md</div>
+      </div>
+      <div class="doc-body">
+        <p>Source: 01-fedramp-market-research.html. This is the working-context version for the deliberation loop; the HTML is the presentation artifact.</p>
+<h2>Market situation</h2>
+<ul>
+<li>FedRAMP is in structural transition via FedRAMP 20x: point-in-time audits replaced by continuous, machine-readable (OSCAL) validation.</li>
+<li>Phase 3 (wide-scale Low + Moderate) targeted Q3-Q4 2026. Rev5 end-of-life expected H2 2027.</li>
+<li>Old regime: 12-22 months, $2M-$5M for Moderate. 20x pilot data: ~5 weeks, $500K-$1.5M.</li>
+<li>US federal tech spend ~$357B (2026). Federal cloud spend ~$11B (FY24), ~40% high-impact.</li>
+<li>FedRAMP Marketplace: 659 products total, 523 certified, 466 Class C (Moderate), 118 Class D (High), 75 Class B (Low). 28 carry 20x cert type.</li>
+<li>RFC-0024 (Jan 13, 2026): machine-readable/OSCAL packages mandated for ALL providers. Initial deadline Sept 30 2026, final Sept 30 2027.</li>
+</ul>
+<h2>Competitive landscape (14 named players, four layers)</h2>
+<p><strong>Multi-framework GRC platforms (FedRAMP as one module):</strong>
+- Vanta — market leader, 300+ integrations, FedRAMP 20x certified itself, OSCAL export-only (not native), ~$20-50K/yr.
+- Drata — deep automation, engineering-team oriented, OSCAL-capable, ~$7.5-50K+/yr.
+- Secureframe — Defense tier for FedRAMP/CMMC, strong CSM model, ~$20-60K/yr.
+- Hyperproof — Hyperproof Gov is FedRAMP Moderate authorized.
+- Sprinto — cloud-native, autonomous compliance, competitive pricing.
+- Diligent — enterprise governance heritage.</p>
+<p><strong>OSCAL-native specialists:</strong>
+- Paramify — purpose-built FedRAMP/CMMC/FISMA, OSCAL-first, FedRAMP 20x Moderate Authorized. $8K/yr Low, $28K/yr Moderate. Documentation engine; lacks infrastructure + continuous control monitoring.
+- RegScale — OSCAL Foundation founding member, FedRAMP High authorized, built OSCAL Hub (open source), 1300+ APIs, compliance-as-code.
+- Telos (Xacta) — deep federal pedigree, full suite FedRAMP High authorized, Xacta.ai GenAI, legacy architecture.</p>
+<p><strong>Managed service hybrid:</strong>
+- Anitian — FedFlex platform, pre-hardened landing zone, "sponsorless ATO" for 20x Low, only true managed-service+platform model, opaque premium pricing.</p>
+<p><strong>3PAO / assessment + advisory:</strong>
+- Coalfire — market-leader 3PAO, 100+ assessments, Paramify Premier Partner.
+- Schellman — #1 3PAO by volume, Type A (assessment only, no consulting), 98% retention.
+- A-LIGN — broad compliance, multi-framework 3PAO.
+- Workstreet, Elevate — consulting/advisory.</p>
+<h2>The four persistent gaps (the opportunity)</h2>
+<ol>
+<li>The OSCAL translation problem — most bolt OSCAL export onto document-centric models; poor developer experience across the board.</li>
+<li>The services gap in platform companies — platforms tell you to hire a consultant; consultants tell you to buy a platform. Only Anitian bundles both, with services cost structure.</li>
+<li>The environment build problem — getting a compliant environment (config, segmentation, logging, encryption) is the hardest part for a startup; only Anitian addresses it.</li>
+<li>The continuous monitoring black hole — everyone focuses on the authorization sprint; ConMon (the entire point of 20x) is underserved.</li>
+</ol>
+<h2>Proposed product architecture (three pillars, one subscription)</h2>
+<ul>
+<li><strong>Comply Engine</strong> — OSCAL-native, pipeline-integrated automation. KSI monitoring. Auto-generated SSP/SAP/SAR/POA&amp;M. CMMC reciprocity built in.</li>
+<li><strong>LaunchPad</strong> — pre-hardened AWS GovCloud / Azure Government templates. Terraform/Pulumi with controls pre-implemented. One-click compliant environment.</li>
+<li><strong>Guide Rail</strong> — embedded expert advisory through the platform, AI-augmented, 3PAO matchmaking. "Compliance concierge" not "compliance consultant."</li>
+</ul>
+<h2>Initial GTM thesis</h2>
+<ul>
+<li>Target: cloud-native SaaS Series A-C with federal contract interest, no FedRAMP experience.</li>
+<li>Secondary: Rev5-to-20x transition market (523 certified products needing OSCAL by 2027).</li>
+<li>Proposed pricing: $3-5K/mo (Low), $8-12K/mo (Moderate), custom (High). Services must scale sub-linearly.</li>
+<li>Proposed moats: OSCAL-native from ground up; own the infrastructure layer (switching cost); proprietary control-implementation dataset for AI advisory.</li>
+</ul>
+      </div>
+    </section>
+    
+    <section class="doc ctx" id="sec-2">
+      <div class="doc-head">
+        <div class="doc-kind">Input Document</div>
+        <h2>Context 02: Technical &amp; Functional Brief</h2>
+        <div class="doc-src">source file: 02-technical-brief.md</div>
+      </div>
+      <div class="doc-body">
+        <p>Source: 02-fedramp-technical-brief.html. Working-context version.</p>
+<h2>What FedRAMP is</h2>
+<ul>
+<li>Established Dec 2011 under FISMA. Standardized assess/monitor/authorize for cloud.</li>
+<li>NOT a point-in-time certification. It is an authorization program with continuous monitoring.</li>
+<li>Based on NIST 800-53 Rev 5 (1,196 controls, 20 control families), augmented by FedRAMP-specific controls.</li>
+<li>Mandatory for federal agency cloud use (OMB requirement).</li>
+</ul>
+<h2>Shared responsibility / inheritance</h2>
+<ul>
+<li>Controls are customer, provider, or shared. The Customer Responsibility Matrix (CRM) defines the split.</li>
+<li>A CSP on Azure Government / AWS GovCloud inherits many controls from the IaaS. A pre-authorized environment (e.g., Project Hosts GSS One) can inherit ~75% of controls, shrinking assessment scope.</li>
+<li>Microsoft Service Trust Portal is the reference repository pattern (SSP, ConMon reports, POA&amp;M under NDA; Azure Policy as the control-evaluation engine).</li>
+</ul>
+<h2>Impact levels (now Certification Classes A-D under CR26)</h2>
+<ul>
+<li>Low (~150 FedRAMP controls), Moderate (~325), High (~421).</li>
+<li>NIST 800-53B baselines: Low ~149, Moderate 287, High 370 controls. FedRAMP adds 1 / 17 / 22 above NIST.</li>
+<li>Largest families: SC (System &amp; Comms Protection, 51 base), AC (Access Control, 25 base).</li>
+<li>New in Rev 5: PT (Privacy/Transparency), SR (Supply Chain Risk Management).</li>
+</ul>
+<h2>Three authorization paths</h2>
+<ol>
+<li>JAB P-ATO. 2. Agency ATO. 3. CSP-supplied package. All require a 3PAO assessment + PMO review.</li>
+</ol>
+<h2>Authorization lifecycle (Rev5 Agency path)</h2>
+<ul>
+<li><strong>Preparation</strong>: optional Readiness Assessment (RAR -&gt; FedRAMP Ready); required Pre-Authorization (IPR letter + WBS, FIPS 199 categorization, kickoff -&gt; In Process).</li>
+<li><strong>Authorization</strong>: SSP + appendices, 3PAO assessment (SAP -&gt; SAR), POA&amp;M for findings, agency AO issues ATO.</li>
+<li><strong>Continuous Monitoring</strong>: ongoing for the life of the authorization.</li>
+</ul>
+<h2>Core documents (the "spine")</h2>
+<ul>
+<li><strong>SSP</strong> (System Security Plan) — the security blueprint; defines authorization boundary, control implementation. FedRAMP Excel template (12 sheets as of Jan 2026). Required appendices: C (policies), I (incident response plan), K (FIPS 199), A (contingency plan).</li>
+<li><strong>SAP</strong> (Security Assessment Plan) — 3PAO-authored; scope, methodology, test plan, rules of engagement.</li>
+<li><strong>SAR</strong> (Security Assessment Report) — 3PAO findings; contains Risk Exposure Table (RET).</li>
+<li><strong>POA&amp;M</strong> (Plan of Action &amp; Milestones) — remediation tracking (CA-5); must correspond 1:1 to RET findings.</li>
+</ul>
+<h2>Continuous monitoring obligations (NIST 800-137 + FedRAMP ConMon Playbook)</h2>
+<ul>
+<li><strong>Monthly</strong>: updated POA&amp;M (CA-5), updated inventory (CM-8), raw vuln scan files (100% coverage), monthly executive summary. Every 30 days to secure repository.</li>
+<li><strong>Annual</strong>: 3PAO assessment of core controls + 1/3 rotation, penetration testing, SSP updates, CP + IR plan testing (Mod/High), red-team + static code analysis (Mod/High).</li>
+<li><strong>Remediation timelines</strong>: Critical/High 30 days, Moderate 90 days, Low 180 days. Miss = escalation to ATO revocation.</li>
+<li><strong>Collaborative ConMon</strong> (CA-7 binding) required for multi-agency CSPs. Retain 12 months of packages.</li>
+</ul>
+<h2>FedRAMP 20x specifics</h2>
+<ul>
+<li>Continuous machine-readable validation. OSCAL artifacts generated from the running environment in the pipeline.</li>
+<li><strong>Key Security Indicators (KSIs)</strong>: 56 for Low, 61 for Moderate. Each ties to a measurable, automatable security outcome.</li>
+<li>Phase 2 completeness: automated validation must cover &gt;=70% of KSIs. Evidence in both human- and machine-readable form, fully reconciling. 3PAO validates that the automation works.</li>
+<li>CR26 (Consolidated Rules 2026): effective ~July 1 2026 through Dec 31 2028; replaces narrative guidance with machine-checkable MUST/MUST NOT; Certification Classes A-D replace Low/Mod/High; Rev5 and 20x paths NON-interchangeable.</li>
+</ul>
+<h2>Product requirements synthesis (five lifecycle blocks)</h2>
+<ol>
+<li>Pre-Authorization Automation — FIPS 199 wizard, boundary tools, gap assessment, control catalog with FedRAMP params, CRM templates.</li>
+<li>Documentation Engine — SSP/SAP/SAR/POA&amp;M in FedRAMP templates AND OSCAL; 12 appendices; KSI mapping + evidence linking.</li>
+<li>Assessment Support — 3PAO collaboration workspace, evidence linking, automated technical tests, RET + POA&amp;M generation.</li>
+<li>Continuous Monitoring Platform — monthly deliverable automation, 30/90/180 remediation timers, SCR workflow, annual scheduling, collaborative ConMon.</li>
+<li>Infrastructure Layer — pre-hardened GovCloud/Gov templates, IaC for SC/AU/IA controls, CI/CD OSCAL generation, drift detection, KSI validation in pipeline.</li>
+</ol>
+      </div>
+    </section>
+    
+    <section class="doc ctx" id="sec-3">
+      <div class="doc-head">
+        <div class="doc-kind">Input Document</div>
+        <h2>Context 03: Committee Personas</h2>
+        <div class="doc-src">source file: 03-committee.md</div>
+      </div>
+      <div class="doc-body">
+        <p>Source: 03-fedramp-committee.html. Working-context version. These personas MUST persist in character across loop iterations.</p>
+<h2>Operating framework</h2>
+<p>Adversarial deliberation. Roles are ASSIGNED, not discovered. Goal is the sharpest articulation of trade-offs, not premature agreement. Four phases: Research -&gt; Discuss -&gt; Challenge -&gt; Evolve. Two advocates (brass), two skeptics (steel), two red team (signal).</p>
+<h2>The six members</h2>
+<h3>Mariana Reyes — ADVOCATE 1 — Domain Authority</h3>
+<p>Former ISSO, 12 yrs federal compliance. Shepherded 3 systems through FedRAMP Moderate; maintained ConMon across 14 authorized services. Written SSPs by hand, managed POA&amp;M spreadsheets at 2am, sat across from Coalfire/Schellman assessors.
+- <strong>Approach</strong>: grounds everything in operational reality. "What does this look like at 11pm before the monthly ConMon package is due?" Argues existing tools weren't built by people who used them under pressure. Pushes ConMon automation over the authorization sprint.
+- <strong>Traits</strong>: operationally grounded, template-level recall, low tolerance for abstraction, empathy for the compliance analyst, bias toward "boring but essential."</p>
+<h3>James Kowalski — ADVOCATE 2 — Product Architecture</h3>
+<p>Built 3 dev-facing platforms, ex-startup CTO, Hashicorp/Terraform ecosystem. Thinks in DX, APIs, IaC. Built HIPAA/SOC 2 platforms, never federal compliance directly.
+- <strong>Approach</strong>: sees FedRAMP as an infrastructure + DX problem mischaracterized as a documentation problem. Wants compliance to generate itself from system state. Advocates OSCAL-native architecture and the LaunchPad infrastructure layer as the moat. "The Terraform moment for compliance."
+- <strong>Traits</strong>: systems thinker, DX-obsessed, allergic to manual processes, thinks in APIs/data models, bias toward technical elegance.</p>
+<h3>Diana Park — SKEPTIC 1 — Financial Stress Test</h3>
+<p>SaaS CFO x2, growth-equity investment committee. Detector for "software company that operates like a services business." Studied Vanta's economics.
+- <strong>Approach</strong>: relentlessly quantitative. "Show me the math." Core skepticism: the hybrid product+services model and blended-margin obfuscation. Forces decomposition of which parts earn software vs services margins.
+- <strong>Traits</strong>: margin-first, pattern-matches across SaaS models, skeptical of blended metrics, asks "what does this cost?" reflexively, bias toward capital efficiency.</p>
+<h3>Rafael Navarro — SKEPTIC 2 — Channel Reality Check</h3>
+<p>18 yrs federal sales. Ran federal org that went 0 to $30M gov revenue in 4 yrs. Knows set-asides, contract vehicles, 12-18 month procurement cycles.
+- <strong>Approach</strong>: challenges how the product reaches customers. Target buyer is stressed, deadline-driven, won't tolerate long onboarding. Deepest skepticism: the competitive moat and 3PAO control of the relationship at point of purchase. Skeptical of CMMC reciprocity promises.
+- <strong>Traits</strong>: revenue-line thinker, deep federal procurement knowledge, skeptical of TAM, relationship-driven, bias toward proven channels.</p>
+<h3>Dr. Sarah Lin — RED TEAM 1 — Incumbent Response Modeling</h3>
+<p>PhD competitive strategy (Wharton), 5 yrs Gartner GRC analyst, authored Magic Quadrants. Interviewed Vanta/Drata/Secureframe/RegScale leadership. Studied SOX/GDPR/SOC2 regulatory-opening transitions.
+- <strong>Approach</strong>: simulates incumbent competitive response. Constructs scenarios, doesn't attack directly. The "fast follower" scenario: what happens when a funded incumbent copies the best features in a quarter? Insists only durable advantages are data network effects, infrastructure switching costs, regulatory relationships.
+- <strong>Traits</strong>: scenario constructor, incumbent empathy, distribution &gt; product conviction, historical pattern matcher, bias toward defensibility analysis.</p>
+<h3>Connor Trask — RED TEAM 2 — Policy &amp; Execution Risk</h3>
+<p>8 yrs in/around FedRAMP PMO. Reviewed authorization packages, contributed to early 20x policy. Left GSA 2025, frustrated by pace.
+- <strong>Approach</strong>: attacks the regulatory foundation. Constructs scenarios where 20x timeline slips, CR26 is watered down, OSCAL mandate softens, or an administration deprioritizes modernization. Focuses on execution risk from spec ambiguity. Demands the product survive multiple regulatory outcomes.
+- <strong>Traits</strong>: regulatory insider, deeply skeptical of timelines, constructive pessimist, policy risk modeler, bias toward optionality and hedging.</p>
+<h2>Ground rules (enforced every round)</h2>
+<ol>
+<li><strong>Role discipline</strong> — discharge your assigned role before converging. No "I agree with the other side" until your job is done.</li>
+<li><strong>Steel-man obligation</strong> — restate an argument in its strongest form before rejecting it.</li>
+<li><strong>Falsifiability</strong> — every claim carries a condition under which it would be wrong.</li>
+<li><strong>No unresolved tensions</strong> — resolve via concession (state what changed your mind), escalation to open question, or thesis restructure. Never "noted."</li>
+<li><strong>Evolve is mandatory</strong> — a thesis that survives unchanged was not challenged hard enough.</li>
+</ol>
+<h2>Key persona tension lines</h2>
+<ul>
+<li>Automation vs Reality (James vs Mariana): how much can truly be automated.</li>
+<li>Platform vs Consulting (James vs Diana): margin impact of human-in-the-loop.</li>
+<li>Vision vs Timeline (James vs Connor): 20x-first vs Rev5-compatible.</li>
+<li>TAM vs Channel (Mariana vs Rafael): big unserved market vs expensive-to-reach.</li>
+<li>Moat vs Speed (Diana vs Sarah): capital efficiency vs defensibility.</li>
+<li>Spec Risk vs Market Risk (Connor vs Rafael): spec changes vs customers don't show.</li>
+</ul>
+      </div>
+    </section>
+    
+    <section class="doc ctx" id="sec-4">
+      <div class="doc-head">
+        <div class="doc-kind">Input Document</div>
+        <h2>Context 04: Committee Review &amp; Requests</h2>
+        <div class="doc-src">source file: 04-committee-review.md</div>
+      </div>
+      <div class="doc-body">
+        <p>Source: 04-fedramp-committee-review.html. Working-context version.</p>
+<h2>Deliberation objective (sharpened)</h2>
+<p>Design a company entering the FedRAMP market at Series A, building a defensible position through Series C, targeting cloud-native SaaS pursuing their first federal authorization. Answer: what to build first, who to sell to first, what to say to them, what structural advantages compound.</p>
+<h2>The 24 research requests (now answered in Context 05)</h2>
+<h3>Mariana (Advocate 1)</h3>
+<ul>
+<li>MR-01 (Critical): FedRAMP authorization failure-mode analysis. Why packages fail/stall.</li>
+<li>MR-02 (High): Control automation feasibility map across ~325 Moderate controls.</li>
+<li>MR-03 (High): Monthly ConMon package workflow benchmarking.</li>
+<li>MR-04 (Medium): 3PAO assessment friction analysis (channel vs blocker).</li>
+</ul>
+<h3>James (Advocate 2)</h3>
+<ul>
+<li>JK-01 (Critical): OSCAL schema deep dive + implementation gaps.</li>
+<li>JK-02 (Critical): Control inheritance APIs across AWS/Azure/GCP.</li>
+<li>JK-03 (High): Developer experience audit of existing tools.</li>
+<li>JK-04 (Medium): KSI-to-infrastructure mapping for 20x Moderate.</li>
+</ul>
+<h3>Diana (Skeptic 1)</h3>
+<ul>
+<li>DP-01 (Critical): Bottom-up TAM with real customer counts.</li>
+<li>DP-02 (Critical): Three-pillar unit economics decomposed.</li>
+<li>DP-03 (High): Compliance platform churn and expansion data.</li>
+<li>DP-04 (High): FedRAMP compliance talent market analysis.</li>
+</ul>
+<h3>Rafael (Skeptic 2)</h3>
+<ul>
+<li>RN-01 (Critical): First-time FedRAMP buyer journey mapping.</li>
+<li>RN-02 (Critical): 3PAO economics and referral incentive structure.</li>
+<li>RN-03 (High): Win/loss analysis in federal compliance sales.</li>
+<li>RN-04 (Medium): Federal contract trigger-signal identification.</li>
+</ul>
+<h3>Sarah (Red Team 1)</h3>
+<ul>
+<li>SL-01 (Critical): Incumbent product roadmap intelligence.</li>
+<li>SL-02 (Critical): M&amp;A and consolidation scenario modeling.</li>
+<li>SL-03 (High): Historical specialist-vs-platform pattern analysis.</li>
+<li>SL-04 (Medium): Competitor messaging vulnerability analysis.</li>
+</ul>
+<h3>Connor (Red Team 2)</h3>
+<ul>
+<li>CT-01 (Critical): FedRAMP 20x timeline reliability assessment.</li>
+<li>CT-02 (Critical): RFC-0024 comment analysis and lobbying activity.</li>
+<li>CT-03 (High): Dual-track architecture viability (Rev5 vs 20x).</li>
+<li>CT-04 (High): CMMC reciprocity probability assessment.</li>
+</ul>
+<h2>Four convergent themes (load-bearing questions)</h2>
+<ol>
+<li><strong>The automation boundary</strong> (MR-02 + JK-04): where the line falls between software and human.</li>
+<li><strong>The 3PAO question</strong> (MR-04 + RN-02): channel opportunity vs channel requirement.</li>
+<li><strong>The OSCAL architecture decision</strong> (JK-01 + CT-03): 20x-first vs Rev5-first.</li>
+<li><strong>The timing dependency</strong> (CT-01/CT-02 + DP-01): 2026, 2027, or 2028 business.</li>
+</ol>
+      </div>
+    </section>
+    
+    <section class="doc ctx" id="sec-5">
+      <div class="doc-head">
+        <div class="doc-kind">Input Document</div>
+        <h2>Context 05: Research Findings</h2>
+        <div class="doc-src">source file: 05-research-findings.md</div>
+      </div>
+      <div class="doc-body">
+        <p>Source: 05-fedramp-research-findings.html. Working-context version. These are the validated answers to the 24 requests, with the per-member verdicts that form the deliberation's starting position.</p>
+<h2>THE FIVE ANCHORED CONCLUSIONS (starting position for the deliberation)</h2>
+<ol>
+<li><strong>Customer and path are the same thing.</strong> CR26 routes cloud-native Series A-C SaaS into the 20x Class C (Moderate) path; Rev5 and 20x are non-interchangeable. Build 20x-native, export Rev5 for migration.</li>
+<li><strong>The moat is the combination, not any single pillar.</strong> OSCAL-native docs + infrastructure (LaunchPad) + 3PAO-channel/procurement-signal GTM. Paramify already owns OSCAL-native docs alone.</li>
+<li><strong>The product's reason to exist is consistency.</strong> First-time authorizations fail on inconsistency between SSP/boundary/data-flows/SAR/POA&amp;M. A single OSCAL data model eliminates this by design.</li>
+<li><strong>ConMon is the retention engine.</strong> Permanent monthly obligation with ATO-revocation teeth -&gt; 5+ year LTV, $150-350K/yr recurring spend, ~75% automatable.</li>
+<li><strong>GTM is channel-led, not product-led.</strong> Buyer triggered by a federal contract, arrives in crisis, can't hire expertise, trusts the 3PAO network. The 3PAO independence rule makes them allies, not competitors.</li>
+</ol>
+<h2>THE ONE UNRESOLVED TENSION (carried into the deliberation)</h2>
+<p>Diana's <strong>$30-45M FedRAMP-only TAM</strong> at realistic share vs venture-scale ambition. Resolution path runs through (a) the expansion thesis (CMMC equivalency exists today; GovRAMP/FISMA share the NIST substrate) and (b) the ACV question (can the integrated wedge command more than the ~$90K blended ACV used in sizing?).</p>
+<h2>Theme 1: Timing &amp; Market</h2>
+<ul>
+<li><strong>CT-01</strong>: Timeline is FIRMING, not slipping. Phase 1 on time, Phase 2 concluding Mar 2026, Phase 3 Q3-Q4 2026. CR26 effective ~Jul 1 2026 through Dec 31 2028 — stable rule horizon. Connor reversed his slippage concern; redirected to "the window is real but not secret — incumbents have the same clarity."</li>
+<li><strong>CT-02</strong>: OSCAL mandate now absorbed into CR26 (consolidates RFC-0019..0024). More durable; load-bearing infrastructure for the whole program. Can't be walked back without abandoning their operating model.</li>
+<li><strong>DP-01</strong>: Honest TAM. ~350 authorizations in 13 yrs (~26/yr); record 144 in FY25. 20x projected 2-3x more vendors by 2027. Migration market = 523 certified needing OSCAL. Realistic addressable ~1,500-1,700 accounts; at ~$90K ACV that's a ~$135-155M ceiling at 100% share; 20-30% share = $30-45M ARR FedRAMP-only. "Are we building a $40M company to sell or a $400M to scale?"</li>
+<li><strong>CT-04</strong>: NO formal CMMC-FedRAMP reciprocity today. BUT the Jan 2 2024 DoD memo established FedRAMP Moderate Equivalency — a FedRAMP Moderate CSO is already accepted for CMMC L2 / DFARS 252.204-7012 as an External Service Provider. CMMC 2.0 L2 mandatory 3PAO assessments take effect Nov 10 2026, parallel to CR26. Verdict: build for CMMC, price without it. Full 20x-to-CMMC reciprocity ~50-60% probability in horizon.</li>
+</ul>
+<h2>Theme 2: Automation Boundary &amp; Architecture</h2>
+<ul>
+<li><strong>JK-01</strong>: OSCAL is 7 models / 3 layers (Catalog, Profile, Component Definition, SSP, Assessment Plan, Assessment Results, POA&amp;M). Designed for traceability — each model imports the prior. POA&amp;M uses identical syntax to Assessment Results -&gt; seamless risk transfer SAR-&gt;POA&amp;M. Component Definition model is the key: reusable, pre-validated control implementations inherited by reference = the moat. James now fully convinced OSCAL-native is right.</li>
+<li><strong>JK-02</strong>: Inheritance is mixed. Azure most mature (Azure Policy FedRAMP initiatives, queryable, CRM published). Pre-authorized environment inherits ~75% of controls. OSCAL Component Definition is the programmatic mechanism but not all providers publish them yet. LaunchPad = 6-9 month build, not 3. Building OSCAL component definitions for major IaaS ourselves = proprietary switching-cost asset.</li>
+<li><strong>MR-02 + JK-04</strong> (merged): Automation buckets — ~40-50% fully automatable (AU/CM/SC/SI/RA via infra APIs), ~30-35% partially (AC/IA/CP/IR/CA templated + human), ~15-20% manual (PS/AT/PE/PL/PM, personnel/training/org evidence). 20x 70% automation threshold aligns with full+partial buckets. The remaining ~30% is exactly where Guide Rail operates.</li>
+<li><strong>CT-03</strong>: THE pivotal finding. CR26 makes Rev5 and 20x explicitly non-interchangeable. Cloud-native simple systems -&gt; 20x; legacy/complex/High -&gt; Rev5 (20x High pilot not done until H2 2027). Our target customer (Series A-C cloud-native) is routed to 20x Class C by the rules. Build 20x-native, export Rev5 for migration. OSCAL can generate both from one model -&gt; clean single architecture. Connor: "James and I were arguing about a problem CR26 already decided."</li>
+</ul>
+<h2>Theme 3: 3PAO &amp; Channel</h2>
+<ul>
+<li><strong>RN-02 + MR-04</strong> (merged): Moderate 3PAO assessment $150-300K+ (some $350-650K complex); 20x Low drops to $30-45K. 3PAO must be A2LA ISO/IEC 17020 accredited. KEY RULE: a 3PAO that advises a CSP cannot also assess it (independence) -&gt; 3PAOs are allies, not competitors, and a platform that the assessing 3PAO works inside is welcome. Referral model proven: Paramify's advisor/assessor marketplace (Schellman, StackArmor, 38North, Steel Patriot); Coalfire is a Paramify Premier Partner. Cleaner packages = fewer 3PAO review iterations = better 3PAO margins -&gt; they recommend the platform.</li>
+<li><strong>RN-01</strong>: Buyer triggered by a specific federal contract requirement (the SPRS-style hard gate). All-in first Moderate $800K-$2M over 18-24 mo, median overrun 2.4x. 81% cite talent shortage as #1 barrier. Buyer arrives stressed, over budget, can't hire, leans on 3PAO/consultant/investor network for tool recs. Product-led-growth alone fails; they want a guided path (= Guide Rail).</li>
+<li><strong>RN-03</strong>: Real competitor is the spreadsheet + consultant, not Vanta. Decisive advantage = reduce time-to-authorization and 3PAO review iterations. Selection criteria that matter: OSCAL-native depth, speed, 3PAO compatibility — NOT multi-framework breadth. Message: "faster and lower-risk than doing it manually with a consultant."</li>
+<li><strong>RN-04</strong>: Procurement signals (SAM.gov, FPDS, GovWin) are partially mineable for FedRAMP-requirement language. No major platform does this as demand-gen. Pipeline: ingest solicitations, filter FedRAMP+cloud keywords, cross-ref against not-yet-authorized companies. Reach the buyer at the trigger moment before they call a 3PAO. Rafael upgraded this to a proprietary CAC advantage.</li>
+</ul>
+<h2>Theme 4: Competitive Defense &amp; Unit Economics</h2>
+<ul>
+<li><strong>SL-01</strong>: Threat larger than briefed. Vanta $300M ARR (Apr 2026, +69% YoY), 16,000 customers, $4B valuation, $504M raised, already 20x certified, FedRAMP module w/ OSCAL export, 90% automation, 375+ integrations. Drata $100M+ ARR. Market $2.94B (2024) -&gt; $13.4B (2034), 16.4% CAGR. Specialists Paramify (20x Moderate authorized, OSCAL-native) and RegScale (OSCAL Foundation, built OSCAL Hub) already where we want to be. Differentiation can't be "OSCAL-native" alone — must be the integrated combination Paramify lacks.</li>
+<li><strong>SL-02</strong>: Acute, time-sensitive acquisition risk. Vanta ($4B, $504M raised) can acquire any specialist. Paramify is the obvious target (small, OSCAL-native, 20x authorized, 3PAO marketplace). Category already consolidating (Drata bought Trustpage, OneTrust bought Tugboat Logic). Defense: move fast on what acquisition can't replicate (LaunchPad infra + proprietary OSCAL component-definition library = switching costs); position so a Paramify acquisition doesn't kill us. Assume Paramify gets acquired and build so it doesn't matter.</li>
+<li><strong>SL-03 + SL-04</strong>: SOC 2 wave is the analog. Winners decided by distribution (Vanta) + product depth (Drata); others absorbed. Messaging vulnerabilities: Vanta/Drata claim FedRAMP automation but OSCAL is export-only (exploitable); Paramify is documentation-only (no infra/ConMon depth); nobody owns infrastructure-build + OSCAL-native + procurement-signal GTM together. Message: "we build your compliant environment AND generate your machine-readable package AND reach you when your contract requires it."</li>
+<li><strong>DP-02</strong>: Three pillars have different economics. Comply Engine = software (80%+ margin). LaunchPad = infra (cloud passthrough + multi-provider maintenance, lower). Guide Rail = advisory (the margin risk; FedRAMP advisory $100-500K+/engagement). Reframe: under 20x automation covers 70%, remaining 30% is templatable + AI-assisted light-touch review, NOT senior-consultant hours. Viable ONLY if Guide Rail is AI-augmented review/escalation, metered and capped, never unlimited consulting. LaunchPad priced to recover infra cost, not bundled invisibly.</li>
+<li><strong>DP-03</strong>: Retention is structurally high. ConMon is a permanent monthly obligation; miss it -&gt; ATO suspension -&gt; can't sell to federal. Platform is a permanent dependency, not a project tool. Vanta ARR/customer rose $17K-&gt;$19K via framework adds. Expansion path: Low-&gt;Mod-&gt;High + CMMC/GovRAMP/FISMA (shared NIST substrate). LTV 5+ years, not 12-18 months. Rescues the CAC payback math; Diana materially more positive.</li>
+<li><strong>DP-04</strong>: Talent is the biggest scaling risk for advisory. 81% cite it as #1 barrier; concentrated at 3PAOs + large consultancies. Mitigation: AI-augmentation (Telos Xacta.ai 93% time savings; RegScale 410 control statements in 2 weeks). Path: small core of senior experts + AI tooling, review/escalation not do-it-all. Need &gt;=1:30 advisor:customer ratio or the model fails.</li>
+<li><strong>MR-01</strong>: Failures are about INCONSISTENCY, not hard controls. PMO's own list: inconsistencies across SSP narratives; between boundary diagram / data flow / SSP narrative; between narratives and SAR; between SAR and POA&amp;M. Boundary definition is the highest-leverage failure point. Assessors validate what's implemented, not what's written. A single OSCAL data model structurally eliminates inter-document inconsistency. Core message: "your package cannot be internally inconsistent because it's generated from one model."</li>
+<li><strong>MR-03</strong>: ConMon is the recurring-revenue engine. Monthly POA&amp;M/inventory/scans/summary, 30/90/180 remediation timers, collaborative ConMon (CA-7), 12-month retention. Automation cuts ConMon prep ~75%; annual ConMon $150-350K/yr Moderate. Customer literally cannot leave. Design ConMon-first, authorization as the on-ramp.</li>
+<li><strong>JK-03</strong>: DX gap real but narrowing. Paramify nailed documentation DX; nobody nailed infrastructure-plus-pipeline DX. Wedge = deploy compliance like a Terraform module: connect cloud, inherit controls, generate OSCAL from running state, pipe into CI/CD. That experience doesn't exist yet.</li>
+</ul>
+<h2>Research synthesis (the picture)</h2>
+<ol>
+<li>Customer and path are the same thing (CR26 routing).</li>
+<li>The moat is the combination, not any single pillar.</li>
+<li>Product reason-to-exist is consistency (single OSCAL model).</li>
+<li>ConMon is the retention engine.</li>
+<li>GTM is channel-led (3PAO + procurement signals), not product-led.
+Unresolved: Diana's $30-45M FedRAMP-only TAM vs venture-scale ambition. Resolution via expansion path + ACV question. = the central question for the deliberation.</li>
+</ol>
+      </div>
+    </section>
+    
+
+  <a class="backtop" href="#top">&uarr; Back to top</a>
+
+</div>
+
+<div class="footer">
+  <div><span class="pm">PERPENSA</span> &middot; Deliberation Handoff &amp; Sources &middot; FedRAMP Wedge &middot; June 2026</div>
+  <div>Research &middot; Discuss &middot; Challenge &middot; Evolve</div>
+</div>
+
+</body>
+</html>
