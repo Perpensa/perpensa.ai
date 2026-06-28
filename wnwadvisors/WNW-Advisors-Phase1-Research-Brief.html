@@ -136,6 +136,37 @@ ol.srclist .note{display:block;color:var(--ink-400);font-size:12px;margin-top:4p
 .nx li:first-child{border-top:none;}
 .nx li:before{content:"\2192";position:absolute;left:2px;top:10px;color:var(--steel);font-family:var(--mono);}
 </style></head><body>
+<style>
+.wnav{position:sticky;top:0;z-index:60;background:rgba(20,32,44,.97);-webkit-backdrop-filter:saturate(1.3) blur(6px);backdrop-filter:saturate(1.3) blur(6px);border-bottom:1px solid rgba(206,145,64,.20);}
+.wnav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:46px;display:flex;align-items:center;gap:16px;}
+.wnav-brand{display:flex;align-items:center;gap:9px;text-decoration:none;flex:0 0 auto;}
+.wnav-brand .wm{font-family:var(--display),system-ui,sans-serif;font-weight:600;font-size:14px;color:var(--bone-50);letter-spacing:-.01em;white-space:nowrap;}
+.wnav-links{display:flex;align-items:center;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.wnav-links::-webkit-scrollbar{display:none;}
+.wnav-links a{font-family:var(--mono),ui-monospace,monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-300);text-decoration:none;padding:6px 11px;border-radius:5px;white-space:nowrap;transition:color .15s ease,background .15s ease;}
+.wnav-links a:hover{color:var(--bone-50);background:rgba(255,255,255,.06);}
+.wnav-links a.cur{color:var(--brass);background:rgba(206,145,64,.13);}
+@media(max-width:620px){.wnav-in{padding:0 16px;gap:10px;}.wnav-brand .wm{display:none;}.wnav-links a{padding:6px 9px;letter-spacing:.08em;}}
+</style>
+<nav class="wnav" aria-label="WNW Advisors documents"><div class="wnav-in">
+  <a class="wnav-brand" href="WNW-Advisors-Executive-Summary.html" aria-label="WNW Advisors Executive Summary">
+    <svg width="20" height="20" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+      <path d="M2 5 C 9 7, 11 11, 14 13" stroke="#CE9140" stroke-width="1.6"/>
+      <path d="M2 13 C 9 13, 11 13, 14 13" stroke="#6a5170" stroke-width="1.6"/>
+      <path d="M2 21 C 9 19, 11 15, 14 13" stroke="#3f8a86" stroke-width="1.6"/>
+      <path d="M14 13 L 24 13" stroke="#6f93ad" stroke-width="2"/>
+      <circle cx="14" cy="13" r="2" fill="#F6F1E7"/>
+    </svg>    <span class="wm">WNW Advisors</span>
+  </a>
+  <div class="wnav-links">
+    <a href="WNW-Advisors-Executive-Summary.html">Summary</a>
+    <a href="WNW-Advisors-Phase1-Research-Brief.html" class="cur" aria-current="page">Research</a>
+    <a href="WNW-Advisors-Strategy-and-GTM.html">Strategy</a>
+    <a href="WNW-Advisors-Execution-Plan.html">Execution</a>
+    <a href="WNW-Advisors-RedTeam-and-Premortem.html">Red Team</a>
+    <a href="WNW-Deliberation-Atlas.html">Atlas</a>
+  </div>
+</div></nav>
 
 <header class="hero"><div class="wrap">
   <div class="brandline">
