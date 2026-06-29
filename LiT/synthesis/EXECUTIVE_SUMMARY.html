@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LiT — Executive Summary — Perpensa</title>
+<meta name="description" content="Round 07 synthesis — the apex deliverable, threading the diagnosis, the decision, and the deployment architecture into a single page.">
+<meta name="robots" content="noindex, nofollow, noai, noimageai, nosnippet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%230E1822'/%3E%3Cg transform='translate(7.5 7.5) scale(0.6875)'%3E%3Cline x1='24' y1='7' x2='24' y2='16' stroke='%237E9FBA' stroke-width='3'/%3E%3Cline x1='9.3' y1='15.5' x2='17.1' y2='20' stroke='%23E8B86B' stroke-width='3'/%3E%3Cline x1='9.3' y1='32.5' x2='17.1' y2='28' stroke='%237E9FBA' stroke-width='3'/%3E%3Cline x1='24' y1='41' x2='24' y2='32' stroke='%23E8B86B' stroke-width='3'/%3E%3Cline x1='38.7' y1='32.5' x2='30.9' y2='28' stroke='%237E9FBA' stroke-width='3'/%3E%3Cline x1='38.7' y1='15.5' x2='30.9' y2='20' stroke='%23D85A30' stroke-width='3'/%3E%3Ccircle cx='24' cy='24' r='4' fill='%23F6F1E7'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink-300:#9DACB9;--ink-700:#364756;--ink-800:#263442;--ink-900:#14202C;
+  --bone-50:#F6F1E7;--bone-100:#EFE7D7;--bone-200:#E2D7C0;--bone-300:#D0C3A7;
+  --brass-300:#E8B86B;--brass-500:#CE9140;--brass-600:#A86F2C;--brass-800:#5D3B14;
+  --steel-300:#7E9FBA;--steel-500:#46708F;--steel-600:#375A74;--steel-700:#294459;
+  --signal-300:#E78D69;--signal-500:#D85A30;--signal-600:#B14523;
+  --patina-500:#3E8475;--patina-600:#2F695D;--plum-500:#7D5072;
+  --slate-300:#A0AAB3;--slate-400:#7F8B96;--slate-500:#5F6B76;
+  --surface-page:var(--bone-50);--surface-raised:#FCFAF4;--surface-sunken:var(--bone-100);
+  --surface-hero:var(--ink-900);
+  --text-primary:var(--ink-900);--text-body:#3A4148;--text-muted:var(--slate-500);
+  --border-default:#E5DCC9;--border-ondark:#2A3845;
+  --font-display:"Schibsted Grotesk",system-ui,sans-serif;
+  --font-body:"Instrument Sans",system-ui,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);font-size:15px;line-height:1.65;color:var(--text-body);background:var(--surface-page);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+a{color:var(--steel-500);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:2px solid var(--steel-500);outline-offset:3px;border-radius:4px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:500;letter-spacing:.02em;color:var(--text-primary)}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;color:var(--text-muted);display:block;margin-bottom:10px}
+
+/* nav */
+.nav{padding:14px 0;border-bottom:1px solid var(--border-default);position:sticky;top:0;background:color-mix(in srgb,var(--surface-page) 90%,transparent);backdrop-filter:blur(8px);z-index:50}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.lockup{display:flex;align-items:center;gap:10px}
+.lockup span{font-family:var(--font-display);font-weight:500;font-size:18px;letter-spacing:.02em;color:var(--text-primary)}
+.lockup small{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav-links a{font-size:13px;font-weight:500;color:var(--text-body);padding:6px 12px;border-radius:7px;border:1px solid transparent}
+.nav-links a:hover{text-decoration:none;background:var(--surface-sunken)}
+.nav-links a.active{color:var(--ink-900);background:var(--surface-raised);border-color:var(--border-default)}
+.nav-links a.active::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--brass-500);margin-right:7px;vertical-align:middle}
+
+/* page header */
+.phead{background:var(--surface-hero);padding:54px 0 50px}
+.phead .eyebrow{color:var(--brass-300)}
+.phead h1{font-size:clamp(28px,4vw,40px);line-height:1.14;color:var(--bone-50);max-width:24ch}
+.phead p{margin-top:16px;color:var(--ink-300);max-width:72ch;font-size:16px}
+.crumbs{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap;font-family:var(--font-mono);font-size:11px;letter-spacing:.04em}
+.crumbs a{color:var(--steel-300);padding:3px 9px;border:1px solid var(--border-ondark);border-radius:20px}
+.crumbs a:hover{text-decoration:none;border-color:var(--steel-500);color:var(--steel-300)}
+.crumbs a.active{color:var(--ink-900);background:var(--brass-300);border-color:var(--brass-300)}
+
+/* document body */
+.doc{padding:48px 0 24px}
+.doc h2{font-size:clamp(21px,2.8vw,27px);margin:46px 0 14px;padding-top:12px;border-top:1px solid var(--border-default);scroll-margin-top:80px}
+.doc h2:first-child{border-top:none;margin-top:0;padding-top:0}
+.doc h3{font-size:18px;margin:30px 0 10px;color:var(--ink-800);scroll-margin-top:80px}
+.doc h4{font-size:15px;font-family:var(--font-body);font-weight:600;margin:22px 0 8px;color:var(--ink-800)}
+.doc p{margin:0 0 14px;max-width:78ch}
+.doc ul,.doc ol{margin:0 0 16px;padding-left:24px;max-width:80ch}
+.doc li{margin:0 0 8px}
+.doc li>ul,.doc li>ol{margin-top:8px}
+.doc li::marker{color:var(--brass-600)}
+.doc strong{color:var(--text-primary);font-weight:600}
+.doc em{color:var(--ink-700)}
+.doc a{color:var(--steel-600);text-decoration:underline;text-decoration-color:var(--bone-300);text-underline-offset:2px}
+.doc hr{border:none;border-top:1px solid var(--border-default);margin:34px 0}
+.doc code{font-family:var(--font-mono);font-size:12.5px;background:var(--surface-sunken);color:var(--steel-700);padding:1.5px 6px;border-radius:5px;border:1px solid var(--border-default);word-break:break-word}
+
+/* tables */
+.tablewrap{overflow-x:auto;margin:0 0 22px;border:1px solid var(--border-default);border-radius:12px;background:var(--surface-raised)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+thead th{background:var(--ink-900);color:var(--bone-50);font-family:var(--font-body);font-weight:600;text-align:left;padding:11px 14px;letter-spacing:.01em;white-space:nowrap;position:sticky;top:0}
+tbody td{padding:10px 14px;border-top:1px solid var(--border-default);vertical-align:top;line-height:1.5}
+tbody tr:nth-child(even){background:color-mix(in srgb,var(--bone-100) 45%,transparent)}
+tbody tr:hover{background:color-mix(in srgb,var(--brass-300) 14%,transparent)}
+table code{font-size:11.5px}
+
+/* footer */
+.foot{border-top:1px solid var(--border-default);padding:34px 0 46px;margin-top:32px}
+.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.foot p{font-size:13px;color:var(--text-muted)}
+.foot .maxim{font-family:var(--font-mono);font-size:12px}
+.foot-links{display:flex;gap:16px;flex-wrap:wrap}
+.foot-links a{font-size:13px;color:var(--text-body)}
+
+@media (max-width:760px){
+  .nav .wrap{gap:10px}
+  .nav-links{gap:4px}
+  .nav-links a{padding:6px 9px;font-size:12px}
+  .doc{padding:34px 0 16px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="lockup" href="EXECUTIVE_SUMMARY.html" aria-label="Perpensa — LiT synthesis">
+      <svg width="30" height="30" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12 C18 12 22 22 29 23.4" fill="none" stroke="#46708F" stroke-width="3" stroke-linecap="round"/><path d="M6 24 C14 24 21 23.8 29 23.8" fill="none" stroke="#CE9140" stroke-width="3" stroke-linecap="round"/><path d="M6 36 C18 36 22 26 29 24.4" fill="none" stroke="#D85A30" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="24" x2="42" y2="24" stroke="#14202C" stroke-width="3.5" stroke-linecap="round"/></svg>
+      <span>Perpensa</span><small>LiT&nbsp;synthesis</small>
+    </a>
+    <div class="nav-links">
+      <a class=" active" href="EXECUTIVE_SUMMARY.html">Executive Summary</a><a class="" href="SWOT.html">SWOT</a><a class="" href="STRATEGY.html">Strategy</a><a class="" href="EXECUTION_PLAN.html">Execution Plan</a>
+    </div>
+  </div>
+</nav>
+
+<header class="phead">
+  <div class="wrap">
+    <span class="eyebrow">Lithium Technologies · capital decision</span>
+    <h1>LiT — Executive Summary</h1>
+    <p>Round 07 synthesis — the apex deliverable, threading the diagnosis, the decision, and the deployment architecture into a single page.</p>
+    <nav class="crumbs" aria-label="Synthesis documents">
+      <a class=" active" href="EXECUTIVE_SUMMARY.html">Executive Summary</a><a class="" href="SWOT.html">SWOT</a><a class="" href="STRATEGY.html">Strategy</a><a class="" href="EXECUTION_PLAN.html">Execution Plan</a>
+    </nav>
+  </div>
+</header>
+
+<main class="doc">
+  <div class="wrap">
+<p><strong>Engagement:</strong> Lithium Technologies, Inc. (LiT) seed-stage capital decision. <strong>Status:</strong> Round 07 synthesis. The apex of the deliverable set, threading the diagnosis (<code>synthesis/SWOT.md</code>), the decision (<code>synthesis/STRATEGY.md</code>), and the deployment architecture (<code>synthesis/EXECUTION_PLAN.md</code>) into one page. Every conclusion here is carried at full strength from a document below; nothing new is asserted. <strong>Evidence discipline:</strong> every claim traces to the locked evidence base or carries an Assumption band or a <code>NEEDS EXTERNAL RETRIEVAL</code> tag. Prose is direct; no em-dashes.</p>
+<hr>
+<h2>Frame</h2>
+<p>This deliverable serves the <strong>ADVISOR lens for a prospective capital provider</strong> deciding whether and on what terms to deploy capital into the seed LiT offers ($2M at $13M pre-money for 13.33%, eight milestone-gated tranches, a claimed 27x to 34x exit). The deal terms, the 1% NSR royalty base, the licensing structure, and the tranche logic are <strong>objects of assessment, not fixed inputs</strong>. The yardstick is risk-adjusted return under a downside-aware lens, not the founder's growth narrative.</p>
+<p>Under a pure <strong>Company</strong> lens (assume-proceed, optimize-build) the gating weaknesses below would read as a work-list rather than as conditions of proceeding, and "do not proceed" would lose force. Under a pure <strong>Investor</strong> lens the analysis would terminate at a diligence verdict and term recommendation without the downstream execution architecture. Neither shift is supported by the locked evidence, which shows no commitment to invest.</p>
+<hr>
+<h2>The recommendation</h2>
+<p><strong>Decline the seed as offered. Convert the pass into capital only through a restructured, gated, repriced instrument, and only when the company accepts the gates and the downside is shown to be genuinely capped. Otherwise the pass stands.</strong></p>
+<p>This is a single conditional move, not a binary yes or no:</p>
+<ol><li><strong>Do not fund the deck as written (Option 2).</strong> It rests on three unmitigated High gates and is ineligible for recommendation regardless of headline economics.</li><li><strong>Issue a Restructure-first term (Option 1) in place of a pass.</strong> Offer a small validation-and-IP tranche, not growth capital, released only against three evidence gates, with the entry repriced for stage of risk and the royalty narrowed to a verifiable base. The company's response to that offer is itself the missing fact the decision turns on.</li><li><strong>Hold capital out of the growth round behind the gates.</strong> Growth capital releases only after all three gates clear. If the company will not restructure, the default is the unconditional pass (Option 0), which leads the scored matrix under every weighting tested.</li></ol>
+<p>This is a <strong>conditional pass</strong> that designates Option 1 as the one direction it converts into. It is not a hard no and not an unconditional yes; both over-read the evidence.</p>
+<hr>
+<h2>Why: the diagnosis (from SWOT)</h2>
+<p>The thesis targets a real problem with a coherent flowsheet, but <strong>its three headline assets each invert under examination into gating weaknesses:</strong></p>
+<ul><li><strong>No clean, controlled, exclusive IP to license.</strong> No granted or published LiT patent exists on the public record; the front-end chemistry is VTIP-owned and already licensed worldwide to a third party (MRC); the only executed LiT instrument is an unexercised option-to-license. A license-to-others business is sold on a moat whose existence, exclusivity, and freedom-to-operate are all unestablished. <em>(R-IP-1, High, gating.)</em></li><li><strong>The recovery uplift that drives the revenue base is an undefined, unvalidated number.</strong> "16 to 19%, bench-validated across three feedstocks" rests on no primary dataset; the only executed technical work is a $52,075 three-month conceptual desk study, and the partner funded to generate validation data is not under contract. <em>(R-TECH-1, High, validation gate.)</em></li><li><strong>Every quantitative input to the revenue model is overstated and the inputs stack multiplicatively.</strong> The 1% whole-mine NSR basis is off-market, the terms are aggressive for a pre-pilot process, the price is unmodeled against a 2 to 3x intra-year swing, the ramp is years short of documented operator-qualification cycles, and the exit multiples are roughly 3 to 5x too rich. Compounded, realistic expected value is a fraction of the headline. <em>(R-REV-8, High, master.)</em></li></ul>
+<p>What survives as genuine value is the <strong>deal and control structure</strong> (an enforceable upfront-plus-royalty shape with milestone-gated tranches), a real <strong>demand-side pull</strong> (operators have a standing economic reason to evaluate recovery uplift), a live <strong>better-value model alternative</strong> (hybrid / TaaS / build-own-operate could capture far more than 1%), and a set of <strong>bounded policy and ESG accelerants</strong> that open doors but do not move an operator through qualification. None of this offsets a gating defect; it describes the value that exists only once the three gates are cleared.</p>
+<hr>
+<h2>How the decision was reached (from Strategy)</h2>
+<p>Seven mutually exclusive directions were scored against seven weighted criteria (risk-adjusted return weighted highest at 22 of 100). <strong>Pass leads the matrix under all three weightings tested</strong> (advisor-caution, pure-return, and founder-speed-first), so the lead is not an artifact of caution. The deck as written is formally ineligible under a gating-override rule that bars any option carrying an unmitigated High gate. Every higher-capture option (hybrid, producer, anchor, policy-anchored) is dominated or survives only as a configuration on a base that already stands on economics, because each step up the value-capture ladder is bought with lower abandonability and a heavier, liability-loaded downside.</p>
+<p>The genuine contest reduces to <strong>Pass (0) versus Restructure-first (1)</strong>, and the load-bearing ruling is that Option 1's downside does <strong>not yet</strong> strictly beat capital-preserved-and-redeployed: its tranche is a real loss, and the two facts that would cap its downside to zero (the company actually accepting gating and repricing, and the gates running in parallel within roughly 12 months) are unretrieved. So Pass holds as the default, <strong>but</strong> passing unconditionally forfeits the cheapest entry into a structurally pulled market. The resolution that honours both is the conditional pass: decline the deck, table the Option 1 term as the instrument of retrieval, and convert the moment the missing facts resolve.</p>
+<hr>
+<h2>How it would be deployed (from the Execution Plan)</h2>
+<p>If and when the recommendation converts, the deployment is <strong>not a build schedule but a capital-staging architecture: four phases separated by three binding, evidence-completion decision gates, where every release is small and abandonable and no growth capital exists until all three gates clear.</strong> The gates are <strong>event-driven, not date-driven</strong>: the plan does not inherit the deck's calendar (Month 10/16/25 milestones are campaign-start dates, not validated numbers). The spine is strictly <strong>T1 acceptance, then Gate A IP and Gate B validation in parallel, then Gate C first reference, then P3 growth</strong>, with the advisor's entire pre-priced loss bounded to a ~$0.9M validation-and-IP tranche.</p>
+<p>The deliberation's central execution finding is that <strong>governance, not metallurgy, is the binding mitigation.</strong> The gates are sound, but several are enforced by advisor judgment at exactly the point the neutrality hazard is strongest. The plan answers this with a structural control (Gate G0): a written, pre-committed abandon specification and a no-position decision authority outside the deal team, plus a standing "no pass on momentum" rule that makes any gate pass argued from sunk cost an automatic fail.</p>
+<hr>
+<h2>Top three risks</h2>
+<ol><li><strong>Time-to-revenue is the master risk (R-ADOPT-2, High), and it cannot be accelerated.</strong> Operator qualification is multi-year, per-operator, and per-feedstock (~2 to 3 years per site); a second customer does not inherit the first's proof. Paired with the multiplicative revenue downside (R-REV-8), a slow qualification cycle stretching the burn across a low-price world is the dominant failure scenario. The plan paces and bounds this link but cannot shorten it.</li><li><strong>Customer concentration plus self-substitution (R-ADOPT-1, High).</strong> The named target accounts are simultaneously the pipeline, the competition, and potential acquirers or funders of a substitute; the revealed uptake instrument is equity, in-house build, or offtake, not a whole-mine NSR. The most-courted accounts are least likely to adopt on LiT's terms and best able to route around it.</li><li><strong>The neutrality hazard (DISSENT-T4), the deepest fragility.</strong> The originating party holds or is considering a position, the deck presents a single optimistic path, and the gates that protect against every finding above are enforced by advisor judgment under deal pressure. This is the one risk no retrieval can retire; it is controllable only by the G0 governance structure, and if G0 cannot be stood up in practice, every gate reverts to advisor self-discipline and the deepest failure path reopens.</li></ol>
+<p><em>(The gating defects R-IP-1 and R-TECH-1 sit above these as binding release conditions rather than residual risks: they are hard stops that bar funding until cleared, not exposures the advisor carries.)</em></p>
+<hr>
+<h2>Change-triggers (the conditions that move the recommendation)</h2>
+<p>The recommendation is engineered to move on evidence, not to pretend certainty the evidence does not support.</p>
+<ul><li><strong>Pre-condition (G0):</strong> the written per-gate abandon specification and the no-position decision authority must be stood up <strong>before any term is tabled</strong>. If G0 cannot be stood up, the conversion sequence does not begin and the pass stands.</li><li><strong>Convert the conditional pass into funding Option 1 (both required):</strong> <strong>T1</strong> the company signs the gated, repriced term against three quantitative floors (a minimum viable royalty base, the repriced entry committed in the term, a dual-world return range); <strong>T2</strong> a named, outside-the-partner-pool validation authority issues an actual written quote showing Gates A and B parallel-readable within ~12 months for the bounded spend.</li><li><strong>Escalate the convert-to direction from Restructure-first (1) to Anchor (3):</strong> <strong>T3</strong> time-to-first-reference binds and an anchor term ring-fences field-of-use with named replication and competitor-funding bars and an evidenced second-operator interest.</li><li><strong>Add a policy overlay (Option 7) to the chosen base:</strong> <strong>T4</strong> a concrete, awarded, durable instrument longer than the qualification cycle, never as the base case.</li><li><strong>Hold the hard pass (Option 0 stands):</strong> <strong>T5</strong> the company refuses gating or repricing (itself an adverse-selection signal); <strong>T6</strong> retrieval surfaces a disqualifying IP or validation fact; <strong>T7</strong> gate cost or time blows the small-abandonable threshold.</li><li><strong>Standing overrides:</strong> <strong>T8</strong> any open unmitigated High gate bars funding outright; <strong>T9</strong> no naked high-capture (hybrid or producer) absent a full liability ring-fence; <strong>T10</strong> no gate pass on momentum.</li></ul>
+<p>The binding release conditions on every proceed configuration remain <strong>Gate A</strong> (executed exclusive IP plus clean freedom-to-operate), <strong>Gate B</strong> (an independently reproduced, defined, scaled recovery number outside the partner R&amp;D pool), and <strong>Gate C</strong> (a first paid reference priced to the operator's all-in adoption cost at the real qualification cadence).</p>
+<hr>
+<h2>Confidence and fragility</h2>
+<ul><li><strong>High confidence</strong> that the deck-as-written is unfundable (three Cited High gates) and that Pass leads the matrix under every weighting; these survive a wholesale data-room retrieval only in the low-probability event it reverses the IP and validation findings at once.</li><li><strong>Moderate confidence</strong> on the pass-versus-convert call itself, which is deliberately one fact-retrieval (T1 plus T2) away from flipping. This is the intended fragility: the recommendation is built to move when the company acts.</li><li><strong>The single largest unretrieved dependency</strong> is company conduct on gating and repricing, plus the VTIP option terms (C1, C3, C4), flagged <code>NEEDS EXTERNAL RETRIEVAL</code>; the structure makes the offer itself the means of retrieval.</li><li><strong>The deepest fragility is governance, not evidence.</strong> If the G0 neutrality control cannot be stood up in practice, the gates revert to advisor self-discipline at the exact point the neutrality hazard bites. This is the one fragility the recommendation cannot price away; it can only be controlled by structure.</li></ul>
+<p>The council does not record a consensus to proceed. It converges on a <strong>conditional pass with a designated, gated convert-to path</strong>, with all six dissents (D1 to D6), the neutrality hazard (DISSENT-T4), the four contained-not-removed residuals, and the master-pair time-to-revenue concentration preserved as live conditions rather than retired.</p>
+<hr>
+<p><em>Round 07 synthesis. Threads <code>synthesis/SWOT.md</code> (diagnosis), <code>synthesis/STRATEGY.md</code> (decision), and <code>synthesis/EXECUTION_PLAN.md</code> (deployment) into the apex summary. Frame statement, headline recommendation, top three risks, and change-triggers all carried at full strength from the documents below; traceability confirmed in <code>rounds/r07-assembly-traceability.md</code>. No unsupported claim enters this summary.</em></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="lockup"><svg width="22" height="22" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12 C18 12 22 22 29 23.4" fill="none" stroke="#46708F" stroke-width="3" stroke-linecap="round"/><path d="M6 24 C14 24 21 23.8 29 23.8" fill="none" stroke="#CE9140" stroke-width="3" stroke-linecap="round"/><path d="M6 36 C18 36 22 26 29 24.4" fill="none" stroke="#D85A30" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="24" x2="42" y2="24" stroke="#14202C" stroke-width="3.5" stroke-linecap="round"/></svg><span style="font-size:14px">Perpensa</span></div>
+    <div class="foot-links"><a href="EXECUTIVE_SUMMARY.html">Executive Summary</a><a href="SWOT.html">SWOT</a><a href="STRATEGY.html">Strategy</a><a href="EXECUTION_PLAN.html">Execution Plan</a></div>
+    <p>Confidential · © 2026 Perpensa · <span class="maxim">re melius perpensa</span></p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+2026-06-29T06:33:43 [INFO] Ralph driver starting in D:\code\perpensa.ai\lit
+2026-06-29T06:33:43 [INFO] Wrote missing prerequisite: .\STATE.md
+2026-06-29T06:33:43 [INFO] Resuming at iteration 0. Cumulative wait so far: 0 sec.
+2026-06-29T06:33:43 [INFO] === Capability self-test: write, read, mkdir, web search, web fetch ===
+All steps completed. Probe file written and read back matching, WebSearch returned results, and WebFetch returned content from example.com.
+
+CAPABILITY-CHECK: WRITE=PASS READ=PASS MKDIR=PASS WEBSEARCH=PASS WEBFETCH=PASS
+
+2026-06-29T06:34:03 [INFO] Capability WRITE     = PASS
+2026-06-29T06:34:03 [INFO] Capability READ      = PASS
+2026-06-29T06:34:03 [INFO] Capability MKDIR     = PASS
+2026-06-29T06:34:03 [INFO] Capability WEBSEARCH = PASS
+2026-06-29T06:34:03 [INFO] Capability WEBFETCH  = PASS
+2026-06-29T06:34:03 [INFO] Capability self-test passed. All required capabilities confirmed.
+2026-06-29T06:34:03 [INFO] Iteration 1 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: NOT STARTED
+Unit complete. Stopping after one unit as the loop requires.
+
+**This iteration — Round 00 Frame Lock (sequential step):**
+
+- Locked the frame to the **Advisor lens**, with the decision owner as a **prospective capital provider** weighing whether and how to take a position in LiT on the seed terms in the prospectus ($2M at $13M pre-money, 13.33% stake, claimed 27x–34x).
+- Ruled out the Company lens (would assume the proceed decision is made and weaken DISSENT) and the pure Investor lens (would not require the full Execution Plan the engagement demands). The Advisor lens keeps proceed/decline open, requires the Execution Plan to judge deliverability, and best protects the neutrality hazard the charter flags.
+- Recorded the downstream bindings: a do-not-proceed/restructure option is required in Rounds 03–04, the deal terms are objects of assessment rather than fixed inputs, adverse findings ship at full strength, Execution Plan milestones must be provider-verifiable, and Round 07 must carry an explicit frame statement.
+
+**Artifacts written:** `rounds/r00-frame-lock.md`, `moderator-interventions.md` (ruling R00-01), and `STATE.md` updated (frame-lock box ticked, unit ledger appended, next pointer set).
+
+**Next unit:** Round 00 batched reading notes — all participating perspectives' notes plus research requests in one sealed-and-blind pass (CHOKEPOINT and PILOT file no Round 00 note).
+
+2026-06-29T06:35:49 [INFO] Iteration 2 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — frame locked; next is batched reading notes
+2026-06-29T06:36:09 [INFO] Driver exiting. Iterations done: 1. Run-state checkpoint written to D:\code\perpensa.ai\lit\.ralph-runstate.json.
