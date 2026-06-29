@@ -1,9 +1,10 @@
-# LiT Strategy Document (v1)
+# Strategy
 
-**Engagement:** Lithium Technologies, Inc. (LiT) seed-stage capital decision.
-**Frame (locked, `rounds/r00-frame-lock.md`):** ADVISOR lens, a prospective capital provider deciding whether and on what terms to deploy capital into LiT's offered seed. The yardstick is risk-adjusted return to the advisor's capital under a downside-aware lens, not the founder's growth narrative.
-**Status:** Round 04 output, v1.1. Refined for execution sequencing in Round 05; validated in Round 06 (claim-support re-check PASS, no claim lost support; three pre-mortem plan changes incorporated — see §8); threaded into the executive summary in Round 07.
-**Evidence discipline:** every claim is Cited, Assumption with a confidence band, or carries a `NEEDS EXTERNAL RETRIEVAL` pointer. Scores are moderator judgments (Assumption-tagged) anchored to the locked risk register in `synthesis/SWOT.md` and the Round 00 research files. No unsupported claim enters the recommendation.
+**Engagement:** Seed-stage capital decision, Lithium Technologies, Inc. (LiT)
+
+**Frame:** The advisor's lens — a prospective capital provider deciding whether and on what terms to deploy capital into the seed LiT offers. The yardstick is risk-adjusted return to the advisor's capital under a downside-aware lens, not the founder's growth narrative.
+
+**Prepared for:** Investment Committee · **Classification:** Confidential · **Date:** 29 June 2026
 
 ---
 
@@ -13,7 +14,7 @@
 
 Concretely, the advisor's action is a single conditional move, not a binary yes/no:
 
-1. **Do not fund Option 2 (the deck as written).** It rests on three unmitigated High gates (no cleared exclusive right to license, no scaled and reproduced recovery number, an off-market whole-mine-NSR instrument sold into a multi-year qualification cycle on calendar-keyed dates). Under the locked §7 gating-override it is ineligible for recommendation regardless of headline economics. *(Cited gates R-IP-1, R-TECH-1, R-ADOPT-1/2; `rounds/r04-matrix.md` §6.)*
+1. **Do not fund Option 2 (the deck as written).** It rests on three unmitigated High gates (no cleared exclusive right to license, no scaled and reproduced recovery number, an off-market whole-mine-NSR instrument sold into a multi-year qualification cycle on calendar-keyed dates). Under the locked §7 gating-override it is ineligible for recommendation regardless of headline economics. *(Cited gates R-IP-1, R-TECH-1, R-ADOPT-1/2; §6.)*
 
 2. **Issue a restructure-first term (Option 1) in place of a pass.** Offer a small validation-and-IP tranche, not growth capital, released only against three evidence gates, with the entry repriced for stage of risk and the royalty narrowed to a verifiable base. The company's response to that offer is itself the missing fact the decision turns on (see §4). *(Source: DISSENT-OPT-2, CAPITAL-OPT-1, CLAIM-OPT-1, CRUCIBLE-OPT-1.)*
 
@@ -29,7 +30,7 @@ This is the only direction the locked evidence supports under the advisor lens. 
 
 ## 2. The option set considered
 
-Seven mutually exclusive, collectively exhaustive directions partition the business-model spine (`rounds/r03-options.md`). The remaining axes (feedstock, geography, IP path, partner, capital) are configured within each.
+Seven mutually exclusive, collectively exhaustive directions partition the business-model spine. The remaining axes (feedstock, geography, IP path, partner, capital) are configured within each.
 
 | # | Direction | What LiT becomes | Why it is in / out of the lead |
 |---|-----------|------------------|-------------------------------|
@@ -44,9 +45,9 @@ Seven mutually exclusive, collectively exhaustive directions partition the busin
 
 ---
 
-## 3. The scored trade-off matrix (carried from `rounds/r04-matrix.md`)
+## 3. The scored trade-off matrix
 
-Criteria weights (locked, `rounds/r04-criteria-weighting.md` §3): **C1 Tech feasibility 12 · C2 IP defensibility 15 · C3 Capital efficiency 13 · C4 Time-to-revenue 14 · C5 Adoption 18 · C6 Risk-adjusted return 22 · C7 Policy durability 6** (sum 100), scored 1 to 5.
+Criteria weights (locked, §3): **C1 Tech feasibility 12 · C2 IP defensibility 15 · C3 Capital efficiency 13 · C4 Time-to-revenue 14 · C5 Adoption 18 · C6 Risk-adjusted return 22 · C7 Policy durability 6** (sum 100), scored 1 to 5.
 
 | Option | C1 | C2 | C3 | C4 | C5 | C6 | C7 | **Weighted /5** | Rank |
 |--------|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -74,9 +75,9 @@ Criteria weights (locked, `rounds/r04-criteria-weighting.md` §3): **C1 Tech fea
 ### 4.1 Why the deck-as-written is unfundable
 
 Three of LiT's headline assets each invert to a gating defect on the locked evidence:
-- **"Globally patented platform"** → no cleared, controlled, exclusive right to license (R-IP-1, High): the live HHS surface-chemistry IP is VTIP-owned and MRC-licensed under undisclosed terms; the VT agreement is an **option-to-license** (Art. 13.4 to 13.6), not an executed license; the only LiT-side filing on the public record is a possibly-lapsed 2024-03 provisional. *(Cited, `research/r00-ip-patent-landscape.md`.)*
-- **"16 to 19% recovery, bench-validated across three feedstocks"** → no scaled, reproduced number (R-TECH-1, High): bench is not piloted is not per-site qualified; the claim is undefined on basis (percentage points vs relative, baseline, particle-size). *(Cited, `research/r00-flotation-scaleup.md`.)*
-- **"1% whole-mine NSR, exit at 27 to 34x"** → an off-market instrument on a multiplicative downside (R-REV-1, R-REV-8, High): process-tech licensing does not price on whole-mine NSR, majors resist the basis, exit multiples are 3 to 5x too rich, and there is no downside scenario in the model. *(Cited, `research/r00-licensing-norms.md`, `research/r00-exit-multiples.md`.)*
+- **"Globally patented platform"** → no cleared, controlled, exclusive right to license (R-IP-1, High): the live HHS surface-chemistry IP is VTIP-owned and MRC-licensed under undisclosed terms; the VT agreement is an **option-to-license** (Art. 13.4 to 13.6), not an executed license; the only LiT-side filing on the public record is a possibly-lapsed 2024-03 provisional. *(Cited.)*
+- **"16 to 19% recovery, bench-validated across three feedstocks"** → no scaled, reproduced number (R-TECH-1, High): bench is not piloted is not per-site qualified; the claim is undefined on basis (percentage points vs relative, baseline, particle-size). *(Cited.)*
+- **"1% whole-mine NSR, exit at 27 to 34x"** → an off-market instrument on a multiplicative downside (R-REV-1, R-REV-8, High): process-tech licensing does not price on whole-mine NSR, majors resist the basis, exit multiples are 3 to 5x too rich, and there is no downside scenario in the model. *(Cited.)*
 
 A license-to-others business with no exclusive right to license, no validated number, and an off-market instrument is unfundable as written. The §7 override makes this formal: Option 2 is ineligible regardless of total.
 
@@ -167,30 +168,3 @@ No consensus is recorded that does not exist. The council does not converge on a
 - **Marginal by design:** the pass-versus-convert call itself — **Moderate confidence**, deliberately one fact-retrieval (T1+T2) away from flipping. This is the intended fragility: the recommendation is built to move when the company acts, not to pretend certainty the evidence does not support.
 - **Single largest unretrieved dependency:** company conduct on gating and repricing, and the VTIP option terms (C1/C3/C4, C3) — flagged `NEEDS EXTERNAL RETRIEVAL`; the recommendation's structure makes the offer the means of retrieval.
 - **Deepest fragility (R06):** the gates are sound, but several are enforced by advisor judgment at the points the neutrality hazard is strongest. The G0 neutrality control and the T10 "no pass on momentum" override convert that self-discipline into structure; **if G0 cannot be stood up in practice, every gate reverts to advisor self-discipline and the deepest failure path reopens.** This is the one fragility the recommendation cannot price away by evidence; it can only be controlled by governance.
-
----
-
-## 8. Round 06 validation note (document 2 of 3)
-
-**Verdict: PASS, with three pre-mortem plan changes incorporated.**
-
-**Claim-support re-check.** Every adopted claim in this document was re-checked against the locked evidence base (`synthesis/SWOT.md` risk register and the Round 00 research files). **No claim lost support.** The §4.1 gating defects (R-IP-1, R-TECH-1, R-REV-1/8) and the §4.2 value-capture-vs-liability gradient remain Cited; the §4.3 0-vs-1 ruling and its two unretrieved dependencies (company conduct, parallel-readability) stand. The R06 pre-mortem ratified the risk register rather than overturning it: the four contained-not-removed residuals (R-ADOPT-1/2, R-TECH-3, R-ADOPT-5) and the R-REV-8 × R-ADOPT-2 master-pair concentration are confirmed unchanged. This document references no register tally, so the SWOT-pass tally correction (to 8 High / 12 Elevated / 8 Moderate) does not propagate here.
-
-**Plan changes incorporated (the three the pre-mortem routed to STRATEGY.md).** The pre-mortem's central finding is that the plan's gates are sound but several are enforced by advisor judgment at exactly the points the neutrality hazard is strongest; governance, not metallurgy, is the binding mitigation. Three Part-B changes are now reflected in this document, not merely staged:
-1. **G0 neutrality & abandon-spec gate** — added to §4.4 as a binding pre-condition that precedes T1, and to §5 as the G0 trigger. *(R06 §B.1.)*
-2. **T1 quantitative floors** — minimum-viable royalty base + committed repriced entry + dual-world return range + VTIP option-window calendaring, written into the T1 trigger in §5. *(R06 §B.4, §B.5, §B.7, §B.9.)*
-3. **T2 raised to a named outside-pool vendor quote** — the T2 trigger in §5 now passes only on an actual written quote from a named, outside-the-partner-pool validation authority, with the independence and operator-relevance constraints binding together. *(R06 §B.3.)*
-
-Two further changes are reflected as supporting limbs: the **Gate A moat-durability limb** (§4.4 Gate A) and the **"no pass on momentum" standing override** (§5 T10). The Gate A/B/C bindings were already present (§4.4) and are confirmed; the Gate B "outside the partner R&D pool" and B2 protocol-lock sharpenings are added to the §4.4 Gate B entry.
-
-**Staged for R07 (not STRATEGY changes).** The remaining pre-mortem deliverables (green-claim quarantine from P0, the P3 lead universe named before P2, the B2 protocol-lock sub-gate mechanics) are EXECUTION_PLAN amendments and are validated against document 3, not here. R07 pyramid assembly carries the cross-document numbering consistency (G0/T10 here, G0/B2/§3 pulled-forward deliverables there).
-
-**Dissent and confidence.** All six dissents (D1-D6) remain represented as live conditions; the G0 + T10 additions make D1's "neutrality lost to narrative" concern structural rather than aspirational. Every conclusion in §1, §4, and §7 already carries a confidence band and fragility note; §7 below is unchanged except that the governance finding is now its single deepest fragility, made explicit. Confidence in the verdict: High on claim support (re-check found nothing unsupported); Moderate on whether the three incorporated changes are *sufficient*, since G0's no-position authority and T2's outside-pool vendor depend on resources and counterparties not yet retrieved (C1/C4).
-
----
-
-*Strategy Document v1.1 (Round 04 output, Round 06 validated). The recommended direction is a conditional pass that converts to a gated, repriced Restructure-first position on triggers T1+T2, with Gates A/B/C as binding release conditions, policy as an overlay-not-base, and the dominated higher-capture options held off the table absent a full ring-fence. Round 05 translates the convert-to path (Option 1, with the Anchor escalation T3 as a contingency) into a phased, resourced, gated execution plan; the three gates become the inter-phase decision gates. The preserved dissent log and change-triggers carry into Rounds 06 and 07 unchanged.*
-
----
-
-*Round 07 assembly stamp: pyramid form confirmed; traceability check PASS (zero claims cut); frame statement present (advisor lens, downside-aware yardstick); all ten seats signed off with D1-D6 and the change-triggers live. See `rounds/r07-assembly-traceability.md`.*

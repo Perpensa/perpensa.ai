@@ -1,9 +1,10 @@
-# LiT Execution Plan (v1)
+# Execution Plan
 
-**Engagement:** Lithium Technologies, Inc. (LiT) seed-stage capital decision.
-**Frame (locked, `rounds/r00-frame-lock.md`):** ADVISOR lens, a prospective capital provider. This is the advisor's own deployment architecture for the convert-to path the Strategy Document designates: **Option 1 (Restructure-first)**, with the Anchor escalation (T3) held as a contingency configuration. It is **not** LiT's five-year build plan. It phases the advisor's capital and decision rights, using LiT's proposed development timeline only as the backdrop against which each gate's clearability is tested.
-**Status:** Round 05 output, validated and amended in Round 06; **v1.1**. Threaded into the executive summary in Round 07.
-**Evidence discipline:** every claim is Cited, Assumption with a confidence band, or carries a `NEEDS EXTERNAL RETRIEVAL` pointer. Phase content is anchored to the locked risk register (`synthesis/SWOT.md`), the recommendation and gates (`synthesis/STRATEGY.md`), and the Round 00 research files. No unsupported claim enters the plan. Prose is direct; no em-dashes.
+**Engagement:** Seed-stage capital decision, Lithium Technologies, Inc. (LiT)
+
+**Frame:** The advisor's own deployment architecture for the path the Strategy Document designates — **Option 1 (Restructure-first)**, with the Anchor escalation (T3) held as a contingency. This is **not** LiT's five-year build plan; it phases the advisor's capital and decision rights, using LiT's proposed development timeline only as the backdrop against which each gate's clearability is tested.
+
+**Prepared for:** Investment Committee · **Classification:** Confidential · **Date:** 29 June 2026
 
 ---
 
@@ -11,7 +12,7 @@
 
 **This is not a build schedule. It is a capital-staging architecture: four phases separated by three binding, evidence-completion decision gates, where every release is small and abandonable and no growth capital exists until all three gates clear.**
 
-The single design fact that everything follows from: **the gates are event-driven, not date-driven.** LiT's deck keys its tranches to calendar milestones (M04, M07, M10 and onward). The advisor's gates do not. Substituting evidence completion for calendar position is the core remediation, because the locked research shows the deck's calendar assumes results the evidence does not support. Staging is Option 1's entire advantage over the deck, and that advantage exists only if each stage can actually be walked away from. *(Source: `synthesis/STRATEGY.md` §1, §4.2-4.4; gating logic R-IP-1, R-TECH-1, R-ADOPT-2.)*
+The single design fact that everything follows from: **the gates are event-driven, not date-driven.** LiT's deck keys its tranches to calendar milestones (M04, M07, M10 and onward). The advisor's gates do not. Substituting evidence completion for calendar position is the core remediation, because the locked research shows the deck's calendar assumes results the evidence does not support. Staging is Option 1's entire advantage over the deck, and that advantage exists only if each stage can actually be walked away from. *(Source: the Strategy Document §1, §4.2-4.4; gating logic R-IP-1, R-TECH-1, R-ADOPT-2.)*
 
 The spine of the whole plan is strictly **T1 → (Gate A ∥ Gate B) → Gate C → P3 growth**. The only concurrency anywhere in the architecture is the IP/FTO track running in parallel with the validation campaign inside P1, and that one parallelism is exactly the object of the T2 test. Everything else is serial: first-licensing needs both a validated number and a clean exclusive right, and growth capital needs a converted reference.
 
@@ -41,33 +42,33 @@ Each phase is entered only from the prior gate. P0 → P1 requires **G0 (neutral
 - **Abandon action:** if the no-position authority cannot be stood up in practice, the neutrality control does not exist and every downstream mitigation reverts to advisor self-discipline, which the pre-mortem identifies as the single deepest failure path. Absent a real G0, the plan does not proceed past diligence. There is no self-administered substitute.
 
 **Gate T1 — Acceptance (closes P0, opens P1).** Not one of the three evidence gates; it is the conversion trigger that turns the conditional pass into a funded position.
-- **Pass test:** the company signs a gated, repriced term sheet (small validation-and-IP tranche only; growth capital withheld behind Gates A/B/C; royalty narrowed to a verifiable base; entry repriced for stage of risk). Signing retrieves the C1/C3/C4 company-conduct record and the VTIP option terms (C3). *(STRATEGY.md §5 T1; D2 CAPITAL.)*
+- **Pass test:** the company signs a gated, repriced term sheet (small validation-and-IP tranche only; growth capital withheld behind Gates A/B/C; royalty narrowed to a verifiable base; entry repriced for stage of risk). Signing retrieves the C1/C3/C4 company-conduct record and the VTIP option terms (C3). *(the Strategy Document §5 T1; D2 CAPITAL.)*
 - **Three quantitative floors the committed term must carry (added in Round 06):**
-  1. **Minimum viable royalty base.** A modeled minimum base below which the repapered narrow-base structure does not clear the return threshold. If the only signable base falls below it, T1 **fails** (standing pass); easy acceptance on a self-defined narrow base is a warning, not a partial win. *(ROYALTY pre-mortem; pre-mortem §B.5; R-REV-1.)*
-  2. **Committed repriced entry.** The repriced entry appears in the committed term itself, not as a negotiating posture traded away against a claimed rival bidder. *(CAPITAL pre-mortem; §B.7; R-REV-10/R-REV-7.)*
-  3. **Dual-world return range.** Both price worlds (deficit AND surplus) weighted near-equally, written as a return *range* in the committed materials. A single-point headline return number is a fail. *(SPOT/CAPITAL pre-mortem; §B.7/§B.9; R-REV-3.)*
-  All three are reviewed by the G0 no-position authority before signing.
+ 1. **Minimum viable royalty base.** A modeled minimum base below which the repapered narrow-base structure does not clear the return threshold. If the only signable base falls below it, T1 **fails** (standing pass); easy acceptance on a self-defined narrow base is a warning, not a partial win. *(ROYALTY pre-mortem; pre-mortem §B.5; R-REV-1.)*
+ 2. **Committed repriced entry.** The repriced entry appears in the committed term itself, not as a negotiating posture traded away against a claimed rival bidder. *(CAPITAL pre-mortem; §B.7; R-REV-10/R-REV-7.)*
+ 3. **Dual-world return range.** Both price worlds (deficit AND surplus) weighted near-equally, written as a return *range* in the committed materials. A single-point headline return number is a fail. *(SPOT/CAPITAL pre-mortem; §B.7/§B.9; R-REV-3.)*
+ All three are reviewed by the G0 no-position authority before signing.
 - **VTIP option-window calendar (pulled into T1 diligence):** the VTIP option terms (Art. 13.4-13.6, C3) must be retrieved and the **conversion deadline calendared at T1 signing**, not discovered at Gate A. If the window is shorter than a realistic Gate A timeline, that is a T1 fact, not a P1 surprise. *(CLAIM pre-mortem; §B.4; R-IP-2.)*
 - **Green-claim quarantine (conditions T1):** conversion is conditioned on a remediation commitment for the company's existing unqualified green claims; see P0 quarantine rule (§2.1). *(WATERSHED pre-mortem; §B.8; R-ESG-1.)*
 - **Abandon action (T5):** company declines gating or repricing, fails any of the three floors, or shows it can raise the unrestructured deck elsewhere. The conditional pass becomes a **standing pass**; the plan ends at P0 with $0 deployed. Refusal is itself an adverse-selection signal, not a neutral outcome.
 
 **Gate T2 — Capped down-world (also gates P0 → P1, required in addition to T1).**
-- **Pass test (evidentiary standard raised in Round 06):** T2 passes only on **an actual written quote/scope from a named, outside-the-partner-pool validation authority** for an operator-relevant scaled campaign that reads inside the ~12-month / ~$0.9M envelope, so the multiplicative downside R-REV-8 × R-ADOPT-2 cannot reach growth capital. An advisor-authored sequencing analysis is no longer sufficient on its own: per PILOT and DISSENT, an analysis the conflicted party writes and accepts is too soft, so the binding uncertainty is converted from a judgment into a third-party artifact. No quote, no T2. This is what sets Option 1's down-world C6 to a genuine 5. *(STRATEGY.md §4.3, §5 T2; PILOT/DISSENT pre-mortem; §B.3.)*
+- **Pass test (evidentiary standard raised in Round 06):** T2 passes only on **an actual written quote/scope from a named, outside-the-partner-pool validation authority** for an operator-relevant scaled campaign that reads inside the ~12-month / ~$0.9M envelope, so the multiplicative downside R-REV-8 × R-ADOPT-2 cannot reach growth capital. An advisor-authored sequencing analysis is no longer sufficient on its own: per PILOT and DISSENT, an analysis the conflicted party writes and accepts is too soft, so the binding uncertainty is converted from a judgment into a third-party artifact. No quote, no T2. This is what sets Option 1's down-world C6 to a genuine 5. *(the Strategy Document §4.3, §5 T2; PILOT/DISSENT pre-mortem; §B.3.)*
 - **The two binding constraints on that quote hold together:** the validation authority must be **outside the partner R&D pool** (independence) **and** quote an **operator-relevant feedstock** (transfer-relevance, §6.3). Neither is relaxable to satisfy the other; if no single vendor satisfies both, T2 fails. *(§6.4 flag 3; §B.3.)*
 - **Abandon action (T7):** if no outside-pool vendor will quote an operator-relevant scaled campaign inside the envelope (the labs that can are the partner labs, or the only outside bidder needs a feedstock no target operator runs, or the quote reads 18-24 months not 12), the staging advantage collapses and **the pass holds (Option 0)**. T2 is the gate most exposed to the calendar-evidence problem (§2.4) and is never assumed satisfied.
 
 **Gate A — IP / freedom-to-operate (closes P1, half the P1 → P2 condition).**
-- **Pass test:** an executed scoped exclusive VTIP license (or confirmed independent ownership) **plus** a clean independent FTO opinion against the MRC worldwide HHS license and the crowded sub-500 °C art **plus** a substantiation memo scoping the green claims to defensible bench-stage wording. *(R-IP-1, High; DISSENT gate (a) not cleared; `research/r00-ip-patent-landscape.md`.)*
+- **Pass test:** an executed scoped exclusive VTIP license (or confirmed independent ownership) **plus** a clean independent FTO opinion against the MRC worldwide HHS license and the crowded sub-500 °C art **plus** a substantiation memo scoping the green claims to defensible bench-stage wording. *(R-IP-1, High; DISSENT gate (a) not cleared.)*
 - **Moat-durability limb (added in Round 06):** the FTO opinion must also state whether the executed claim scope is **broad enough to survive a competent design-around once the Gate B number is public**, not merely whether LiT is free to operate. A clean FTO on a claim too thin to stop a copier is logged as a **contingency, not a clean pass**, and routes to the value-capture question (R-TECH-3). *(CLAIM pre-mortem; §B.4; R-TECH-3.)*
 - **Abandon action (T6):** a disqualifying IP fact surfaces (VTIP option lapsed/encumbered, no clean FTO path). Plan halts at P1; tranche-to-date is the bounded, pre-priced loss.
 
 **Gate B — Validation (closes P1, the other half of P1 → P2).**
 - **Gate B-pre — protocol lock (sub-gate, added in Round 06).** The pre-mortem locates the death not at the final report (B4) but at campaign design (B2), where scale, feed, or basis get negotiated downward and a marginal number is laundered through. So before the campaign is funded, the **campaign protocol (scale, feedstock identity + PSD, baseline, basis, operator) is fixed and accepted by the G0 no-position authority, and may not be amended downward thereafter.** Any downward amendment of the protocol is an automatic fail. *(CRUCIBLE pre-mortem; §B.2; §4.1.)*
-- **Pass test:** an independently reproduced recovery number with a **defined baseline and basis** (percentage points vs relative, particle-size, feedstock identity), read **at scale**, by a party other than the founder and outside the partner R&D pool, against the locked Gate B-pre protocol. *(R-TECH-1, High; `research/r00-flotation-scaleup.md`.)*
+- **Pass test:** an independently reproduced recovery number with a **defined baseline and basis** (percentage points vs relative, particle-size, feedstock identity), read **at scale**, by a party other than the founder and outside the partner R&D pool, against the locked Gate B-pre protocol. *(R-TECH-1, High.)*
 - **Abandon action (T6):** a validation fact no bounded spend can retire (scaled recovery collapses toward the elephant-curve limit), or the only way the number reads is by amending the locked protocol downward. Plan halts at P1.
 
 **Gate C — First reference (closes P2, opens P3).**
-- **Pass test:** a converted first paid pilot, or a strategic anchor that **prices the operator's all-in adoption cost** and is paced to the real per-operator/per-feedstock qualification cycle (W9: ~2-3 yr pilot-to-commercial per site). *(R-ADOPT-2/3; `research/r00-operator-qualification-cycles.md`.)*
+- **Pass test:** a converted first paid pilot, or a strategic anchor that **prices the operator's all-in adoption cost** and is paced to the real per-operator/per-feedstock qualification cycle (W9: ~2-3 yr pilot-to-commercial per site). *(R-ADOPT-2/3.)*
 - **Interest-channel fail-reading (added in Round 06):** a prospective operator's interest that **routes to its corporate-development or in-house-R&D function rather than its procurement function** is a self-substitution signal (the buyer is evaluating to build, not to buy), and is read as an adverse Gate C indicator, not encouraging pipeline. *(MILL pre-mortem; §B.6; R-ADOPT-1.)*
 - **Abandon action:** no reference converts within the qualification-realistic window at bounded cost. P2 halts; growth capital never releases; the position stays a small validation stake, not a loss of the growth round.
 
@@ -78,7 +79,7 @@ Each phase is entered only from the prior gate. P0 → P1 requires **G0 (neutral
 ### 2.3 The Anchor escalation (T3) held as a contingency configuration
 
 The default convert-to path is the pure Restructure-first sequence. Under one condition set it reconfigures, **without adding a phase**, into the Anchor co-development path (Option 3):
-- **Trigger (T3):** time-to-first-reference is the binding constraint (the founder speed-first weighting, under which Anchor outranks Restructure-first) **and** an anchor term ring-fences field-of-use through two **named, time-bounded** components, a **replication bar** (the anchor may not build the process in-house) **and** a **competitor-funding bar** (the anchor may not fund a competing technology), for a defined period **and** a second operator's evaluation interest is evidenced contingent on the reference. *(STRATEGY.md §5 T3; D3; MILL pre-mortem §B.6.)*
+- **Trigger (T3):** time-to-first-reference is the binding constraint (the founder speed-first weighting, under which Anchor outranks Restructure-first) **and** an anchor term ring-fences field-of-use through two **named, time-bounded** components, a **replication bar** (the anchor may not build the process in-house) **and** a **competitor-funding bar** (the anchor may not fund a competing technology), for a defined period **and** a second operator's evaluation interest is evidenced contingent on the reference. *(the Strategy Document §5 T3; D3; MILL pre-mortem §B.6.)*
 - **What changes:** P2 is run *as* an anchor co-development; Gate C is cleared through one strategic operator rather than an open-market paid pilot, compressing time-to-reference at the cost of counterparty concentration (R-ADOPT-1).
 - **What does not change:** Gates A and B still gate P1 → P2 unchanged; the ring-fence is a hard pre-condition. **Absent the field-of-use ring-fence, T3 does not fire** and the anchor collapses into a single-customer concentration dependency. The escalation buys speed only when concentration is contractually contained.
 
@@ -268,39 +269,3 @@ This converts the A‑∥‑B parallelism from a paper concurrency into a real t
 4. **The dominant duration sits on a single serial link with no parallel relief.** The master pair R-REV-8 × R-ADOPT-2 both ride the **T1 → (A ∥ B) → C** spine, and the Gate C qualification cycle is the longest, least compressible link. The plan paces and bounds that link (abandon ceiling on Gate C); it cannot shorten it. This single-point time-to-revenue concentration is the dominant First-Chicago / pre-mortem driver carried to R06.
 
 **Confidence:** High that the **T1 → (A ∥ B) → C → P3** topology is forced by the dependency structure (licensing needs validation + clean IP; growth needs a reference), and that the single A‑∥‑B parallelism is correctly identified as both the plan's only concurrency and the exact object of the T2 test. **Moderate** on whether the §6.2 critical path can in fact read inside ~12 months for ~$0.9M, which turns on the unretrieved C1/C4 reproducibility facts and the honest scaled-campaign duration. **Fragility:** the dominant duration sits on one serial, least-compressible link (the Gate C qualification cycle); the plan can pace and abandon it but cannot shorten it, so if time-to-revenue is the thesis's breaking point, this sequencing surfaces that rather than disguising it.
-
----
-
-## 7. What this plan hands to Round 06
-
-The execution architecture is complete: phases and gates (§2), resourcing (§3), instrumentation (§4), risk mapping (§5), and production sequence (§6). It hands the following live items to the Round 06 pre-mortem and final validation:
-
-- **The binding uncertainty: T2.** Whether Gates A and B are genuinely parallel-readable inside ~12 months for ~$0.9M is the single judgment the whole plan past P0 rests on. It is not assumed satisfied.
-- **The load-bearing failure mode: "bench passes, scale never does."** Gate B's "at scale" must not be read down to bench-plus (DISSENT §4.2 strike-4 / §6.4 flag-1).
-- **Four contained-not-removed residuals:** R-ADOPT-1 (counterparty concentration), R-ADOPT-2 (time-to-revenue), R-TECH-3 (incremental moat), R-ADOPT-5 (occupied Glencore channel).
-- **The master-pair concentration:** R-REV-8 and R-ADOPT-2 share one mitigation mechanism (the staged option to not proceed); a mis-judged T2 fails both at once.
-- **The two analytical-instrument mitigations** (R-REV-3, R-REV-7): a governance check that the banded price model and recentered multiples actually governed the T1 term under deal pressure.
-- **The neutrality hazard on the §6.3 feed-forward:** soft scouting must identify, never pre-commit.
-
-**Document-level confidence:** High that the four-phase, three-gate, event-driven architecture is the correct, faithful translation of the Strategy Document's conditional pass and its binding Gates A/B/C. **Moderate** on the plan's central operability question (T2), which is the same Moderate carried at the recommendation level. **Document-level fragility:** the plan is deliberately built so that the most likely failure paths (T1 refusal, T2 unprovable, Gate A/B not clearable within the envelope) halt cleanly and early with capital preserved, rather than carrying optimism into committed capital. That early-termination behavior is the plan's central feature, not a defect.
-
----
-
-## 8. Round 06 validation note (v1 → v1.1)
-
-**Verdict: PASS, amended.** The final-validation pass re-checked every adopted claim in this plan against the locked evidence base. **No claim lost support.** The pre-mortem (`rounds/r06-premortem.md`) ratified the risk register rather than overturning it: the four contained-not-removed residuals (R-ADOPT-1/2, R-TECH-3, R-ADOPT-5) and the R-REV-8 × R-ADOPT-2 master-pair concentration carry forward unchanged. The §5 register count (8 High / 12 Elevated) already matches the corrected SWOT tally, so no count propagates here.
-
-**The pre-mortem's five plan changes are now live in this document (not staged):**
-1. **G0 neutrality & abandon-spec gate** ahead of T1: new gate in §2.2, P0-closing condition in §2.1, and a G0 row in the §4 KPI table. The no-position authority now *accepts* the T1, T2, and Gate B-pre artifacts.
-2. **T2 raised to a named outside-pool vendor quote** (not an advisor analysis): §2.2 Gate T2, §4 T2 row, and §6.2 critical-path test, with the independence-plus-operator-relevance constraint binding on one vendor and feeding the T7 abandon action.
-3. **B2 protocol-lock as a sub-gate (Gate B-pre)** before the validation campaign funds: §2.2 Gate B, §4 Gate B-pre row, and §4.1 definition. A downward amendment of the locked protocol is an automatic Gate B fail.
-4. **T1 quantitative floors** (minimum viable royalty base + committed repriced entry + dual-world return range) plus the **VTIP option-window calendar** pulled into T1 diligence: §2.2 Gate T1, §4 T1 row, §5 R-REV-1/R-REV-3/R-REV-7 rows.
-5. **Pulled-forward deliverables**: P0 green-claim quarantine (§2.1 rule, §2.2 T1, §5 R-ESG-1, §6.1 A3); Gate A moat-durability limb (§2.2 Gate A, §4 Gate A row, §5 R-TECH-3); P3 lead universe named before P2 (§2.1, §3.1, §5 R-REV-6). Plus the **T3 named replication and competitor-funding bars** with the Gate C interest-channel fail-reading (§2.3, §4 Gate C row, §5 R-ADOPT-1), and the standing **"no pass on momentum"** override added alongside T8 (§2.2, §4).
-
-**Central finding incorporated:** governance, not metallurgy, is the binding mitigation. The two analytical-instrument mitigations (R-REV-3, R-REV-7) are hardened from posture to committed artifact under G0 review (§5.3), and the master-pair single-mitigation concentration is structurally reinforced by G0 and the raised T2 standard while remaining the plan's binding uncertainty.
-
-**Dissent represented:** all six STRATEGY dissents (D1-D6) and every DISSENT flag in §§2-6 stand; G0 and "no pass on momentum" make the D1 neutrality control structural rather than self-administered. **Confidence band:** High that the amendments faithfully carry the pre-mortem's routed changes; **Moderate** on whether the five changes are *sufficient*, since G0's no-position authority, an outside-pool validation vendor, and a P3 lead universe depend on resources and facts not yet retrieved (C1/C4) and counterparties not yet identified. **Deepest fragility (unchanged):** if the G0 neutrality control cannot be stood up in practice, every other mitigation reverts to advisor self-discipline, which the pre-mortem identifies as the single deepest failure path. Status **v1 → v1.1**.
-
----
-
-*Round 07 assembly stamp: pyramid form confirmed; traceability check PASS (zero claims cut); frame statement present (advisor lens, the advisor's own deployment architecture, not LiT's build plan); PILOT and all core seats signed off with the §2-6 DISSENT flags live. See `rounds/r07-assembly-traceability.md`.*
