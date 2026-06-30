@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Red Team Review — Lithium Technologies, Inc.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1A2238; --surface:#FAF9F6; --panel:#FFFFFF; --hairline:#E7E2D6;
+  --muted:#6B7280; --red:#B23A48; --amber:#C9922B; --green:#3F7D5B; --brass:#B68A4E;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--sans);
+  line-height:1.62;font-size:17px;}
+.topbar{height:4px;background:var(--red)}
+header.site{display:flex;align-items:center;justify-content:space-between;
+  padding:18px 40px;border-bottom:1px solid var(--hairline);gap:16px;flex-wrap:wrap}
+.mark{font-family:var(--serif);font-weight:700;letter-spacing:.02em;font-size:21px}
+.mark .glyph{color:var(--brass);margin-right:.5ch}
+.rt-badge{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:#fff;background:var(--red);padding:5px 11px;border-radius:3px}
+main{max-width:880px;margin:0 auto;padding:48px 40px 8px}
+.titleblock .eyebrow{color:var(--red);font-weight:600;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;margin:0 0 10px}
+h1{font-family:var(--serif);font-weight:700;font-size:40px;line-height:1.12;margin:0 0 18px}
+.lede{color:var(--muted);font-size:18px;max-width:760px;margin:0 0 26px}
+.verdict{background:var(--panel);border:1px solid var(--hairline);border-left:5px solid var(--red);
+  border-radius:9px;padding:18px 22px;margin:0 0 22px}
+.verdict .label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);
+  font-weight:700;margin:0 0 4px}
+.verdict .text{font-family:var(--serif);font-size:20px;font-weight:600;margin:0}
+.overview{margin:0 0 40px}
+.sevbar{width:100%;height:12px;border-radius:6px;overflow:hidden;display:block;margin:0 0 12px}
+.stats{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.stat{display:flex;align-items:center;gap:7px}
+.stat b{color:var(--ink);font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dot.kill{background:var(--red)} .dot.serious{background:var(--amber)}
+.dot.manageable{background:var(--green)} .dot.integrity{background:var(--ink)}
+.dot.survived{background:var(--green)}
+section{--rail:var(--ink);border-left:4px solid var(--rail);padding:2px 0 2px 26px;margin:0 0 38px}
+section.verdict-sec{--rail:var(--red)}
+section.kill{--rail:var(--red)} section.serious{--rail:var(--amber)}
+section.manageable{--rail:var(--green)} section.integrity{--rail:var(--red)}
+section.survived{--rail:var(--green)} section.premortem{--rail:var(--ink)}
+section.plain{--rail:var(--brass)}
+section > .eyebrow{color:var(--rail);font-weight:700;font-size:13px;letter-spacing:.12em;
+  text-transform:uppercase;margin:0 0 14px;font-family:var(--sans)}
+.sec-body > p{margin:0 0 15px}
+.sec-body > p:first-child{margin-top:0}
+h2{display:none}
+.finding{margin:30px 0 4px}
+.finding.kill{--rail:var(--red)} .finding.serious{--rail:var(--amber)}
+.finding.manageable{--rail:var(--green)}
+.finding h3{font-family:var(--serif);font-size:22px;line-height:1.25;font-weight:600;
+  margin:0;display:flex;gap:12px;align-items:baseline;
+  border-bottom:2px solid var(--rail);padding-bottom:9px}
+.badge{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.04em;color:#fff;
+  padding:3px 9px;border-radius:4px;flex:none;position:relative;top:-2px}
+.badge.kill{background:var(--red)} .badge.serious{background:var(--amber)}
+.badge.manageable{background:var(--green)}
+.finding + p,.finding + p{margin-top:14px}
+/* run-in labels */
+.kill .sec-body p > strong:first-child,
+.serious .sec-body p > strong:first-child{
+  color:var(--rail);text-transform:none;font-weight:700}
+.integrity li > strong:first-child,
+.survived li > strong:first-child,
+.premortem li > strong:first-child{color:var(--rail)}
+h3{font-family:var(--serif)}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin:0 0 11px}
+ol{counter-reset:item}
+.integrity ol{list-style:none;padding-left:0}
+.integrity ol > li{counter-increment:item;position:relative;padding-left:40px;margin-bottom:16px}
+.integrity ol > li::before{content:counter(item);position:absolute;left:0;top:0;
+  width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;
+  font-family:var(--sans);font-weight:700;font-size:13px;display:flex;align-items:center;
+  justify-content:center}
+code.cite{font-family:var(--mono);font-size:.82em;background:#F0ECE2;color:#5b5345;
+  padding:1px 5px;border-radius:4px;white-space:nowrap}
+strong{font-weight:700}
+em{font-style:italic}
+footer{max-width:880px;margin:18px auto 0;padding:22px 40px 56px;border-top:1px solid var(--hairline);
+  color:var(--muted);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer .glyph{color:var(--brass)}
+@media (max-width:640px){
+  main,header.site,footer{padding-left:20px;padding-right:20px}
+  h1{font-size:30px} body{font-size:16px}
+  section{padding-left:16px}
+}
+@media print{
+  .topbar{background:var(--red)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:11pt}
+  .finding,section,.verdict{break-inside:avoid}
+  code.cite{background:#f0ece2!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .badge,.dot,.sevbar rect,.integrity ol>li::before{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<header class="site">
+  <div class="mark"><span class="glyph">&#9670;</span>Perpensa</div>
+  <span class="rt-badge">Red Team Review</span>
+</header>
+<main>
+  <div class="titleblock">
+    <p class="eyebrow">Perpensa &#9670; Adversarial Review</p>
+    <h1>Red Team Review — Lithium Technologies, Inc.</h1>
+    <p class="lede">Adversarial review of the LiT investment case and the four synthesis deliverables (SWOT, Strategy, Execution Plan, Executive Summary), tested against the binding sponsor stipulations, the Virginia Tech / VTIP sponsored research agreement, the company&#x27;s own business materials, and the commissioned research base.</p>
+    <div class="verdict">
+      <p class="label">Verdict</p>
+      <p class="text">The case does not survive as an investment proposition on the terms presented.</p>
+    </div>
+    <div class="overview">
+      <svg viewBox="0 0 100 10" preserveAspectRatio="none" class="sevbar" role="img" aria-label="Severity distribution of findings"><rect x="0.00" y="0" width="27.27" height="10" fill="#B23A48"></rect><rect x="27.27" y="0" width="45.45" height="10" fill="#C9922B"></rect><rect x="72.73" y="0" width="27.27" height="10" fill="#3F7D5B"></rect></svg>
+      
+<div class="stats">
+  <div class="stat"><span class="dot kill"></span><b>3</b> kill-switches</div>
+  <div class="stat"><span class="dot serious"></span><b>5</b> serious risks</div>
+  <div class="stat"><span class="dot manageable"></span><b>3</b> manageable</div>
+  <div class="stat"><span class="dot integrity"></span><b>10</b> integrity issues</div>
+  <div class="stat"><span class="dot survived"></span><b>5</b> points held</div>
+</div>
+
+    </div>
+  </div>
+  <section class="verdict-sec">
+<p class="eyebrow">1. Bottom line up front</p>
+<div class="sec-body">
+<p>The case does not survive as an investment proposition on the terms presented. Strip out the three things the company does not have, and that the deliverables themselves concede it does not have, an owned and exclusive right to the technology, a validated recovery uplift, and a royalty base any operator would actually agree to, and there is no quantified positive case left standing, only a cheap, high-mortality option whose upside has never been restated after the concessions are applied.</p>
+<p>The single most load-bearing assumption is the <strong>whole-mine net smelter return royalty base</strong>: every revenue line, the $400M to $510M exit, and the headline 27x to 34x return are 1% of the operator&#x27;s <em>total</em> mine production value, not 1% of the value LiT actually creates. It is not supported: the company&#x27;s own business plan admits it chose the whole-mine base specifically to avoid measuring the incremental value (<code class="cite">LiT_Business_Plan_2026.md:350</code>), the commissioned research found no precedent anywhere for a whole-mine NSR granted for a sub-stream process improvement (<code class="cite">r00-license-structures.md:14</code>), and the deliverables agree counterparties will reprice it. Prior to that, two binary gates can each kill the company outright: the right to license may be foreclosed by a third party, and the recovery uplift is unvalidated. The deliverables are honest about all three weaknesses; where they fail is in still arriving at &quot;commit to the path&quot; without ever showing what the business is worth once its own concessions are priced in.</p>
+</div></section>
+<section class="kill">
+<p class="eyebrow">2. Kill-switches</p>
+<div class="sec-body">
+<div class="finding kill"><h3><span class="badge kill">K1</span><span class="finding-title">The core IP may not be LiT&#x27;s to license, and the physical stage may already be foreclosed</span></h3></div>
+<p><strong>The claim attacked.</strong> Steelmanned: LiT holds an internationally filed PCT covering an integrated two-stage process, has a live research relationship with Virginia Tech, and intends to convert its option into an executed exclusive, sublicensable, field-of-use license, a proven channel used by comparable licensors. The deliverables treat this as a gate to clear in a funded first phase.</p>
+<p><strong>The attack.</strong> The right may be unobtainable, not merely unsecured. The chemical stage LiT markets maps onto a VTIP-owned, already-published patent application with a December 2020 priority date, four years before LiT&#x27;s 2024 study, naming the same Virginia Tech inventors (<code class="cite">r00-ip-fto.md:22</code>, <code class="cite">:25</code>). The physical fine-particle separation stage maps onto Dr. Yoon&#x27;s hydrophobic-hydrophilic separation process, which is assigned to VTIP and <strong>already licensed to Minerals Refining Company for worldwide distribution</strong>, with a stated field spanning &quot;the finest fractions of minerals and coal&quot; (<code class="cite">r00-ip-fto.md:36</code>, <code class="cite">LiT_Market_Research_2026.md:183</code>). If that MRC license is exclusive and worldwide in the minerals field, LiT cannot obtain rights to the same core for the same field, and its physical stage is foreclosed (<code class="cite">r00-ip-fto.md:39</code>). The sponsor stipulations already concede there is no clean exclusive IP and that the company holds a pending PCT, not a granted right (<code class="cite">LiT_Sponsor_Stipulations.md:9-15</code>). The VT agreement confirms LiT&#x27;s position is at best a prospective licensee: VTIP owns all Virginia Tech IP (<code class="cite">LiT_VT_Sponsored_Research_Agreement_2024.md:130</code>), grants only an option to negotiate a license (<code class="cite">:144-150</code>), and disclaims all warranty of non-infringement (<code class="cite">:93</code>).</p>
+<p><strong>Supporting evidence.</strong> <code class="cite">r00-ip-fto.md:12, 22, 25, 36, 39, 58</code>; <code class="cite">LiT_Market_Research_2026.md:183, 185, 193</code>; <code class="cite">LiT_Sponsor_Stipulations.md:9-15</code>; <code class="cite">LiT_VT_Sponsored_Research_Agreement_2024.md:93, 130, 144-152</code>.</p>
+<p><strong>What would have to be true to survive.</strong> The MRC license is non-exclusive or coal-restricted, leaving room in the minerals field; VTIP is willing to grant LiT an exclusive, sublicensable, field-of-use license over the HHS-adjacent separation IP and the 2020-priority leaching family; and a freedom-to-operate opinion clears the field. The determinative fact, the scope of the MRC license, is not on the public record. <code class="cite">NEEDS EXTERNAL RETRIEVAL</code>: the MRC/VTIP license field and exclusivity, the LiT/VTIP option terms, and a patent-counsel FTO opinion.</p>
+<p><strong>Falsification test.</strong> Obtain the MRC/VTIP license scope and a written FTO opinion before raising a dollar. If MRC holds exclusive worldwide minerals rights to the HHS core, the gate is unpassable and the gated strategy is moot, not merely delayed.</p>
+<div class="finding kill"><h3><span class="badge kill">K2</span><span class="finding-title">The whole-mine NSR royalty base is unprecedented, and re-basing collapses the entire return</span></h3></div>
+<p><strong>The claim attacked.</strong> Steelmanned: a 1% NSR royalty is the same reporting basis operators already use, it avoids measurement disputes, and at 1 cent per dollar against a 16 to 19 cent per dollar recovery gain it is trivially cheap for the operator (<code class="cite">LiT_Business_Plan_2026.md:226, 350, 356</code>).</p>
+<p><strong>The attack.</strong> The base is the value LiT does not create. The model charges 1% of the operator&#x27;s <em>total</em> mine production value: each small or mid-tier operator is modeled at $229M of annual production, royalty $2,286,000; the major at $2.29B, royalty $22,860,000 (<code class="cite">LiT_Business_Plan_2026.md:354, 413</code>). But LiT improves recovery only on the fine-particle fraction currently lost to tailings, a sub-stream. The commissioned research found <strong>no precedent for a whole-mine NSR granted in exchange for a partial-stream process improvement</strong> (<code class="cite">r00-license-structures.md:14, 45</code>); every located NSR is ownership- or finance-derived, not technology-derived (<code class="cite">:37-41</code>); and the closest analog, Jetti, takes a royalty on <em>incremental copper recovered, not total mine output</em> (<code class="cite">:12</code>). The business plan concedes it chose the whole-mine base to avoid having to measure the incremental value it actually delivers (<code class="cite">LiT_Business_Plan_2026.md:350</code>). The deliverables agree the base will be repriced to incremental recovered value (<code class="cite">SWOT.md:35</code>; <code class="cite">STRATEGY.md:32</code>; <code class="cite">EXECUTION_PLAN.md:31</code>). Once re-based to the only precedented measure, incremental recovered value, the royalty falls by a wide margin, plausibly an order of magnitude, because incremental tailings recovery is a small fraction of whole-mine NSR. Nothing in any deliverable or source restates the revenue, the exit, or the return on that basis. The $56.6M of modeled royalties, the $400M to $510M exit, and the 27x to 34x return (<code class="cite">LiT_Pitch_2026.md:207, 307, 326</code>) all rest on a base the case itself rejects.</p>
+<p><strong>Supporting evidence.</strong> <code class="cite">LiT_Business_Plan_2026.md:226, 350, 354, 356, 413</code>; <code class="cite">r00-license-structures.md:12, 14, 37-41, 45, 67</code>; <code class="cite">LiT_Pitch_2026.md:185, 207, 307, 326</code>; <code class="cite">LiT_Financial_Projections_2026.md:24, 32</code>.</p>
+<p><strong>What would have to be true to survive.</strong> Sophisticated operator counterparties (BHP, Rio Tinto, Albemarle and the like named as targets) accept a whole-mine NSR for a sub-stream improvement despite zero precedent and despite their own engineers being able to compute the actual incremental value. There is no evidence they would.</p>
+<p><strong>Falsification test.</strong> Re-run the entire model on incremental recovered value, the Jetti base, at a benchmarked rate, and present the resulting exit and return. If the re-based return is not investable, the case fails on its own admitted correction.</p>
+<div class="finding kill"><h3><span class="badge kill">K3</span><span class="finding-title">The recovery uplift is unvalidated, mechanically decoupled from the model, and internally equivocal</span></h3></div>
+<p><strong>The claim attacked.</strong> Steelmanned: LiT has demonstrated a 16 to 19% recovery improvement at bench scale across feedstock types, and pilot validation is exactly what the seed funds (<code class="cite">LiT_Pitch_2026.md:100, 223</code>).</p>
+<p><strong>The attack.</strong> Three problems compound. First, the figure is unvalidated: the sponsor stipulates the recovery improvement is &quot;undefined and unvalidated&quot; (<code class="cite">LiT_Sponsor_Stipulations.md:17-23</code>), and the research found &quot;16-19% recovery&quot; unsupported as a validated number, with no published average pinning it for any feedstock (<code class="cite">r00-tailings-grades.md:34</code>). Second, the figure does not actually drive the model it is said to drive: the royalty is 1% of whole-mine NSR regardless of how much extra lithium LiT recovers, so the 16 to 19% never enters the royalty arithmetic. The uplift governs only whether an operator would sign, not the revenue. Third, the figure is equivocal in the company&#x27;s own materials, used interchangeably as &quot;additional percentage points of recovery&quot; (<code class="cite">LiT_Business_Plan_2026.md:356</code>) and as &quot;16 to 19 cent improvement per dollar&quot; of production (<code class="cite">:228</code>; <code class="cite">LiT_Prospectus.md:106</code>). These are not equivalent. A 16 to 19 percentage-point gain on a fine-particle sub-stream is not a 16 to 19 cent gain per dollar of whole-mine output; presenting it as the latter is the sleight that makes a 1% whole-mine royalty look like a 6% value share. The chemistry itself is published, peer-reviewed, and partly patented by others (Penn State granted patent on the same low-temperature acid-free route; LBNL working the same field), so it is &quot;a point of competitive parity, not differentiation&quot; (<code class="cite">r00-tech-reproducibility.md:13, 21, 33</code>).</p>
+<p><strong>Supporting evidence.</strong> <code class="cite">LiT_Sponsor_Stipulations.md:17-23</code>; <code class="cite">r00-tailings-grades.md:34</code>; <code class="cite">LiT_Business_Plan_2026.md:228, 356</code>; <code class="cite">LiT_Prospectus.md:106</code>; <code class="cite">r00-tech-reproducibility.md:13, 21, 33</code>.</p>
+<p><strong>What would have to be true to survive.</strong> A continuous pilot on representative, heterogeneous feedstock, validated against a named baseline at the harder end of the grade distribution, produces an uplift that, converted to incremental recovered value and a precedented royalty base, still clears the cost of a deal. Until that exists, the economics are an assumption resting on an assumption.</p>
+<p><strong>Falsification test.</strong> Define the uplift in percentage points against the operator&#x27;s actual current recovery, validate it on a continuous run spanning the feed&#x27;s full variability, and convert it to dollars of incremental recovered value per the re-based model.</p>
+</div></section>
+<section class="serious">
+<p class="eyebrow">3. Serious risks (the case is wounded)</p>
+<div class="sec-body">
+<div class="finding serious"><h3><span class="badge serious">S1</span><span class="finding-title">First revenue lands years later than modeled, which breaks the Year-5 exit</span></h3></div>
+<p>First license is booked at Month 25 (<code class="cite">LiT_Business_Plan_2026.md:276</code>). The research calls this aggressive against multi-year operator evaluation cycles: Jetti, the cleanest analog, has only 3 of 23 pipeline projects transitioning to commercial after first deploying in 2019, despite BHP and Freeport backing (<code class="cite">r00-adoption-deployment.md:10, 17</code>). Mining is structurally conservative and every mine is non-standardized (<code class="cite">:15</code>). A two-year slip pushes the entire royalty ramp out; because the exit is a Year-5 sale priced on a $57.2M run rate (<code class="cite">LiT_Pitch_2026.md:308</code>), a ramp that starts in Year 4 or 5 leaves no run rate to sell. The exit is timing-fragile and the timeline is optimistic.</p>
+<div class="finding serious"><h3><span class="badge serious">S2</span><span class="finding-title">Full commodity-price exposure on a royalty that books into an uncertain price</span></h3></div>
+<p>The royalty is fully indexed to commodity prices (<code class="cite">LiT_Sponsor_Stipulations.md:29-31</code>), and first revenue lands around 2028 (<code class="cite">r00-price-update.md:12, 44</code>). Lithium carbonate sat near US$11,000/t in mid-2026, down from a Q1 2026 peak near US$26,000/t, and a royalty booked at a high &quot;could be worth 30-50% less within a quarter&quot; (<code class="cite">r00-price-update.md:20-21, 12</code>). Upside is structurally capped by fast swing-supply restarts (Bald Hill, Finniss), so the lithium leg should not be modeled with open-ended upside (<code class="cite">:24, 42</code>). The downside is uncapped, the upside is capped, and the model does not present the return at a trough basket. Re-basing the royalty does not remove this exposure; the deliverables state as much (<code class="cite">SWOT.md:59</code>).</p>
+<div class="finding serious"><h3><span class="badge serious">S3</span><span class="finding-title">The raise, the team, and the pilot budget are all undersized</span></h3></div>
+<p>The $2.0M seed is thin and concentration-heavy. The $700k pilot budget is at the low end of a single-flowsheet pilot and short for a multi-feedstock two-stage flowsheet; a physical pilot rig alone ran about $2.0M in a recent comparable (<code class="cite">r00-pilot-benchmarks.md:10, 16, 18</code>). Every located process or tailings comparable raised one to two orders of magnitude more (Phoenix Tailings ~$147.8M, Ceibo $30M, Endolith $13.5M, Jetti &gt;$200M), though those are capex-heavy (<code class="cite">r00-valuation-comps.md:49-54</code>). The $235k IP budget must carry a contested multi-jurisdiction negotiation and an FTO opinion (<code class="cite">EXECUTION_PLAN.md:116</code>). The team is two actual employees, with no in-house technical staff; the CTO is a Year-3 hire and the technical-integration engineer, the role that produces the verified-recovery result renewals depend on, does not arrive until Year 5 in the original plan (<code class="cite">LiT_Business_Plan_2026.md:368-370</code>; <code class="cite">LiT_Financial_Projections_2026.md:47</code>). A two-person company cannot simultaneously run an enterprise sales cycle, a pilot, and on-site integrations (<code class="cite">r00-adoption-deployment.md:10</code>).</p>
+<div class="finding serious"><h3><span class="badge serious">S4</span><span class="finding-title">The exit multiple is set at the optimistic end and the wrong comp set</span></h3></div>
+<p>The exit applies 8x to 10x revenue and 12x to 15x EBITDA (<code class="cite">LiT_Pitch_2026.md:305</code>). The research finds 12x to 15x EBITDA is &quot;at-to-slightly-above&quot; the realistic process-licensing central tendency and &quot;not conservative,&quot; that 8x to 10x revenue is only internally consistent at 65-80% EBITDA margins (which a staffed R&amp;D-and-BD company at first scale may not reach), and that the 15x to 25x royalty-company multiples explicitly do not apply to a single-technology, concentration-heavy, pre-scale private stream (<code class="cite">r00-valuation-comps.md:12, 14, 16, 18, 43</code>). The 92.7% operating margin assumed at exit (<code class="cite">LiT_Pitch_2026.md:312</code>) is the figure that makes the revenue multiple hold, and it is aggressive for a company doing on-site technical integration.</p>
+<div class="finding serious"><h3><span class="badge serious">S5</span><span class="finding-title">The competitors are better funded, hold the adjacent IP, and are funded by LiT&#x27;s own targets</span></h3></div>
+<p>LiT&#x27;s &quot;only integrated platform&quot; moat (<code class="cite">LiT_Pitch_2026.md:151</code>; <code class="cite">LiT_Business_Plan_2026.md:141</code>) is contested on every side. The fine-particle flotation field is occupied by Jameson Cell and IsaMill (Glencore Technology), Metso&#x27;s Concorde Cell, and NovaCell (licensed to Jord International) (<code class="cite">r00-license-structures.md:59</code>; <code class="cite">LiT_Market_Research_2026.md:101-116</code>). The same majors LiT names as customers, BHP, Freeport, fund Jetti and Ceibo (<code class="cite">r00-adoption-deployment.md:16</code>; <code class="cite">r00-valuation-comps.md:52</code>). Phoenix Tailings is a better-capitalized vertically integrated tailings player (<code class="cite">r00-valuation-comps.md:51</code>). Minerals Refining Company already holds the HHS separation IP at commercial-scale demonstration (<code class="cite">r00-ip-fto.md:36</code>). The durable edge is asserted, not evidenced.</p>
+</div></section>
+<section class="manageable">
+<p class="eyebrow">Manageable risks (already priced or contained)</p>
+<div class="sec-body">
+<div class="finding manageable"><h3><span class="badge manageable">M1</span><span class="finding-title">Environmental and title liability</span></h3></div>
+<p>CERCLA can pull a party that disturbs a contaminated site into responsibility for the whole site, product title at orphaned sites is not automatic, and the Good Samaritan Act (signed December 2024, 15 permits, 7-year sunset) likely does not cover a profit-seeking reprocessor (<code class="cite">r00-tailings-liability.md:10, 20, 23, 31</code>). This is serious, but the strategy contains it by the one decision LiT controls: be the licensed process inside the operator&#x27;s permitted plant, leaving title and remediation with the operator (<code class="cite">STRATEGY.md:30</code>; <code class="cite">EXECUTION_PLAN.md:68</code>). The residual, that a contractual allocation does not bind a regulator or third-party claimant, is correctly flagged and gated per site (<code class="cite">EXECUTION_PLAN.md:36, 68</code>). Priced.</p>
+<div class="finding manageable"><h3><span class="badge manageable">M2</span><span class="finding-title">Export control</span></h3></div>
+<p>The India R&amp;D arrangement is second-order: mineral-processing know-how is almost certainly EAR99 and India holds STA-1 status (<code class="cite">r00-export-control.md:10</code>). The real tension is self-inflicted: treating the IIT (ISM) work as proprietary forfeits the Fundamental Research Exclusion (<code class="cite">:24, 38</code>). Manageable with counsel; not a kill.</p>
+<div class="finding manageable"><h3><span class="badge manageable">M3</span><span class="finding-title">Policy durability</span></h3></div>
+<p>The federal tailings tailwind is real but flows to scale producers and processors, not to a pre-commercial licensor, and the trade leg is contingent (the January 2026 Section 232 action imposed no tariffs and opened a negotiation) (<code class="cite">r00-policy-2026.md:15, 60, 62</code>). The deliverables already downgrade policy transmission to an assumption and decline to bank it in the base case (<code class="cite">SWOT.md:47</code>). Correctly priced.</p>
+</div></section>
+<section class="integrity">
+<p class="eyebrow">4. Contradictions and integrity issues</p>
+<div class="sec-body">
+<ol>
+<li><strong>&quot;Single-tranche seed&quot; contradicts the company&#x27;s own financing structure.</strong> The Strategy and Execution Plan repeatedly characterize the seed as a single tranche with no reserve (<code class="cite">EXECUTION_PLAN.md:114</code>). The financial projections show $2M raised via <strong>8 quarterly milestone tranches</strong> ($500K at close plus seven of $214K to $216K) (<code class="cite">LiT_Financial_Projections_2026.md:5, 88-98</code>). The substantive critique (thin, reserve-light) partly holds because several tranches auto-release on receipt of a financial report rather than on a real milestone (<code class="cite">:94-95</code>), but the flat &quot;single-tranche&quot; label is factually wrong against the source.</li>
+<li><strong>The &quot;$200M+ leaching licensor&quot; comp is mislabeled.</strong> The SWOT cites &quot;comparable leaching-technology licensors that have built businesses worth well over $200 million&quot; (<code class="cite">SWOT.md:19</code>). The underlying figure is Jetti Resources&#x27; <strong>capital raised</strong>, capex-heavy and BHP/Freeport-backed, not a licensing business &quot;worth&quot; $200M (<code class="cite">r00-valuation-comps.md:54</code>). This comp does not appear in LiT&#x27;s own materials, which cite only Honeywell UOP, Hatch, and Metso. A money-raised figure is presented as an exit-value comp.</li>
+<li><strong>The financial model does not reconcile between its own two sheets.</strong> Year-3 small-operator royalties are $4,572,000 in the annual summary (<code class="cite">LiT_Financial_Projections_2026.md:32</code>) but the monthly detail sums to $2,400,000 (<code class="cite">:181</code>). Year-3 total revenue is $12,072,000 annual versus $9,900,000 monthly. Year-2 ending cash is $852,800 annual (<code class="cite">:73</code>) versus $792,708 monthly (<code class="cite">:172</code>); Year-3 ending cash $9,062,068 versus $8,705,900 (<code class="cite">:206</code>). The model contains internal contradictions of roughly $2.2M on its largest revenue line.</li>
+<li><strong>The major operator&#x27;s signing date moves by two years across documents.</strong> The pitch dates the major at &quot;Q2 Year 3&quot; (<code class="cite">LiT_Pitch_2026.md:201, 206</code>); the business plan places it in &quot;Year 5 Q2&quot; (<code class="cite">LiT_Business_Plan_2026.md:403</code>); the financial model books major royalties only in Year 5 (<code class="cite">LiT_Financial_Projections_2026.md:33</code>). The major is 27% of five-year revenue and the entire $22.9M major run rate sold at exit. If it signs in Q2 of Year 5, that &quot;run rate&quot; reflects a contract roughly six months old at the exit date, not a recurring stream.</li>
+<li><strong>A sub-portfolio is stated to exceed total company revenue.</strong> The business plan asserts the major &quot;drives Year 5 annual revenue to $51.1 million&quot; while the small/mid portfolio &quot;alone generates $57.1 million in Year 5 recurring annual royalties&quot; (<code class="cite">LiT_Business_Plan_2026.md:360</code>), a figure that exceeds total revenue and mislabels the combined $57.2M run rate (<code class="cite">LiT_Financial_Projections_2026.md:84</code>) as small-operator-only (the pitch puts small/mid run rate at $34.3M, <code class="cite">LiT_Pitch_2026.md:205</code>).</li>
+<li><strong>The headline recovery figure shifts units.</strong> &quot;16-19%&quot; is used as a percentage improvement (<code class="cite">LiT_Pitch_2026.md:100</code>), as &quot;additional percentage points of recovery&quot; (<code class="cite">LiT_Business_Plan_2026.md:356</code>), and as &quot;16 to 19 cent improvement per dollar&quot; of production (<code class="cite">:228</code>; <code class="cite">LiT_Prospectus.md:106</code>). These are materially different quantities, and the cents-per-dollar framing overstates operator benefit in a way that props up the whole-mine royalty base.</li>
+<li><strong>Marketing IP claims contradict the binding stipulation.</strong> Company materials assert a &quot;globally patented platform&quot; (<code class="cite">LiT_Business_Plan_2026.md:28</code>) and &quot;the only internationally patented platform&quot; (<code class="cite">LiT_Pitch_2026.md:151</code>). The sponsor stipulation establishes there is no clean exclusive IP and the PCT is pending, not granted (<code class="cite">LiT_Sponsor_Stipulations.md:9-15</code>), and no LiT-assigned PCT is publicly locatable (<code class="cite">r00-ip-fto.md:18</code>; <code class="cite">LiT_Market_Research_2026.md:193</code>). The deliverables correctly restate the stipulation, but the case rests on company documents that do not.</li>
+<li><strong>The pitch claims validation the stipulation denies.</strong> The pitch states &quot;16-19% recovery improvement demonstrated at bench scale&quot; and &quot;bench-validated across feedstock types&quot; (<code class="cite">LiT_Pitch_2026.md:223, 58</code>); the stipulation calls the same number undefined and unvalidated (<code class="cite">LiT_Sponsor_Stipulations.md:17</code>).</li>
+<li><strong>The SWOT frames the science as the top strength when the evidence makes it a parity problem.</strong> The SWOT leads with the separation science as &quot;world-class&quot; and the company&#x27;s &quot;most durable asset&quot; (<code class="cite">SWOT.md:17</code>). The reproducibility research shows the route is densely published and partly patented by others, &quot;competitive parity, not differentiation&quot; (<code class="cite">r00-tech-reproducibility.md:33</code>). The very fact that the science is real and replicable is what undermines its defensibility; presenting it as the lead strength softens the moat problem.</li>
+<li><strong>Minor: jurisdiction and naming drift.</strong> IP jurisdictions are US/Australia/India (<code class="cite">LiT_Business_Plan_2026.md:464</code>) versus US/Australia/India/Brazil (<code class="cite">LiT_Prospectus.md:152</code>); the Virginia Tech unit is alternately a &quot;Department&quot; and a &quot;College&quot; of Mining and Minerals Engineering across the business plan. Cosmetic, but they signal an unreviewed document set.</li>
+</ol>
+</div></section>
+<section class="survived">
+<p class="eyebrow">5. What survived the attack</p>
+<div class="sec-body">
+<p>Stated plainly so the calibration is trustworthy:</p>
+<ul>
+<li><strong>The deliverables are honest about the core weaknesses.</strong> The SWOT, Strategy, Execution Plan, and Executive Summary all name the unsecured rights, the unvalidated uplift, the indefensible royalty base, the model&#x27;s failure under diligence, and the undersized team and capital. The red team agrees with these findings. The deliverables do not hide the problems; they under-deliver only by still recommending commitment without re-quantifying the case after the concessions.</li>
+<li><strong>The category tailwind is real.</strong> Demand growth, a large under-exploited tailings resource base, and federal critical-minerals policy all point in LiT&#x27;s direction at the category level (<code class="cite">r00-policy-2026.md:13</code>; <code class="cite">r00-tailings-grades.md:23, 27</code>). Transmission to LiT&#x27;s specific royalty is unproven, and the deliverables say so.</li>
+<li><strong>The chemistry is technically plausible.</strong> The sub-500°C alkaline route is independently published and reproduced (<code class="cite">r00-tech-reproducibility.md:13</code>). Plausibility survives; proprietary defensibility does not.</li>
+<li><strong>The strategy&#x27;s containment logic is sound.</strong> Be the licensed process inside the operator&#x27;s plant, never the operator; clear the gates before committing scope; do not build, own, and operate; hold the kill authority outside the team. This is the strongest part of the work and survives intact (<code class="cite">STRATEGY.md:30, 62</code>; <code class="cite">EXECUTION_PLAN.md:68, 124</code>).</li>
+<li><strong>The asset-light licensing channel is a real revenue route</strong>, conditional on a defensible right and a precedented base. The concept is not the problem; the inputs are.</li>
+</ul>
+</div></section>
+<section class="premortem">
+<p class="eyebrow">6. Pre-mortem: 24 months out, LiT has failed</p>
+<div class="sec-body">
+<p>The most probable cause from each angle:</p>
+<ul>
+<li><strong>IP and freedom to operate.</strong> Minerals Refining Company&#x27;s worldwide license on the HHS separation core proved exclusive in the minerals field, or VTIP declined to grant LiT an exclusive sublicensable field-of-use right. The Phase-one rights gate never cleared. The company wound down, having spent the seed discovering a fact a $20,000 license search would have surfaced first.</li>
+<li><strong>The recovery number.</strong> The uplift validated on a curated, uniform composite and fell below break-even on the live, heterogeneous impoundment over a full production year. The verified-recovery result the operator was promised did not materialize at scale, and the first license was not renewed.</li>
+<li><strong>Revenue model.</strong> The first sophisticated counterparty repriced the whole-mine NSR to incremental recovered value, exactly as the research said it would. The royalty fell by an order of magnitude, the single deal did not cover its own cost, and the economics that justified widening never appeared.</li>
+<li><strong>Competition and substitution.</strong> A major financed a Jetti- or Phoenix-style competitor into LiT&#x27;s target accounts, or Minerals Refining Company commercialized the same separation in the same field, before LiT signed a second deal. The thin licensor lost the channel to its own would-be customers&#x27; portfolio companies.</li>
+<li><strong>Adoption.</strong> The one conservative operator LiT concentrated on ran a multi-season technical and procurement qualification that outlasted the runway. With no second live deal by design, the company exhausted capital waiting on a single counterparty&#x27;s clock.</li>
+<li><strong>Capital and returns.</strong> The $2.0M was consumed by a contested license negotiation and a continuous pilot that both overran. The reserve was drawn to finish the pilot, the financing market had turned, no second tranche was pre-committed, and the gate cleared into an empty account.</li>
+<li><strong>Execution.</strong> The two-person team with no in-house technical staff could not run the pilot, the enterprise sale, and the integration at once, and the continuous-pilot run-time overran the kill date, failing the venture on the calendar rather than the result.</li>
+<li><strong>Liability and regulatory durability.</strong> A sampling or disturbance event created CERCLA standing for LiT despite a clean contract with the operator, or the policy tailwind the model leaned on never reached a licensor&#x27;s royalty line and the contingent trade protection never took force.</li>
+</ul>
+<p>The common thread: the company committed real money before establishing the two facts everything depends on, and the one number that carries the entire return, 1% of a whole mine, was never the number any operator was going to pay.</p>
+</div></section>
+</main>
+<footer>
+  <span><span class="glyph">&#9670;</span> Perpensa &middot; Red Team Review</span>
+  <span>Confidential &middot; June 30, 2026</span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,143 @@
+2026-06-29T17:51:52 [INFO] Ralph driver starting in D:\code\perpensa.ai\LiT-v3
+2026-06-29T17:51:52 [INFO] Wrote missing prerequisite: .\STATE.md
+2026-06-29T17:51:52 [INFO] Resuming at iteration 0. Cumulative wait so far: 0 sec.
+2026-06-29T17:51:52 [INFO] === Capability self-test: write, read, mkdir, web search, web fetch ===
+All steps completed successfully.
+
+CAPABILITY-CHECK: WRITE=PASS READ=PASS MKDIR=PASS WEBSEARCH=PASS WEBFETCH=PASS
+
+2026-06-29T17:52:14 [INFO] Capability WRITE     = PASS
+2026-06-29T17:52:14 [INFO] Capability READ      = PASS
+2026-06-29T17:52:14 [INFO] Capability MKDIR     = PASS
+2026-06-29T17:52:14 [INFO] Capability WEBSEARCH = PASS
+2026-06-29T17:52:14 [INFO] Capability WEBFETCH  = PASS
+2026-06-29T17:52:14 [INFO] Capability self-test passed. All required capabilities confirmed.
+2026-06-29T17:52:14 [INFO] Iteration 1 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: NOT STARTED
+Frame lock complete. One unit done, stopping per the loop protocol.
+
+**What I did this iteration (Round 00, sequential frame-lock step):**
+
+- Confirmed the locked **investor frame**: prospective seed investor, independent-advisor lens, deciding invest / decline / invest-with-conditions on **$2M for 13.33% at $13M pre-money** ($15M post).
+- Recorded the three deliverables as the investor's (SWOT, Strategy, Execution Plan).
+- Confirmed the council has ingested `LiT_Sponsor_Stipulations.md` as **binding established facts**: (1) no clean exclusive IP — pending PCT only, not granted; (2) the headline recovery improvement is unvalidated and validating it is the use of seed funds; (3) revenue inputs are aggressive and compounding, with the binding NSR correction that the royalty base is *fully exposed* to commodity-price volatility, not blind to price.
+- Set seat scope (CHOKEPOINT active R01–04, PILOT active R04–07) and confirmed quorum.
+
+Wrote `rounds/r00-frame-lock.md`; updated `STATE.md` (frame-lock ticked, unit logged, status now IN PROGRESS).
+
+**Next unit:** the batched Round 00 reading notes — all participating perspectives' notes and research requests in one sealed, blind pass (CHOKEPOINT and PILOT file none in Round 00).
+
+2026-06-29T17:53:32 [INFO] Iteration 2 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — frame locked; next is batched reading notes
+Unit complete. One unit done this run, as required.
+
+**What I did this iteration (Round 00 batched reading notes — a divergent unit):**
+
+- Confirmed the full read of the locked evidence base across all seven background documents plus the VT sponsored research agreement.
+- Produced sealed, blind reading notes from all 8 Round 00-participating perspectives (CRUCIBLE, SPOT, CLAIM, ROYALTY, MILL, CAPITAL, WATERSHED, DISSENT). CHOKEPOINT and PILOT correctly filed none, per seat scope. Quorum satisfied.
+- Every observation is evidence-tagged Cited / Assumption (with confidence) / Unsupported. No SWOT positions were taken.
+- Each seat logged research requests, and I seeded six dedup clusters for the next unit.
+
+**Notable item surfaced for downstream rounds:** the VT Sponsored Research Agreement (Article 13) is more consequential than the prospectus framing implies. It gives Virginia Tech entire ownership of VT-generated IP, grants LiT only a time-boxed option to license, and lets VTIP license to third parties on non-election. Article 13.9.a names LiT's background IP as the *chemical* (Stage Two) stage, leaving the provenance of the Stage One fine-particle surface-chemistry method unestablished against Yoon's HHS family. CLAIM and DISSENT both flagged this independently.
+
+**STATE.md updated:** reading-notes exit items ticked, unit logged, status now `ROUND 00 ... next is Research Request Register consolidation`.
+
+Stopping after one unit. The next iteration is the sequential consolidation of the research requests into one prioritized register, after which I begin executing the commissioned web research.
+
+2026-06-29T17:57:13 [INFO] Iteration 3 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — reading notes done; next is Research Request Register consolidation
+Unit complete. One sequential step done, now stopping per the loop contract.
+
+**This iteration: Research Request Register consolidation (Round 00).**
+
+- Merged the 18 raw requests from the eight participating seats into **16 deduplicated register items (RR-01 to RR-16)** across six clusters: IP/FTO, recovery & process evidence, commodity price & royalty base, deal norms & adoption timelines, valuation & capital comparables, and ESG/remediation/policy.
+- Notable merges: CL1+D1 → RR-01 (IP status); C2+CL2 → RR-02 (Yoon HHS FTO); S3+M2 → RR-06 (royalty basis); R2+M1+D3 → RR-08 (adoption timeline); CA3+D2 → RR-11 (producer-vs-licensor); W2+M3 → RR-15 (tailings liability).
+- Tiered each item (T1 critical / T2 high / T3 supporting) and set an execution order leading with the four T1 items.
+- Logged the **DISSENT register-gap gate**: the three thesis-overturning items are RR-13 (recovery uplift), RR-01 and RR-02 (IP/FTO). RR-13 is expected to return as a confirmed absence — the validating data does not yet exist per the binding stipulations — and DISSENT agreed to proceed on that basis provided no deliverable upgrades the unvalidated uplift.
+
+Written to `rounds/r00-research-register.md`; `STATE.md` updated.
+
+**Next unit:** execute commissioned research — start with RR-01 and RR-02 (IP status and Yoon/HHS freedom-to-operate), writing cited results to `research/`.
+
+2026-06-29T17:59:20 [INFO] Iteration 4 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — register consolidated; next is commissioned research execution (start RR-01/RR-02)
+Unit complete. One unit of work done and persisted, then stopping per the loop contract.
+
+**What I did this iteration:** Executed the first commissioned-research unit, RR-01 and RR-02 (the two T1 IP/freedom-to-operate items), via web retrieval.
+
+**Findings written to `research/`:**
+
+- **RR-01 — LiT public IP status** (`research/r00-ip-status.md`): No published LiT/Lithium Technologies PCT surfaced in WIPO PATENTSCOPE or Google Patents (consistent with a recent, not-yet-published filing). The traceable underlying low-temperature-extraction art from LiT's academic team (e.g. US20240368734A1) is assigned to **Virginia Tech Intellectual Properties (VTIP), not LiT**. This grounds Sponsor Stipulation 1 as evidenced fact: a pending PCT at most, with an ownership layer on top.
+
+- **RR-02 — Yoon/HHS family and FTO** (`research/r00-ip-fto.md`): The HHS fine-particle separation process is VTIP-owned and **licensed worldwide to Minerals Refining Company since September 2012**. MRC's own materials assert the field reaches "any ore recovered via flotation," with stated expansion into copper, lead, zinc, silver, and rare earths, and "no known lower particle size." LiT's Stage One sits in the same technical field — a dual FTO and exclusivity threat, plus a VTIP channel-conflict flag.
+
+**Residual gaps flagged `NEEDS EXTERNAL RETRIEVAL`** (carried as condition-precedent diligence items): LiT's actual PCT number + examiner written opinion; the executed MRC-VTIP license field-of-use/exclusivity terms; and a claim-chart comparison of Stage One vs the HHS family.
+
+**State updated:** Both items logged in the unit ledger; next unit set to **RR-13 and RR-11** (recovery-uplift evidence and the producer-vs-licensor counterfactual, the remaining T1 batch).
+
+Sources: [WIPO PATENTSCOPE](https://patentscope.wipo.int/search/en/gazettePubMore.jsf), [US20240368734A1](https://patents.google.com/patent/US20240368734A1/en), [VTIP portfolio](https://plainpatent.com/company/virginia-tech-intellectual-properties-inc/), [MRC about](https://mineralsrefining.com/about-mrc/), [MRC minerals applications](https://mineralsrefining.com/commercial-applications/minerals/), [NETL HHS](https://netl.doe.gov/sites/default/files/netl-file/22RS-27_Yoon.pdf).
+
+2026-06-29T18:03:01 [INFO] Iteration 5 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — RR-01 and RR-02 executed (IP/FTO, T1); next is RR-13 and RR-11 (recovery evidence and producer-vs-licensor counterfactual, T1)
+Unit complete. Executed both T1 research items in the Round 00 commissioning sequence.
+
+**RR-13 (recovery uplift evidence)** → `research/r00-recovery-evidence.md`. Confirmed absence: no LiT bench data, test report, or grade-recovery curve exists in the public record. This corroborates Sponsor Stipulation 2 (validation is the use of seed funds), so the absence is an established fact, not a retrieval gap. The headline uplift enters Round 01 as an unvalidated, low-confidence Assumption — never a Strength at face value. Public spodumene literature adds that recovery is highly feed/size/circuit-specific, so even a successful pilot must state its feed, baseline, and size basis before generalizing to a royalty base.
+
+**RR-11 (producer-vs-licensor counterfactual)** → `research/r00-producer-vs-licensor.md`. Two priced archetypes:
+- Jetti (licensor, asset-light): ~$100M raised, **$2.5B valuation** — but only after commercial proof at a running plant and tier-1 producer backing (BHP, Freeport, Mitsubishi).
+- Phoenix Tailings (producer, full margin): **$117.8M raised, $360M valuation** as of Feb 2026.
+
+The licensor premium exists but is non-transferable to LiT today, which has none of the three things that earned it (commercial proof, producer validation, captured first customer). The crowded, better-capitalized competitive set (Lilac, TerraVolta, Metallium, Lithios) mostly captures full margin rather than thin royalty. Key reframing carried forward: the binding risk is less "is 1% NSR enough" and more "is the first major-miner license achievable, and on what timeline" — the Jetti revenue-lag lesson, which feeds RR-08.
+
+STATE.md updated. Next unit: **RR-04 and RR-06** (lithium spot price / 2026-27 supply-demand balance, and royalty-basis convention — total vs incremental production value), both T2. Stopping here per the one-unit-per-run rule.
+
+2026-06-29T18:05:54 [INFO] Iteration 6 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — RR-13 and RR-11 executed (recovery evidence confirmed absent; producer-vs-licensor counterfactual, T1); next is RR-04 and RR-06 (lithium price and royalty-basis convention, T2)
+Unit complete. Stopping after this one unit per the loop protocol.
+
+**Executed:** RR-04 and RR-06 (the next T2 research pair in the register's execution order).
+
+- **RR-04 — Lithium price & 2026-2027 balance** → `research/r00-lithium-price.md`. Mid-2026 carbonate ~21.4k USD/t in Northeast Asia, materially lower elsewhere (a ~2x region split). The 2026 balance is genuinely contested: surplus camp ~109kt LCE (UBS, S&P, WoodMac) vs deficit camp 22–80kt, with directional consensus tightening into 2027 on BESS/EV demand. Key takeaway carried forward: the forward price is an embedded, two-sided assumption in the revenue ramp, and per Stipulation 4 the NSR base carries full price exposure.
+
+- **RR-06 — Royalty-basis convention** → `research/r00-royalty-basis.md`. Found the commercial fault line: LiT's 1% NSR borrows the *form* of a mineral-rights royalty (a claim on **total** production value, 2–5% norm) while the *economic basis* of a technology license is a share of the **incremental** value created (value-share / "1–1.5% of the gain" convention). The aggressiveness lives in the **base**, not the rate; if a major negotiates the base down to incremental recovery value (~16–19%), per-license revenue could drop close to an order of magnitude. One residual `NEEDS EXTERNAL RETRIEVAL` flagged (confidential deal-specific bases, overlaps RR-07).
+
+**Next unit:** RR-07 and RR-08 (licensing comparable deal terms and major-miner adoption/qualification timeline, T2).
+
+2026-06-29T18:08:20 [INFO] Iteration 7 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — RR-04 and RR-06 executed (mid-2026 lithium price ~21k/t Asia with surplus-vs-deficit split; royalty base is the fault line, total-value NSR vs incremental-value convention); next is RR-07 and RR-08 (licensing comparable deal terms and major-miner adoption timeline, T2)
+Unit complete. I executed the next undone Round 00 research unit (RR-07 and RR-08, two T2 web items, within the one-or-two-per-iteration rule) and persisted both results.
+
+**RR-07 — Licensing comparable deal terms** (`research/r00-licensing-deal-terms.md`)
+- A running royalty as a percent of sales dominates licensing (~62–72% of deals); an upfront is a minority add-on (~22%). LiT's upfront-plus-royalty pairing is conventional in form.
+- The divergence is the **base, not the rate**: 1% NSR on *total* production value borrows streaming form while process-tech convention prices off *incremental* value created. That is the negotiation fault line a sophisticated major will press.
+- Jetti is the closest analog and validates the asset-light licensor model directionally, but its per-deal terms are undisclosed — flagged `NEEDS EXTERNAL RETRIEVAL`, so "1% on total value is market" remains Unsupported.
+
+**RR-08 — Adoption timeline at majors** (`research/r00-adoption-timeline.md`)
+- Mining is a documented late, "race to be second" adopter; the burden of proof sits on the vendor.
+- Jetti (better-positioned, producer-backed) took ~5 years founded-to-first-commercial and ~8 to a premium valuation. LiT's Month 25 first-license from a *pre-validation* start is an optimistic-tail outlier, not a base case.
+- The Month 25 timeline and the no-bridge self-funding claim are the same optimistic assumption viewed twice; a slip in either breaks both — the central financing risk.
+
+STATE.md updated: unit ledger appended, next pointer set to **RR-09 and RR-12** (exit multiples and Stage Two low-temperature spodumene literature). Stopping after this one unit per the loop protocol.
+
+2026-06-29T18:11:24 [INFO] Iteration 8 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — RR-07 and RR-08 executed (licensing convention: running royalty dominant, upfront a minority add-on, base priced off value created so 1%-on-total-value is the contested term; adoption is years not months, Jetti ~5yr founded-to-first-commercial making Month 25 first-license an optimistic-tail outlier and breaking the no-bridge self-funding claim); next is RR-09 and RR-12 (exit multiples and Stage Two low-temperature spodumene literature, T2)
+Unit complete. I executed the next undone research unit (RR-09 and RR-12) and persisted both results.
+
+**RR-09 — Exit multiples in process-technology licensor transactions** (`research/r00-exit-multiples.md`)
+- Closest recent comparable: Honeywell's acquisition of Johnson Matthey Catalyst Technologies, struck at ~11x estimated 2025 EBITDA *inclusive of synergies and tax benefits*, then renegotiated **down 26%** (£1.8B → £1.325B) before close.
+- UOP is the archetypal licensor comparable but its transaction multiple is not public (flagged NEEDS EXTERNAL RETRIEVAL).
+- PE specialty-chemicals EBITDA medians fell YoY (13.8x → 12.3x).
+- Read for the investor: the model's **12-15x EBITDA / 8-10x revenue** sits at or above the top of what strategics paid for far stronger, scaled, profitable assets — a Weakness in the valuation bridge, with live evidence of multiple compression.
+
+**RR-12 — Low-temperature spodumene leaching state of the art** (`research/r00-spodumene-lowtemp.md`)
+- The sub-500C alkaline (NaOH-roast) route is an active, peer-reviewed field: multiple 2024-2025 papers report **>99% Li extraction at ~325C** with no sulfuric-acid bake.
+- "Low-temperature / no acidic byproducts" is a **published category property**, not a LiT moat. Stage Two can only be a Strength via protectable engineering/economics, which sharpens the FTO question from RR-01/RR-02.
+
+STATE.md updated: unit logged, status advanced. Next unit is **RR-14 and RR-16** (tailings-governance procurement influence; US critical-minerals program durability and offtake mechanisms). Stopping here per the one-unit-per-run rule.
+
+2026-06-29T18:14:18 [INFO] Iteration 9 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — RR-09 and RR-12 executed (exit multiples: scaled process-tech licensors transact ~11x EBITDA with synergies, JM/Honeywell deal cut 26% pre-close, so model's 12-15x EBITDA / 8-10x revenue sits at or above the top of comparables for a far weaker asset; Stage Two low-temperature alkaline spodumene route is openly published, >99% Li at ~325C, so "low-temp/no-acid" is a category claim not a moat); next is RR-14 and RR-16 (tailings-governance procurement influence and US critical-minerals program durability / offtake mechanisms, T2)
+Unit complete. Both RR-14 and RR-16 are executed and written to `research/`, and `STATE.md` is updated.
+
+**What this unit established:**
+
+- **RR-14 (tailings governance → procurement):** A negative finding stated with confidence. GISTM/GTMI is a safety-governance, disclosure, and audit regime (77 auditable requirements) that obligates operators to *manage and disclose* tailings, not to *buy* any recovery technology. The provable vendor demand it creates is in monitoring software, engineering, and audit/assurance — not LiT's category. So any Opportunity framed as "tightening tailings governance drives demand for LiT" must be downgraded from a demand driver to a background attention tailwind; the indirect liability-reduction channel is Assumption-grade, low confidence.
+
+- **RR-16 (policy durability + offtake):** The US critical-minerals push is real and partly durable — $1B DPA financing legislated to Sept 2027, ~$1B DOE (Aug 2025) including a $135M mine-waste and $250M byproduct-recovery tranche LiT could pursue, plus DOI Secretary's Order 3436 streamlining mine-waste permitting (but unfunded and reversible on administration turnover). The MP Materials / DoD NdPr **$110/kg price floor + 10-year 100% offtake** proves the government will remove commodity-price downside for a strategic asset — but it is bespoke, producer-side, and has no lithium or private-royalty precedent. So LiT's royalty base stays **fully commodity-exposed** in the base case; the policy floor is long-dated optionality, not a mitigant. I also flagged that the "$1.2B Interior" figure in the seed materials could not be verified; the citable numbers are the $1B DPA and ~$1B DOE.
+
+**Next unit (per execution order):** the T3 supporting tail — RR-03 (national-phase IP cost/timeline), RR-05 (operator production-value anchors), RR-10 (seed-stage valuation benchmarks), RR-15 (tailings-reprocessing liability framework). Once those are written or flagged, the Round 00 research gate and evidence lock can close and Round 01 can open.
+
+Stopping after this one unit as instructed.
+
+2026-06-29T18:17:34 [INFO] Iteration 10 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — RR-14 and RR-16 executed (tailings governance is a disclosure/audit regime with NO demonstrated technology-procurement influence, so the "GISTM tailwind" is a background attention driver not a demand driver; US critical-minerals push is real and partly legislated [DPA $1B to Sept 2027, DOE ~$1B incl. mine-waste tranches] but the MP Materials NdPr price-floor/offtake template is bespoke, producer-side, and does not extend to a private royalty, so the royalty's commodity exposure stays unbuffered in the base case); next is the T3 supporting tail RR-03, RR-05, RR-10, RR-15
