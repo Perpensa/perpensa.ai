@@ -1,0 +1,111 @@
+# Round 06, Unit 1: Pre-Mortem (batched, divergent, sealed/blind)
+
+Frame: COMPANY (decision owner = LiT leadership). This is a divergent unit. Each participating perspective writes independently and is blind to the others. The instruction to every seat is identical: assume it is two to three years out and the venture has failed. Name the single most likely failure mode in your domain, identify the earliest gate or checkpoint that should have caught it, state whether the current gated architecture catches it as written, and feed the result back as a contingency or an earlier gate. One failure mode per seat, the most probable, not a catalogue.
+
+Participating seats: CRUCIBLE, SPOT, CLAIM, ROYALTY, MILL, CAPITAL, WATERSHED, DISSENT, PILOT. CHOKEPOINT is out of scope from Round 05 onward; its macro and allied-positioning angle is carried by SPOT and its regulatory angle by WATERSHED.
+
+Gate reference (from the execution architecture, used here only to name the catch point): Foundation Gate = rights reading + uplift reading, both non-netting; intra-phase Checkpoint 0.1 = freedom-to-operate / rights-path (~month 4-6); Checkpoint 0.2 = host-site access-and-liability; Proof Gate = single-site coverage ratio; Checkpoint 1.1 = in-plant liability structure confirmed per site; per-increment gates in widening; Branch S = services bridge; Branch X = strategic sale.
+
+No claim below rises above its evidence. Tags: Cited / Assumption (confidence) / Unsupported. No fabricated numbers. Dissent preserved. No gate is treated as cleared.
+
+---
+
+## CRUCIBLE — failure mode: the validated uplift did not survive the live feed
+
+It is three years out. The continuous pilot reached steady operation, measured a recovery uplift at or above the break-even threshold, and the foundation gate cleared on that reading. The first site signed. Within the first full production year the realized uplift on the operator's plant fell below the level the royalty economics require, the verified-recovery result the operator was promised did not materialize at scale, and renewal was lost. The science was real; the pilot was even continuous. What failed is that "continuous on representative feedstock" was satisfied by a curated, comparatively uniform sample held in steady state, while the live impoundment delivered the full mineralogical and grade variability of a real tailings body over a year. The process is sensitive to that variability in a way a representative-sample pilot did not expose. (Reproducibility of the core chemistry is Cited as directionally corroborated in research/r00-tech-reproducibility.md; scale-and-variability sensitivity is Assumption, medium confidence, and is exactly the residual the pilot is meant to retire.)
+
+Earliest catch: the uplift reading at the foundation gate. As written, that reading requires a continuous run at or above break-even on the same incremental basis the royalty is charged, which is necessary but not sufficient. Continuity over time is not the same as coverage across the feed's variability.
+
+Feedback (sharpen the existing gate, do not add a new one): the uplift reading must require the pilot to span the representative mineralogical and grade range of the target impoundment, not a single representative composite held continuously. The threshold should be met on the harder end of that range, not the average, since the plant will see the whole distribution. The independent pilot certification should attest to feed variability covered, not only to steady-state hours logged. This keeps the uplift reading a single point of failure that is genuinely retired when it clears, rather than one that clears on a sample and fails on the body.
+
+---
+
+## SPOT — failure mode: the cycle, not the process, broke the coverage test
+
+It is two to three years out. The technology worked and the license was clean. The venture failed because the commodity price fell through the cycle and the royalty, fully indexed to price even after the re-base onto incremental recovered value, fell with it. The single live site's coverage ratio dropped below one, the second tranche could not be justified, and the company stalled at one marginal deal. The break-even test was passed at the foundation gate at a price that did not hold, and the proof gate measured coverage at a point in the cycle that turned. Full commodity-price exposure of the royalty base is Cited and structural (it is indexed, per the sponsor correction F-3a); the direction and timing of the price move is Assumption, low-to-medium confidence, and not something LiT controls. The macro point CHOKEPOINT would otherwise carry belongs here: a single producer-nation supply decision or a demand air-pocket can move the price that sets the entire test.
+
+Earliest catch: the foundation-gate break-even test is indexed to live price and re-run on material moves, and the proof gate measures realized coverage. Both are real, but both are evaluated at prevailing price. Neither requires the deal to survive a downside.
+
+Feedback (add a downside condition, not a new gate): before the beachhead is signed, the deal must clear coverage at a pre-committed conservative downside price, not only at spot, and the company should seek a rate floor or minimum-payment leg where the operator will grant one. The break-even test at the foundation gate should be computed and reported at both spot and the downside price, so leadership sees the margin of safety, not only the pass. This does not cure the exposure, which is structural and must never be represented as removed; it ensures the company does not enter Phase two on a number that only the top of the cycle supports.
+
+---
+
+## CLAIM — failure mode: the priced grade was not the grade the plant processed
+
+It is three years out. The beachhead site was selected for high assayed grade and a demand-led basket, characterized, and priced. The deal was signed against that characterization. Over the production run the feedstock the plant actually drew was more heterogeneous than the characterization snapshot implied; realized payable grade ran below the headline assay used in pricing, the royalty stream underperformed the model, and the operator disputed the economics at renewal. The resource case rested on incompletely characterized feedstock, and a one-time characterization captured a point in a body that is heterogeneous in space and over the draw sequence. Feedstock heterogeneity site to site and within a site is Cited (research/r00-tailings-grades.md; W-GRADE / T-GRADE); that a single characterization under-represents the production-life distribution is Assumption, medium confidence.
+
+Earliest catch: per-site characterization is already a hard precondition of pricing, and Checkpoint 1.1 governs site entry. The gap is that "characterized" can mean a single representative sample, and pricing can then anchor to the headline assay from it.
+
+Feedback (specify the characterization, keep the prerequisite): characterization must sample the impoundment's spatial and draw-sequence variability sufficiently to produce a distribution, not a single number, and the deal must be priced off a conservative percentile of that distribution rather than the headline grade. The break-even and coverage tests should both be run on the conservative grade, so the same discipline that already gates site entry also gates the number used to price it. No site or feedstock enters the offer, and no rate is set, on an unvalidated or single-point grade.
+
+---
+
+## ROYALTY — failure mode: the pilot reference rate became the permanent anchor
+
+It is three years out. The first deal was struck at a deliberately low rate, communicated internally and externally as a pilot reference, not the portfolio anchor. It anchored anyway. Every subsequent operator's procurement opened from the first rate and negotiated down, the company never reached the rate its model required across the portfolio, and the economics that justified widening never materialized even though the technology and the first deal both worked. The re-base fixed the base; the rate, set from a single early deal struck from a weak first-mover bargaining position with no track record, set a ceiling the company could not lift. The benchmarked band (low single digits up to roughly 5% of the recovered stream) is Cited (research/r00-valuation-comps.md, research/r00-license-structures.md; RR-23); that a first reference rate anchors downward is Assumption, medium confidence, and is a known pattern in single-anchor licensing.
+
+Earliest catch: the pricing discipline in Phase two and the royalty-benchmarking housekeeping in Phase one. The plan calls the first rate a reference, but calling it a reference does not make it one to the next counterparty.
+
+Feedback (harden the first deal's contract structure, and gate the rate read earlier): do not sign the beachhead without the benchmarked rate band already in hand, so the reference is positioned against a benchmark rather than invented. Structure the first deal so the low rate is contractually bounded as a pilot rate by time or volume, with a pre-agreed step-up or most-favored-nation protection that prevents it from setting a permanent floor on the portfolio. The benchmarking deliverable, currently a Phase-one housekeeping item, should be a precondition of signing the first deal, not merely of modeling it.
+
+---
+
+## MILL — failure mode: everything rode on one slow buyer, and the runway ran out first
+
+It is two to three years out. The foundation gate cleared. The company concentrated, correctly under the narrow-first logic, on one well-qualified operator. That operator, a conservative buyer evaluating a novel process for an unfamiliar liability, ran its own multi-season technical and procurement validation before it would sign, and that cycle outran LiT's runway. The single business-development lead had no second live deal to fall back on because the strategy was deliberately one site, and the company exhausted its capital waiting for the one deal it had bet on. Slow conservative-buyer adoption is Cited (research/r00-adoption-deployment.md; T-ADOPT); that narrow-first concentrates the venture's survival on a single counterparty's clock is Assumption, medium-high confidence, and is the structural cost of the chosen path.
+
+Earliest catch: the adoption-speed condition in Phase two treats a slow market as a runway problem and routes to the services bridge before the bank empties. That condition exists, but it is triggered late, after the company is already committed to one lead.
+
+Feedback (add a pipeline floor and a deal-by date, before Phase two commits): qualify and rank a small backup set of two or three host-site candidates during Phase one, so a single stalled lead does not equal venture death even though only one is actively pursued. Set an explicit deal-by date inside the runway, well before exhaustion, that automatically triggers the services bridge or the re-selection of the lead, rather than discovering the stall when capital is already gone. Concentration is the right scope decision; single-counterparty dependency with no fallback and no trigger is the failure version of it.
+
+---
+
+## CAPITAL — failure mode: the gate cleared into an empty account and a cold market
+
+It is two to three years out. The first tranche, even sized at or above $2.0M, was consumed by the gate-clearing phase. The contested multi-jurisdiction license negotiation and the continuous pilot both overran their lines, the ring-fenced reserve was drawn down to finish the pilot rather than held for a clean exit, and by the time the foundation gate cleared there was neither capital left in the company nor an open second tranche, because the financing environment had turned and Tranche B was never pre-committed. The business did not fail on its science or its rights; it failed on the gap between clearing the gate and funding the phase the gate unlocks. Seed adequacy is Cited as marginal and the single-tranche-no-reserve structure as the most-cited financing weakness (background/LiT_Financial_Projections_2026.md; W-CAPITAL, adequacy Medium-Low); that the reserve gets spent under schedule pressure and that Tranche B is not available on demand are Assumptions, medium confidence.
+
+Earliest catch: the capital architecture tranches to the gates and sets the kill date inside seed exhaustion, and the reserve is ring-fenced. The residual the architecture does not close is the financing gap at the gate: a cleared gate is not a funded next phase.
+
+Feedback (two contingencies, no new gate): treat a breach of the ring-fenced reserve as itself a kill trigger, not a financeable overrun, so the reserve cannot be quietly converted into pilot completion money and the clean-exit option survives. And work to soft-circle or condition Tranche B before the foundation gate, so that clearing the gate releases capital that already exists in commitment rather than capital the company must then go raise into whatever market exists that quarter. The honest version of the plan says the seed is marginal; the honest contingency is that the next raise must be lined up before, not after, the gate that is supposed to unlock it.
+
+---
+
+## WATERSHED — failure mode: the liability allocation did not bind the party that mattered
+
+It is three years out. The in-plant licensing structure was put in place exactly as designed: the licensed process ran inside the operator's permitted plant, and title to recovered material and remediation standing stayed with the operator under the access-and-liability agreement. The venture still failed on liability, because a contractual allocation between LiT and the operator did not bind a regulator or a third-party claimant. A successor-or-arranger liability theory reached LiT as the party that introduced a new process that disturbed the impoundment, or a regulator treated the new recovery activity as a triggering event, and the cost and the reputational exposure landed on LiT despite the contract. Separately, the policy tailwind the model leaned on never transmitted to LiT's revenue, because incentives flowed to producers and refiners holding title, not to a licensor of process. Third-party statutory reach in tailings remediation is Cited as a real framework (research/r00-tailings-liability.md; T-LIABILITY); that the contractual allocation fails to bind a regulator at the specific site is Assumption, medium confidence; that policy revenue does not transmit to a licensor is Cited as a downgrade already taken (O-POLICY transmission is Assumption, not Cited).
+
+Earliest catch: Checkpoint 0.2 (host-site access-and-liability) and Checkpoint 1.1 (in-plant structure confirmed per site). Both confirm the contract structure. Neither, as written, tests whether the structure survives statutory third-party reach as opposed to contractual allocation between the two signing parties.
+
+Feedback (deepen the existing checkpoints): the host-site and per-site checks must include an environmental and mining counsel opinion that the structure survives third-party and successor-liability theories under the governing statute at that specific site, not merely that the contract allocates liability to the operator. A site where the structure only works on paper between the parties, but leaves LiT statutorily reachable, is rejected like any other uncontainable-liability site. And the model must continue to carry policy-driven revenue at no higher than Assumption, never as a Cited line, so a tailwind that favors producers does not quietly hold up the case.
+
+---
+
+## DISSENT — failure mode: the gate was a ratchet, not a brake
+
+It is two to three years out. The most likely way this failed is not that any single test was wrong but that the whole confident, fully built, gated program created momentum that made the kill date un-pullable in the room. On the evidence available at the outset, the right to license was never clearly LiT's to grant free of the prior license, and a confident execution architecture presented before that fact was settled read, exactly as warned, as permission to proceed. Each phase justified the next tranche; the reserve that was supposed to fund a clean exit funded one more month of negotiation; the kill date arrived and was moved because too much had been built to stop. The gate that was designed as a brake operated as a ratchet. The two load-bearing facts, clear sublicensable rights and a validated uplift, are Cited as unresolved at the outset (sponsor stipulations F-1, F-2; W-RIGHTS, W-UPLIFT, both carried as CONTESTED-SPLIT D-1); that a built program erodes kill discipline is Assumption, but it is the specific risk the do-not-proceed-as-framed position has held throughout.
+
+Earliest catch: the foundation gate and Checkpoint 0.1 are where the rights fact is supposed to stop the company cheaply. DISSENT's standing position is that the earliest real catch is before Tranche A is raised at all, and that the catch fails not on design but on who holds the brake.
+
+Feedback (move the rights read to step zero, and externalize the kill authority): obtain the cheap rights legal read and a freedom-to-operate read before the first tranche is raised, not at month four to six, so a not-clearly-favorable read stops the raise rather than stopping a pilot already in flight. Make the kill date and the reserve enforced by a party with no incentive to continue, an investor or board holding return rights over unspent capital, rather than by the management team that built the program. The alternative view is preserved, not resolved: the company should hold that nothing commits until both facts are in hand, and the structural protection against the ratchet is that the authority to stop sits outside the room that wants to go.
+
+---
+
+## PILOT — failure mode: a hard prerequisite was softened under schedule pressure
+
+It is two to three years out. The plan's order of work was correct, and it failed in execution because one named hard prerequisite was allowed to slip to hold a date. The most likely instance: the large pilot spend was committed before the host-site liability checkpoint genuinely closed, on an access agreement that was signed while the operator's own title or permitting was still unsettled, or the beachhead was priced and signed before per-site characterization was truly complete, because the original plan's aggressive first-license date near month twenty-five was still exerting pull. A prerequisite the plan names as finish-to-start was treated as start-to-start under pressure, and the dependent step failed downstream where it is most expensive. The four hard prerequisites are Cited as the plan's own sequencing controls; that schedule pressure causes one to be softened is Assumption, medium-high confidence, and it is the characteristic way a correct sequence fails in practice. A second, structural execution risk: the continuous-pilot run-time is an open input (U-13/U-14), and if it runs longer than the twelve-to-eighteen-month window assumes, the kill date binds before validation can complete, failing the venture on the calendar rather than on the result.
+
+Earliest catch: the four hard prerequisites are themselves the control, and the capital lock ties spend to gates. The failure is enforcement, not architecture: a prerequisite that lives in the plan but not in an artifact can be waved through.
+
+Feedback (make each prerequisite a witnessed artifact, and stress the run-time assumption): convert each hard prerequisite into a documented, externally witnessed gate artifact that the next spend literally cannot be released without, mirroring the tranche-to-gate capital lock. The full pilot budget releases only against a signed freedom-to-operate opinion and a signed access-and-liability agreement with the operator's title independently verified; the first rate is priced only against a signed characterization report; disclosure under the services bridge runs only against an executed option-to-license. And scope the continuous-pilot run-time explicitly before the kill date is fixed, sizing the window to the measured run-time of this chemistry rather than to the original plan's date, so the calendar does not kill a validation that was on track to succeed. The sequence is right; the contingency is to make it unwaivable and to set the clock to the work rather than the work to the clock.
+
+---
+
+## Cross-cutting reading (Moderator, for feedback into later units)
+
+Recorded for the validation, dissent-reconciliation, and confidence-band units that follow this round. No new finding is asserted here; this only maps where each failure mode feeds back.
+
+- Three feedbacks sharpen an existing gate rather than add one: CRUCIBLE (uplift reading must span feed variability), CLAIM (characterization must yield a distribution and price off a conservative percentile), WATERSHED (host-site and per-site checks must test statutory third-party reach, not only contractual allocation). These tighten what "cleared" means at gates already in the plan.
+- Three feedbacks add a pre-commitment that must exist before a phase commits: SPOT (downside-price coverage and a rate floor before signing), MILL (a ranked backup-site floor and a deal-by date before Phase two), ROYALTY (benchmarked band and bounded pilot-rate structure as a precondition of the first deal).
+- Two feedbacks move authority and timing earlier: CAPITAL (reserve breach as a kill trigger, Tranche B soft-circled before the foundation gate), DISSENT (rights read at step zero before Tranche A, kill authority externalized).
+- One feedback is about enforcement of what already exists: PILOT (each hard prerequisite as a witnessed artifact; pilot run-time scoped before the kill date is fixed).
+- No failure mode requires abandoning the architecture. Every one either tightens a gate's pass condition, adds a pre-signing contingency, or moves a control earlier. The two kill-switches (rights, uplift) remain the dominant failure surface, and DISSENT's ratchet warning is the one mode that targets the discipline of the structure itself rather than any single test. These are the items the validation and confidence-band units must confirm are represented in all three synthesis documents.

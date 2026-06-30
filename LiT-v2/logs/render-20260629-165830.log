@@ -1,0 +1,77 @@
+2026-06-29T16:58:30 [INFO] Render starting in D:\code\perpensa.ai\LiT-v2
+2026-06-29T16:58:30 [INFO] Found 4 deliverable(s) to render.
+2026-06-29T16:58:30 [INFO] Rendering EXECUTIVE_SUMMARY.md -> EXECUTIVE_SUMMARY.html
+The HTML deliverable has been rendered to `D:\code\perpensa.ai\LiT-v2\synthesis\EXECUTIVE_SUMMARY.html`.
+
+What it contains, faithful to the source markdown:
+
+- **Counsel theme** — Source Serif 4 headings, Inter body, the exact Ink/brass/surface palette, a typographic "Perpensa" wordmark with a filled-diamond accent glyph, thin brass rules under H2s, and graceful font-fallback styling.
+- **Header nav** with the five sibling deliverables, "Executive Summary" marked active (`aria-current`).
+- **Title block** with small-caps eyebrow, H1, and a standing note drawn from the document's own framing.
+- **Three editorial graphics, all inline SVG, all derived from the text only:**
+  - A horizontal gate timeline (Thesis → Gate 1: right to license → Gate 2: validated uplift → Platform).
+  - Decision callout cards for the three sequenced stages.
+  - A confidence panel reflecting the document's stated levels (high / moderate-to-high).
+  - A severity-chip threat register using the caution and risk tokens, marking which threats are contained by positioning vs. only sizable.
+- **The three "What LiT should do" actions** as numbered step cards, the reserve moves and the "do not build/own/operate" caution in an accent callout, plus the alternative-view, inputs-to-be-supplied, and note-on-perspective sections.
+- **Responsive + print stylesheet** that hides the nav, avoids breaking cards across pages, and exports cleanly to PDF.
+
+No facts, numbers, or findings were added or changed, and the source markdown was left untouched. The page is fully self-contained — the only external reference is the Google Fonts link.
+
+2026-06-29T17:00:38 [INFO] Rendered: EXECUTIVE_SUMMARY.html
+2026-06-29T17:00:38 [INFO] Rendering SWOT.md -> SWOT.html
+The SWOT.html has been created successfully at `D:\code\perpensa.ai\LiT-v2\synthesis\SWOT.html`.
+
+The rendering is a complete, self-contained HTML document in the Perpensa "Counsel" theme:
+
+- **Header** — Perpensa wordmark with brass diamond glyph and sibling nav (SWOT marked active).
+- **Title block** — small-caps eyebrow, H1, and the source's standing note about confidence per finding.
+- **SWOT 2×2 quadrant visual** — derived only from the document's own four sections, each quadrant tinted to its token (strength→positive green, weakness/threat→risk red, opportunity→brass accent), items as concise chips with internal/external axis labels.
+- **Full prose preserved** — every finding rendered verbatim in editorial cards, color-coded by quadrant, each carrying the confidence statement the source actually states (high / moderate-to-high / conditional / serious) as a tasteful badge.
+- **Synthesis** — the four connecting threads as a numbered list.
+- **Footer** — wordmark, confidentiality line, dated 29 June 2026.
+
+Color tokens, Source Serif 4 / Inter fonts (with working fallbacks), ~820px prose column, thin accent rules under H2s, responsive layout, and a print stylesheet that hides nav and avoids breaking cards across pages. No content was added, removed, or altered.
+
+2026-06-29T17:03:15 [INFO] Rendered: SWOT.html
+2026-06-29T17:03:15 [INFO] Rendering STRATEGY.md -> STRATEGY.html
+The HTML rendering is complete. `D:\code\perpensa.ai\LiT-v2\synthesis\STRATEGY.html` now exists as a self-contained, valid HTML5 document built to the Perpensa "Counsel" spec.
+
+What it contains:
+
+- **Brand & design** — Source Serif 4 / Inter from Google Fonts with full local fallbacks; exact color tokens; "Perpensa" wordmark with a brass diamond glyph in the sticky header and footer.
+- **Header nav** — all five sibling deliverables linked by relative filename, with Strategy marked active (`aria-current` + accent underline).
+- **Title block** — small-caps eyebrow ("Strategy Memorandum"), H1, and a one-line standing note distilled from the recommendation.
+- **Faithful content** — every section reproduced verbatim in substance: the recommendation, the three stages, the two reserve branches, what the company declines, the alternative view, decision conditions, and the closing logic. No facts, numbers, or findings added, removed, or altered.
+- **Editorial visuals, all derived from the text and rendered as inline SVG:**
+  - A horizontal gated-roadmap timeline of the three main stages with the two go/no-go gates between them and the asset-light platform as destination.
+  - The two reserve branches as accent-bordered cards; the declined producer model in a risk-tinted callout.
+  - The seven decision conditions rendered as a condition→response table with severity dots (risk/caution/positive) keyed to the color tokens — no invented severity scores.
+- **Robustness** — responsive down to mobile (table collapses to stacked blocks), and a print stylesheet that hides nav, keeps cards/table rows from breaking across pages, and de-inverts the dark closing panel for clean PDF export.
+
+The source markdown was not modified.
+
+2026-06-29T17:05:44 [INFO] Rendered: STRATEGY.html
+2026-06-29T17:05:44 [INFO] Rendering EXECUTION_PLAN.md -> EXECUTION_PLAN.html
+The HTML rendering is complete. `D:\code\perpensa.ai\LiT-v2\synthesis\EXECUTION_PLAN.html` now exists as a self-contained, professionally designed page.
+
+What it delivers against the brief:
+
+- **Counsel theme** — Source Serif 4 headings / Inter body via Google Fonts, with full graceful fallback; exact Perpensa color tokens; the "Perpensa ◆" typographic wordmark with the brass accent glyph.
+- **Header nav** — all five sibling deliverables linked by relative filename, with Execution Plan marked active (`aria-current` + brass underline).
+- **Title block** — accent small-caps eyebrow, H1, and a standing note distilled from the document's own one-view framing.
+- **Faithful content** — every section, table, formula, and figure carried over verbatim in substance; no facts, numbers, or findings added or changed. The source markdown was not touched.
+
+Visuals, all inline SVG and derived only from the document:
+- A **phased roadmap timeline** with the two main gates, per-increment gates, and the two reserve branches.
+- The **foundation gate** rendered as two independent readings joined by an AND, stressing they're never blended.
+- The **proof gate** as three pre-committed outcome cards (positive / caution / risk tokens).
+- **KPI cards** for the Phase-two support figures, the capital line items ($2.0M / ~$235K / ~$700K / $52K), and the open inputs.
+- The full **risk register** as a table with severity chips (Gated / Structural / Contained / Low) and a legend.
+- A **four-prerequisite critical-path chain**.
+
+It's responsive, uses semantic headings, strong contrast, and carries a print stylesheet that hides the nav and avoids breaking cards across pages for clean PDF export. The footer carries the wordmark, a confidentiality line, and the date.
+
+2026-06-29T17:10:21 [INFO] Rendered: EXECUTION_PLAN.html
+2026-06-29T17:10:21 [INFO] Wrote index cover: index.html
+2026-06-29T17:10:21 [INFO] Done. Rendered 5 file(s) into D:\code\perpensa.ai\LiT-v2\.\synthesis.

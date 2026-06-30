@@ -1,0 +1,97 @@
+2026-06-29T13:26:22 [INFO] Ralph driver starting in D:\code\perpensa.ai\LiT-v2
+2026-06-29T13:26:22 [INFO] Resuming at iteration 0. Cumulative wait so far: 0 sec.
+2026-06-29T13:26:22 [INFO] === Capability self-test: write, read, mkdir, web search, web fetch ===
+All steps completed successfully.
+
+CAPABILITY-CHECK: WRITE=PASS READ=PASS MKDIR=PASS WEBSEARCH=PASS WEBFETCH=PASS
+
+2026-06-29T13:26:40 [INFO] Capability WRITE     = PASS
+2026-06-29T13:26:40 [INFO] Capability READ      = PASS
+2026-06-29T13:26:40 [INFO] Capability MKDIR     = PASS
+2026-06-29T13:26:40 [INFO] Capability WEBSEARCH = PASS
+2026-06-29T13:26:40 [INFO] Capability WEBFETCH  = PASS
+2026-06-29T13:26:40 [INFO] Capability self-test passed. All required capabilities confirmed.
+2026-06-29T13:26:40 [INFO] Iteration 1 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: NOT STARTED
+Unit complete. Stopping here per the one-unit-per-run rule.
+
+**This run's unit: Round 00 frame lock (sequential step).**
+
+What I did:
+- Oriented via `STATE.md` (Round 00, nothing started) and grounded in the core evidence (Business Plan, Pitch).
+- **Ruling logged** in `moderator-interventions.md`: the referenced `LiT_Deliberation_Council.md` and `LiT_Deliberation_Moderator_Playbook.md` do not exist in the repo. PROMPT.md is self-contained (frame, seat roster, round map, integrity rules), so I ruled to proceed with it as governing authority and recorded a stable working charter for all ten seats so their domains stay consistent across iterations.
+- **Frame locked** in `rounds/r00-frame-lock.md`: decision owner = LiT leadership (Keenum, Friedman, management); company lens confirmed; grounded company summary tagged Cited; and the investor-frame divergence captured for carry into the final frame statement only.
+- Updated `STATE.md`: first line now `IN PROGRESS — frame locked; next is batched reading notes`, frame-lock box ticked, unit ledger appended.
+
+**Next unit** (next run): Round 00 batched reading notes — all participating perspectives' notes and research requests in one sealed, blind pass. Note that CHOKEPOINT and PILOT file no Round 00 notes.
+
+2026-06-29T13:28:54 [INFO] Iteration 2 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — frame locked; next is batched reading notes
+Unit complete. Stopping after one unit per the loop contract.
+
+**This iteration:** Round 00 batched reading notes (one divergent unit). I read the full locked evidence base, then produced sealed, independent reading notes for all eight participating core seats (CRUCIBLE, SPOT, CLAIM, ROYALTY, MILL, CAPITAL, WATERSHED, DISSENT) in `rounds/r00-reading-notes.md`, each evidence-tagged.
+
+The notes surfaced several high-signal tensions that will drive Round 01:
+- **Validation gap** — every document claims "bench validation across lithium, REE, and tailings," but the only executed research contract in the base is a $52,075, three-month, lithium-only *conceptual and preconcentration* study that explicitly disclaims any guaranteed yield.
+- **IP foundation** — the separation surface chemistry belongs to VT/VTIP (Yoon's portfolio), the closest method (HHS) is already licensed worldwide to Minerals Refining Company, and the only contract gives LiT at most an internal-research license pending a separately negotiated election. LiT's own named background IP is the chemical leach stage only.
+- **Royalty realism** — 1% of *total mine NSR* for a partial-stream process improvement; the "1 cent for 16–19 cents" math only holds if recovery uplift and royalty share the same base.
+- **Model integrity** — major-operator timing contradicts itself (Pitch: Q2 Year 3; plan/model: Year 5), and the 27x–34x return stacks 10% penetration, a major win, whole-mine royalties, and unbenchmarked exit multiples.
+- **R&D delivery** — budget assumes 75% India spend, but no IIT (ISM) contract exists in the base and engagement is called "upcoming."
+
+**Next unit (sequential):** consolidate these per-seat research requests into one deduplicated, prioritized Research Request Register, deduping against the existing market dossier and prioritizing the IP freedom-to-operate question, royalty-structure precedent, and exit-multiple benchmark.
+
+STATE.md updated; ledger and exit-gate items ticked.
+
+2026-06-29T13:33:35 [INFO] Iteration 3 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — reading notes batched; next is Research Request Register consolidation
+Unit complete. One sequential step done this run.
+
+**What I did:** Consolidated the Round 00 Research Request Register. The 18 raw seat requests from the batched reading notes were merged into 12 items (CR-1..CR-12), deduped against the locked market dossier, and prioritized:
+
+- **P1 (gate-critical):** CR-1 IP ownership/freedom-to-operate, CR-2 license-structure precedent, CR-3 valuation/exit comps
+- **P2 (important):** CR-4 price update, CR-5 2026 policy, CR-6 tailings grades, CR-7 reprocessing liability, CR-8 export control
+- **P3 (useful):** CR-9 pilot benchmarks, CR-10 adoption/deployment, CR-11 tech-reproducibility (confirm-only)
+- **CR-12:** competitor/licensing landscape — already discharged by the dossier, no run needed
+
+Three sub-parts are pre-flagged `NEEDS EXTERNAL RETRIEVAL` (FTO legal opinion, per-site tailings characterization, export-control counsel review). I set the execution order and logged the gating ruling (R00-003) so Round 01 cannot open until P1/P2 items are fulfilled or carry an agreed flag.
+
+Written to `rounds/r00-research-register.md`; ruling in `moderator-interventions.md`; `STATE.md` updated with the next pointer set to **execute CR-1 (IP/FTO)**.
+
+Stopping after one unit per the loop rules.
+
+2026-06-29T13:36:04 [INFO] Iteration 4 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — register consolidated; next is to execute commissioned research, starting with CR-1 (IP/FTO)
+One unit complete. 
+
+**CR-1 (IP / freedom-to-operate) research is done** — written to `research/r00-ip-fto.md`. This was the P1, highest-priority research item, and it surfaced a load-bearing finding for the deliberation:
+
+- **No LiT-owned/assigned PCT or patent is publicly locatable.** The dossier's "internationally filed PCT" has no retrievable publication number (could be unpublished if <18 months old, but cannot be verified).
+- **The underlying IP is VTIP's, not LiT's, and predates the company.** The low-temperature REE leaching core maps to **US20240368734A1**, assigned to Virginia Tech Intellectual Properties, priority **Dec 2020**, naming the same VT inventors (Yoon, Noble) on LiT's VT agreement. The fine-particle physical core overlaps the **HHS process** (VTIP-assigned, licensed to Minerals Refining Company).
+- **No public corroboration** of LiT validation, an IIT (ISM) Dhanbad agreement, or any pilot/LOI beyond the $52,075 VT study. IIT (ISM) Dhanbad is a real, active critical-minerals hub, but none of its public partnerships name LiT.
+
+The determinative facts — the LiT-VTIP license terms, the MRC field-of-use carve-out, and an FTO legal opinion — remain **NEEDS EXTERNAL RETRIEVAL** and are flagged in the file for DISSENT sign-off at evidence-lock. Round 01 must tag all LiT IP-ownership and validation claims as Assumption/Unsupported, never Cited.
+
+`STATE.md` updated; next unit is **CR-2 (license structures)**. Stopping here per the one-unit-per-run rule.
+
+2026-06-29T13:39:27 [INFO] Iteration 5 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — research gate underway; CR-1 (IP/FTO) done; next is CR-2 (license structures)
+Unit complete. Stopping per the one-unit-per-run rule.
+
+**CR-2 — license structures (P1) done.** Wrote `research/r00-license-structures.md`.
+
+Key finding for the deliverables: process-technology and mineral-processing licenses are priced on the **technology's own footprint** — incremental metal recovered, throughput processed, or a discrete recovered stream — paired with an upfront fee and often a service fee. The closest live analog, **Jetti Resources** (catalytic copper-leach uplift at operating mines, the same archetype as LiT), runs an explicit value-sharing model: licensing fees + royalty on *incremental copper recovered* + service fees, and is well-capitalized (BHP/Freeport, >$200M). 
+
+The load-bearing result: **no precedent exists for a whole-mine NSR royalty granted for a partial-stream process improvement.** NSR is an ownership/finance instrument (2–5%, granted to ground-holders, finders, acquirers, JV converters, financiers), structurally mismatched to process licensing. LiT's whole-mine-NSR mechanic is therefore flagged Unsupported-by-precedent and should be re-based onto incremental-value/recovered-metal in Strategy and the financial model — carried into Round 04 sensitivities. Exact rate terms for Jetti/NovaCell/Jameson are confidential and flagged NEEDS EXTERNAL RETRIEVAL.
+
+STATE updated; next unit is **CR-3 (valuation comps, P1)**.
+
+2026-06-29T13:42:10 [INFO] Iteration 6 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — research gate underway; CR-1, CR-2 done; next is CR-3 (valuation comps)
+Unit complete. CR-3 (valuation multiples and seed-stage capital) is executed and written to `research/r00-valuation-comps.md`, with STATE.md updated.
+
+**What this unit established:**
+
+- **Exit multiples (8x-10x revenue / 12x-15x EBITDA):** directionally defensible but framed at the optimistic end. Two distinct comp sets apply — royalty/streaming businesses trade at 1.5x-2.0x NAV and ~15x-25x EV/EBITDA (but earned through diversification and de-risked producing assets LiT won't have at first exit), while tech-licensing/specialty-process businesses transact at ~9x-15x EBITDA. LiT's 12x-15x is at-to-above the *realistic* (licensing-business) central tendency, not conservative. The 8x-10x revenue figure is only internally consistent with that EBITDA range at ~65-80% margins. Recommendation carried forward: run the 27x-34x headline return at an 8x-10x EBITDA downside in Round 04.
+
+- **$2.0M seed adequacy:** an order of magnitude below every located comparable (Phoenix Tailings ~$148M, Jetti >$200M, Ceibo $30M, Endolith $13.5M), but those are capex-heavy plant/refinery builds, not LiT's asset-light licensing model. The honest finding is "thin and single-tranche," not "too small in absolute terms" — adequate for a capital-light path to a validated pilot, but with no reserve for IP overruns or a slipped sale, and it collapses if any deployment capital becomes LiT's. Tagged Assumption/Medium-Low.
+
+Two NEEDS EXTERNAL RETRIEVAL items carried for DISSENT sign-off (exact Honeywell/Johnson Matthey multiple; private small-single-asset royalty-stream valuation discount).
+
+Per the loop protocol, I'm stopping after this one unit. Next unit is the CR-4 + CR-5 P2 pair (price update + 2026 policy).
+
+2026-06-29T13:45:20 [INFO] Iteration 7 | Round: ROUND 00: GROUNDING & RESEARCH COMMISSIONING | status: IN PROGRESS — research gate underway; CR-1, CR-2, CR-3 done; next is CR-4 + CR-5 (price update + policy 2026)
+2026-06-29T13:47:30 [INFO] Driver exiting. Iterations done: 6. Run-state checkpoint written to D:\code\perpensa.ai\LiT-v2\.ralph-runstate.json.

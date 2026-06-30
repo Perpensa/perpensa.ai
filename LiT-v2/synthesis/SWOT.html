@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic SWOT Assessment — Lithium Technologies, Inc. | Perpensa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2238;
+    --accent:#B68A4E;
+    --surface:#FAF9F6;
+    --panel:#FFFFFF;
+    --hairline:#E7E2D6;
+    --muted:#6B7280;
+    --positive:#3F7D5B;
+    --caution:#C9922B;
+    --risk:#B23A48;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--surface);
+    color:var(--ink);
+    font-family:'Inter',system-ui,'Segoe UI',Roboto,sans-serif;
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Source Serif 4',Georgia,'Times New Roman',serif;
+    color:var(--ink);
+    font-weight:600;
+    line-height:1.2;
+  }
+
+  /* ---------- Header ---------- */
+  .site-header{
+    border-bottom:1px solid var(--hairline);
+    background:rgba(250,249,246,0.92);
+    backdrop-filter:saturate(180%) blur(6px);
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .header-inner{
+    max-width:1120px;
+    margin:0 auto;
+    padding:14px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .wordmark{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-weight:700;
+    font-size:1.32rem;
+    letter-spacing:0.02em;
+    color:var(--ink);
+    display:inline-flex;
+    align-items:center;
+    gap:0.5ch;
+    text-decoration:none;
+  }
+  .wordmark .glyph{color:var(--accent);font-size:0.72em;line-height:1;transform:translateY(-1px);}
+  nav.primary{display:flex;gap:6px;flex-wrap:wrap;}
+  nav.primary a{
+    text-decoration:none;
+    color:var(--muted);
+    font-size:0.86rem;
+    font-weight:500;
+    padding:6px 12px;
+    border-radius:6px;
+    letter-spacing:0.01em;
+    transition:color .15s ease,background .15s ease;
+  }
+  nav.primary a:hover{color:var(--ink);background:rgba(182,138,78,0.08);}
+  nav.primary a.active{color:var(--ink);font-weight:600;}
+  nav.primary a.active{box-shadow:inset 0 -2px 0 var(--accent);border-radius:0;}
+
+  /* ---------- Layout ---------- */
+  main{max-width:820px;margin:0 auto;padding:0 28px 72px;}
+  .titleblock{padding:56px 0 30px;border-bottom:1px solid var(--hairline);margin-bottom:40px;}
+  .eyebrow{
+    font-size:0.74rem;
+    font-weight:600;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 14px;
+    font-family:'Inter',sans-serif;
+  }
+  h1{font-size:2.5rem;margin:0 0 18px;letter-spacing:-0.005em;}
+  .standing{
+    font-size:1.02rem;
+    color:var(--muted);
+    margin:0;
+    max-width:680px;
+    line-height:1.55;
+  }
+
+  h2{
+    font-size:1.62rem;
+    margin:54px 0 0;
+    padding-bottom:12px;
+    border-bottom:2px solid var(--accent);
+    position:relative;
+  }
+  h2 + p, h2 + .lead{margin-top:22px;}
+  p{margin:0 0 20px;}
+  .prose-section > p:last-child{margin-bottom:0;}
+
+  /* lead paragraph after headline */
+  .headline p{font-size:1.08rem;line-height:1.66;}
+
+  /* ---------- Finding cards ---------- */
+  .finding{
+    background:var(--panel);
+    border:1px solid var(--hairline);
+    border-left:4px solid var(--hairline);
+    border-radius:8px;
+    padding:22px 26px;
+    margin:20px 0;
+    box-shadow:0 1px 2px rgba(26,34,56,0.03);
+  }
+  .finding .f-lead{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--ink);
+    display:block;
+    margin-bottom:10px;
+    line-height:1.34;
+  }
+  .finding p{margin:0;color:#2c344c;font-size:0.99rem;line-height:1.62;}
+  .finding p + p{margin-top:14px;}
+  .finding.s{border-left-color:var(--positive);}
+  .finding.w{border-left-color:var(--risk);}
+  .finding.o{border-left-color:var(--accent);}
+  .finding.t{border-left-color:var(--risk);}
+
+  .f-num{
+    color:var(--accent);
+    font-weight:700;
+    font-feature-settings:"tnum";
+  }
+
+  /* confidence chip */
+  .conf{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'Inter',sans-serif;
+    font-size:0.7rem;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border-radius:999px;
+    margin-left:6px;
+    vertical-align:middle;
+    white-space:nowrap;
+  }
+  .conf .dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
+  .conf.high{background:rgba(63,125,91,0.10);color:#2f6347;}
+  .conf.high .dot{background:var(--positive);}
+  .conf.modhigh{background:rgba(201,146,43,0.12);color:#8a6413;}
+  .conf.modhigh .dot{background:var(--caution);}
+  .conf.cond{background:rgba(107,114,128,0.12);color:#525a68;}
+  .conf.cond .dot{background:var(--muted);}
+  .conf.serious{background:rgba(178,58,72,0.10);color:#8e2f3a;}
+  .conf.serious .dot{background:var(--risk);}
+
+  /* ---------- SWOT quadrant ---------- */
+  .swot-figure{margin:34px 0 10px;}
+  .swot-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  .quad{
+    border-radius:10px;
+    padding:18px 18px 20px;
+    border:1px solid var(--hairline);
+  }
+  .quad h3{
+    font-size:1.06rem;
+    margin:0 0 13px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    letter-spacing:0.02em;
+  }
+  .quad h3 .tag{
+    font-size:0.66rem;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    padding:2px 8px;
+    border-radius:4px;
+    color:#fff;
+  }
+  .quad.q-s{background:rgba(63,125,91,0.07);border-color:rgba(63,125,91,0.28);}
+  .quad.q-s h3 .tag{background:var(--positive);}
+  .quad.q-w{background:rgba(178,58,72,0.06);border-color:rgba(178,58,72,0.26);}
+  .quad.q-w h3 .tag{background:var(--risk);}
+  .quad.q-o{background:rgba(182,138,78,0.08);border-color:rgba(182,138,78,0.32);}
+  .quad.q-o h3 .tag{background:var(--accent);}
+  .quad.q-t{background:rgba(178,58,72,0.06);border-color:rgba(178,58,72,0.26);}
+  .quad.q-t h3 .tag{background:var(--risk);}
+  .quad ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .quad li{
+    background:var(--panel);
+    border:1px solid var(--hairline);
+    border-radius:6px;
+    padding:9px 12px;
+    font-size:0.86rem;
+    line-height:1.4;
+    color:#2c344c;
+    display:flex;
+    gap:9px;
+    align-items:flex-start;
+  }
+  .quad li .ix{
+    font-weight:700;
+    font-size:0.78rem;
+    color:var(--accent);
+    flex:0 0 auto;
+    font-feature-settings:"tnum";
+    padding-top:1px;
+  }
+  .swot-axes{
+    display:flex;
+    justify-content:space-between;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:600;
+    margin:14px 4px 0;
+  }
+
+  .figcaption{
+    font-size:0.78rem;
+    color:var(--muted);
+    margin-top:14px;
+    text-align:center;
+    font-style:italic;
+  }
+
+  /* threads / synthesis ordered list */
+  .threads{counter-reset:thread;list-style:none;padding:0;margin:24px 0 0;}
+  .threads li{
+    position:relative;
+    padding:18px 22px 18px 62px;
+    background:var(--panel);
+    border:1px solid var(--hairline);
+    border-radius:8px;
+    margin-bottom:14px;
+    font-size:0.99rem;
+    line-height:1.6;
+    color:#2c344c;
+  }
+  .threads li::before{
+    counter-increment:thread;
+    content:counter(thread);
+    position:absolute;
+    left:18px;top:18px;
+    width:30px;height:30px;
+    border-radius:50%;
+    background:var(--ink);
+    color:var(--surface);
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:0.98rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:1px solid var(--hairline);
+    margin-top:8px;
+    background:var(--panel);
+  }
+  .footer-inner{
+    max-width:1120px;
+    margin:0 auto;
+    padding:26px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+    font-size:0.8rem;
+    color:var(--muted);
+  }
+  .footer-inner .wordmark{font-size:1.05rem;}
+  .footer-meta{display:flex;flex-direction:column;gap:3px;text-align:right;}
+  .footer-conf{letter-spacing:0.04em;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:680px){
+    body{font-size:16px;}
+    h1{font-size:1.95rem;}
+    h2{font-size:1.4rem;}
+    .swot-grid{grid-template-columns:1fr;}
+    main{padding:0 18px 56px;}
+    .header-inner{padding:12px 18px;}
+    .footer-meta{text-align:left;}
+    .footer-inner{flex-direction:column;align-items:flex-start;}
+  }
+
+  /* ---------- Print ---------- */
+  @media print{
+    body{background:#fff;font-size:11pt;}
+    .site-header{position:static;border-bottom:1px solid #ccc;backdrop-filter:none;}
+    nav.primary{display:none;}
+    main{max-width:none;padding:0;}
+    h2{page-break-after:avoid;}
+    .finding,.quad,.threads li,.swot-figure{page-break-inside:avoid;}
+    .finding{box-shadow:none;}
+    footer{page-break-inside:avoid;}
+    a{color:inherit;text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="wordmark" href="index.html">Perpensa<span class="glyph">&#9670;</span></a>
+    <nav class="primary" aria-label="Deliverables">
+      <a href="index.html">Overview</a>
+      <a href="EXECUTIVE_SUMMARY.html">Executive Summary</a>
+      <a href="SWOT.html" class="active" aria-current="page">SWOT</a>
+      <a href="STRATEGY.html">Strategy</a>
+      <a href="EXECUTION_PLAN.html">Execution Plan</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="titleblock">
+    <p class="eyebrow">Strategic Assessment</p>
+    <h1>Lithium Technologies, Inc.: Strategic SWOT Assessment</h1>
+    <p class="standing">Each finding carries a plain statement of how confident we are in it and what would change it.</p>
+  </div>
+
+  <!-- ============ HEADLINE ============ -->
+  <section class="prose-section headline" aria-labelledby="h-headline">
+    <h2 id="h-headline">The headline</h2>
+    <p>LiT's premise is sound and well-timed. The chemistry is credible, the separation science behind it is genuinely strong, and the company is aiming at a large, under-exploited resource base at the exact moment that security, supply-chain, and critical-minerals policy is pushing capital and demand toward exactly this kind of domestic, allied recovery. The licensing path LiT intends to use is proven, and the business can be designed to stay capital-light.</p>
+    <p>That is the opportunity. The constraint is that the company does not yet own the two things its entire value rests on. It does not hold an executed, exclusive, sublicensable license to the core intellectual property, and a granted patent does not yet exist. And the recovery uplift that drives every revenue line in the plan has not been validated on real feedstock. Until both are resolved, LiT has a compelling thesis rather than a defensible business. A strong alternative view holds that the company should not commit to the plan as currently framed until they are; the working view is that both are gating conditions to clear in an early, funded phase rather than reasons to stop. Both readings agree on the sequence: these two questions come first, before go-to-market, before scale, and before any headline return is presented to a counterparty.</p>
+    <p>Beyond those two preconditions, most of LiT's remaining weaknesses are self-inflicted and curable: an unprecedented royalty base that counterparties will reprice, a financial model with an internal inconsistency and a stacked set of optimistic assumptions, a seed round and a team both sized below what the plan demands, and headline resource and environmental figures asserted ahead of the site-level evidence that would support them. The external threats (full commodity-price exposure, feedstock heterogeneity, environmental liability, a slow conservative sales cycle, and better-funded competitors) cannot be eliminated, but each can be sized, sequenced, and hedged through choices the company controls, above all the choice to be the licensed process inside a producer's plant rather than a producer itself.</p>
+    <p>The sections below lay out the position in full. Each finding carries a plain statement of how confident we are in it and what would change it.</p>
+  </section>
+
+  <!-- ============ SWOT QUADRANT VISUAL ============ -->
+  <figure class="swot-figure" aria-label="SWOT matrix overview">
+    <div class="swot-grid">
+      <div class="quad q-s">
+        <h3><span class="tag">S</span> Strengths</h3>
+        <ul>
+          <li><span class="ix">1</span> Recovery route and separation science are real, with genuine headroom</li>
+          <li><span class="ix">2</span> Proven commercialization channel; bankable, precedented deal structures</li>
+          <li><span class="ix">3</span> Can be designed fundable and capital-light, with clear exit routes</li>
+          <li><span class="ix">4</span> Positioning aligned with policy and governance direction</li>
+        </ul>
+      </div>
+      <div class="quad q-w">
+        <h3><span class="tag">W</span> Weaknesses</h3>
+        <ul>
+          <li><span class="ix">1</span> May not hold the right to license its own core technology</li>
+          <li><span class="ix">2</span> Recovery uplift driving the entire model is unvalidated</li>
+          <li><span class="ix">3</span> Royalty base will be repriced; rate not yet anchorable</li>
+          <li><span class="ix">4</span> Headline return does not survive diligence as presented</li>
+          <li><span class="ix">5</span> Team and capital base both sized below the plan</li>
+          <li><span class="ix">6</span> Resource and environmental figures asserted ahead of evidence</li>
+        </ul>
+      </div>
+      <div class="quad q-o">
+        <h3><span class="tag">O</span> Opportunities</h3>
+        <ul>
+          <li><span class="ix">1</span> A genuine policy and demand tailwind</li>
+          <li><span class="ix">2</span> Large, under-exploited resource base in a tightening market</li>
+          <li><span class="ix">3</span> A favorable allied R&amp;D base</li>
+          <li><span class="ix">4</span> A credible, disciplined exit narrative</li>
+        </ul>
+      </div>
+      <div class="quad q-t">
+        <h3><span class="tag">T</span> Threats</h3>
+        <ul>
+          <li><span class="ix">1</span> Full commodity-price exposure</li>
+          <li><span class="ix">2</span> Feedstock heterogeneity</li>
+          <li><span class="ix">3</span> Environmental liability and uncertain title</li>
+          <li><span class="ix">4</span> A slow, conservative sales cycle</li>
+          <li><span class="ix">5</span> Better-funded competitors and a producer-favoring capital environment</li>
+        </ul>
+      </div>
+    </div>
+    <div class="swot-axes">
+      <span>Internal &mdash; Helpful / Harmful</span>
+      <span>External &mdash; Helpful / Harmful</span>
+    </div>
+    <figcaption>Internal factors (Strengths, Weaknesses) above; external factors (Opportunities, Threats) below.</figcaption>
+  </figure>
+
+  <!-- ============ STRENGTHS ============ -->
+  <section class="prose-section" aria-labelledby="h-strengths">
+    <h2 id="h-strengths">Strengths</h2>
+
+    <div class="finding s">
+      <span class="f-lead">The recovery route and the separation science are real, and there is genuine headroom.
+        <span class="conf high"><span class="dot"></span>High confidence (science)</span></span>
+      <p>The class of process LiT is pursuing is technically credible, and the underlying separation science is world-class. Independent of the unproven commercial uplift, the scientific foundation is the company's most durable asset. We hold this with high confidence on the science itself. Two limits travel with it and are addressed in full below: the science may not be LiT's to license, and the commercial recovery improvement on which the economics depend has not yet been demonstrated on representative material.</p>
+    </div>
+
+    <div class="finding s">
+      <span class="f-lead">LiT is using a proven commercialization channel with bankable, precedented deal structures.
+        <span class="conf high"><span class="dot"></span>High confidence</span></span>
+      <p>Technology licensing into the mining and metals sector is an established route to revenue, demonstrated by comparable leaching-technology licensors that have built businesses worth well over $200 million. The deal structures LiT would use (an upfront fee plus a running royalty, with rates in the low-single-digit to roughly five-percent range on a recovered stream) are precedented and available to the company today. We hold this with high confidence. What is not yet settled is the exact base and rate LiT can defend, covered under Weaknesses.</p>
+    </div>
+
+    <div class="finding s">
+      <span class="f-lead">The business can be designed to be fundable and capital-light, with clear exit routes.
+        <span class="conf cond"><span class="dot"></span>Real but conditional</span></span>
+      <p>The category attracts capital, and a license-led model that keeps deployment capital on the operator's balance sheet can keep LiT asset-light. There are credible exit routes for a successful process-licensing business. This strength is real but conditional: it holds only if the company holds the discipline of a no-client-capital model and does not drift into owning and operating recovery plants itself, which would change the capital and risk profile entirely.</p>
+    </div>
+
+    <div class="finding s">
+      <span class="f-lead">LiT's positioning is aligned with the policy and governance direction of the market.
+        <span class="conf modhigh"><span class="dot"></span>Moderate-to-high confidence</span></span>
+      <p>A domestic, allied, waste-to-value recovery story sits squarely inside where security policy, supply-chain policy, and ESG and governance expectations are all moving. We hold the direction with moderate-to-high confidence. The specific magnitudes (how much cleaner, how much cheaper, how much policy benefit actually reaches LiT) are not yet evidenced and should not be asserted ahead of proof.</p>
+    </div>
+  </section>
+
+  <!-- ============ WEAKNESSES ============ -->
+  <section class="prose-section" aria-labelledby="h-weaknesses">
+    <h2 id="h-weaknesses">Weaknesses</h2>
+    <p>The first two are load-bearing: the business as framed does not stand until they are resolved. A strong alternative view treats each as a potential reason not to proceed as currently planned; the working view treats each as a condition to clear in a funded first phase. We present both, because the distinction matters to how leadership reads the plan, and because the two are independent single points of failure that must not be netted against each other.</p>
+
+    <div class="finding w">
+      <span class="f-lead"><span class="f-num">1.</span> LiT may not have the right to license its own core technology.
+        <span class="conf serious"><span class="dot"></span>Most serious item</span></span>
+      <p>The company does not hold an executed exclusive, sublicensable, field-of-use license to the separation and leaching IP developed under its university sponsored-research relationship, and the patent application is pending, not granted. A prior license of related minerals IP to another party may also foreclose the field LiT intends to operate in. This is the single most serious item in the assessment. It is largely outside LiT's direct control, because clearing it depends on a third-party legal grant and a clean freedom-to-operate position, not on LiT's own execution. It is resolved only by an executed exclusive, sublicensable, field-of-use license that names the minerals field and clears the prior rights, supported by a freedom-to-operate opinion. Note also that such a license, once obtained, is itself likely to be royalty-bearing to the university, a cost LiT's own royalty must then carry.</p>
+    </div>
+
+    <div class="finding w">
+      <span class="f-lead"><span class="f-num">2.</span> The recovery uplift that drives the entire model is unvalidated.
+        <span class="conf serious"><span class="dot"></span>Gating condition</span></span>
+      <p>Every revenue line in the plan flows from an assumed improvement in recovery that has not been demonstrated on representative feedstock. There is no defined figure, expressed as percentage points against a named baseline, validated through continuous piloting across the representative mineralogical and grade range of the feedstock rather than a single favorable composite, at or above the level the royalty economics require. This is curable, and it is within LiT's control to cure, because it is a validation result the company can go and produce. But until it is produced, the economics are an assumption resting on an assumption. The validation must also be reconciled to a congruent royalty base (see item 3), so that the value LiT measures and the value it charges against are the same thing.</p>
+    </div>
+
+    <div class="finding w">
+      <span class="f-lead"><span class="f-num">3.</span> The royalty base, as currently designed, will be repriced by counterparties, and the rate cannot yet be anchored.
+        <span class="conf high"><span class="dot"></span>High (base) / curable (rate)</span></span>
+      <p>The plan charges a royalty on the whole-mine net smelter return. That base is unprecedented for this kind of arrangement, and sophisticated operator counterparties will negotiate it down to the incremental value LiT actually creates or to a discrete recovered stream, compressing modeled income on every line. The fix is within LiT's control: re-base the model to incremental recovered value, restate the return and its sensitivities on that base, and keep the whole-mine figure only as a labeled ceiling. A related, smaller gap is that the exact running rate cannot be anchored to a published comparable, because the closest deals are confidential; LiT should treat any rate as a benchmarked range until a primary benchmarking dataset is obtained and its first signed license sets the definitive comparable. We hold the base issue with high confidence and the rate issue as a smaller, curable one.</p>
+    </div>
+
+    <div class="finding w">
+      <span class="f-lead"><span class="f-num">4.</span> The model's headline return does not survive diligence as presented.
+        <span class="conf high"><span class="dot"></span>High confidence</span></span>
+      <p>The headline return contains an internal inconsistency, a two-year timing error on its largest line, and stacks several aggressive assumptions on top of one another. As constructed, it will not pass a sophisticated investor's diligence. This is curable by rebuilding the model to be internally consistent, running it probabilistically at conservative inputs, and showing the base case at the de-stacked downside (a re-based royalty, a trough commodity basket, and a conservative exit multiple), with the optimistic case carried only as a clearly labeled upside. The exit should be framed in two stages: a near-term licensing-business multiple, with any royalty re-rating reserved until a diversified producing portfolio actually exists. We hold with high confidence that the model fails diligence as presented and that the fix is entirely within the company's control; what would change the picture is a disciplined restatement done before any investor sees the numbers.</p>
+    </div>
+
+    <div class="finding w">
+      <span class="f-lead"><span class="f-num">5.</span> The team and the capital base are both sized below the plan.
+        <span class="conf high"><span class="dot"></span>High confidence</span></span>
+      <p>LiT is under-resourced for what is a relationship-intensive, results-dependent enterprise sale-and-delivery model; the business-development and technical-integration capacity that produces verified recovery results is the thinnest-resourced part of the plan, and a dedicated integration hire does not arrive until Year 5. The on-site staffing required to run a continuous recovery circuit is unquantified, and a two-person company cannot crew operator-site operations. On the capital side, the seed round is single-tranche and reserve-thin, the IP and pilot budgets are modest against the work actually required, and the asset-light cost structure assumes an offshore R&D arrangement that is not yet under contract. These are curable but coupled: the team build is the largest discretionary draw on the seed, so the hiring plan and the capital plan must be sized together, and the raise should be staged with an explicit second tranche and a hard line against using LiT capital for client deployments. We hold the under-sizing with high confidence; the cure is within the company's control but bounded by how much it actually raises, so what would change it is sizing the team plan and the capital plan to the same gated scope rather than to the original headline.</p>
+    </div>
+
+    <div class="finding w">
+      <span class="f-lead"><span class="f-num">6.</span> The headline resource and environmental figures are asserted ahead of their evidence.
+        <span class="conf high"><span class="dot"></span>High confidence</span></span>
+      <p>The recovery claim has no characterized resource beneath it at any specific addressable site, and the large production-value figures in the plan have no per-site geological basis; the multi-feedstock and rare-earth claims rest on a single lithium-concentrate program. Separately, distinctive environmental claims (no acidic byproducts, favorable remediation economics) are stated ahead of the evidence that would support them, which is both a credibility exposure with counterparties and a disclosure exposure with regulators. The cure is disciplined sequencing: a per-site characterization protocol run ahead of any deal and folded into the validation pilot, no royalty priced until the target impoundment is assayed, headline figures restated as assay-dependent, and the environmental claims restated as validation-gated rather than asserted in a deck or term sheet. We hold this with high confidence; it is a sequencing-and-discipline fix rather than a research problem, and what would change it is restating the figures as assay-dependent before they reach any counterparty or regulator.</p>
+    </div>
+  </section>
+
+  <!-- ============ OPPORTUNITIES ============ -->
+  <section class="prose-section" aria-labelledby="h-opportunities">
+    <h2 id="h-opportunities">Opportunities</h2>
+
+    <div class="finding o">
+      <span class="f-lead">A genuine policy and demand tailwind.
+        <span class="conf high"><span class="dot"></span>High confidence (positioning)</span></span>
+      <p>Federal tailings-reprocessing programs and the broader security, supply-chain, and critical-minerals policy direction favor exactly LiT's kind of domestic, allied recovery. A buyer-of-last-resort apparatus and a published price floor for key rare-earth oxides exist and can serve as a downside benchmark and a source of non-dilutive capital. We hold the category-level and positioning-level tailwind with high confidence. The reach of that tailwind into LiT's specific royalty income is an assumption, not an established fact, and benefit tends to flow first to scale producers; LiT should reach federal capital and offtake channels through qualifying operator partners rather than as a direct applicant, and should not bank policy support in its base case.</p>
+    </div>
+
+    <div class="finding o">
+      <span class="f-lead">A large, under-exploited resource base in a tightening market.
+        <span class="conf high"><span class="dot"></span>High confidence (category)</span></span>
+      <p>The tailings resource base is large and under-exploited, and the supply-demand balance in lithium and rare earths is tightening. This is the upside face of the same commodity exposure that appears as a threat below; it is real and should be pursued, but it is not a hedge against the downside and must not be netted against it. The category headroom is held with high confidence; the value at any specific site is unproven and depends on the per-site characterization described under Weaknesses.</p>
+    </div>
+
+    <div class="finding o">
+      <span class="f-lead">A favorable allied R&amp;D base.
+        <span class="conf modhigh"><span class="dot"></span>Moderate-to-high confidence</span></span>
+      <p>An offshore, allied R&D arrangement is favorable for cost and capability and supports the asset-light model. We hold the destination as favorable with moderate-to-high confidence; the specific arrangement is not yet contracted, and it carries an IP-control and export-control tension that must be managed deliberately.</p>
+    </div>
+
+    <div class="finding o">
+      <span class="f-lead">A credible, disciplined exit narrative.
+        <span class="conf modhigh"><span class="dot"></span>Moderate-to-high confidence</span></span>
+      <p>A two-stage exit story (a near-term licensing-business valuation, with a royalty re-rating reserved for after a diversified producing portfolio exists) is available and credible. It is valuable specifically as the disciplined replacement for the discredited stacked headline return, not as an addition to it. We hold the availability of this narrative with moderate-to-high confidence; what would change its value is whether a real licensing track record comes to exist, since the second-stage re-rating is earned only by a producing portfolio and is worth nothing asserted ahead of one.</p>
+    </div>
+  </section>
+
+  <!-- ============ THREATS ============ -->
+  <section class="prose-section" aria-labelledby="h-threats">
+    <h2 id="h-threats">Threats</h2>
+
+    <div class="finding t">
+      <span class="f-lead">Full commodity-price exposure.
+        <span class="conf high"><span class="dot"></span>High confidence</span></span>
+      <p>Because the royalty base is fully indexed to a volatile commodity basket, LiT carries the full downside of the price cycle, and the exposure is asymmetric: the downside is uncapped while the upside is limited by fast swing-supply restarts, particularly in lithium. A dominant producer could also deliberately compress prices and with them LiT's royalty. This cannot be cured, only sized and partly hedged: model the headline return across a trough/mid/peak band and show it at the trough, use the federal price floor as a downside benchmark, weight the central case conservatively, and explore floor, collar, or minimum-royalty provisions in license terms. Re-basing the royalty does not remove this exposure. We hold it with high confidence.</p>
+    </div>
+
+    <div class="finding t">
+      <span class="f-lead">Feedstock heterogeneity.
+        <span class="conf modhigh"><span class="dot"></span>Moderate-to-high confidence</span></span>
+      <p>Tailings vary site to site, which forces a fresh per-site characterization on every deal and undercuts any feedstock-agnostic pitch. This is structural and cannot be eliminated, but it can be managed with a grade-led site-selection strategy that prices characterization into every deal and sells selective high-grading rather than a universal claim, using public tailings data and operator reports as screening inputs. We hold it with moderate-to-high confidence.</p>
+    </div>
+
+    <div class="finding t">
+      <span class="f-lead">Environmental liability and uncertain title.
+        <span class="conf serious"><span class="dot"></span>Well-established and serious</span></span>
+      <p>If LiT operates at, or takes possession of recovered material from, abandoned or orphaned impoundments, it can incur environmental-cleanup liability and uncertain product title. Good-Samaritan protection for a profit-seeking reprocessor is legally untested and the available pathway is narrow and time-limited. The legal framework here is well-established and serious. Crucially, the severity is set by a choice LiT controls: it concentrates on a self-operate-orphaned-sites path and largely collapses on a license-to-the-title-holder path that sequences active operating sites first, keeps title and remediation liability with the operator, confirms product title as a deal precondition, and obtains environmental-counsel sign-off before any LiT-operated site. The per-site sampling LiT needs for characterization is itself a disturbance trigger at contaminated sites and must be done through, or under an agreement with, the title holder.</p>
+    </div>
+
+    <div class="finding t">
+      <span class="f-lead">A slow, conservative sales cycle.
+        <span class="conf high"><span class="dot"></span>High confidence</span></span>
+      <p>The operator sale is conservative, non-standardized, and incumbency-defended, and it runs through a thin near-term channel. First revenue is likely to land materially later than the plan's roughly two-year assumption, and the runway is least able to absorb that slip. This is structural but mitigable: set the base-case first-revenue date on documented conversion reality rather than the pitch, sequence active operating sites ahead of greenfield licensees, and size the runway to survive the actual qualification cycle. We hold it with high confidence.</p>
+    </div>
+
+    <div class="finding t">
+      <span class="f-lead">Better-funded competitors and a producer-favoring capital environment.
+        <span class="conf modhigh"><span class="dot"></span>Moderate-to-high confidence</span></span>
+      <p>The same operators LiT wants as customers fund LiT's competitors and run incumbent technology in their plants; a build-own-operate producer archetype can capture the full metal margin where LiT captures only a thin royalty; and government capital and offtake concentrate on scale producers, structurally disadvantaging a thin licensor in any direct contest. The trade-protection element is contingent on an unresolved federal trade negotiation. The strongest mitigation is positioning: be the licensed process inside producers' plants rather than a producer-substitute, secure value-share terms tied to LiT's validated differentiation, treat the competitors' funders as the channel, and reach federal support through operator partners. We hold this with moderate-to-high confidence; severity moves with the positioning choice.</p>
+    </div>
+  </section>
+
+  <!-- ============ SYNTHESIS ============ -->
+  <section class="prose-section" aria-labelledby="h-fits">
+    <h2 id="h-fits">How the picture fits together</h2>
+    <p>Four threads connect these findings and should drive the strategy work that follows.</p>
+    <ol class="threads">
+      <li><strong>Two preconditions gate everything:</strong> the right to license the IP, and a validated recovery uplift reconciled to a congruent royalty base. No go-to-market, scale, or headline-return work should be committed until both are addressed, and a credible alternative view is that the plan should not proceed as framed until they are.</li>
+      <li><strong>Most of what is wrong with the plan as written is curable and within LiT's control:</strong> the royalty base, the model, the team and capital sizing, and the over-claimed figures are all fixable through disciplined restatement and sequencing rather than new science.</li>
+      <li><strong>The external threats are real but not symmetric.</strong> Price exposure is genuinely uncapped on the downside, but liability and competition are both governed by one decision LiT controls: stay the licensed process inside the producer's plant and do not become a producer. That single choice contains the two largest external risks at once.</li>
+      <li><strong>The opportunity is real but its transmission to LiT's own revenue is an assumption at every step.</strong> The policy tailwind, the tightening market, and the resource base are all working in LiT's favor at the category level; none of them has yet been shown to reach LiT's specific royalty line, and the plan should be built to succeed without assuming they will.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span class="wordmark">Perpensa<span class="glyph">&#9670;</span></span>
+    <div class="footer-meta">
+      <span class="footer-conf">Confidential &mdash; prepared for the decision owner. Not for distribution.</span>
+      <span>29 June 2026</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

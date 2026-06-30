@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive Summary — Lithium Technologies, Inc. | Perpensa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2238;
+    --accent:#B68A4E;
+    --surface:#FAF9F6;
+    --panel:#FFFFFF;
+    --hairline:#E7E2D6;
+    --muted:#6B7280;
+    --positive:#3F7D5B;
+    --caution:#C9922B;
+    --risk:#B23A48;
+    --serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+    --sans:'Inter',system-ui,'Segoe UI',Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--surface);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* Header */
+  .site-header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(250,249,246,0.94);
+    backdrop-filter:saturate(180%) blur(8px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .header-inner{
+    max-width:1140px;margin:0 auto;padding:0 28px;
+    height:64px;display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .wordmark{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);}
+  .wordmark .name{font-family:var(--serif);font-weight:600;font-size:21px;letter-spacing:0.02em;}
+  .glyph{width:9px;height:9px;flex:0 0 auto;transform:rotate(45deg);background:var(--accent);border-radius:1px;}
+  nav.deliverables{display:flex;gap:4px;flex-wrap:wrap;}
+  nav.deliverables a{
+    text-decoration:none;color:var(--muted);
+    font-size:13.5px;font-weight:500;letter-spacing:0.01em;
+    padding:7px 12px;border-radius:6px;white-space:nowrap;
+    transition:color .15s,background .15s;
+  }
+  nav.deliverables a:hover{color:var(--ink);background:rgba(182,138,78,0.08);}
+  nav.deliverables a.active{color:var(--ink);font-weight:600;}
+  nav.deliverables a.active{box-shadow:inset 0 -2px 0 var(--accent);border-radius:0;}
+
+  /* Layout */
+  main{max-width:820px;margin:0 auto;padding:0 28px 80px;}
+  .titleblock{padding:56px 0 30px;border-bottom:1px solid var(--hairline);margin-bottom:8px;}
+  .eyebrow{
+    font-size:12.5px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 14px;
+  }
+  h1{
+    font-family:var(--serif);font-weight:600;font-size:40px;line-height:1.12;
+    margin:0 0 18px;letter-spacing:0.01em;
+  }
+  .standing{
+    color:var(--muted);font-size:16px;max-width:680px;margin:0;
+  }
+  .standing strong{color:var(--ink);font-weight:600;}
+
+  h2{
+    font-family:var(--serif);font-weight:600;font-size:26px;
+    margin:52px 0 0;padding-bottom:10px;position:relative;letter-spacing:0.01em;
+  }
+  h2::after{content:"";display:block;width:54px;height:2px;background:var(--accent);margin-top:12px;}
+  h2 + p,h2 + ul,h2 + .cards,h2 + .reserve{margin-top:20px;}
+
+  h3{font-family:var(--serif);font-weight:600;font-size:19px;margin:34px 0 10px;}
+
+  p{margin:0 0 18px;}
+  strong{font-weight:600;color:var(--ink);}
+
+  /* Lead paragraph */
+  .lead{font-size:19px;line-height:1.6;}
+  .lead .pull{color:var(--ink);}
+
+  /* Callout cards */
+  .cards{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px 0 6px;
+  }
+  .card{
+    background:var(--panel);border:1px solid var(--hairline);border-radius:10px;
+    padding:20px 18px;position:relative;overflow:hidden;
+  }
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);}
+  .card .k{font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:0 0 9px;}
+  .card .v{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.3;margin:0 0 7px;color:var(--ink);}
+  .card .d{font-size:13.5px;color:var(--muted);line-height:1.5;margin:0;}
+  .card.s1::before{background:var(--ink);}
+  .card.s2::before{background:var(--accent);}
+  .card.s3::before{background:var(--positive);}
+
+  /* Confidence panel */
+  .confidence{
+    background:var(--panel);border:1px solid var(--hairline);border-radius:10px;
+    padding:22px 24px;margin:28px 0;
+  }
+  .confidence h3{margin:0 0 4px;font-size:16px;}
+  .conf-sub{font-size:13px;color:var(--muted);margin:0 0 18px;}
+  .conf-row{display:grid;grid-template-columns:1fr;gap:14px;}
+  .conf-item{display:grid;grid-template-columns:200px 1fr auto;align-items:center;gap:14px;}
+  .conf-label{font-size:14px;font-weight:500;color:var(--ink);}
+  .conf-track{height:8px;background:#F0ECE0;border-radius:5px;overflow:hidden;position:relative;}
+  .conf-fill{height:100%;border-radius:5px;}
+  .conf-level{font-size:12px;font-weight:600;letter-spacing:0.04em;color:var(--muted);white-space:nowrap;text-align:right;min-width:120px;}
+  .conf-high .conf-fill{background:var(--positive);}
+  .conf-modhigh .conf-fill{background:var(--caution);}
+
+  /* Decision actions */
+  ul.actions{list-style:none;padding:0;margin:24px 0 6px;display:grid;gap:16px;}
+  ul.actions > li{
+    background:var(--panel);border:1px solid var(--hairline);border-radius:10px;
+    padding:20px 22px 20px 56px;position:relative;
+  }
+  ul.actions > li .step{
+    position:absolute;left:18px;top:20px;width:26px;height:26px;border-radius:50%;
+    background:var(--ink);color:#fff;font-family:var(--serif);font-weight:600;font-size:14px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  ul.actions > li strong{display:block;font-family:var(--serif);font-size:18px;margin-bottom:6px;}
+
+  /* Reserve / generic emphasis block */
+  .reserve{
+    border-left:3px solid var(--accent);background:rgba(182,138,78,0.05);
+    padding:16px 20px;border-radius:0 8px 8px 0;margin:24px 0;
+  }
+  .reserve p:last-child{margin-bottom:0;}
+
+  .note-block{
+    background:var(--panel);border:1px solid var(--hairline);border-radius:10px;padding:22px 24px;margin:22px 0;
+  }
+  .note-block p:last-child{margin-bottom:0;}
+
+  /* Inputs list */
+  ul.inputs{list-style:none;padding:0;margin:18px 0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  ul.inputs li{
+    background:var(--panel);border:1px solid var(--hairline);border-radius:8px;
+    padding:12px 16px 12px 32px;font-size:14.5px;position:relative;color:var(--ink);
+  }
+  ul.inputs li::before{content:"";position:absolute;left:14px;top:19px;width:7px;height:7px;background:var(--accent);transform:rotate(45deg);}
+
+  figure{margin:30px 0;}
+  figure svg{display:block;width:100%;height:auto;}
+  figcaption{font-size:12.5px;color:var(--muted);text-align:center;margin-top:10px;letter-spacing:0.02em;}
+
+  /* Footer */
+  footer{
+    border-top:1px solid var(--hairline);background:var(--panel);
+  }
+  .footer-inner{
+    max-width:1140px;margin:0 auto;padding:26px 28px;
+    display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  }
+  .footer-inner .conf-line{font-size:12.5px;color:var(--muted);letter-spacing:0.04em;}
+  .footer-inner .date{font-size:12.5px;color:var(--muted);}
+  .footer-inner .wordmark .name{font-size:17px;}
+
+  @media (max-width:760px){
+    body{font-size:16px;}
+    .header-inner{height:auto;padding:12px 18px;flex-direction:column;align-items:flex-start;gap:8px;}
+    nav.deliverables{width:100%;}
+    main{padding:0 18px 60px;}
+    h1{font-size:30px;}
+    h2{font-size:22px;}
+    .titleblock{padding:36px 0 24px;}
+    .cards{grid-template-columns:1fr;}
+    ul.inputs{grid-template-columns:1fr;}
+    .conf-item{grid-template-columns:1fr;gap:6px;}
+    .conf-level{text-align:left;}
+  }
+
+  @media print{
+    .site-header{display:none;}
+    body{background:#fff;font-size:11.5pt;}
+    main{max-width:100%;padding:0;}
+    .card,ul.actions > li,.confidence,.note-block,.reserve,figure,ul.inputs li{break-inside:avoid;page-break-inside:avoid;}
+    h2,h3{break-after:avoid;}
+    footer{border-top:1px solid var(--hairline);}
+    a{color:var(--ink);text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="wordmark" href="index.html" aria-label="Perpensa home">
+      <span class="glyph" aria-hidden="true"></span>
+      <span class="name">Perpensa</span>
+    </a>
+    <nav class="deliverables" aria-label="Deliverables">
+      <a href="index.html">Overview</a>
+      <a href="EXECUTIVE_SUMMARY.html" class="active" aria-current="page">Executive Summary</a>
+      <a href="SWOT.html">SWOT</a>
+      <a href="STRATEGY.html">Strategy</a>
+      <a href="EXECUTION_PLAN.html">Execution Plan</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="titleblock">
+    <p class="eyebrow">Executive Summary</p>
+    <h1>Lithium Technologies, Inc.</h1>
+    <p class="standing">A gated, narrow-first, asset-light licensing path — capital released one stage at a time, with a hard go/no-go decision between stages. <strong>Prepared for LiT leadership.</strong></p>
+  </div>
+
+  <h2>The decision</h2>
+  <p class="lead">LiT should commit to a gated, narrow-first, asset-light licensing path, walked in order with capital released one stage at a time and a hard go/no-go decision between stages. The company resolves its two foundational questions first, proves the model on a single well-chosen site second, and widens toward the full platform only on proof and staged capital third. This is the strongest version of the business LiT set out to build. The destination is the broad, fundable, asset-light recovery platform; <strong>the discipline is entirely in the order.</strong></p>
+
+  <div class="cards" role="list">
+    <div class="card s1" role="listitem">
+      <p class="k">Stage One</p>
+      <p class="v">Clear the two gates</p>
+      <p class="d">Resolve the foundational questions before committing any scope, under a pre-committed kill date and budget.</p>
+    </div>
+    <div class="card s2" role="listitem">
+      <p class="k">Stage Two</p>
+      <p class="v">Prove on one site</p>
+      <p class="d">Sign a single license on a high-grade, demand-led active-operator site — a beachhead, not the portfolio.</p>
+    </div>
+    <div class="card s3" role="listitem">
+      <p class="k">Stage Three</p>
+      <p class="v">Widen on proof</p>
+      <p class="d">Broaden one validated increment at a time, against capital raised in stages tied to proof milestones.</p>
+    </div>
+  </div>
+
+  <p>The reason for the ordering is that LiT's premise is strong and well-timed but does not yet stand on the two facts its entire value rests on. The company does not hold an executed, exclusive, sublicensable, field-of-use license to its core technology, and the patent is pending rather than granted. And the recovery uplift that drives every revenue line has not been validated on representative feedstock. Until both are in hand, LiT has a compelling thesis rather than a defensible business. The recommended path is built so that real money is spent on scale only after those two facts are established, and so that if either fails to hold, the capital still uncommitted is preserved rather than lost.</p>
+
+  <figure aria-label="The two foundational gates governing the path">
+    <svg viewBox="0 0 820 188" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Two foundational gates: a licensing right and a validated recovery uplift, both required before scope commits</title>
+      <!-- baseline -->
+      <line x1="40" y1="94" x2="780" y2="94" stroke="#E7E2D6" stroke-width="2"/>
+      <!-- start -->
+      <circle cx="40" cy="94" r="6" fill="#1A2238"/>
+      <text x="40" y="122" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#6B7280">Thesis</text>
+      <!-- Gate 1 -->
+      <g transform="translate(285,94)">
+        <polygon points="0,-26 26,0 0,26 -26,0" fill="#FFFFFF" stroke="#B23A48" stroke-width="2"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Source Serif 4,Georgia,serif" font-size="15" font-weight="600" fill="#1A2238">1</text>
+      </g>
+      <text x="285" y="46" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#1A2238">Right to license</text>
+      <text x="285" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" fill="#6B7280">Executed, exclusive,</text>
+      <text x="285" y="158" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" fill="#6B7280">sublicensable + FTO</text>
+      <!-- Gate 2 -->
+      <g transform="translate(535,94)">
+        <polygon points="0,-26 26,0 0,26 -26,0" fill="#FFFFFF" stroke="#B23A48" stroke-width="2"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Source Serif 4,Georgia,serif" font-size="15" font-weight="600" fill="#1A2238">2</text>
+      </g>
+      <text x="535" y="46" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#1A2238">Validated uplift</text>
+      <text x="535" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" fill="#6B7280">Percentage points vs.</text>
+      <text x="535" y="158" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" fill="#6B7280">named baseline, continuous pilot</text>
+      <!-- destination -->
+      <g transform="translate(780,94)">
+        <rect x="-7" y="-7" width="14" height="14" fill="#3F7D5B" transform="rotate(45)"/>
+      </g>
+      <text x="780" y="122" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#6B7280">Platform</text>
+    </svg>
+    <figcaption>Two independent points of failure, cleared in order before scope or scale capital commits.</figcaption>
+  </figure>
+
+  <h2>Where the company stands</h2>
+  <p>The opportunity is genuine. The separation science behind the process is world-class, the licensing route LiT intends to use is a proven path to revenue with precedented deal structures and comparable businesses worth well over $200 million, and the model can be designed to keep deployment capital on the operator's balance sheet. The company is aimed at a large, under-exploited tailings resource at the moment security, supply-chain, and critical-minerals policy is pushing capital and demand toward exactly this kind of domestic, allied recovery. We hold the science and the channel with high confidence, and the policy and market direction with moderate-to-high confidence.</p>
+
+  <div class="confidence">
+    <h3>Confidence in the standing assessment</h3>
+    <p class="conf-sub">Confidence levels as stated in the assessment.</p>
+    <div class="conf-row">
+      <div class="conf-item conf-high">
+        <span class="conf-label">Science &amp; licensing channel</span>
+        <span class="conf-track"><span class="conf-fill" style="width:92%"></span></span>
+        <span class="conf-level">High</span>
+      </div>
+      <div class="conf-item conf-modhigh">
+        <span class="conf-label">Policy &amp; market direction</span>
+        <span class="conf-track"><span class="conf-fill" style="width:72%"></span></span>
+        <span class="conf-level">Moderate-to-high</span>
+      </div>
+      <div class="conf-item conf-high">
+        <span class="conf-label">Under-sizing, model &amp; pricing gaps</span>
+        <span class="conf-track"><span class="conf-fill" style="width:92%"></span></span>
+        <span class="conf-level">High</span>
+      </div>
+      <div class="conf-item conf-high">
+        <span class="conf-label">Cures are LiT's to apply</span>
+        <span class="conf-track"><span class="conf-fill" style="width:92%"></span></span>
+        <span class="conf-level">High</span>
+      </div>
+    </div>
+  </div>
+
+  <p>Two weaknesses are load-bearing and gate everything else: the right to license the technology, and a validated recovery uplift reconciled to the royalty base the company will actually charge against. The first is largely outside LiT's control, because it turns on a third-party legal grant and a clean freedom-to-operate position; the second is squarely within LiT's control, because it is a result the company can go and produce. They are independent points of failure and must not be netted against each other.</p>
+
+  <p>Beyond those two, most of what is wrong with the plan as written is curable and within the company's control. The royalty is charged on a whole-mine notional that sophisticated counterparties will reprice down to the incremental value LiT actually creates; the financial model carries an internal inconsistency, a two-year timing error, and a stack of optimistic assumptions that will not survive diligence; the team and the seed are both sized below the plan, with the execution-critical roles arriving years too late; and the headline resource and environmental figures are asserted ahead of the site-level evidence that would support them. Each of these is fixed through disciplined restatement and sequencing rather than new science. We hold the under-sizing and the model and pricing gaps with high confidence, and hold with equal confidence that the cures are the company's to apply before any counterparty or investor sees the numbers.</p>
+
+  <p>The external threats are real and cannot be eliminated, but they are not symmetric. Full commodity-price exposure is genuinely uncapped on the downside and can only be sized and partly hedged, never cured; re-basing the royalty does not remove it. Feedstock varies site to site and forces a fresh characterization on every deal. Environmental liability and uncertain title are serious, and a slow, conservative sales cycle and better-funded competitors both press on a thin licensor. But the two largest external risks, liability and competition, are both governed by a single choice the company controls: be the licensed process inside a producer's plant, never a producer itself. That one positioning decision contains both at once.</p>
+
+  <figure aria-label="External threats by severity and whether they can be cured or only contained">
+    <svg viewBox="0 0 820 260" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>External threats: severity chips and whether each is curable, containable, or only sizable</title>
+      <text x="0" y="18" font-family="Inter,sans-serif" font-size="12.5" font-weight="600" fill="#6B7280" letter-spacing="0.04em">EXTERNAL THREATS</text>
+
+      <!-- Row 1: Commodity price -->
+      <g transform="translate(0,38)">
+        <rect x="0" y="0" width="820" height="40" rx="7" fill="#FFFFFF" stroke="#E7E2D6"/>
+        <rect x="0" y="0" width="4" height="40" rx="2" fill="#B23A48"/>
+        <text x="20" y="25" font-family="Inter,sans-serif" font-size="14.5" font-weight="600" fill="#1A2238">Commodity-price exposure</text>
+        <rect x="470" y="11" width="92" height="18" rx="9" fill="#B23A48"/>
+        <text x="516" y="24" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff">High</text>
+        <text x="800" y="25" text-anchor="end" font-family="Inter,sans-serif" font-size="12.5" fill="#6B7280">Uncapped downside — size &amp; partly hedge only</text>
+      </g>
+
+      <!-- Row 2: Environmental liability -->
+      <g transform="translate(0,86)">
+        <rect x="0" y="0" width="820" height="40" rx="7" fill="#FFFFFF" stroke="#E7E2D6"/>
+        <rect x="0" y="0" width="4" height="40" rx="2" fill="#B23A48"/>
+        <text x="20" y="25" font-family="Inter,sans-serif" font-size="14.5" font-weight="600" fill="#1A2238">Environmental liability &amp; uncertain title</text>
+        <rect x="470" y="11" width="92" height="18" rx="9" fill="#B23A48"/>
+        <text x="516" y="24" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff">High</text>
+        <text x="800" y="25" text-anchor="end" font-family="Inter,sans-serif" font-size="12.5" fill="#3F7D5B" font-weight="500">Contained by positioning</text>
+      </g>
+
+      <!-- Row 3: Competition -->
+      <g transform="translate(0,134)">
+        <rect x="0" y="0" width="820" height="40" rx="7" fill="#FFFFFF" stroke="#E7E2D6"/>
+        <rect x="0" y="0" width="4" height="40" rx="2" fill="#C9922B"/>
+        <text x="20" y="25" font-family="Inter,sans-serif" font-size="14.5" font-weight="600" fill="#1A2238">Better-funded competitors</text>
+        <rect x="470" y="11" width="92" height="18" rx="9" fill="#C9922B"/>
+        <text x="516" y="24" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff">Elevated</text>
+        <text x="800" y="25" text-anchor="end" font-family="Inter,sans-serif" font-size="12.5" fill="#3F7D5B" font-weight="500">Contained by positioning</text>
+      </g>
+
+      <!-- Row 4: Feedstock variability -->
+      <g transform="translate(0,182)">
+        <rect x="0" y="0" width="820" height="40" rx="7" fill="#FFFFFF" stroke="#E7E2D6"/>
+        <rect x="0" y="0" width="4" height="40" rx="2" fill="#C9922B"/>
+        <text x="20" y="25" font-family="Inter,sans-serif" font-size="14.5" font-weight="600" fill="#1A2238">Feedstock variability</text>
+        <rect x="470" y="11" width="92" height="18" rx="9" fill="#C9922B"/>
+        <text x="516" y="24" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff">Moderate</text>
+        <text x="800" y="25" text-anchor="end" font-family="Inter,sans-serif" font-size="12.5" fill="#6B7280">Re-characterized per deal</text>
+      </g>
+
+      <!-- Row 5: Sales cycle -->
+      <g transform="translate(0,230)">
+        <rect x="0" y="0" width="820" height="30" rx="7" fill="#FFFFFF" stroke="#E7E2D6"/>
+        <rect x="0" y="0" width="4" height="30" rx="2" fill="#C9922B"/>
+        <text x="20" y="20" font-family="Inter,sans-serif" font-size="14.5" font-weight="600" fill="#1A2238">Slow, conservative sales cycle</text>
+        <rect x="470" y="6" width="92" height="18" rx="9" fill="#C9922B"/>
+        <text x="516" y="19" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#fff">Moderate</text>
+        <text x="800" y="20" text-anchor="end" font-family="Inter,sans-serif" font-size="12.5" fill="#6B7280">Presses on a thin licensor</text>
+      </g>
+    </svg>
+    <figcaption>Liability and competition — the two largest external risks — are both governed by one positioning choice the company controls.</figcaption>
+  </figure>
+
+  <h2>What LiT should do</h2>
+  <ul class="actions">
+    <li>
+      <span class="step">1</span>
+      <strong>Clear the two gates before committing any scope.</strong>
+      Run a deliberately minimal, time-boxed program with one job: secure an executed exclusive, sublicensable, field-of-use license backed by a freedom-to-operate opinion, and validate the uplift in percentage points against a named baseline on a continuous pilot, at or above the level the economics require. The phase carries a pre-committed kill date and budget, builds no permanent staff, and returns unspent capital if either gate fails. Standing at this gate without spending past it is the lowest-risk posture available to the company. It is the entry condition, not the destination: the kill date ends the program if the gates fail and forces the move if they clear.
+    </li>
+    <li>
+      <span class="step">2</span>
+      <strong>Prove the model on one well-chosen site.</strong>
+      Sign a single license on a high-grade, demand-led active-operator site, structured as the licensed process running inside the operator's own plant so that title and remediation liability stay with the operator who already holds them. Price the first deal as a contractually bounded pilot reference, not the portfolio anchor, against a benchmarked rate band held before signing, and test it at a conservative downside price before committing. One signed and producing site proves that the model can be sold and delivered; it does not prove the portfolio, which is why it is a beachhead.
+    </li>
+    <li>
+      <span class="step">3</span>
+      <strong>Widen only on proof, and only on staged capital.</strong>
+      Broaden to additional feedstocks and sites one independently validated increment at a time, against capital raised in stages tied to proof milestones, with an absolute line against ever using LiT's own capital for client deployments. The full-scope ambition reached by sequencing is the strongest version of this company; the same ambition opened all at once is the weakest.
+    </li>
+  </ul>
+
+  <div class="reserve">
+    <p><strong>Held in reserve.</strong> Two further moves are held in reserve, each a response to a specific condition rather than a standing plan: a non-dilutive paid validation-services bridge, run only under an executed option-to-license so the company never sells the proof while keeping the risk; and a strategic sale or out-license, taken only after the gates clear so the company sells a de-risked position from strength.</p>
+    <p>The company should not build, own, and operate recovery plants itself, which would invert every containment decision the strategy rests on and trade an asset-light, defensible, fundable business for the chance at a full metal margin it has no validated process to earn.</p>
+  </div>
+
+  <h2>The alternative view</h2>
+  <p>The recommendation treats the two foundational questions as gating conditions to clear in a funded first stage. An alternative view holds that they should be treated as strict pass/fail preconditions and nothing more, and that until both are in hand the company should make no commitment to the plan as framed, because presenting a confident, fully built program before those facts are settled risks reading as permission to proceed when it is not. The plan is built to satisfy both readings, and the agreement between them is its spine: the first stage is a genuine stop-unless-cleared program, with a real kill date, a real budget, and the return of unspent capital, and no scope or scale capital commits until both gates clear. The two views differ on language and posture, not on sequence. The plan also adopts the alternative view's deeper caution structurally, by taking the cheap rights read before the first capital is raised and placing the authority to stop with a party that has no incentive to continue.</p>
+
+  <h2>What must still be supplied</h2>
+  <p>A small number of inputs are not yet established and are carried as figures the company must supply rather than as facts. Each feeds a gate test, none changes the architecture, and the plan is built so that no decision is taken on an invented value in the meantime.</p>
+  <ul class="inputs">
+    <li>The company's own monthly burn</li>
+    <li>The target site's tonnage and grade</li>
+    <li>Steady-state support time per live site</li>
+    <li>Continuous-pilot run-time for this recovery chemistry</li>
+  </ul>
+
+  <h2>A note on perspective</h2>
+  <div class="note-block">
+    <p>This assessment is written for LiT's leadership and reasons from the company's interest: how LiT builds, defends, and scales a durable business. An outside investor weighing the same evidence would read the two foundational gaps, the unsecured rights and the unvalidated uplift, not as conditions to clear inside a funded program but as reasons to withhold commitment until both are resolved, and would discount the model heavily until the restatement, re-basing, and conservative re-stacking described above are done.</p>
+    <p>The substance is the same on either reading; the difference is posture. For leadership the question is the order in which to spend to retire these risks, and the answer is to clear the two gates cheaply before committing anything else.</p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span class="wordmark" aria-hidden="true">
+      <span class="glyph" style="display:inline-block;vertical-align:middle"></span>
+      <span class="name" style="font-family:var(--serif);font-weight:600;letter-spacing:0.02em;margin-left:8px">Perpensa</span>
+    </span>
+    <span class="conf-line">Confidential — prepared for the leadership of Lithium Technologies, Inc.</span>
+    <span class="date">June 29, 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>

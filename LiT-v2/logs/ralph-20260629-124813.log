@@ -1,0 +1,21 @@
+2026-06-29T12:48:13 [INFO] Ralph driver starting in D:\code\perpensa.ai\LiT-v2
+2026-06-29T12:48:13 [INFO] Resuming at iteration 0. Cumulative wait so far: 0 sec.
+2026-06-29T12:48:13 [INFO] === Capability self-test: write, read, mkdir, web search, web fetch ===
+Every operation was blocked by the permission system (not granted/declined), so none of the capabilities could be exercised. Per harness rules I won't retry the denied calls verbatim. Reporting faithfully:
+
+- **MKDIR / WRITE** (step 1): Bash `mkdir`/`printf` required approval and was not granted; the `Write` tool fallback was also not granted → FAIL
+- **READ** (step 2): the probe file was never created, so the read-back could not occur → FAIL
+- **WEBSEARCH** (step 3): WebSearch invoked, permission not granted → FAIL
+- **WEBFETCH** (step 4): WebFetch invoked, permission not granted → FAIL
+
+CAPABILITY-CHECK: WRITE=FAIL READ=FAIL MKDIR=FAIL WEBSEARCH=FAIL WEBFETCH=FAIL
+
+2026-06-29T12:48:49 [WARN] Capability WRITE     = FAIL
+2026-06-29T12:48:49 [WARN] Capability READ      = FAIL
+2026-06-29T12:48:49 [WARN] Capability MKDIR     = FAIL
+2026-06-29T12:48:49 [WARN] Capability WEBSEARCH = FAIL
+2026-06-29T12:48:49 [WARN] Capability WEBFETCH  = FAIL
+2026-06-29T12:48:49 [WARN] mkdir not confirmed. The agent can still create folders via the Write tool, so this is a warning only.
+2026-06-29T12:48:49 [ERROR] Required capabilities not confirmed: WRITE, READ, WEBSEARCH, WEBFETCH.
+2026-06-29T12:48:49 [ERROR] Web is required because the moderator performs Round 00 research. Confirm .claude\settings.json (in this folder) allows WebSearch and WebFetch, that claude launches in this folder, or run with -SkipPermissions.
+2026-06-29T12:48:49 [ERROR] Stopping before spending a usage window. Re-run with -ProceedOnCapabilityFail to override, or -SkipCapabilityCheck to skip the test.

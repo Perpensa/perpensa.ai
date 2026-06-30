@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Perpensa Deliberation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2238; --accent:#B68A4E; --surface:#FAF9F6; --panel:#FFFFFF;
+    --hairline:#E7E2D6; --muted:#6B7280;
+    --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --sans:"Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--sans);line-height:1.6;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;border-bottom:1px solid var(--hairline);}
+  .mark{font-family:var(--serif);font-weight:700;letter-spacing:.02em;font-size:20px;color:var(--ink);}
+  .mark .glyph{color:var(--accent);margin-right:.5ch;}
+  .mark .tag{font-family:var(--sans);font-weight:500;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-left:1ch;}
+  main{max-width:980px;margin:0 auto;padding:56px 32px 24px;}
+  .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  h1{font-family:var(--serif);font-size:40px;line-height:1.15;margin:.2em 0 .3em;font-weight:700;}
+  .lede{color:var(--muted);font-size:18px;max-width:680px;margin:0 0 8px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:36px;}
+  .card{display:flex;flex-direction:column;gap:6px;background:var(--panel);border:1px solid var(--hairline);border-radius:10px;padding:22px;text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s,box-shadow .15s;}
+  .card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,34,56,.07);}
+  .card h2{font-family:var(--serif);font-size:22px;margin:.1em 0;font-weight:600;}
+  .card p{color:var(--muted);font-size:14px;margin:0;flex:1;}
+  .card .go{margin-top:10px;color:var(--accent);font-weight:600;font-size:14px;}
+  footer{max-width:980px;margin:0 auto;padding:28px 32px 48px;border-top:1px solid var(--hairline);color:var(--muted);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+</style>
+</head>
+<body>
+  <header>
+    <div class="mark"><span class="glyph">&#9670;</span>Perpensa<span class="tag">Structured deliberation</span></div>
+  </header>
+  <main>
+    <p class="eyebrow">Briefing</p>
+    <h1>Perpensa Deliberation</h1>
+    <p class="lede">The deliberation deliverables, prepared for the decision owner. Open any document below.</p>
+    <div class="grid">
+      <a class="card" href="EXECUTIVE_SUMMARY.html"><span class="eyebrow">Summary</span><h2>Executive Summary</h2><p>The headline recommendation and the few things that matter most.</p><span class="go">Open &rarr;</span></a>
+      <a class="card" href="SWOT.html"><span class="eyebrow">Assessment</span><h2>SWOT</h2><p>Strengths, weaknesses, opportunities, and threats, prioritized.</p><span class="go">Open &rarr;</span></a>
+      <a class="card" href="STRATEGY.html"><span class="eyebrow">Strategy</span><h2>Strategy</h2><p>The recommended direction, the options weighed, and what would change the call.</p><span class="go">Open &rarr;</span></a>
+      <a class="card" href="EXECUTION_PLAN.html"><span class="eyebrow">Plan</span><h2>Execution Plan</h2><p>The phased build, milestones, capital, and risk mitigations.</p><span class="go">Open &rarr;</span></a>
+
+    </div>
+  </main>
+  <footer>
+    <span>Perpensa &#9670; Structured deliberation</span>
+    <span>Confidential &middot; June 29, 2026</span>
+  </footer>
+</body>
+</html>

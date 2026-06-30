@@ -1,0 +1,21 @@
+2026-06-29T13:00:40 [INFO] Ralph driver starting in D:\code\perpensa.ai\LiT-v2
+2026-06-29T13:00:40 [INFO] Resuming at iteration 0. Cumulative wait so far: 0 sec.
+2026-06-29T13:00:40 [INFO] === Capability self-test: write, read, mkdir, web search, web fetch ===
+Every capability in this run was blocked by ungranted permissions, not executed:
+
+- **MKDIR / WRITE** — the `Write` (and `Bash mkdir`) calls were denied for lack of permission; the file does not exist on disk (Read confirms `File does not exist`).
+- **READ** — the Read tool itself ran, but there was no probe file to confirm, so the content-match step could not succeed.
+- **WEBSEARCH** — `WebSearch` call denied (permission not granted).
+- **WEBFETCH** — `WebFetch` call denied (permission not granted).
+
+CAPABILITY-CHECK: WRITE=FAIL READ=FAIL MKDIR=FAIL WEBSEARCH=FAIL WEBFETCH=FAIL
+
+2026-06-29T13:01:12 [WARN] Capability WRITE     = FAIL
+2026-06-29T13:01:12 [WARN] Capability READ      = FAIL
+2026-06-29T13:01:12 [WARN] Capability MKDIR     = FAIL
+2026-06-29T13:01:12 [WARN] Capability WEBSEARCH = FAIL
+2026-06-29T13:01:12 [WARN] Capability WEBFETCH  = FAIL
+2026-06-29T13:01:12 [WARN] mkdir not confirmed. The agent can still create folders via the Write tool, so this is a warning only.
+2026-06-29T13:01:12 [ERROR] Required capabilities not confirmed: WRITE, READ, WEBSEARCH, WEBFETCH.
+2026-06-29T13:01:12 [ERROR] Web is required because the moderator performs Round 00 research. Confirm .claude\settings.json (in this folder) allows WebSearch and WebFetch, that claude launches in this folder, or run with -SkipPermissions.
+2026-06-29T13:01:12 [ERROR] Stopping before spending a usage window. Re-run with -ProceedOnCapabilityFail to override, or -SkipCapabilityCheck to skip the test.
